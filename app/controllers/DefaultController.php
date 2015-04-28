@@ -1,10 +1,18 @@
 <?php
 
-class DefaultController extends BaseController {
-
-	public function showWelcome()
+class DefaultController extends BaseController
+{
+	/**
+	* Show the view on the navigator
+	*
+	* @return void
+	*/
+	public function showView()
 	{
-		return View::make('default');
+		// Check if the user is reminded in the system
+		if (Auth::check())
+			return Auth::viaRemember() ? Redirect::to('home')->with('rememberMe', 1) : Redirect::to('home');
+		else
+			return View::make('default');
 	}
-
 }

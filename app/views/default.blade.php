@@ -13,9 +13,9 @@
 <body>
     <nav class="navbar" style="background: #0097A7;">
       <div class="container">
-    		<a href="/register" class="pull-right" style="font-size: 16px; color: white; text-decoration: none; margin-top: 15px;">Register</a>
+    		<a href="{{URL::to('register')}}" class="pull-right" style="font-size: 16px; color: white; text-decoration: none; margin-top: 15px;">Register</a>
     		<div class="navbar-header header_page">
-          <a class="navbar-brand" href="/">TeamLand</a>
+          <a class="navbar-brand" href="{{URL::to('/')}}">TeamLand</a>
         </div>
       </div>
     </nav>

@@ -11,43 +11,14 @@
 |
 */
 
-Route::get('/', function()
-{
-	if (Auth::check())
-		return Auth::viaRemember() ? Redirect::to('home')->with('rememberMe', 1) : Redirect::to('home');
-	else
-		return View::make('default');
-});
+// HTTP GET
+Route::get('/', 'DefaultController@showView');
 
-Route::get('register', function()
-{
-	return View::make('register');
-});
+Route::get('register', 'RegisterController@showView');
 
-Route::get('home', array('before' => 'auth', function()
-{
-	return View::make('home');
-}));
+Route::get('home', 'HomeController@showView')->before('auth');
 
-Route::post('login', function()
-{
-    // Get the login form data using the 'Input' class
-    $userdata = array(
-        'user' => Input::get('user_email'),
-        'password' => Input::get('user_password')
-    );
+Route::get('logout', 'UserController@logout')->before('auth');
 
-		$isAuth = (Input::get('check_user') === 'yes') ? Auth::attempt($userdata, true) : Auth::attempt($userdata);
-
-		// Try to authenticate the credentials
-		if($isAuth)
-			return Redirect::to('home');
-		else
-			return Redirect::back()->withErrors(array( 'error' => 'Invalid Email or Password'));
-});
-
-Route::get('logout', function()
-{
-    Auth::logout();
-    return Redirect::to('/');
-});
+// HTTP POST
+Route::post('login', 'UserController@login');

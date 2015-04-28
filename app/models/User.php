@@ -8,7 +8,11 @@ class User extends MongoLid implements UserInterface
 {
 	use UserTrait, RemindableTrait;
 
-//	public static $connection = Schema::connection('auth');
+	/**
+		* The database name used by the model.
+		*
+		* @var string
+		*/
 	protected $database = 'student';
 	/**
 		* The database collection used by the model.

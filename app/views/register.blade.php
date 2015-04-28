@@ -13,7 +13,7 @@
     <nav class="navbar" style="background: #0097A7;">
       <div class="container">
         <div class="navbar-header header_page">
-          <a class="navbar-brand" href="/">TeamLand</a>
+          <a class="navbar-brand" href="{{URL::to('/')}}">TeamLand</a>
         </div>
 	  </div>
     </nav>
