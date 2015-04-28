@@ -26,7 +26,7 @@ return array(
 	|
 	*/
 
-	'default' => 'mysql',
+	'default' => 'auth',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -83,6 +83,25 @@ return array(
 			'prefix'   => '',
 		),
 
+		'mongodb' => array(
+	    'driver'   => 'mongodb',
+	    'host'     => 'localhost',
+	    'port'     => 27017,
+	    'username' => '',
+	    'password' => '',
+	    'database' => 'student',
+		),
+
+		'auth' => array(
+
+			'default' => array(
+            'host'     => '127.0.0.1',
+            'port'     => 27017,
+            'database' => 'student',
+            'username'     => '',
+            'password'     => '',
+        ),
+    ),
 	),
 
 	/*

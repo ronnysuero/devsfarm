@@ -5,7 +5,11 @@
 	"license": "MIT",
 	"type": "project",
 	"require": {
-		"laravel/framework": "4.2.*"
+		"laravel/framework": "4.2.*",
+		"jenssegers/mongodb": "~2.0",
+		"jenssegers/mongodb-session": "~1.1",
+		"zizaco/mongolid": "dev-master",
+		"zizaco/mongolid-laravel": "dev-master"
 	},
 	"autoload": {
 		"classmap": [
