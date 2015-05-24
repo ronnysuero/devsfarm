@@ -55,7 +55,7 @@
               </div>
               <div class="form-group">
                   {{ Form::label('password', 'Password') }}
-                  {{ Form::password('password', array('placeholder' => 'Enter pPassword',
+                  {{ Form::password('password', array('placeholder' => 'Enter Password',
                                                       'class'       => 'form-control',
                                                       'id'          => 'user_password',
                                                       'name'        => 'user_password',
