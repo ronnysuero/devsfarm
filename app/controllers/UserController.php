@@ -20,7 +20,10 @@ class UserController extends BaseController
 
     // Try to authenticate the credentials
     if($isAuth)
+    {
+      UserSessionController::update();
       return Redirect::to('home');
+    }
     else
       return Redirect::back()->withErrors(array( 'error' => 'Invalid Email or Password'));
   }
@@ -33,6 +36,7 @@ class UserController extends BaseController
   public function logout()
   {
     Auth::logout();
+    UserSessionController::update();
     return Redirect::to('/');
   }
 
@@ -66,6 +70,6 @@ class UserController extends BaseController
         return Redirect::back()->withErrors(array( 'error' => 'This email is already registered in our system'));
       }
 
-      return Redirect::to('/')->with('message', 'Gracias por registrarse.');
+      return Redirect::to('/')->with('message', 'Thank you for registering');
 	}
 }

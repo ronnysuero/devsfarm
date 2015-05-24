@@ -47,7 +47,7 @@
               <hr>
               <div class="form-group">
                   {{ Form::label('email', 'Email') }}
-                  {{ Form::email('email', Input::old('email'), array('placeholder' => 'Ingrese su correo electronico',
+                  {{ Form::email('email', Input::old('email'), array('placeholder' => 'Enter email',
                                                                      'class'       => 'form-control',
                                                                      'id'          => 'user_email',
                                                                      'name'        => 'user_email',
@@ -55,7 +55,7 @@
               </div>
               <div class="form-group">
                   {{ Form::label('password', 'Password') }}
-                  {{ Form::password('password', array('placeholder' => 'Ingrese su password',
+                  {{ Form::password('password', array('placeholder' => 'Enter pPassword',
                                                       'class'       => 'form-control',
                                                       'id'          => 'user_password',
                                                       'name'        => 'user_password',

@@ -26,7 +26,7 @@ return array(
 	|
 	*/
 
-	'default' => 'auth',
+	'default' => 'mongodb',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -90,6 +90,9 @@ return array(
 	    'username' => '',
 	    'password' => '',
 	    'database' => 'teamland',
+			'options' => array(
+        'db' => 'admin' // sets the authentication database required by mongo 3
+    	)
 		),
 
 		'auth' => array(
