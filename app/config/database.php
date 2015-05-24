@@ -89,7 +89,7 @@ return array(
 	    'port'     => 27017,
 	    'username' => '',
 	    'password' => '',
-	    'database' => 'student',
+	    'database' => 'teamland',
 		),
 
 		'auth' => array(
@@ -97,7 +97,7 @@ return array(
 			'default' => array(
             'host'     => '127.0.0.1',
             'port'     => 27017,
-            'database' => 'student',
+            'database' => 'teamland',
             'username'     => '',
             'password'     => '',
         ),

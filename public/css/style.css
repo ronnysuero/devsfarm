@@ -6,8 +6,8 @@ body {
 
 }
 
-.login_form {
-  background:#26A69A; 
+.login_form, .register_form {
+  background:#26A69A;
   border-radius:0.4em;
   padding: 20px;
   box-shadow: 0 5px 10px 5px rgba(0,0,0,0.2);
@@ -16,7 +16,7 @@ body {
 }
 
 
-.login_form h1 {
+.login_form h1, .register_form h1 {
   font-size:18px;
   text-shadow:0 1px 0 black;
   padding:10px 0;

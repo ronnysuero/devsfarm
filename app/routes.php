@@ -12,9 +12,9 @@
 */
 
 // HTTP GET
-Route::get('/', 'DefaultController@showView');
+Route::get('/', 'LoginController@showView');
 
-Route::get('register', 'RegisterController@showView');
+Route::get('register', 'UserController@showView');
 
 Route::get('home', 'HomeController@showView')->before('auth');
 
@@ -22,3 +22,5 @@ Route::get('logout', 'UserController@logout')->before('auth');
 
 // HTTP POST
 Route::post('login', 'UserController@login');
+
+Route::post('register', 'UserController@register');

@@ -1,6 +1,6 @@
 <?php
 
-class DefaultController extends BaseController
+class LoginController extends BaseController
 {
 	/**
 	* Show the view on the navigator
@@ -13,6 +13,6 @@ class DefaultController extends BaseController
 		if (Auth::check())
 			return Auth::viaRemember() ? Redirect::to('home')->with('rememberMe', 1) : Redirect::to('home');
 		else
-			return View::make('default');
+			return View::make('login');
 	}
 }

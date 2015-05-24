@@ -31,22 +31,36 @@
                  {{ $errors->first('error') }}
               </div>
             @endif
+
+            @if(Session::has('message'))
+              <div class="alert alert-success alert-dismissable">
+               <button type="button" class="close" data-dismiss="alert" aria-hidden="true"
+                    onclick="$('.alert.alert-success.alert-dismissable').hide('slow')">
+                    &times;
+                 </button>
+                 {{Session::get('message')}}
+              </div>
+            @endif
+
             {{ Form::open(array('url' => 'login')) }}
               <h1>Log In</h1>
               <hr>
               <div class="form-group">
                   {{ Form::label('email', 'Email') }}
-                  {{ Form::text('email', Input::old('email'), array('placeholder' => 'some@domain.com',
-                                                                    'class'       => 'form-control',
-                                                                    'id'          => 'user_email',
-                                                                    'name'        => 'user_email')) }}
+                  {{ Form::email('email', Input::old('email'), array('placeholder' => 'Ingrese su correo electronico',
+                                                                     'class'       => 'form-control',
+                                                                     'id'          => 'user_email',
+                                                                     'name'        => 'user_email',
+                                                                     'required'    => '')) }}
               </div>
               <div class="form-group">
                   {{ Form::label('password', 'Password') }}
-                  {{ Form::password('password', array('placeholder' => 'Enter the password',
+                  {{ Form::password('password', array('placeholder' => 'Ingrese su password',
                                                       'class'       => 'form-control',
                                                       'id'          => 'user_password',
-                                                      'name'        => 'user_password')) }}
+                                                      'name'        => 'user_password',
+                                                      'required'    => '',
+                                                      'title'       => 'Debe escribir su password')) }}
               </div>
               <div class="checkbox">
                 <label>
@@ -60,7 +74,7 @@
       </div>
     </div>
     <footer style="background: #0097A7; color: white; padding: 30px; position: absolute; width:100%; bottom: 0px; left:0px;">
-        <p class="text-muted text-center" style="color: white;">Copyright TeamLand - 2016</p>
+        <p class="text-muted text-center" style="color: white;">Copyright TeamLand - {{Date('Y')}}</p>
     </footer>
 </body>
 </html>

@@ -67,7 +67,6 @@ class MongoLidUserProvider implements UserProviderInterface
     public function validateCredentials(UserInterface $user, array $credentials)
     {
         $plain = $credentials['password'];
-
         return $this->hasher->check($plain, $user->getAuthPassword());
     }
 

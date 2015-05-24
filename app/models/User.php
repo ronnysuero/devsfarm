@@ -13,7 +13,7 @@ class User extends MongoLid implements UserInterface
 		*
 		* @var string
 		*/
-	protected $database = 'student';
+	protected $database = 'teamland';
 	/**
 		* The database collection used by the model.
 		*
@@ -21,12 +21,6 @@ class User extends MongoLid implements UserInterface
 		*/
 	protected $collection = 'users';
 
-	/**
-		* The attributes excluded from the model's JSON form.
-		*
-		* @var array
-		*/
-	protected $hidden = array('password');
 
 	/**
 		* Get the unique identifier for the user.
