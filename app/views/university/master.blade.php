@@ -12,14 +12,15 @@
     <title>@yield('title')</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
     <!-- Custom CSS -->
-    <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/sb-admin.css">
 
     <!-- Custom Fonts -->
-    <link href="../bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.css">
+    <script type="text/javascript" src="js/jquery-2.1.3.js"></script>
+    <script type="text/javascript" src="js/sb-admin.js"></script>
+    <script type="text/javascript" src="js/bootstrap.js"></script>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -42,7 +43,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">DevsFarm</a>
+                <a class="navbar-brand" href="{{URL::to('university')}}">DevsFarm</a>
             </div>
             <!-- /.navbar-header -->
 
@@ -64,10 +65,10 @@
                         <i class="fa fa-user fa-fw" style="color: #0097A7;"></i>  <i class="fa fa-caret-down" style="color: #0097A7;"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#"><i class="fa fa-user fa-fw" style="color: #0097A7;"></i> User Profile</a>
+                        <li><a href="{{URL::to('university_profile')}}"><i class="fa fa-user fa-fw" style="color: #0097A7;"></i> User Profile</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="login.html"><i class="fa fa-sign-out fa-fw" style="color: #0097A7;"></i> Logout</a>
+                        <li><a href="{{URL::to('logout')}}"><i class="fa fa-sign-out fa-fw" style="color: #0097A7;"></i> Logout</a>
                         </li>
                     </ul>
                 </li>
@@ -76,7 +77,7 @@
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
                         <li>
-                            <a href="index.html" class="nav_home_categoria"><i class="fa fa-home"></i> Dashboard</a>
+                            <a href="{{URL::to('university')}}" class="nav_home_categoria"><i class="fa fa-home"></i> Dashboard</a>
                         </li>
                         <li>
                             <a href="index.html" class="nav_categoria"><i class="fa fa-list"></i> Asignaturas</a>
@@ -122,13 +123,6 @@
         </div>
 
     </div>
-    <!-- /#wrapper -->
-
-    <!-- jQuery -->
-    <script src="../bower_components/jquery/dist/jquery.min.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
 </body>
 

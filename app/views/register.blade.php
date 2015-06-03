@@ -4,7 +4,7 @@
       <meta charset="UTF-8" />
 		  <meta http-equiv="X-UA-Compatible" content="IE=edge">
 		  <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>TeamLand</title>
+      <title>DevsFarm</title>
       <script type="text/javascript" src="js/bootstrap.js"></script>
       <script type="text/javascript" src="js/jquery-2.1.3.js"></script>
       <script type="text/javascript" src="js/script.js"></script>
@@ -21,7 +21,7 @@
     <nav class="navbar" style="background: #0097A7;">
       <div class="container">
         <div class="navbar-header header_page">
-          <a class="navbar-brand" href="{{URL::to('/')}}">TeamLand</a>
+          <a class="navbar-brand" href="{{URL::to('/')}}">DevsFarm</a>
         </div>
 	  </div>
     </nav>
@@ -92,10 +92,5 @@
         {{ Form::close() }}
 		</div>
 	</div>
-
-    <footer style="background: #0097A7; color: white; padding: 30px;width:100%; bottom: 0px; left:0px; position: absolute;">
-        <p class="text-muted text-center" style="color: white;">Copyright TeamLand - {{Date('Y')}}</p>
-    </footer>
-
 </body>
 </html>

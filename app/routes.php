@@ -20,6 +20,10 @@ Route::get('home', 'HomeController@showView')->before('auth');
 
 Route::get('logout', 'UserController@logout')->before('auth');
 
+// HTTP GET UNIVERSITY
+Route::get('university', 'UniversityController@showIndex');
+Route::get('university_profile', 'UniversityController@showProfile');
+
 // HTTP POST
 Route::post('login', 'UserController@login');
 

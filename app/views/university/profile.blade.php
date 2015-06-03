@@ -1,4 +1,8 @@
-@extends('master')
+@extends('university.master')
+
+@section('title', 'Profile - University')
+@stop
+
 @section('content')
 <div class="row">
   <div class="col-lg-12">

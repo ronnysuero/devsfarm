@@ -1,4 +1,7 @@
-@extends('master')
+@extends('university.master')
+
+@section('title', 'Dashboard - University')
+@stop
 @section('content')
 <div class="row">
     <div class="col-lg-12">
@@ -17,15 +20,15 @@
                     </thead>
                     <tbody>
                         <?php $i=1 ?>
-                        @foreach ($subjects as $subject)
+                        {{--@foreach ($subjects as $subject)--}}
                         <tr>
                             <td><?php echo $i ?></td>
-                            <td>{{ $subject->name }}</td>
-                            <td>{{ $subject->division }}</td>
-                            <td>{{ $subject->sections }}</td>
+                            {{--<td>{{ $subject->name }}</td>--}}
+                            {{--<td>{{ $subject->division }}</td>--}}
+                            {{--<td>{{ $subject->sections }}</td>--}}
                         </tr>
                         <?php $i++ ?>
-                        @endforeach
+                        {{--@endforeach--}}
                     </tbody>
                 </table>
             </div>
@@ -54,17 +57,17 @@
                     </thead>
                     <tbody>
                         <?php $i=1 ?>
-                        @foreach ($professors as $professor)
+                        {{--@foreach ($professors as $professor)--}}
                         <tr>
-                            <td width="150px;"><img src="{{ $professor.photo }}" alt="profesor"></td>
-                            <td>{{ $professor->name }}</td>
-                            <td>{{ $professor->last_name }}</td>
-                            <td>{{ $professor->phone }}</td>
-                            <td>{{ $professor->cellphone }}</td>
-                            <td>{{ $professor->email }}</td>
+                            {{--<td width="150px;"><img src="{{ $professor.photo }}" alt="profesor"></td>--}}
+                            {{--<td>{{ $professor->name }}</td>--}}
+                            {{--<td>{{ $professor->last_name }}</td>--}}
+                            {{--<td>{{ $professor->phone }}</td>--}}
+                            {{--<td>{{ $professor->cellphone }}</td>--}}
+                            {{--<td>{{ $professor->email }}</td>--}}
                         </tr>
                         <?php $i++ ?>
-                        @endforeach
+                        {{--@endforeach--}}
                     </tbody>
                 </table>
             </div>

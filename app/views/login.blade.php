@@ -4,7 +4,7 @@
         <meta charset="UTF-8" />
     		<meta http-equiv="X-UA-Compatible" content="IE=edge">
     		<meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>TeamLand</title>
+        <title>DevsFarm</title>
         <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
         <link rel="stylesheet" type="text/css" href="css/style.css" />
         <script type="text/javascript" src="js/bootstrap.js"></script>
@@ -15,7 +15,7 @@
       <div class="container">
     		<a href="{{URL::to('register')}}" class="pull-right" style="font-size: 16px; color: white; text-decoration: none; margin-top: 15px;">Register</a>
     		<div class="navbar-header header_page">
-          <a class="navbar-brand" href="{{URL::to('/')}}">TeamLand</a>
+          <a class="navbar-brand" href="{{URL::to('/')}}">DevsFarm</a>
         </div>
       </div>
     </nav>
@@ -73,8 +73,5 @@
         </div>
       </div>
     </div>
-    <footer style="background: #0097A7; color: white; padding: 30px; position: absolute; width:100%; bottom: 0px; left:0px;">
-        <p class="text-muted text-center" style="color: white;">Copyright TeamLand - {{Date('Y')}}</p>
-    </footer>
 </body>
 </html>
