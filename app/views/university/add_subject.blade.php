@@ -1,4 +1,4 @@
-@extends('master')
+@extends('university.master')
 @section('content')
 <div class="row">
     <div class="col-lg-12">
@@ -9,10 +9,20 @@
                 <div class="panel-heading">
                     Registrar Asignatura
                 </div>
+                @if(Session::has('message'))
+                  <div class="alert alert-success alert-dismissable">
+                   <button type="button" class="close" data-dismiss="alert" aria-hidden="true"
+                        onclick="$('.alert.alert-success.alert-dismissable').hide('slow')">
+                        &times;
+                     </button>
+                     {{Session::get('message')}}
+                  </div>
+                @endif
                 <div class="panel-body">
+
                     <div class="row">
                         <div class="col-lg-12">
-                            <form role="form">
+                            {{ Form::open(array('url' => 'add_subject', 'id' => 'register_form', 'role' => 'form')) }}
                                 <div class="form-group">
                                     <label>Nombre asignatura</label>
                                     <input class="form-control" id="subject_name" name="subject_name" placeholder="Nombre Asignatura">
@@ -27,14 +37,13 @@
                                     <p class="help-block">Las secciones deben separar se por coma. 1, 2, 3</p>
                                 </div>
                                 <button type="submit" class="btn btn-default pull-right">Registrar</button>
-                            </form>
+                            {{ Form::close() }}
                         </div>
                     </div>
                 </div>
             </div>
            </div>
        </div>
-        
    </div>
 </div>
 @stop

@@ -19,13 +19,8 @@ class UserController extends BaseController
     $isAuth = (Input::get('check_user') === 'yes') ? Auth::attempt($userdata, true) : Auth::attempt($userdata);
 
     // Try to authenticate the credentials
-    if($isAuth)
-    {
-      UserSessionController::update();
-      return Redirect::to('home');
-    }
-    else
-      return Redirect::back()->withErrors(array( 'error' => 'Invalid Email or Password'));
+    return $isAuth ? Redirect::to(Auth::user()->rank) : Redirect::back()->withErrors(array( 'error' => 'Invalid Email or Password'));
+
   }
 
   /**
@@ -35,7 +30,7 @@ class UserController extends BaseController
 	*/
   public function logout()
   {
-    UserSessionController::update();
+    UserSectionController::update();
     Auth::logout();
     return Redirect::to('/');
   }
@@ -45,21 +40,18 @@ class UserController extends BaseController
   *
   * @return void
   */
-  public function showView()
+  public function showRegisterView()
   {
-    return View::make('register');
+    return View::make('student.register');
   }
 
 	public function register()
 	{
+
       $user = new User;
-      $user->first_name = Input::get('guest_name');
-      $user->last_name = Input::get('guest_lastname');
       $user->user = Input::get('guest_email');
-      $user->genre = Input::get('guest_genre');
-      $user->has_a_job = input::get('guest_job');
-      $user->birthday = new MongoDate(strtotime(Input::get('user_birthday')));
-      $user->password = Hash::make(Input::get('user_password'));
+      $user->password = Hash::make(Input::get('guest_password'));
+      $user->rank = "student";
 
       try
       {
@@ -69,6 +61,22 @@ class UserController extends BaseController
       {
         return Redirect::back()->withErrors(array( 'error' => 'This email is already registered in our system'));
       }
+
+      // $university = new University;
+      // $university->name = "Universidad Autonoma De Santo Domingo";
+      // $university->email = "uasd@uasd.edu.do";
+      // $university->acronym = "UASD";
+      // $university->save();
+
+      $student = new Student;
+      $student->name = Input::get('guest_name');
+      $student->last_name = Input::get('guest_lastname');
+      $student->email = Input::get('guest_email');
+      $student->genre = Input::get('guest_genre');
+      $student->has_a_job = input::get('guest_job');
+      $student->birthday = new MongoDate(strtotime(Input::get('guest_birthday')));
+      $student->is_teamleader = false;
+      $student->save();
 
       return Redirect::to('/')->with('message', 'Thank you for registering');
 	}

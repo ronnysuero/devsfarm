@@ -39,6 +39,18 @@ Route::filter('auth', function()
 		return Request::ajax() ? Response::make('Unauthorized', 401) : Redirect::guest('/');
 });
 
+Route::filter('university', function()
+{
+	if(strcasecmp(Auth::user()->rank, "university") !== 0)
+		return Request::ajax() ? Response::make('Unauthorized', 401) : View::make('error.unauthorized');
+});
+
+Route::filter('teacher', function()
+{
+	if(strcasecmp(Auth::user()->rank, "teacher") !== 0)
+		return Request::ajax() ? Response::make('Unauthorized', 401) : View::make('error.unauthorized');
+});
+
 
 Route::filter('auth.basic', function()
 {

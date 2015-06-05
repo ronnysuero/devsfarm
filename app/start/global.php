@@ -46,10 +46,33 @@ Log::useFiles(storage_path().'/logs/laravel.log');
 | shown, which includes a detailed stack trace during debug.
 |
 */
+//
+// App::error(function(Exception $exception, $code)
+// {
+// 	Log::error($exception);
+// });
 
 App::error(function(Exception $exception, $code)
 {
-	Log::error($exception);
+	if(Config::get('app.debug'))
+		Log::error($exception);
+	else
+	{
+    switch ($code)
+    {
+        case 403:
+            return Response::view('error.403', array(), 403);
+
+        case 404:
+            return Response::view('error.404', array(), 404);
+
+        case 500:
+            return Response::view('error.500', array(), 500);
+
+        default:
+            return Response::view('error.default', array(), $code);
+    }
+	}
 });
 
 /*

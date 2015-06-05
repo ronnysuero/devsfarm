@@ -4,7 +4,7 @@
       <meta charset="UTF-8" />
 		  <meta http-equiv="X-UA-Compatible" content="IE=edge">
 		  <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>DevsFarm</title>
+      <title>TeamLand</title>
       <script type="text/javascript" src="js/bootstrap.js"></script>
       <script type="text/javascript" src="js/jquery-2.1.3.js"></script>
       <script type="text/javascript" src="js/script.js"></script>
@@ -21,7 +21,7 @@
     <nav class="navbar" style="background: #0097A7;">
       <div class="container">
         <div class="navbar-header header_page">
-          <a class="navbar-brand" href="{{URL::to('/')}}">DevsFarm</a>
+          <a class="navbar-brand" href="{{URL::to('/')}}">TeamLand</a>
         </div>
 	  </div>
     </nav>
@@ -77,15 +77,15 @@
 				</div>
 				<div class="form-group col-xs-12 col-sm-6">
 					<label for="user_birthday">Birthday</label>
-					<input type="date" class="form-control" id="user_birthday" name="user_birthday" required />
+					<input type="date" class="form-control" id="guest_birthday" name="guest_birthday" required />
 				</div>
 				<div class="form-group col-xs-12 col-sm-6">
 					<label for="user_password">Password</label>
-					<input type="password" class="form-control" id="user_password" name="user_password" placeholder="Enter Password" required />
+					<input type="password" class="form-control" id="guest_password" name="guest_password" placeholder="Enter Password" required />
 				</div>
 				<div class="form-group col-xs-12 col-sm-6">
 					<label for="user_confirm_password">Confirm Password</label>
-					<input type="password" class="form-control" id="user_confirm_password" name="user_confirm_password" placeholder="Confirm password" required />
+					<input type="password" class="form-control" id="guest_confirm_password" name="guest_confirm_password" placeholder="Confirm password" required />
 				</div>
 
 				<button type="submit" class="btn btn-primary pull-right" style="margin-right: 15px;">Register</button>
