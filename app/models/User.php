@@ -19,7 +19,7 @@ class User extends MongoLid implements UserInterface
 		*
 		* @var string
 		*/
-	protected $collection = 'users';
+	protected $collection = 'User';
 
 
 	/**

@@ -83,7 +83,7 @@
                             <a href="index.html" class="nav_categoria"><i class="fa fa-list"></i> Asignaturas</a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="flot.html"><i class="fa fa-plus" style="color: #0097A7;"></i> Agregar</a>
+                                    <a href="{{URL::to('add_subject')}}"><i class="fa fa-plus" style="color: #0097A7;"></i> Agregar</a>
                                 </li>
                                 <li>
                                     <a href="morris.html"><i class="fa fa-eye" style="color: #0097A7;"></i> Listar</a>

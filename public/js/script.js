@@ -1,8 +1,8 @@
 
 function validatePassword()
 {
-    var password1 = $('#user_password').val();
-    var password2 = $('#user_confirm_password').val();
+    var password1 = $('#guest_password').val();
+    var password2 = $('#guest_confirm_password').val();
 
     if(password1 != password2)
     {
