@@ -2,15 +2,26 @@
 
 class UniversityController extends BaseController
 {
+    public function getTeachers()
+    {
+        return Teacher::where('university_id', '=', Auth::id())->get();
+    }
+    public function getSubjects()
+    {
+        return Subject::where('university_id', '=', Auth::id())->get();
+    }
+
     public function showHome()
     {
-      return View::make('university.home')->with(array( 'subjects' => 'Invalid Email or Password',
-                                                                      'professors' => 'Mundo'));
+        $teachers = $this->getTeachers();
+        $subjects = $this->getSubjects();
+        return View::make('university.home')->with(array( 'subjects' => $subjects,
+                                                            'teachers' => $teachers));
     }
 
     public function showProfile()
     {
-      return View::make('university.profile');
+        return View::make('university.profile');
     }
 
     public function addSubject()
@@ -39,5 +50,52 @@ class UniversityController extends BaseController
     public function showAddSubjectView()
     {
         return View::make('university.add_subject');
+    }
+
+    public function showAllSubjectsView ()
+    {
+        $subjects = $this->getSubjects();
+        return View::make('university.show_all_subjects')->with(array( 'subjects' => $subjects));
+    }
+
+    public function addTeacher()
+    {
+        $university = University::where('email', '=', Auth::user()->user)->first();
+
+        $teacher = new Teacher;
+        $teacher->university_id = Auth::id();
+        $teacher->name = Input::get('name');
+        $teacher->last_name = Input::get('last_name');
+        $teacher->phone = Input::get('phone');
+        $teacher->cellphone = Input::get('cellphone');
+        $teacher->email = Input::get('email');
+        $teacher->_id = Input::get('email');
+        $teacher->save();
+
+        return Redirect::to('add_teacher')->with('message', 'Teacher successfully registered!');
+    }
+
+    public function showAddTeacherView ()
+    {
+        return View::make('university.add_teacher');
+    }
+
+    public function showAllTeachersView ()
+    {
+        $teachers = $this->getTeachers();
+        return View::make('university.show_all_teachers')->with(array( 'teachers' => $teachers));
+    }
+
+    public function showAddAssignmentView ()
+    {
+        $teachers = $this->getTeachers();
+        $subjects = $this->getSubjects();
+        return View::make('university.add_assignment')->with(array( 'teachers' => $teachers,
+                                                                    'subjects' => $subjects));;
+    }
+
+    public function showAllAssignmentsView ()
+    {
+        return View::make('university.show_all_assignments')->with(array( 'assignments' => 'Invalid Email or Password'));
     }
 }

@@ -2,7 +2,7 @@
 @section('content')
 <div class="row">
     <div class="col-lg-12">
-       <h1 class="page-header">Registrar Asignatura</h1>
+       <h1 class="page-header"><i class="fa fa-plus"></i> Registrar Asignatura</h1>
        <div class="row">
            <div class="col-lg-8 col-lg-offset-2">
                <div class="panel panel-default">
@@ -25,15 +25,15 @@
                             {{ Form::open(array('url' => 'add_subject', 'id' => 'register_form', 'role' => 'form')) }}
                                 <div class="form-group">
                                     <label>Nombre asignatura</label>
-                                    <input class="form-control" id="subject_name" name="subject_name" placeholder="Nombre Asignatura">
+                                    <input class="form-control" id="subject_name" name="subject_name" placeholder="Nombre Asignatura" required>
                                 </div>
                                 <div class="form-group">
                                     <label>Escuela</label>
-                                    <input class="form-control" id="division" name="division" placeholder="Escuela">
+                                    <input class="form-control" id="division" name="division" placeholder="Escuela" required>
                                 </div>
                                 <div class="form-group">
                                     <label>Secciones</label>
-                                    <input class="form-control" id="section" name="section" placeholder="Secciones separadas por coma">
+                                    <input class="form-control" id="section" name="section" placeholder="Secciones separadas por coma" required>
                                     <p class="help-block">Las secciones deben separar se por coma. 1, 2, 3</p>
                                 </div>
                                 <button type="submit" class="btn btn-default pull-right">Registrar</button>

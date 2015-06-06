@@ -27,9 +27,21 @@ Route::get('university_profile', 'UniversityController@showProfile')->before('au
 
 Route::get('add_subject', 'UniversityController@showAddSubjectView')->before('auth|university');
 
+Route::get('show_all_subjects', 'UniversityController@showAllSubjectsView')->before('auth|university');
+
+Route::get('add_teacher', 'UniversityController@showAddTeacherView')->before('auth|university');
+
+Route::get('show_all_teachers', 'UniversityController@showAllTeachersView')->before('auth|university');
+
+Route::get('add_assignment', 'UniversityController@showAddAssignmentView')->before('auth|university');
+
+Route::get('show_all_assignments', 'UniversityController@showAllAssignmentsView')->before('auth|university');
+
 // HTTP POST
 Route::post('login', 'UserController@login');
 
 Route::post('register', 'UserController@register');
 
-Route::post('add_subject', 'UniversityController@addSubject')->before('auth|university');
+Route::post('add_subject', 'UniversityController@addSubject')->before('auth');
+
+Route::post('add_teacher', 'UniversityController@addTeacher')->before('auth');

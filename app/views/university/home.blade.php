@@ -20,15 +20,19 @@
                     </thead>
                     <tbody>
                         <?php $i=1 ?>
-                        {{--@foreach ($subjects as $subject)--}}
+                        @foreach ($subjects as $subject)
                         <tr>
                             <td><?php echo $i ?></td>
-                            {{--<td>{{ $subject->name }}</td>--}}
-                            {{--<td>{{ $subject->division }}</td>--}}
-                            {{--<td>{{ $subject->sections }}</td>--}}
+                            <td>{{ $subject->name }}</td>
+                            <td>{{ $subject->division }}</td>
+                            <td>
+                                @foreach ($subject->sections as $section)
+                                    {{ $section }},
+                                @endforeach
+                            </td>
                         </tr>
                         <?php $i++ ?>
-                        {{--@endforeach--}}
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -41,7 +45,7 @@
 <div class="row">
     <div class="col-lg-12">
         <h1 class="page-header">Profesores</h1>
-        @if (count($professors) >= 1)
+        @if (count($teachers) >= 1)
         <div class="panel-body">
             <div class="table-responsive">
                 <table class="table table-striped table-bordered table-hover">
@@ -57,17 +61,17 @@
                     </thead>
                     <tbody>
                         <?php $i=1 ?>
-                        {{--@foreach ($professors as $professor)--}}
+                        @foreach ($teachers as $teacher)
                         <tr>
-                            {{--<td width="150px;"><img src="{{ $professor.photo }}" alt="profesor"></td>--}}
-                            {{--<td>{{ $professor->name }}</td>--}}
-                            {{--<td>{{ $professor->last_name }}</td>--}}
-                            {{--<td>{{ $professor->phone }}</td>--}}
-                            {{--<td>{{ $professor->cellphone }}</td>--}}
-                            {{--<td>{{ $professor->email }}</td>--}}
+                            <td width="150px;"><img src="" alt="profesor"></td>
+                            <td>{{ $teacher->name }}</td>
+                            <td>{{ $teacher->last_name }}</td>
+                            <td>{{ $teacher->phone }}</td>
+                            <td>{{ $teacher->cellphone }}</td>
+                            <td>{{ $teacher->email }}</td>
                         </tr>
                         <?php $i++ ?>
-                        {{--@endforeach--}}
+                        @endforeach
                     </tbody>
                 </table>
             </div>

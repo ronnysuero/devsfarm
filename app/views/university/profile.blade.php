@@ -22,11 +22,11 @@
                         <form role="form">
                             <div class="form-group">
                                 <label>Nombre</label>
-                                <input class="form-control" id="name" name="name" placeholder="Nombres" required>
+                                <input class="form-control" id="name" name="name" placeholder="Nombres" value="" required>
                             </div>
                             <div class="form-group">
                                 <label>Acronym</label>
-                                <input class="form-control" id="acronym" name="acronym" placeholder="Apellidos" required>
+                                <input class="form-control" id="acronym" name="acronym" placeholder="Acronym" required>
                             </div>
                             <div class="form-group">
                                 <label>Email</label>
