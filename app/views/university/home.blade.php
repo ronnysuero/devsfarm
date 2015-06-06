@@ -38,7 +38,7 @@
             </div>
         </div>
         @else
-            <p><a href="flot.html"><i class="fa fa-plus" style="color: #0097A7;"></i> Agregar asignaturas</a></p>
+            <p><a href="{{URL::to('add_subject')}}"><i class="fa fa-plus" style="color: #0097A7;"></i> Agregar asignaturas</a></p>
         @endif
     </div>
 </div>
@@ -77,7 +77,7 @@
             </div>
         </div>
         @else
-            <p><a href="flot.html"><i class="fa fa-plus" style="color: #0097A7;"></i> Agregar profesores</a></p>
+            <p><a href="{{URL::to('add_teacher')}}"><i class="fa fa-plus" style="color: #0097A7;"></i> Agregar profesores</a></p>
         @endif
     </div>
 </div>
