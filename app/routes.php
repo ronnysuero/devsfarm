@@ -16,6 +16,8 @@ Route::get('/', 'LoginController@showView');
 
 Route::get('register', 'UserController@showRegisterView');
 
+Route::get('register_university', 'UserController@showRegisterUniversityView');
+
 Route::get('student', 'StudentController@showHome')->before('auth');
 
 Route::get('logout', 'UserController@logout')->before('auth');
@@ -41,6 +43,8 @@ Route::get('show_all_assignments', 'UniversityController@showAllAssignmentsView'
 Route::post('login', 'UserController@login');
 
 Route::post('register', 'UserController@register');
+
+Route::post('register_university', 'UserController@registerUniversity');
 
 Route::post('add_subject', 'UniversityController@addSubject')->before('auth');
 

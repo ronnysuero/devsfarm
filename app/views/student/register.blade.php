@@ -20,8 +20,9 @@
 
     <nav class="navbar" style="background: #0097A7;">
       <div class="container">
+          <a href="{{URL::to('register_university')}}" class="pull-right" style="font-size: 16px; color: white; text-decoration: none; margin-top: 15px;">Register University</a>
         <div class="navbar-header header_page">
-          <a class="navbar-brand" href="{{URL::to('/')}}">TeamLand</a>
+          <a class="navbar-brand" href="{{URL::to('/')}}">DevsFarm</a>
         </div>
 	  </div>
     </nav>
@@ -45,7 +46,7 @@
         </div>
       @endif
       {{ Form::open(array('url' => 'register', 'class' => 'register_form', 'id' => 'register_form', 'onSubmit' => 'return validatePassword()')) }}
-				<h1 class="">Register</h1>
+				<h1 class="">Register Student</h1>
 				<hr>
 
 				<div class="form-group col-xs-12 col-sm-6">
@@ -91,6 +92,7 @@
 				<button type="submit" class="btn btn-primary pull-right" style="margin-right: 15px;">Register</button>
         {{ Form::close() }}
 		</div>
+
 	</div>
 </body>
 </html>

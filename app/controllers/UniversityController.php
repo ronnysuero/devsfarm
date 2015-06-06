@@ -62,6 +62,20 @@ class UniversityController extends BaseController
     {
         $university = University::where('email', '=', Auth::user()->user)->first();
 
+        $user = new User;
+        $user->user = Input::get('email');
+        $user->password = Hash::make(Input::get('email'));
+        $user->rank = "teacher";
+
+        try
+        {
+            $user->save();
+        }
+        catch(MongoDuplicateKeyException $e)
+        {
+            return Redirect::back()->withErrors(array( 'error' => 'This email is already registered in our system'));
+        }
+
         $teacher = new Teacher;
         $teacher->university_id = Auth::id();
         $teacher->name = Input::get('name');

@@ -45,13 +45,17 @@ class UserController extends BaseController
     return View::make('student.register');
   }
 
-	public function register()
+    public function showRegisterUniversityView()
+    {
+        return View::make('university.register_university');
+    }
+	public function registerUniversity()
 	{
 
       $user = new User;
-      $user->user = Input::get('guest_email');
-      $user->password = Hash::make(Input::get('guest_password'));
-      $user->rank = "student";
+      $user->user = Input::get('university_email');
+      $user->password = Hash::make(Input::get('university_password'));
+      $user->rank = "university";
 
       try
       {
@@ -62,21 +66,11 @@ class UserController extends BaseController
         return Redirect::back()->withErrors(array( 'error' => 'This email is already registered in our system'));
       }
 
-      // $university = new University;
-      // $university->name = "Universidad Autonoma De Santo Domingo";
-      // $university->email = "uasd@uasd.edu.do";
-      // $university->acronym = "UASD";
-      // $university->save();
-
-      $student = new Student;
-      $student->name = Input::get('guest_name');
-      $student->last_name = Input::get('guest_lastname');
-      $student->email = Input::get('guest_email');
-      $student->genre = Input::get('guest_genre');
-      $student->has_a_job = input::get('guest_job');
-      $student->birthday = new MongoDate(strtotime(Input::get('guest_birthday')));
-      $student->is_teamleader = false;
-      $student->save();
+       $university = new University;
+       $university->name = Input::get('university_name');
+       $university->email = Input::get('university_email');
+       $university->acronym = Input::get('university_acronym');
+       $university->save();
 
       return Redirect::to('/')->with('message', 'Thank you for registering');
 	}

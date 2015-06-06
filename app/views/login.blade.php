@@ -65,7 +65,7 @@
               <div class="checkbox">
                 <label>
                     {{ Form::checkbox('check_user', 'remember_me') }} Remember me
-                <label>
+                </label>
               </div>
             {{Form::submit('Login', array('class' => 'btn btn-primary pull-right'))}}
             <a href="" class="text-center forgot_pw">Forgot your password?</a>
