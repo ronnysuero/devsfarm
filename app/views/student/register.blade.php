@@ -45,7 +45,7 @@
            {{ $errors->first('error') }}
         </div>
       @endif
-      {{ Form::open(array('url' => 'register', 'class' => 'register_form', 'id' => 'register_form', 'onSubmit' => 'return validatePassword()')) }}
+      {{ Form::open(array('url' => 'register_student', 'class' => 'register_form', 'id' => 'register_form', 'onSubmit' => 'return validatePasswordStudent()')) }}
 				<h1 class="">Register Student</h1>
 				<hr>
 

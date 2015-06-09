@@ -12,11 +12,11 @@
 */
 
 // HTTP GET
-Route::get('/', 'LoginController@showView');
+Route::get('/', 'UserController@showView');
 
-Route::get('register', 'UserController@showRegisterView');
+Route::get('register_student', 'StudentController@showRegisterView');
 
-Route::get('register_university', 'UserController@showRegisterUniversityView');
+Route::get('register_university', 'UniversityController@showRegisterUniversityView');
 
 Route::get('student', 'StudentController@showHome')->before('auth');
 
@@ -42,9 +42,9 @@ Route::get('show_all_assignments', 'UniversityController@showAllAssignmentsView'
 // HTTP POST
 Route::post('login', 'UserController@login');
 
-Route::post('register', 'UserController@register');
+Route::post('register_student', 'StudentController@registerStudent');
 
-Route::post('register_university', 'UserController@registerUniversity');
+Route::post('register_university', 'UniversityController@registerUniversity');
 
 Route::post('add_subject', 'UniversityController@addSubject')->before('auth');
 

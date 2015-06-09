@@ -19,12 +19,12 @@ class UserController extends BaseController
     $isAuth = (Input::get('check_user') === 'yes') ? Auth::attempt($userdata, true) : Auth::attempt($userdata);
 
     // Try to authenticate the credentials
-    return $isAuth ? Redirect::to(Auth::user()->rank) : Redirect::back()->withErrors(array( 'error' => 'Invalid Email or Password'));
-
+    return $isAuth ? Redirect::to(Auth::user()->rank) : Redirect::back()->withErrors(array( 'error' => 'Invalid Email
+    or Password'));
   }
 
   /**
-	* Removes user login cookie
+	* Removes user login token
 	*
 	* @return void
 	*/
@@ -35,43 +35,12 @@ class UserController extends BaseController
     return Redirect::to('/');
   }
 
-  /**
-  * Show the view on the navigator
-  *
-  * @return void
-  */
-  public function showRegisterView()
+  public function showView()
   {
-    return View::make('student.register');
+	// Check if the user is reminded in the system
+	if (Auth::check())
+		return Auth::viaRemember() ? Redirect::to(Auth::user()->rank)->with('rememberMe', 1) : Redirect::to(Auth::user()->rank);
+	else
+		return View::make('login');
   }
-
-    public function showRegisterUniversityView()
-    {
-        return View::make('university.register_university');
-    }
-	public function registerUniversity()
-	{
-
-      $user = new User;
-      $user->user = Input::get('university_email');
-      $user->password = Hash::make(Input::get('university_password'));
-      $user->rank = "university";
-
-      try
-      {
-        $user->save();
-      }
-      catch(MongoDuplicateKeyException $e)
-      {
-        return Redirect::back()->withErrors(array( 'error' => 'This email is already registered in our system'));
-      }
-
-       $university = new University;
-       $university->name = Input::get('university_name');
-       $university->email = Input::get('university_email');
-       $university->acronym = Input::get('university_acronym');
-       $university->save();
-
-      return Redirect::to('/')->with('message', 'Thank you for registering');
-	}
 }

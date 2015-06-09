@@ -26,9 +26,6 @@ class UniversityController extends BaseController
 
     public function addSubject()
     {
-
-      $university = University::where('email', '=', Auth::user()->user)->first();
-
       $subject = new Subject;
       $subject->name = Input::get('subject_name');
       $subject->university_id = Auth::id();
@@ -75,8 +72,11 @@ class UniversityController extends BaseController
         {
             return Redirect::back()->withErrors(array( 'error' => 'This email is already registered in our system'));
         }
+        
+        $user = User::first(['user' => $user->user]);
 
         $teacher = new Teacher;
+        $teacher->_id = $user->_id;
         $teacher->university_id = Auth::id();
         $teacher->name = Input::get('name');
         $teacher->last_name = Input::get('last_name');
@@ -112,4 +112,38 @@ class UniversityController extends BaseController
     {
         return View::make('university.show_all_assignments')->with(array( 'assignments' => 'Invalid Email or Password'));
     }
+
+	public function registerUniversity()
+	{
+		$user = new User;
+		$user->user = Input::get('university_email');
+		$user->password = Hash::make(Input::get('university_password'));
+		$user->rank = "university";
+
+		try
+		{
+			$user->save();
+		}
+		catch(MongoDuplicateKeyException $e)
+		{
+			return Redirect::back()->withErrors(array( 'error' => 'This email is already registered in our system'));
+		}
+
+    $user = User::first(['user' => $user->user]);
+
+		$university = new University;
+		$university->_id = $user->_id;
+		$university->name = Input::get('university_name');
+		$university->email = Input::get('university_email');
+		$university->acronym = Input::get('university_acronym');
+		$university->save();
+
+		return Redirect::to('/')->with('message', 'Thank you for registering');
+	}
+
+	public function showRegisterUniversityView()
+	{
+		return View::make('university.register');
+	}
+
 }

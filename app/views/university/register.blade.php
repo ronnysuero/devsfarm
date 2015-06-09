@@ -29,11 +29,11 @@
 <div class="container">
     <div class="col-lg-6 col-lg-offset-3">
         <div id="error_div" class="alert alert-danger alert-dismissable">
-            <button type="button" class="close" data-dismiss="alert"
-                    aria-hidden="true" onclick="$('.alert.alert-danger.alert-dismissable').hide('slow')">
-                &times;
-            </button>
-            <p id="error"></p>
+           <button type="button" class="close" data-dismiss="alert"
+              aria-hidden="true" onclick="$('.alert.alert-danger.alert-dismissable').hide('slow')">
+              &times;
+           </button>
+           <p id="error"></p>
         </div>
         @if($errors->has('error'))
             <div class="alert alert-danger alert-dismissable">
@@ -44,7 +44,7 @@
                 {{ $errors->first('error') }}
             </div>
         @endif
-        {{ Form::open(array('url' => 'register_university', 'class' => 'register_form', 'id' => 'register_form', 'onSubmit' => 'return validatePassword()')) }}
+        {{ Form::open(array('url' => 'register_university', 'class' => 'register_form', 'id' => 'register_form', 'onSubmit' => 'return validatePasswordUniversity()')) }}
         <h1 class="">Register University</h1>
         <hr>
 
@@ -54,7 +54,7 @@
         </div>
         <div class="form-group col-lg-12">
             <label for="guest_lastname">Acronym</label>
-            <input type="text" class="form-control" id="university_acronym" name="university_acronym" placeholder="Enter Last Name" required />
+            <input type="text" class="form-control" id="university_acronym" name="university_acronym" placeholder="Enter The Acronym" required />
         </div>
         <div class="form-group col-lg-12">
             <label for="guest_email">Email</label>

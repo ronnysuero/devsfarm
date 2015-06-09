@@ -5,15 +5,15 @@
     		<meta http-equiv="X-UA-Compatible" content="IE=edge">
     		<meta name="viewport" content="width=device-width, initial-scale=1">
         <title>DevsFarm</title>
+        <script type="text/javascript" src="js/jquery-2.1.3.js"></script>
+        <script type="text/javascript" src="js/bootstrap.js"></script>
         <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
         <link rel="stylesheet" type="text/css" href="css/style.css" />
-        <script type="text/javascript" src="js/bootstrap.js"></script>
-        <script type="text/javascript" src="js/jquery-2.1.3.js"></script>
     </head>
 <body>
-    <nav class="navbar" style="background: #0097A7;">
+	<nav class="navbar" style="background: #0097A7;">
       <div class="container">
-    		<a href="{{URL::to('register')}}" class="pull-right" style="font-size: 16px; color: white; text-decoration: none; margin-top: 15px;">Register</a>
+    		<a href="{{URL::to('register_student')}}" class="pull-right" style="font-size: 16px; color: white; text-decoration: none; margin-top: 15px;">Register</a>
     		<div class="navbar-header header_page">
           <a class="navbar-brand" href="{{URL::to('/')}}">DevsFarm</a>
         </div>
@@ -60,7 +60,7 @@
                                                       'id'          => 'user_password',
                                                       'name'        => 'user_password',
                                                       'required'    => '',
-                                                      'title'       => 'Debe escribir su password')) }}
+                                                      'title'       => 'You must write your password')) }}
               </div>
               <div class="checkbox">
                 <label>
