@@ -42,13 +42,19 @@ Route::filter('auth', function()
 Route::filter('university', function()
 {
 	if(strcasecmp(Auth::user()->rank, "university") !== 0)
-		return Request::ajax() ? Response::make('Unauthorized', 401) : View::make('error.unauthorized');
+		return Request::ajax() ? Response::make('Unauthorized', 401) : View::make('error.403');
+});
+
+Route::filter('student', function()
+{
+	if(strcasecmp(Auth::user()->rank, "student") !== 0)
+		return Request::ajax() ? Response::make('Unauthorized', 401) : View::make('error.403');
 });
 
 Route::filter('teacher', function()
 {
 	if(strcasecmp(Auth::user()->rank, "teacher") !== 0)
-		return Request::ajax() ? Response::make('Unauthorized', 401) : View::make('error.unauthorized');
+		return Request::ajax() ? Response::make('Unauthorized', 401) : View::make('error.403');
 });
 
 

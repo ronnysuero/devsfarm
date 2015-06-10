@@ -27,7 +27,7 @@
                             <td>{{ $subject->division }}</td>
                             <td>
                                 @foreach ($subject->sections as $section)
-                                    {{ $section }},
+                                    {{ $section->code }},
                                 @endforeach
                             </td>
                         </tr>
