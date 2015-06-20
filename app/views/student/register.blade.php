@@ -15,7 +15,7 @@
         $(document).ready(function() {
             $('#error_div').hide();
         });
-      </script>
+      </script> 
     </head>
 <body>
 
