@@ -30,7 +30,7 @@ Route::post('register_student', 'StudentController@registerStudent');
 Route::post('register_university', 'UniversityController@registerUniversity');
 
 
-Route::group(array('before' => 'auth|university'), function()
+Route::group(array('' => ''), function()
 {
   // HTTP GET
   Route::get('university', 'UniversityController@showHome');
@@ -48,6 +48,12 @@ Route::group(array('before' => 'auth|university'), function()
   Route::get('add_assignment', 'AssignmentController@showView');
 
   Route::get('show_all_assignments', 'AssignmentController@showAllAssignmentsView');
+
+  Route::get('show_all_messages', 'MessageController@showAllMessagesView');
+
+  Route::get('send_message', 'MessageController@showSendMessageView');
+
+  Route::get('show_message', 'MessageController@showMessageView');
 
   // HTTP POST
   Route::post('add_subject', 'SubjectController@addSubject');

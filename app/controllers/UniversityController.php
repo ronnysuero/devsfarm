@@ -11,6 +11,7 @@ class UniversityController extends BaseController
 
   public function showProfile()
   {
+//        $university = University::where('email', "=", Auth::id())->get();
       return View::make('university.profile');
   }
 

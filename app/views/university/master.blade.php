@@ -50,25 +50,32 @@
             <ul class="nav navbar-top-links navbar-right ">
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-envelope fa-fw" style="color: #0097A7;"></i>
+                        <i class="fa fa-envelope fa-fw" style="color: #0097A7;"></i><i class="fa fa-caret-down" style="color: #0097A7;"></i>
                     </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="{{URL::to('show_all_messages')}}"><i class="fa fa-list-alt fa-fw"></i> Listar</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li><a href="{{URL::to('send_message')}}"><i class="fa fa-sign-out fa-space-shuttle"></i> Enviar</a>
+                        </li>
+                    </ul>
                 </li>
                 <!-- /.dropdown -->
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-bell fa-fw" style="color: #0097A7;"></i>
-                    </a>
-                </li>
+                {{--<li class="dropdown">--}}
+                    {{--<a class="dropdown-toggle" data-toggle="dropdown" href="#">--}}
+                        {{--<i class="fa fa-bell fa-fw" style="color: #0097A7;"></i>--}}
+                    {{--</a>--}}
+                {{--</li>--}}
                 <!-- /.dropdown -->
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-user fa-fw" style="color: #0097A7;"></i>  <i class="fa fa-caret-down" style="color: #0097A7;"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="{{URL::to('university_profile')}}"><i class="fa fa-user fa-fw" style="color: #0097A7;"></i> User Profile</a>
+                        <li><a href="{{URL::to('university_profile')}}"><i class="fa fa-user fa-fw" ></i> User Profile</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="{{URL::to('logout')}}"><i class="fa fa-sign-out fa-fw" style="color: #0097A7;"></i> Logout</a>
+                        <li><a href="{{URL::to('logout')}}"><i class="fa fa-sign-out fa-fw" ></i> Logout</a>
                         </li>
                     </ul>
                 </li>
