@@ -30,7 +30,7 @@ Route::post('register_student', 'StudentController@registerStudent');
 Route::post('register_university', 'UniversityController@registerUniversity');
 
 
-Route::group(array('' => ''), function()
+Route::group(array('before' => 'auth|university'), function()
 {
   // HTTP GET
   Route::get('university', 'UniversityController@showHome');
@@ -49,22 +49,18 @@ Route::group(array('' => ''), function()
 
   Route::get('show_all_assignments', 'AssignmentController@showAllAssignmentsView');
 
-  Route::get('show_all_messages', 'MessageController@showAllMessagesView');
-
-  Route::get('send_message', 'MessageController@showSendMessageView');
-
-  Route::get('show_message', 'MessageController@showMessageView');
-
   // HTTP POST
   Route::post('add_subject', 'SubjectController@addSubject');
 
   Route::post('add_teacher', 'TeacherController@addTeacher');
 });
 
-
 Route::group(array('before' => 'auth|teacher'), function()
 {
 
+  Route::get('teacher', 'TeacherController@showHome');
+  Route::get('teacher_profile', 'TeacherController@showProfile');
+  Route::get('subject_details', 'TeacherController@showSubjectDetails');
 });
 
 Route::group(array('before' => 'auth|student'), function()
@@ -74,4 +70,13 @@ Route::group(array('before' => 'auth|student'), function()
 
   // HTTP POST
 
+});
+
+Route::group(array('before' => 'auth'), function()
+{
+    Route::get('show_all_messages', 'MessageController@showAllMessagesView');
+
+    Route::get('send_message', 'MessageController@showSendMessageView');
+
+    Route::get('show_message', 'MessageController@showMessageView');
 });

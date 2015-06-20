@@ -12,6 +12,20 @@ class TeacherController extends BaseController
       return View::make('university.add_teacher');
   }
 
+    public function showHome()
+    {
+        return View::make('teacher.home');
+    }
+    public function showProfile()
+    {
+        return View::make('teacher.profile');
+    }
+
+    public function showSubjectDetails()
+    {
+        return View::make('teacher.subject_details');
+    }
+
   public function showAllTeachersView ()
   {
       return View::make('university.show_all_teachers')->with(array( 'teachers' => $this->getTeachers()));
