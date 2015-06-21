@@ -21,7 +21,7 @@
     <script type="text/javascript" src="js/jquery-2.1.3.js"></script>
     <script type="text/javascript" src="js/sb-admin.js"></script>
     <script type="text/javascript" src="js/bootstrap.js"></script>
-
+    <script type="text/javascript" src="js/metisMenu.min.js"></script>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
