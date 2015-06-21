@@ -1,0 +1,26 @@
+<?php
+
+return array(
+  'register_student' => 'Register Student',
+  'first_name' => 'First Name',
+  'first_name_placeholder' => 'Enter the first name',
+  'last_name' => 'Last Name',
+  'last_name_placeholder' => 'Enter the last name',
+  'email' => 'Email',
+  'email_placeholder' => 'Enter the Email',
+  'genre' => 'Genre',
+  'male' => 'Male',
+  'female' => 'Female',
+  'other' => 'Other',
+  'has_a_job' => 'Has a job',
+  'yes' => 'Yes',
+  'no' => 'No',
+  'id_number' => 'ID Number',
+  'id_number_placeholder' => 'Enter the ID Number',
+  'password' => 'Password',
+  'password_placeholder' => 'Enter the password',
+  'confirm_password' => 'Confirm Password',
+  'confirm_password_placeholder' => 'Confirm the password',
+  'register' => 'Register',
+  'register_student' => 'Register Student',
+);

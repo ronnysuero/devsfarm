@@ -54,10 +54,10 @@
                     <i class="fa fa-envelope fa-fw" style="color: #0097A7;"></i><i class="fa fa-caret-down" style="color: #0097A7;"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-user">
-                    <li><a href="{{URL::to('show_all_messages')}}"><i class="fa fa-list-alt fa-fw"></i> Listar</a>
+                    <li><a href="{{Lang::get('register.show_all_messages')}}"><i class="fa fa-list-alt fa-fw"></i> Listar</a>
                     </li>
                     <li class="divider"></li>
-                    <li><a href="{{URL::to('send_message')}}"><i class="fa fa-sign-out fa-space-shuttle"></i> Enviar</a>
+                    <li><a href="{{Lang::get('routes.send_message')}}"><i class="fa fa-sign-out fa-space-shuttle"></i> Enviar</a>
                     </li>
                 </ul>
             </li>
@@ -66,10 +66,10 @@
                     <i class="fa fa-user fa-fw" style="color: #0097A7;"></i>  <i class="fa fa-caret-down" style="color: #0097A7;"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-user">
-                    <li><a href="{{URL::to('teacher_profile')}}"><i class="fa fa-user fa-fw" ></i> User Profile</a>
+                    <li><a href="{{Lang::get('routes.teacher_profile')}}"><i class="fa fa-user fa-fw" ></i> User Profile</a>
                     </li>
                     <li class="divider"></li>
-                    <li><a href="{{URL::to('logout')}}"><i class="fa fa-sign-out fa-fw" ></i> Logout</a>
+                    <li><a href="{{Lang::get('routes.logout')}}"><i class="fa fa-sign-out fa-fw" ></i> Logout</a>
                     </li>
                 </ul>
             </li>
@@ -78,7 +78,7 @@
             <div class="sidebar-nav navbar-collapse">
                 <ul class="nav" id="side-menu">
                     <li>
-                        <a href="{{URL::to('teacher')}}" class="nav_home_categoria"><i class="fa fa-home"></i> Dashboard</a>
+                        <a href="{{Lang::get('routes.teacher')}}" class="nav_home_categoria"><i class="fa fa-home"></i> Dashboard</a>
                     </li>
                     <li>
                         <a href="#" class="nav_categoria"><i class="fa fa-list"></i> Asignaturas</a>
@@ -87,10 +87,10 @@
                                 <a href="#"><i class="fa fa-eye" style="color: #0097A7;"></i> Programacion III</a>
                                 <ul class="nav nav-third-level">
                                     <li>
-                                        <a href="{{URL::to('subject_details')}}"><i class="fa fa-arrow-right" style="color: #0097A7;"></i> Seccion S1</a>
+                                        <a href="{{Lang::get('routes.subject_details')}}"><i class="fa fa-arrow-right" style="color: #0097A7;"></i> Seccion S1</a>
                                     </li>
                                     <li>
-                                        <a href="{{URL::to('subject_details')}}"><i class="fa fa-arrow-right" style="color: #0097A7;"></i> Seccion S2</a>
+                                        <a href="{{Lang::get('routes.subject_details')}}"><i class="fa fa-arrow-right" style="color: #0097A7;"></i> Seccion S2</a>
                                     </li>
                                 </ul>
                             </li>

@@ -12,9 +12,9 @@
 <body>
     <nav class="navbar" style="background: #0097A7;">
       <div class="container">
-		    <a href="{{URL::to('logout')}}" class="pull-right" style="font-size: 16px; color: white; text-decoration: none; margin-top: 15px;">Log out</a>
+		    <a href="{{Lang::get('routes.logout')}}" class="pull-right" style="font-size: 16px; color: white; text-decoration: none; margin-top: 15px;">Log out</a>
 		    <div class="navbar-header header_page">
-          <a class="navbar-brand" href="{{URL::to('home')}}">TeamLand</a>
+          <a class="navbar-brand" href="{{Lang::get('routes.student')}}">TeamLand</a>
         </div>
       </div>
 	  </nav>

@@ -16,7 +16,7 @@
 				<img src="images\error\404.png" title="error">
 				<p><span><label>O</label>hh.....</span>You Requested the page that is no longer There.</p>
 				@if(Auth::check())
-					<a href="{{Auth::user()->rank}}">Back To Home</a>
+					<a href="{{Lang::get('routes.'.Auth::user()->rank)}}">Back To Home</a>
 				@else
 					<a href="{{URL::to('/')}}">Back To Home</a>
 				@endif

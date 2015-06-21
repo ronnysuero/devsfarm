@@ -16,7 +16,7 @@
 				<img src="images\error\500.png" title="error">
 				<p><span>Sorry</span> We're experiencing an internal server problem. Please try again later.</p>
 				@if(Auth::check())
-					<a href="{{Auth::user()->rank}}">Back To Home</a>
+					<a href="{{Lang::get('routes.'.Auth::user()->rank)}}">Back To Home</a>
 				@else
 					<a href="{{URL::to('/')}}">Back To Home</a>
 				@endif

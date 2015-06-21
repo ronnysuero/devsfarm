@@ -25,7 +25,7 @@
 
                             <div class="row">
                                 <div class="col-lg-12">
-                                    {{ Form::open(array('url' => 'send_message', 'id' => 'sendMessage_form', 'role' => 'form')) }}
+                                    {{ Form::open(array('url' => Lang::get('routes.send_message'), 'id' => 'sendMessage_form', 'role' => 'form')) }}
                                     <div class="form-group">
                                         <label>To:</label>
                                         <input class="form-control" id="receptor" name="receptor" placeholder="Email del receptor" required>

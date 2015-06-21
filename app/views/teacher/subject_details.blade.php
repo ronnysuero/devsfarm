@@ -28,7 +28,7 @@
                         Leticia Reyes <a href="#"><i class="fa fa-external-link"></i></a><br>
                         Ronny Suero <a href="#"><i class="fa fa-external-link"></i></a>
                         <br><br>
-                        <a href="{{URL::to('farm_report')}}">
+                        <a href="{{Lang::get('routes.farm_report')}}">
                             <span class="pull-left">View Details</span>
                             <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                             <div class="clearfix"></div>
@@ -54,7 +54,7 @@
                         Narciso Nunez - TeamLeader <a href="#"><i class="fa fa-external-link"></i></a><br>
                         Leticia Reyes <a href="#"><i class="fa fa-external-link"></i></a>
                         <br><br>
-                        <a href="{{URL::to('farm_report')}}">
+                        <a href="{{Lang::get('routes.farm_report')}}">
                             <span class="pull-left">View Details</span>
                             <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                             <div class="clearfix"></div>
@@ -79,7 +79,7 @@
                         Ronny Suero <a href="#"><i class="fa fa-external-link"></i></a><br>
                         Leticia Reyes <a href="#"><i class="fa fa-external-link"></i></a>
                         <br><br>
-                        <a href="{{URL::to('farm_report')}}">
+                        <a href="{{Lang::get('routes.farm_report')}}">
                             <span class="pull-left">View Details</span>
                             <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                             <div class="clearfix"></div>
@@ -106,7 +106,7 @@
                         Ronny Suero <a href="#"><i class="fa fa-external-link"></i></a><br>
                         Leticia Reyes <a href="#"><i class="fa fa-external-link"></i></a>
                         <br><br>
-                        <a href="{{URL::to('farm_report')}}">
+                        <a href="{{Lang::get('routes.farm_report')}}">
                             <span class="pull-left">View Details</span>
                             <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                             <div class="clearfix"></div>

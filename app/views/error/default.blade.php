@@ -16,7 +16,7 @@
 				<img src="images\error\default.png" title="error">
 				<p><span><label>O</label>hh.....</span>You have experiencied a technical error. We Apologize. Please wait a few moments an try again.</p>
 				@if(Auth::check())
-					<a href="{{Auth::user()->rank}}">Back To Home</a>
+					<a href="{{Lang::get('routes.'.Auth::user()->rank)}}">Back To Home</a>
 				@else
 					<a href="{{URL::to('/')}}">Back To Home</a>
 				@endif

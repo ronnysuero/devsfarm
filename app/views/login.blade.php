@@ -13,7 +13,7 @@
 <body>
 	<nav class="navbar" style="background-color: #f8f8f8;  border-color: #e7e7e7;">
       <div class="container">
-    		<a href="{{Lang::get('routes.register')}}" class="pull-right" style="font-size: 16px; color: #0097A7; text-decoration: none; margin-top: 15px;">Register</a>
+    		<a href="{{Lang::get('routes.register')}}" class="pull-right" style="font-size: 16px; color: #0097A7; text-decoration: none; margin-top: 15px;">{{Lang::get('login.register')}}</a>
     		<div class="navbar-header header_page">
           <a class="navbar-brand" style="color: #0097A7;" href="{{URL::to('/')}}">DevsFarm</a>
         </div>
@@ -43,32 +43,31 @@
             @endif
 
             {{ Form::open(array('url' => Lang::get('routes.login'))) }}
-              <h1>Log In</h1>
+              <h1>{{Lang::get('login.login')}}</h1>
               <hr>
               <div class="form-group">
-                  {{ Form::label('email', 'Email') }}
-                  {{ Form::email('email', Input::old('email'), array('placeholder' => 'Enter email',
+                  {{ Form::label('email', Lang::get('login.email')) }}
+                  {{ Form::email('email', Input::old('email'), array('placeholder' => Lang::get('login.email_placeholder'),
                                                                      'class'       => 'form-control',
                                                                      'id'          => 'user_email',
                                                                      'name'        => 'user_email',
                                                                      'required'    => '')) }}
               </div>
               <div class="form-group">
-                  {{ Form::label('password', 'Password') }}
-                  {{ Form::password('password', array('placeholder' => 'Enter Password',
+                  {{ Form::label('password', Lang::get('login.password')) }}
+                  {{ Form::password('password', array('placeholder' => Lang::get('login.password_placeholder'),
                                                       'class'       => 'form-control',
                                                       'id'          => 'user_password',
                                                       'name'        => 'user_password',
-                                                      'required'    => '',
-                                                      'title'       => 'You must write your password')) }}
+                                                      'required'    => '' )) }}
               </div>
               <div class="checkbox">
                 <label>
-                    {{ Form::checkbox('check_user', 'remember_me') }} Remember me
+                    {{ Form::checkbox('check_user', 'remember_me') }} {{Lang::get('login.remember_me')}}
                 </label>
               </div>
-            {{Form::submit('Login', array('class' => 'btn btn-primary pull-right'))}}
-            <a href="" class="text-center forgot_pw">Forgot your password?</a>
+            {{Form::submit(Lang::get('login.login'), array('class' => 'btn btn-primary pull-right'))}}
+            <a href="" class="text-center forgot_pw">{{Lang::get('login.forget_password')}}</a>
             {{ Form::close() }}
         </div>
       </div>

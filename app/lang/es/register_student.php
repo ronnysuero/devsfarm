@@ -1,0 +1,26 @@
+<?php
+
+return array(
+  'register_student' => 'Registrar Estudiante',
+  'first_name' => 'Primer Nombre',
+  'first_name_placeholder' => 'Ingrese su primer nombre',
+  'last_name' => 'Primer Apellido',
+  'last_name_placeholder' => 'Ingrese su primer apellido',
+  'email' => 'Correo Electronico',
+  'email_placeholder' => 'Ingrese su correo electronico',
+  'genre' => 'Genero',
+  'male' => 'Masculino',
+  'female' => 'Femenino',
+  'other' => 'Otro',
+  'has_a_job' => '¿Tiene empleo?',
+  'yes' => 'Si',
+  'no' => 'No',
+  'id_number' => 'Matricula',
+  'id_number_placeholder' => 'Ingrese su matricula',
+  'password' => 'Contraseña',
+  'password_placeholder' => 'Ingrese su contraseña',
+  'confirm_password' => 'Confirme Su Contraseña',
+  'confirm_password_placeholder' => 'Confirme nuevamente su contraseña',
+  'register' => 'Registrar',
+  'register_student' => 'Registrar Estudiante',
+);
