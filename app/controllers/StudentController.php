@@ -47,7 +47,6 @@ class StudentController extends BaseController
 		$student->email = Input::get('guest_email');
 		$student->genre = Input::get('guest_genre');
 		$student->has_a_job = input::get('guest_job');
-		$student->birthday = new MongoDate(strtotime(Input::get('guest_birthday')));
 		$student->is_teamleader = false;
 		$student->save();
 

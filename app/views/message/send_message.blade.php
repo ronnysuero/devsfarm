@@ -1,4 +1,7 @@
-@extends('teacher.master')
+@extends( Auth::user()->rank.'.master' )
+
+@section('title', 'Send Message')
+
 @section('content')
     <div class="row">
         <div class="col-lg-12">

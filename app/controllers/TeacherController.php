@@ -26,6 +26,11 @@ class TeacherController extends BaseController
         return View::make('teacher.subject_details');
     }
 
+    public function showFarmReport()
+    {
+        return View::make('teacher.farm_report');
+    }
+
   public function showAllTeachersView ()
   {
       return View::make('university.show_all_teachers')->with(array( 'teachers' => $this->getTeachers()));

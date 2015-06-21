@@ -102,7 +102,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel" style="color: #26A69A;"><i class="fa fa-plus"></i> Register University</h4>
+                    <h4 class="modal-title" id="myModalLabel" style="color: #26A69A;">Register University</h4>
                 </div>
                 <div class="modal-body">
                     @if($errors->has('error'))

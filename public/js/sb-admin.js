@@ -13,7 +13,11 @@ $(function() {
         width = (this.window.innerWidth > 0) ? this.window.innerWidth : this.screen.width;
         if (width < 768) {
             $('div.navbar-collapse').addClass('collapse');
+            $('div.sidebar-nav').addClass('navbar-collapse');
+            $('div.navbar-collapse').removeClass('in');
             topOffset = 100; // 2-row-menu
+
+
         } else {
             $('div.navbar-collapse').removeClass('collapse');
         }
