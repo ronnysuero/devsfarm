@@ -18,7 +18,7 @@ App::setLocale(substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2));
 // HTTP GET
 Route::get('/', 'UserController@showView');
 
-Route::get('register_student', 'StudentController@showRegisterView');
+Route::get('register', 'StudentController@showRegisterView');
 
 Route::get('register_university', 'UniversityController@showRegisterUniversityView');
 
@@ -29,8 +29,6 @@ Route::get('logout', 'UserController@logout')->before('auth');
 Route::post('login', 'UserController@login');
 
 Route::post('register_student', 'StudentController@registerStudent');
-
-Route::post('register_university', 'UniversityController@registerUniversity');
 
 
 Route::group(array('before' => 'auth|university'), function()
@@ -60,10 +58,16 @@ Route::group(array('before' => 'auth|university'), function()
 
 Route::group(array('before' => 'auth|teacher'), function()
 {
+  // HTTP GET
+    Route::get('teacher', 'TeacherController@showHome');
 
-  Route::get('teacher', 'TeacherController@showHome');
-  Route::get('teacher_profile', 'TeacherController@showProfile');
-  Route::get('subject_details', 'TeacherController@showSubjectDetails');
+    Route::get('teacher_profile', 'TeacherController@showProfile');
+
+    Route::get('subject_details', 'TeacherController@showSubjectDetails');
+
+    Route::get('farm_report', 'TeacherController@showFarmReport');
+
+  // HTTP POST
 });
 
 Route::group(array('before' => 'auth|student'), function()

@@ -13,7 +13,7 @@
 <body>
 	<nav class="navbar" style="background-color: #f8f8f8;  border-color: #e7e7e7;">
       <div class="container">
-    		<a href="{{URL::to('register_student')}}" class="pull-right" style="font-size: 16px; color: #0097A7; text-decoration: none; margin-top: 15px;">Register</a>
+    		<a href="{{URL::to('register')}}" class="pull-right" style="font-size: 16px; color: #0097A7; text-decoration: none; margin-top: 15px;">Register</a>
     		<div class="navbar-header header_page">
           <a class="navbar-brand" style="color: #0097A7;" href="{{URL::to('/')}}">DevsFarm</a>
         </div>
@@ -21,7 +21,7 @@
     </nav>
     <div class="container">
       <div class="row">
-        <div class="col-xs-12 col-md-6 col-md-offset-3" style="  background-color: #f8f8f8; border: 1px solid #e7e7e7; color: #0097A7;">
+        <div class="col-xs-10 col-xs-offset-1 col-md-6 col-md-offset-3" style="  background-color: #f8f8f8; border: 1px solid #e7e7e7; color: #0097A7;">
             @if($errors->has('error'))
               <div class="alert alert-danger alert-dismissable">
                  <button type="button" class="close" data-dismiss="alert"
