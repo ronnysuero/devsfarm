@@ -6,10 +6,12 @@
     <div class="row">
         <div class="col-lg-12">
             <h1 class="page-header">Report</h1>
+
         </div>
     </div>
     <div class="row">
         <div class="col-lg-12">
+            <span class="pull-right">Descargar PDF</span>
             <h3><i class="fa fa-group"></i> Integrantes</h3>
             <hr/>
         </div>
@@ -83,8 +85,9 @@
                     Narciso Nunez
                 </div>
                 <div class="panel-body">
-                    <div class="flot-chart">
+                    <div class="flot-chart" style="margin-bottom: 15px;">
                         <div class="flot-chart-content flot-pie-chart"></div>
+                        <span>Total asignaciones: 15</span>
                     </div>
                 </div>
             </div>
@@ -95,8 +98,35 @@
                     Leticia Reyes
                 </div>
                 <div class="panel-body">
-                    <div class="flot-chart">
+                    <div class="flot-chart" style="margin-bottom: 15px;">
                         <div class="flot-chart-content flot-pie-chart"></div>
+                        <span>Total asignaciones: 15</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Leticia Reyes
+                </div>
+                <div class="panel-body">
+                    <div class="flot-chart" style="margin-bottom: 15px;">
+                        <div class="flot-chart-content flot-pie-chart"></div>
+                        <span>Total asignaciones: 15</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Leticia Reyes
+                </div>
+                <div class="panel-body">
+                    <div class="flot-chart" style="margin-bottom: 15px;">
+                        <div class="flot-chart-content flot-pie-chart"></div>
+                        <span>Total asignaciones: 15</span>
                     </div>
                 </div>
             </div>
@@ -104,18 +134,29 @@
     </div>
 
 
-    <script type="text/javascript" src="http://cdn.jsdelivr.net/jquery.flot/0.8.3/jquery.flot.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.pie.js"></script>
     <script>
 
-        var data = [],
-                series = Math.floor(Math.random() * 6) + 3;
+//        var data = [],
+//                series = Math.floor(Math.random() * 6) + 3;
+//
+//        for (var i = 0; i < series; i++) {
+//            data[i] = {
+//                label: "Series" + (i + 1),
+//                data: Math.floor(Math.random() * 100) + 1
+//            }
+//        }
 
-        for (var i = 0; i < series; i++) {
-            data[i] = {
-                label: "Series" + (i + 1),
-                data: Math.floor(Math.random() * 100) + 1
-            }
-        }
+    var data = [
+    	{ label: "Series11",  data: 10},
+    	{ label: "Series2",  data: 30},
+    	{ label: "Series3",  data: 90},
+    	{ label: "Series4",  data: 70},
+    	{ label: "Series5",  data: 80},
+    	{ label: "Series6",  data: 110}
+    ];
+
         function setCode(lines) {
             $("#code").text(lines.join("\n"));
         }
@@ -124,20 +165,26 @@
         for(var i = 0; i<placeholder.length; i++){
             placeholder.unbind();
 
-            $.plot(placeholder, data, {
+            $.plot(placeholder[i], data, {
                 series: {
                     pie: {
-                        show: true,
-                        combine: {
-                            color: "#999",
-                            threshold: 0.05
-                        }
+                        show: true
                     }
                 },
                 legend: {
                     show: true
                 }
             });
+
+            setCode([
+                "$.plot('#placeholder', data, {",
+                "    series: {",
+                "        pie: {",
+                "            show: true",
+                "        }",
+                "    }",
+                "});"
+            ]);
         }
 
     </script>
