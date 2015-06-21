@@ -1,8 +1,8 @@
-$(function() {
-
-    $('#side-menu').metisMenu();
-
-});
+//$(function() {
+//
+//    $('#side-menu').metisMenu();
+//
+//});
 
 //Loads the correct sidebar on window load,
 //collapses the sidebar on window resize.
@@ -12,9 +12,10 @@ $(function() {
         topOffset = 50;
         width = (this.window.innerWidth > 0) ? this.window.innerWidth : this.screen.width;
         if (width < 768) {
-            $('div.navbar-collapse').addClass('collapse');
+            $('#side-menu').metisMenu();
             $('div.sidebar-nav').addClass('navbar-collapse');
-            $('div.navbar-collapse').removeClass('in');
+            $('div.navbar-collapse').addClass('collapse');
+
             topOffset = 100; // 2-row-menu
 
 
