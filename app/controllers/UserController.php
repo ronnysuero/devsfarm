@@ -30,17 +30,23 @@ class UserController extends BaseController
 	*/
   public function logout()
   {
-    UserSectionController::update();
+    $this->updateLastActivity();
     Auth::logout();
     return Redirect::to('/');
   }
 
   public function showView()
   {
-	// Check if the user is reminded in the system
-	if (Auth::check())
-		return Auth::viaRemember() ? Redirect::to(Auth::user()->rank)->with('rememberMe', 1) : Redirect::to(Auth::user()->rank);
-	else
-		return View::make('login');
+  	// Check if the user is reminded in the system
+  	if (Auth::check())
+  		return Auth::viaRemember() ? Redirect::to(Auth::user()->rank)->with('rememberMe', 1) : Redirect::to(Auth::user()->rank);
+  	else
+  		return View::make('login');
+  }
+
+  public function updateLastActivity()
+  {
+    Auth::user()->last_activity = new MongoDate;
+    Auth::user()->save();
   }
 }
