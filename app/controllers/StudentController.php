@@ -36,7 +36,7 @@ class StudentController extends BaseController
 		}
 		catch(MongoDuplicateKeyException $e)
 		{
-			return Redirect::back()->withErrors(array( 'error' => 'This email is already registered in our system'));
+			return Redirect::back()->withErrors(array( 'error' => Lang::get('register_student.email_duplicated')));
 		}
 
 		$user = User::first(['user' => $user->user]);
@@ -52,6 +52,6 @@ class StudentController extends BaseController
 		$student->is_teamleader = false;
 		$student->save();
 
-		return Redirect::to('/')->with('message', 'Thank you for registering');
+		return Redirect::to('/')->with('message', Lang::get('register_student.register_true'));
 	}
 }

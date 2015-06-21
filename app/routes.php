@@ -36,6 +36,7 @@ Route::post(Lang::get('routes.login'), 'UserController@login');
 
 Route::post(Lang::get('routes.register_student'), 'StudentController@registerStudent');
 
+Route::post(Lang::get('routes.register_university'), 'UniversityController@registerUniversity');
 
 Route::group(array('before' => 'auth|university'), function()
 {

@@ -19,8 +19,7 @@ class UserController extends BaseController
     $isAuth = (Input::get('check_user') === 'yes') ? Auth::attempt($userdata, true) : Auth::attempt($userdata);
 
     // Try to authenticate the credentials
-    return $isAuth ? Redirect::to(Auth::user()->rank) : Redirect::back()->withErrors(array( 'error' => 'Invalid Email
-    or Password'));
+    return $isAuth ? Redirect::to(Lang::get('routes.'.Auth::user()->rank)) : Redirect::back()->withErrors(array( 'error' => Lang::get('login.invalid_user')));
   }
 
   /**
@@ -39,7 +38,7 @@ class UserController extends BaseController
   {
   	// Check if the user is reminded in the system
   	if (Auth::check())
-  		return Auth::viaRemember() ? Redirect::to(Auth::user()->rank)->with('rememberMe', 1) : Redirect::to(Auth::user()->rank);
+  		return Auth::viaRemember() ? Redirect::to(Lang::get('routes.'.Auth::user()->rank))->with('rememberMe', 1) : Redirect::to(Lang::get('routes.'.Auth::user()->rank));
   	else
   		return View::make('login');
   }

@@ -22,4 +22,5 @@ return array(
   'show_all_messages' => 'show_all_messages',
   'send_message' => 'send_message',
   'show_message' => 'show_message',
+  'student' => 'student',
 );

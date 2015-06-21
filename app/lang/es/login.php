@@ -9,4 +9,5 @@ return array(
   'login' => 'Iniciar Sesion',
   'forget_password' => '¿Olvidaste tu contraseña?',
   'register' => 'Registrate',
+  'invalid_user' => 'Correo electronico o contraseña incorrecta',
 );

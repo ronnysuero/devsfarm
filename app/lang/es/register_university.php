@@ -13,4 +13,6 @@ return array(
   'confirm_password' => 'Confirme su contraseña',
   'confirm_password_placeholder' => 'Confirme nuevamente su contraseña',
   'register' => 'Registrar',
+  'email_duplicated' => 'Este correo electronico ya se encuentra registrado en nuestro sistema',
+  'register_true' => 'Gracias por registrarte',
 );

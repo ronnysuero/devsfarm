@@ -11,7 +11,6 @@ class UniversityController extends BaseController
 
   public function showProfile()
   {
-//        $university = University::where('email', "=", Auth::id())->get();
       return View::make('university.profile');
   }
 
@@ -28,7 +27,7 @@ class UniversityController extends BaseController
 		}
 		catch(MongoDuplicateKeyException $e)
 		{
-			return Redirect::back()->withErrors(array( 'error' => 'This email is already registered in our system'));
+			return Redirect::back()->withErrors(array( 'error' => Lang::get('register_university.email_duplicated')));
 		}
 
     $user = User::first(['user' => $user->user]);
@@ -40,7 +39,7 @@ class UniversityController extends BaseController
 		$university->acronym = Input::get('university_acronym');
 		$university->save();
 
-		return Redirect::to('/')->with('message', 'Thank you for registering');
+		return Redirect::to('/')->with('message', Lang::get('register_university.register_true'));
 	}
 
 	public function showRegisterUniversityView()

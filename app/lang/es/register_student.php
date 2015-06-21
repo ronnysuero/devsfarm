@@ -23,4 +23,6 @@ return array(
   'confirm_password_placeholder' => 'Confirme nuevamente su contraseña',
   'register' => 'Registrar',
   'register_student' => 'Registrar Estudiante',
+  'email_duplicated' => 'Este correo electronico ya se encuentra registrado en nuestro sistema',
+  'register_true' => 'Gracias por registrarte',
 );

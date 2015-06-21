@@ -21,4 +21,5 @@ return array(
   'show_all_messages' => 'mostrar_todos_mensajes',
   'send_message' => 'enviar_mensaje',
   'show_message' => 'ver_mensaje',
+  'student' => 'estudiante',
 );
