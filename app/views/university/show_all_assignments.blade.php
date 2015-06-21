@@ -30,7 +30,7 @@
                 </table>
             </div>
             @else
-                <p><a href="{{URL::to('add_assignment')}}"><i class="fa fa-plus" style="color: #0097A7;"></i> Agregar asignacion</a></p>
+                <p><a href="{{Lang::get('routes.add_assignment')}}"><i class="fa fa-plus" style="color: #0097A7;"></i> Agregar asignacion</a></p>
             @endif
         </div>
     </div>

@@ -13,7 +13,7 @@
 <body>
 	<nav class="navbar" style="background-color: #f8f8f8;  border-color: #e7e7e7;">
       <div class="container">
-    		<a href="{{URL::to('register')}}" class="pull-right" style="font-size: 16px; color: #0097A7; text-decoration: none; margin-top: 15px;">Register</a>
+    		<a href="{{Lang::get('routes.register')}}" class="pull-right" style="font-size: 16px; color: #0097A7; text-decoration: none; margin-top: 15px;">Register</a>
     		<div class="navbar-header header_page">
           <a class="navbar-brand" style="color: #0097A7;" href="{{URL::to('/')}}">DevsFarm</a>
         </div>
@@ -42,7 +42,7 @@
               </div>
             @endif
 
-            {{ Form::open(array('url' => 'login')) }}
+            {{ Form::open(array('url' => Lang::get('routes.login'))) }}
               <h1>Log In</h1>
               <hr>
               <div class="form-group">

@@ -21,7 +21,7 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-12">
-                            {{ Form::open(array('url' => 'add_teacher', 'id' => 'register_form', 'role' => 'form')) }}
+                            {{ Form::open(array('url' => Lang::get('routes.add_teacher'), 'id' => 'register_form', 'role' => 'form')) }}
                                 <div class="form-group">
                                     <label>Nombres</label>
                                     <input type="text" class="form-control" id="name" name="name" placeholder="Nombres" required>
@@ -58,7 +58,7 @@
             </div>
            </div>
        </div>
-        
+
    </div>
 </div>
 @stop

@@ -22,7 +22,7 @@
 
                     <div class="row">
                         <div class="col-lg-12">
-                            {{ Form::open(array('url' => 'add_subject', 'id' => 'register_form', 'role' => 'form')) }}
+                            {{ Form::open(array('url' => Lang::get('routes.add_subject'), 'id' => 'register_form', 'role' => 'form')) }}
                                 <div class="form-group">
                                     <label>Nombre asignatura</label>
                                     <input class="form-control" id="subject_name" name="subject_name" placeholder="Nombre Asignatura" required>

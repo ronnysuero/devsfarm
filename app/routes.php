@@ -12,60 +12,66 @@
 */
 
 // SET DEFAULT LANGUAGE BROWSER
-App::setLocale(substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2));
+$langs_availables = array('es', 'en');
+$lang_browser = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+
+if (in_array($lang_browser, $langs_availables))
+  App::setLocale($lang_browser);
+else
+  App::setLocale('en'); //set default english
 
 
 // HTTP GET
 Route::get('/', 'UserController@showView');
 
-Route::get('register', 'StudentController@showRegisterView');
+Route::get(Lang::get('routes.register'), 'StudentController@showRegisterView');
 
-Route::get('register_university', 'UniversityController@showRegisterUniversityView');
+Route::get(Lang::get('routes.register_university'), 'UniversityController@showRegisterUniversityView');
 
-Route::get('logout', 'UserController@logout')->before('auth');
+Route::get(Lang::get('routes.logout'), 'UserController@logout')->before('auth');
 
 
 // HTTP POST
-Route::post('login', 'UserController@login');
+Route::post(Lang::get('routes.login'), 'UserController@login');
 
-Route::post('register_student', 'StudentController@registerStudent');
+Route::post(Lang::get('routes.register_student'), 'StudentController@registerStudent');
 
 
 Route::group(array('before' => 'auth|university'), function()
 {
   // HTTP GET
-  Route::get('university', 'UniversityController@showHome');
+  Route::get(Lang::get('routes.university'), 'UniversityController@showHome');
 
-  Route::get('university_profile', 'UniversityController@showProfile');
+  Route::get(Lang::get('routes.university_profile'), 'UniversityController@showProfile');
 
-  Route::get('add_subject', 'SubjectController@showView');
+  Route::get(Lang::get('routes.add_subject'), 'SubjectController@showView');
 
-  Route::get('show_all_subjects', 'SubjectController@showAllSubjectsView');
+  Route::get(Lang::get('routes.show_all_subjects'), 'SubjectController@showAllSubjectsView');
 
-  Route::get('add_teacher', 'TeacherController@showView');
+  Route::get(Lang::get('routes.add_teacher'), 'TeacherController@showView');
 
-  Route::get('show_all_teachers', 'TeacherController@showAllTeachersView');
+  Route::get(Lang::get('routes.show_all_teachers'), 'TeacherController@showAllTeachersView');
 
-  Route::get('add_assignment', 'AssignmentController@showView');
+  Route::get(Lang::get('routes.add_assignment'), 'AssignmentController@showView');
 
-  Route::get('show_all_assignments', 'AssignmentController@showAllAssignmentsView');
+  Route::get(Lang::get('routes.show_all_assignments'), 'AssignmentController@showAllAssignmentsView');
 
   // HTTP POST
-  Route::post('add_subject', 'SubjectController@addSubject');
+  Route::post(Lang::get('routes.add_subject'), 'SubjectController@addSubject');
 
-  Route::post('add_teacher', 'TeacherController@addTeacher');
+  Route::post(Lang::get('routes.add_teacher'), 'TeacherController@addTeacher');
 });
 
 Route::group(array('before' => 'auth|teacher'), function()
 {
   // HTTP GET
-    Route::get('teacher', 'TeacherController@showHome');
+    Route::get(Lang::get('routes.teacher'), 'TeacherController@showHome');
 
-    Route::get('teacher_profile', 'TeacherController@showProfile');
+    Route::get(Lang::get('routes.teacher_profile'), 'TeacherController@showProfile');
 
-    Route::get('subject_details', 'TeacherController@showSubjectDetails');
+    Route::get(Lang::get('routes.subject_details'), 'TeacherController@showSubjectDetails');
 
-    Route::get('farm_report', 'TeacherController@showFarmReport');
+    Route::get(Lang::get('routes.farm_report'), 'TeacherController@showFarmReport');
 
   // HTTP POST
 });
@@ -73,7 +79,7 @@ Route::group(array('before' => 'auth|teacher'), function()
 Route::group(array('before' => 'auth|student'), function()
 {
   // HTTP GET
-  Route::get('student', 'StudentController@showHome');
+  Route::get(Lang::get('routes.student'), 'StudentController@showHome');
 
   // HTTP POST
 
@@ -81,9 +87,9 @@ Route::group(array('before' => 'auth|student'), function()
 
 Route::group(array('before' => 'auth'), function()
 {
-    Route::get('show_all_messages', 'MessageController@showAllMessagesView');
+    Route::get(Lang::get('routes.show_all_messages'), 'MessageController@showAllMessagesView');
 
-    Route::get('send_message', 'MessageController@showSendMessageView');
+    Route::get(Lang::get('routes.send_message'), 'MessageController@showSendMessageView');
 
-    Route::get('show_message', 'MessageController@showMessageView');
+    Route::get(Lang::get('routes.show_message'), 'MessageController@showMessageView');
 });

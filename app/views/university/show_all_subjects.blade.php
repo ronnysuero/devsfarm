@@ -38,7 +38,7 @@
                 </table>
             </div>
             @else
-                <p><a href="{{URL::to('add_subject')}}"><i class="fa fa-plus" style="color: #0097A7;"></i> Agregar asignatura</a></p>
+                <p><a href="{{Lang::get('routes.add_subject')}}"><i class="fa fa-plus" style="color: #0097A7;"></i> Agregar asignatura</a></p>
             @endif
         </div>
     </div>
@@ -51,7 +51,7 @@
                     <h4 class="modal-title" id="myModalLabel"><i class="fa fa-edit"></i> Modificar asignatura</h4>
                 </div>
                 <div class="modal-body">
-                    {{ Form::open(array('url' => 'update_subject', 'id' => 'register_form', 'role' => 'form')) }}
+                    {{ Form::open(array('url' => Lang::get('routes.update_subject'), 'id' => 'register_form', 'role' => 'form')) }}
                     <div class="form-group">
                         <label>Nombre asignatura</label>
                         <input class="form-control" id="subject_name" name="subject_name" placeholder="Nombre Asignatura" required>

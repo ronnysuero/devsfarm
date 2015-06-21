@@ -43,7 +43,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="{{URL::to('university')}}">DevsFarm</a>
+                <a class="navbar-brand" href="{{Lang::get('routes.university')}}">DevsFarm</a>
             </div>
             <!-- /.navbar-header -->
 
@@ -53,10 +53,10 @@
                         <i class="fa fa-envelope fa-fw" style="color: #0097A7;"></i><i class="fa fa-caret-down" style="color: #0097A7;"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="{{URL::to('show_all_messages')}}"><i class="fa fa-list-alt fa-fw"></i> Listar</a>
+                        <li><a href="{{Lang::get('routes.show_all_messages')}}"><i class="fa fa-list-alt fa-fw"></i> Listar</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="{{URL::to('send_message')}}"><i class="fa fa-sign-out fa-space-shuttle"></i> Enviar</a>
+                        <li><a href="{{Lang::get('routes.send_message')}}"><i class="fa fa-sign-out fa-space-shuttle"></i> Enviar</a>
                         </li>
                     </ul>
                 </li>
@@ -72,10 +72,10 @@
                         <i class="fa fa-user fa-fw" style="color: #0097A7;"></i>  <i class="fa fa-caret-down" style="color: #0097A7;"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="{{URL::to('university_profile')}}"><i class="fa fa-user fa-fw" ></i> User Profile</a>
+                        <li><a href="{{Lang::get('routes.university_profile')}}"><i class="fa fa-user fa-fw" ></i> User Profile</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="{{URL::to('logout')}}"><i class="fa fa-sign-out fa-fw" ></i> Logout</a>
+                        <li><a href="{{Lang::get('routes.logout')}}"><i class="fa fa-sign-out fa-fw" ></i> Logout</a>
                         </li>
                     </ul>
                 </li>
@@ -84,16 +84,16 @@
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
                         <li>
-                            <a href="{{URL::to('university')}}" class="nav_home_categoria"><i class="fa fa-home"></i> Dashboard</a>
+                            <a href="{{Lang::get('routes.university')}}" class="nav_home_categoria"><i class="fa fa-home"></i> Dashboard</a>
                         </li>
                         <li>
                             <a href="#" class="nav_categoria"><i class="fa fa-list"></i> Asignaturas</a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="{{URL::to('add_subject')}}"><i class="fa fa-plus" style="color: #0097A7;"></i> Agregar</a>
+                                    <a href="{{Lang::get('routes.add_subject')}}"><i class="fa fa-plus" style="color: #0097A7;"></i> Agregar</a>
                                 </li>
                                 <li>
-                                    <a href="{{URL::to('show_all_subjects')}}"><i class="fa fa-eye" style="color: #0097A7;"></i> Listar</a>
+                                    <a href="{{Lang::get('routes.show_all_subjects')}}"><i class="fa fa-eye" style="color: #0097A7;"></i> Listar</a>
                                 </li>
                             </ul>
                         </li>
@@ -101,10 +101,10 @@
                             <a href="#" class="nav_categoria"><i class="fa fa-group"></i> Profesores</a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="{{URL::to('add_teacher')}}"><i class="fa fa-plus" style="color: #0097A7;"></i> Agregar</a>
+                                    <a href="{{Lang::get('routes.add_teacher')}}"><i class="fa fa-plus" style="color: #0097A7;"></i> Agregar</a>
                                 </li>
                                 <li>
-                                    <a href="{{URL::to('show_all_teachers')}}"><i class="fa fa-eye" style="color: #0097A7;"></i> Listar</a>
+                                    <a href="{{Lang::get('routes.show_all_teachers')}}"><i class="fa fa-eye" style="color: #0097A7;"></i> Listar</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
@@ -113,10 +113,10 @@
                             <a href="#" class="nav_categoria"><i class="fa fa-check "></i> Asignaciones</a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="{{URL::to('add_assignment')}}"><i class="fa fa-plus" style="color: #0097A7;"></i> Asignar asignatura</a>
+                                    <a href="{{Lang::get('routes.add_assignment')}}"><i class="fa fa-plus" style="color: #0097A7;"></i> Asignar asignatura</a>
                                 </li>
                                 <li>
-                                    <a href="{{URL::to('show_all_assignments')}}"><i class="fa fa-eye" style="color: #0097A7;"></i> Listar</a>
+                                    <a href="{{Lang::get('routes.show_all_assignments')}}"><i class="fa fa-eye" style="color: #0097A7;"></i> Listar</a>
                                 </li>
                             </ul>
                         </li>

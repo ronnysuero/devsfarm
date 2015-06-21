@@ -39,7 +39,7 @@
                 </table>
             </div>
             @else
-                <p><a href="{{URL::to('add_teacher')}}"><i class="fa fa-plus" style="color: #0097A7;"></i> Agregar profesor</a></p>
+                <p><a href="{{Lang::get('routes.add_teacher')}}"><i class="fa fa-plus" style="color: #0097A7;"></i> Agregar profesor</a></p>
             @endif
         </div>
     </div>
@@ -52,7 +52,7 @@
                 <h4 class="modal-title" id="Eliminar profesor"><i class="fa fa-edit"></i> Modificar profesor</h4>
             </div>
             <div class="modal-body">
-                {{ Form::open(array('url' => 'update_teacher', 'id' => 'register_form', 'role' => 'form')) }}
+                {{ Form::open(array('url' => Lang::get('routes.update_teacher'), 'id' => 'register_form', 'role' => 'form')) }}
                 <div class="form-group col-lg-6">
                     <label>Nombres</label>
                     <input type="text" class="form-control" id="name" name="name" placeholder="Nombres" required>
