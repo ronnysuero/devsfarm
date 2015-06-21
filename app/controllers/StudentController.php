@@ -28,6 +28,7 @@ class StudentController extends BaseController
 		$user->user = Input::get('guest_email');
 		$user->password = Hash::make(Input::get('guest_password'));
 		$user->rank = "student";
+		$user->last_activity = null;
 
 		try
 		{
@@ -44,6 +45,7 @@ class StudentController extends BaseController
 		$student->_id = $user->_id;
 		$student->name = Input::get('guest_name');
 		$student->last_name = Input::get('guest_lastname');
+		$student->id_number = Input::get('guest_id');
 		$student->email = Input::get('guest_email');
 		$student->genre = Input::get('guest_genre');
 		$student->has_a_job = input::get('guest_job');

@@ -11,6 +11,9 @@
 |
 */
 
+// SET DEFAULT LANGUAGE BROWSER
+App::setLocale(substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2));
+
 
 // HTTP GET
 Route::get('/', 'UserController@showView');
