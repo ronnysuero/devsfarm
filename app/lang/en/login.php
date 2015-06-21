@@ -3,7 +3,7 @@
 return array(
   'email' => 'Email',
   'email_placeholder'=> 'Enter The Email',
-  'password' => 'Password'
+  'password' => 'Password',
   'password_placeholder' => 'Enter The Password',
   'remember_me' => 'Remember Me',
   'login' => 'Login',
