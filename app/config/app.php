@@ -124,7 +124,7 @@ return array(
 		'Jenssegers\Mongodb\MongodbServiceProvider',
 		'Jenssegers\Mongodb\Session\SessionServiceProvider',
 		'Zizaco\MongolidLaravel\MongolidServiceProvider',
-
+		'Intervention\Image\ImageServiceProvider'
 	),
 
 	/*
@@ -192,7 +192,8 @@ return array(
 		'Validator'         => 'Illuminate\Support\Facades\Validator',
 		'View'              => 'Illuminate\Support\Facades\View',
 		'Moloquent'       	=> 'Jenssegers\Mongodb\Model',
-		'MongoLid' 					=> 'Zizaco\MongolidLaravel\MongoLid'
+		'MongoLid' 			=> 'Zizaco\MongolidLaravel\MongoLid',
+		'Image' 			=> 'Intervention\Image\Facades\Image'
 
 	),
 

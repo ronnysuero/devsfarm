@@ -6,14 +6,19 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Assignment' => $baseDir . '/app/models/Assignment.php',
+    'AssignmentController' => $baseDir . '/app/controllers/AssignmentController.php',
     'BaseController' => $baseDir . '/app/controllers/BaseController.php',
     'DatabaseSeeder' => $baseDir . '/app/database/seeds/DatabaseSeeder.php',
     'IlluminateQueueClosure' => $vendorDir . '/laravel/framework/src/Illuminate/Queue/IlluminateQueueClosure.php',
     'LoginController' => $baseDir . '/app/controllers/LoginController.php',
+    'MessageController' => $baseDir . '/app/controllers/MessageController.php',
+    'Section' => $baseDir . '/app/models/Section.php',
     'SessionHandlerInterface' => $vendorDir . '/symfony/http-foundation/Symfony/Component/HttpFoundation/Resources/stubs/SessionHandlerInterface.php',
     'Student' => $baseDir . '/app/models/Student.php',
     'StudentController' => $baseDir . '/app/controllers/StudentController.php',
     'Subject' => $baseDir . '/app/models/Subject.php',
+    'SubjectController' => $baseDir . '/app/controllers/SubjectController.php',
     'Teacher' => $baseDir . '/app/models/Teacher.php',
     'TeacherController' => $baseDir . '/app/controllers/TeacherController.php',
     'TestCase' => $baseDir . '/app/tests/TestCase.php',
@@ -21,8 +26,6 @@ return array(
     'UniversityController' => $baseDir . '/app/controllers/UniversityController.php',
     'User' => $baseDir . '/app/models/User.php',
     'UserController' => $baseDir . '/app/controllers/UserController.php',
-    'UserSection' => $baseDir . '/app/models/UserSection.php',
-    'UserSectionController' => $baseDir . '/app/controllers/UserSectionController.php',
     'Whoops\\Module' => $vendorDir . '/filp/whoops/src/deprecated/Zend/Module.php',
     'Whoops\\Provider\\Zend\\ExceptionStrategy' => $vendorDir . '/filp/whoops/src/deprecated/Zend/ExceptionStrategy.php',
     'Whoops\\Provider\\Zend\\RouteNotFoundStrategy' => $vendorDir . '/filp/whoops/src/deprecated/Zend/RouteNotFoundStrategy.php',

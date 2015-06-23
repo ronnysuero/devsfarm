@@ -25,15 +25,15 @@
                             {{ Form::open(array('url' => Lang::get('routes.add_subject'), 'id' => 'register_form', 'role' => 'form')) }}
                                 <div class="form-group">
                                     <label>Nombre asignatura</label>
-                                    <input class="form-control" id="subject_name" name="subject_name" placeholder="Nombre Asignatura" required>
+                                    <input data-validate="required,size(5, 15),characterspace" class="form-control" id="subject_name" name="subject_name" placeholder="Nombre Asignatura">
                                 </div>
                                 <div class="form-group">
                                     <label>Escuela</label>
-                                    <input class="form-control" id="division" name="division" placeholder="Escuela" required>
+                                    <input data-validate="required,size(5, 25),characterspace" class="form-control" id="division" name="division" placeholder="Escuela">
                                 </div>
                                 <div class="form-group">
                                     <label>Secciones</label>
-                                    <input class="form-control" id="section" name="section" placeholder="Secciones separadas por coma" required>
+                                    <input data-validate="required,size(4, 30),charactercomma" class="form-control" id="section" name="section" placeholder="Secciones separadas por coma">
                                     <p class="help-block">Las secciones deben separar se por coma. 1, 2, 3</p>
                                 </div>
                                 <button type="submit" class="btn btn-default pull-right">Registrar</button>

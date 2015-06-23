@@ -42,6 +42,7 @@ class TeacherController extends BaseController
       $user->user = Input::get('email');
       $user->password = Hash::make(Input::get('email'));
       $user->rank = "teacher";
+      $user->last_activity = null;
 
       try
       {
@@ -62,6 +63,16 @@ class TeacherController extends BaseController
       $teacher->phone = Input::get('phone');
       $teacher->cellphone = Input::get('cellphone');
       $teacher->email = Input::get('email');
+
+      if (Input::hasFile('photo'))
+      {
+          $file = Input::file('photo');
+          $photoname = uniqid();
+          $file->move(storage_path() . '/photos/imagesprofile', $photoname.'.'.$file->guessClientExtension());
+          $image = Image::make(storage_path().'/photos/imagesprofile/'.$photoname.'.'.$file->guessClientExtension())->resize(140, 140)->save();
+          $teacher->profileimage = '/photos/imagesprofile/' . $photoname.'.'.$file->guessClientExtension();
+      }
+
       $teacher->save();
 
       return Redirect::to('add_teacher')->with('message', 'Teacher successfully registered!');

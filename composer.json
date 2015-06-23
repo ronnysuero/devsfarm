@@ -9,7 +9,8 @@
 		"jenssegers/mongodb": "~2.0",
 		"jenssegers/mongodb-session": "~1.1",
 		"zizaco/mongolid": "dev-master",
-		"zizaco/mongolid-laravel": "dev-master"
+		"zizaco/mongolid-laravel": "dev-master",
+		"intervention/image": "dev-master"
 	},
 	"autoload": {
 		"classmap": [

@@ -20,6 +20,7 @@ class UniversityController extends BaseController
 		$user->user = Input::get('university_email');
 		$user->password = Hash::make(Input::get('university_password'));
 		$user->rank = "university";
+		$user->last_activity = null;
 
 		try
 		{
@@ -34,7 +35,7 @@ class UniversityController extends BaseController
 
 		$university = new University;
 		$university->_id = $user->_id;
-		$university->name = Input::get('university_name');
+		$university->name = trim(Input::get('university_name'));
 		$university->email = Input::get('university_email');
 		$university->acronym = Input::get('university_acronym');
 		$university->save();

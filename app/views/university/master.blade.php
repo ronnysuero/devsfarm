@@ -19,6 +19,7 @@
     <!-- Custom Fonts -->
     <link rel="stylesheet" type="text/css" href="css/font-awesome.css">
     <script type="text/javascript" src="js/jquery-2.1.3.js"></script>
+    <script type="text/javascript" src="js/verify.notify.js"></script>
     <script type="text/javascript" src="js/sb-admin.js"></script>
     <script type="text/javascript" src="js/bootstrap.js"></script>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
