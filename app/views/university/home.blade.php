@@ -1,5 +1,4 @@
 @extends('university.master')
-
 @section('title', 'Dashboard - University')
 @stop
 @section('content')
@@ -63,7 +62,13 @@
                         <?php $i=1 ?>
                         @foreach ($teachers as $teacher)
                         <tr>
-                            <td width="150px;"><img src="" alt="profesor"></td>
+                            <td width="140px;">
+                                @if($teacher->profile_image == null)
+                                    <img src="images/140x140.png" alt="profesor"></td>
+                                @else
+                                  <img src="{{Lang::get('show_image').'?src='.storage_path().$teacher->profile_image}}"/>
+                                @endif
+                            </td>
                             <td>{{ $teacher->name }}</td>
                             <td>{{ $teacher->last_name }}</td>
                             <td>{{ $teacher->phone }}</td>

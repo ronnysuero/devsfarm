@@ -23,4 +23,6 @@ return array(
   'send_message' => 'send_message',
   'show_message' => 'show_message',
   'student' => 'student',
+  'show_image' => 'show_image',
+  'update_university' => 'update_university'
 );

@@ -39,7 +39,7 @@ class TeacherController extends BaseController
   public function addTeacher()
   {
       $user = new User;
-      $user->user = Input::get('email');
+      $user->user = strtolower(Input::get('email'));
       $user->password = Hash::make(Input::get('email'));
       $user->rank = "teacher";
       $user->last_activity = null;
@@ -62,7 +62,7 @@ class TeacherController extends BaseController
       $teacher->last_name = Input::get('last_name');
       $teacher->phone = Input::get('phone');
       $teacher->cellphone = Input::get('cellphone');
-      $teacher->email = Input::get('email');
+      $teacher->email = strtolower(Input::get('email'));
 
       if (Input::hasFile('photo'))
       {
@@ -70,8 +70,10 @@ class TeacherController extends BaseController
           $photoname = uniqid();
           $file->move(storage_path() . '/photos/imagesprofile', $photoname.'.'.$file->guessClientExtension());
           $image = Image::make(storage_path().'/photos/imagesprofile/'.$photoname.'.'.$file->guessClientExtension())->resize(140, 140)->save();
-          $teacher->profileimage = '/photos/imagesprofile/' . $photoname.'.'.$file->guessClientExtension();
+          $teacher->profile_image = '/photos/imagesprofile/' . $photoname.'.'.$file->guessClientExtension();
       }
+      else
+        $teacher->profile_image = null;
 
       $teacher->save();
 

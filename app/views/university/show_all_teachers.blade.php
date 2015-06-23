@@ -2,27 +2,33 @@
 @section('content')
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header"><i class="fa fa-group"></i> Profesores</h1>
+        <h1 class="page-header"><i class="fa fa-group"></i> {{Lang::get('list_teacher.teacher')}}</h1>
         <div class="panel-body">
         	@if (count($teachers) >= 1)
             <div class="table-responsive">
                 <table class="table table-striped table-bordered table-hover">
                     <thead>
                         <tr>
-                            <th>Foto</th>
-                            <th>Nombres</th>
-                            <th>Apellidos</th>
-                            <th>Telefono</th>
-                            <th>Celular</th>
-                            <th>Email</th>
-                            <th>Modificar Eliminar</th>
+                            <th>{{Lang::get('list_teacher.photo')}}</th>
+                            <th>{{Lang::get('list_teacher.name')}}</th>
+                            <th>{{Lang::get('list_teacher.last_name')}}</th>
+                            <th>{{Lang::get('list_teacher.phone')}}</th>
+                            <th>{{Lang::get('list_teacher.cellphone')}}</th>
+                            <th>{{Lang::get('list_teacher.email')}}</th>
+                            <th>{{Lang::get('list_teacher.modify_disable')}}</th>
                         </tr>
                     </thead>
                     <tbody>
                     	<?php $i=1 ?>
                         @foreach ($teachers as $teacher)
                         <tr>
-                            <td width="150px;"><img src="http://placehold.it/140x140" alt="profesor"></td>
+                            <td width="140px;">
+                                @if($teacher->profile_image == null)
+                                    <img src="images/140x140.png" alt="profesor"></td>
+                                @else
+                                  <img src="{{Lang::get('show_image').'?src='.storage_path().$teacher->profile_image}}"/>
+                                @endif
+                            </td>
                             <td>{{ $teacher->name }}</td>
                             <td>{{ $teacher->last_name }}</td>
                             <td>{{ $teacher->phone }}</td>
@@ -39,7 +45,7 @@
                 </table>
             </div>
             @else
-                <p><a href="{{Lang::get('routes.add_teacher')}}"><i class="fa fa-plus" style="color: #0097A7;"></i> Agregar profesor</a></p>
+                <p><a href="{{Lang::get('routes.add_teacher')}}"><i class="fa fa-plus" style="color: #0097A7;"></i>{{Lang::get('list_teacher.add')}}</a></p>
             @endif
         </div>
     </div>
@@ -54,37 +60,37 @@
             <div class="modal-body">
                 {{ Form::open(array('url' => Lang::get('routes.update_teacher'), 'id' => 'register_form', 'role' => 'form')) }}
                 <div class="form-group col-lg-6">
-                    <label>Nombres</label>
-                    <input type="text" class="form-control" id="name" name="name" placeholder="Nombres" required>
+                    <label>{{Lang::get('list_teacher.name')}}</label>
+                    <input data-validate="required,size(3, 20),characterspace" type="text" class="form-control" id="name" name="name" placeholder="{{Lang::get('register_teacher.name_placeholder')}}" >
                 </div>
                 <div class="form-group col-lg-6">
-                    <label>Apellidos</label>
-                    <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Apellidos" required>
+                    <label>{{Lang::get('list_teacher.last_name')}}</label>
+                    <input data-validate="required,size(3, 20),characterspace" type="text" class="form-control" id="last_name" name="last_name" placeholder="{{Lang::get('register_teacher.last_name_placeholder')}}" >
                 </div>
                 <div class="form-group col-lg-6">
-                    <label>Telefono</label>
-                    <input type="text" class="form-control" id="phone" name="phone" placeholder="Telefono">
+                    <label>{{Lang::get('list_teacher.phone')}}</label>
+                    <input data-validate="required,phone" type="text" class="form-control" id="phone" name="phone" placeholder="{{Lang::get('register_teacher.phone_placeholder')}}">
                 </div>
                 <div class="form-group col-lg-6">
-                    <label>Celular</label>
-                    <input type="text" class="form-control" id="cellphone" name="cellphone" placeholder="Celular">
+                    <label>{{Lang::get('list_teacher.cellphone')}}</label>
+                    <input data-validate="required,phone" type="text" class="form-control" id="cellphone" name="cellphone" placeholder="{{Lang::get('register_teacher.cellphone_placeholder')}}">
                 </div>
                 <div class="form-group col-lg-12">
-                    <label>Email</label>
-                    <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
+                    <label>{{Lang::get('list_teacher.email')}}</label>
+                    <input data-validate="required,email" type="email" class="form-control" id="email" name="email" placeholder="{{Lang::get('register_teacher.email_placeholder')}}" >
                 </div>
                 <div class="form-group col-lg-12">
-                    <label>Foto</label>
-                    <input type="file" id="photo" name="photo">
+                    <label>{{Lang::get('list_teacher.photo')}}</label>
+                    <input data-validate="image" type="file" id="photo" name="photo" accept="image/x-png, image/gif, image/jpeg" onchange="PreviewImage()">
                 </div>
                 <div class="form-group">
                     <label></label>
-                    <img src="http://placehold.it/140x140" alt="" id="photo_display" name="photo_display">
+                    <img src="images/140x140.png" alt="" style="width: 140px; height: 140px;" id="photo_display" name="photo_display">
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Discard</button>
-                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <button type="submit" class="btn btn-primary">{{Lang::get('list_teacher.save')}}</button>
             </div>
             {{ Form::close() }}
 
@@ -96,15 +102,14 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="Eliminar profesor"><i class="fa fa-trash-o"></i> Eliminar este profesor?</h4>
+                <h4 class="modal-title" id="Eliminar profesor"><i class="fa fa-trash-o"></i> {{Lang::get('list_teacher.confirm')}}</h4>
             </div>
             <div class="modal-body">
-                Al eliminar este profesor no podra ser asignado a ninguna asignatura ni mostrado en los profesores.
-                Pero esto no afectara a las secciones que ya han realizado este profesor.
+                {{Lang::get('list_teacher.agree')}}
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary">Delete</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">{{Lang::get('list_teacher.cancel')}}</button>
+                <button type="button" class="btn btn-primary">{{Lang::get('list_teacher.disable')}}</button>
             </div>
         </div>
     </div>

@@ -11,7 +11,7 @@ class UserController extends BaseController
   {
     // Get the login form data using the 'Input' class
     $userdata = array(
-        'user' => Input::get('user_email'),
+        'user' => strtolower(Input::get('user_email')),
         'password' => Input::get('user_password')
     );
 

@@ -22,4 +22,6 @@ return array(
   'send_message' => 'enviar_mensaje',
   'show_message' => 'ver_mensaje',
   'student' => 'estudiante',
+  'show_image' => 'mostrar_imagen',
+  'update_university' => 'actualizar_universidad'
 );

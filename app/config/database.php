@@ -84,27 +84,27 @@ return array(
 		),
 
 		'mongodb' => array(
-	    'driver'   => 'mongodb',
-	    'host'     => 'localhost',
-	    'port'     => 27017,
-	    'username' => '',
-	    'password' => '',
-	    'database' => 'teamland',
-			'options' => array(
-        'db' => 'admin' // sets the authentication database required by mongo 3
-    	)
+		    'driver'   => 'mongodb',
+		    'host'     => 'localhost',
+		    'port'     => 27017,
+		    'username' => '',
+		    'password' => '',
+	    	'database' => 'teamland',
+			'options'  => array(
+        		'db' => 'admin' // sets the authentication database required by mongo 3
+    		)
 		),
 
 		'auth' => array(
 
 			'default' => array(
-            'host'     => '127.0.0.1',
-            'port'     => 27017,
-            'database' => 'teamland',
-            'username'     => '',
-            'password'     => '',
-        ),
-    ),
+	            'host'     => '127.0.0.1',
+	            'port'     => 27017,
+	            'database' => 'teamland',
+	            'username'     => '',
+	            'password'     => '',
+        	),
+    	),
 	),
 
 	/*

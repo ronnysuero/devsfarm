@@ -25,7 +25,7 @@ class StudentController extends BaseController
 	public function registerStudent()
 	{
 		$user = new User;
-		$user->user = Input::get('guest_email');
+		$user->user = strtolower(Input::get('guest_email'));
 		$user->password = Hash::make(Input::get('guest_password'));
 		$user->rank = "student";
 		$user->last_activity = null;
@@ -46,7 +46,7 @@ class StudentController extends BaseController
 		$student->name = Input::get('guest_name');
 		$student->last_name = Input::get('guest_lastname');
 		$student->id_number = Input::get('guest_id');
-		$student->email = Input::get('guest_email');
+		$student->email = strtolower(Input::get('guest_email'));
 		$student->genre = Input::get('guest_genre');
 		$student->has_a_job = input::get('guest_job');
 		$student->is_teamleader = false;
