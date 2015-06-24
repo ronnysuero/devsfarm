@@ -1,5 +1,19 @@
 @extends('university.master')
 @section('content')
+<script type="text/javascript">
+  function generateEmail() 
+  {
+    var email = $('#email').val();
+    var first_letter = $('#name').val().charAt(0);
+    var last_name = $('#last_name').val().split(' ')[0];
+
+    if (email == "")
+    {
+      email = first_letter + last_name + '@' + $('#domain').val();
+      $('#email').val(email);
+    }
+  }
+</script>
 <div class="row">
     <div class="col-lg-12">
        <h1 class="page-header"><i class="fa fa-plus"></i> {{Lang::get('register_teacher.register')}}</h1>
@@ -40,7 +54,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>{{Lang::get('register_teacher.email')}}</label>
-                                    <input data-validate="required,email" type="email" class="form-control" id="email" name="email" placeholder="{{Lang::get('register_teacher.email_placeholder')}}" >
+                                    <input onfocus="generateEmail()" data-validate="required,email" type="email" class="form-control" id="email" name="email" placeholder="{{Lang::get('register_teacher.email_placeholder')}}" >
                                 </div>
                                 <div class="form-group">
                                     <label>{{Lang::get('register_teacher.photo')}}</label>
@@ -50,6 +64,7 @@
                                     <label></label>
                                     <img src="images/140x140.png" alt="" style="width: 140px; height: 140px;" id="photo_display" name="photo_display">
                                 </div>
+                                <input type="hidden" id="domain" value="{{substr(Auth::user()->user, strpos(Auth::user()->user, '@')+1)}}">
                                 <button type="submit" class="btn btn-default pull-right">{{Lang::get('register_teacher.register')}}</button>
                             {{ Form::close() }}
                         </div>

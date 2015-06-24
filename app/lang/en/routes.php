@@ -24,5 +24,7 @@ return array(
   'show_message' => 'show_message',
   'student' => 'student',
   'show_image' => 'show_image',
-  'update_university' => 'update_university'
+  'update_university' => 'update_university',
+  'update_teacher' => 'update_teacher',
+  'find_teacher' => 'find_teacher',
 );

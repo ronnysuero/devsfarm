@@ -23,5 +23,7 @@ return array(
   'show_message' => 'ver_mensaje',
   'student' => 'estudiante',
   'show_image' => 'mostrar_imagen',
-  'update_university' => 'actualizar_universidad'
+  'update_university' => 'actualizar_universidad',
+  'update_teacher' => 'actualizar_profesor',
+  'find_teacher' => 'buscar_profesor',
 );

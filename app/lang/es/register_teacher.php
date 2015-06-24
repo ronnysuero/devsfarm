@@ -13,4 +13,5 @@ return array (
 	'phone_placeholder' => 'Ingrese su telefono',
 	'cellphone_placeholder' => 'Ingrese su celular',
 	'email_placeholder' => 'Ingrese su correo electronico',
+	'success' => 'Profesor creado exitosamente',
 );

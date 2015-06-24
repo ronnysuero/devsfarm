@@ -13,5 +13,5 @@ return array (
 	'phone_placeholder' => 'Enter the phone',
 	'cellphone_placeholder' => 'Enter the cellphone',
 	'email_placeholder' => 'Enter the Email',
-
+	'success' => 'Teacher successfully registered',
 );

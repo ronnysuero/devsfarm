@@ -1,11 +1,34 @@
 @extends('university.master')
 @section('content')
+<script type="text/javascript">
+    function fillModal (x) {
+        $.post("{{Lang::get('routes.find_teacher')}}",{ email: $('#email'+x).html() }).done(function( data ) {
+            $('#name').val(data.name);
+            $('#last_name').val(data.last_name);       
+            $('#phone').val(data.phone);
+            $('#cellphone').val(data.cellphone);
+            $('#email').val(data.email);
+            $('#photo_display').attr('src', $('#image'+x).attr('src'));
+            $('#photo').val('');
+            $('#_id').val(data._id);
+        });
+    }
+</script>
 <div class="row">
     <div class="col-lg-12">
         <h1 class="page-header"><i class="fa fa-group"></i> {{Lang::get('list_teacher.teacher')}}</h1>
         <div class="panel-body">
         	@if (count($teachers) >= 1)
             <div class="table-responsive">
+                @if(Session::has('message'))
+                   <div class="alert alert-success alert-dismissable">
+                       <button type="button" class="close" data-dismiss="alert" aria-hidden="true"
+                               onclick="$('.alert.alert-success.alert-dismissable').hide('slow')">
+                           &times;
+                       </button>
+                       {{Session::get('message')}}
+                   </div>
+                @endif
                 <table class="table table-striped table-bordered table-hover">
                     <thead>
                         <tr>
@@ -19,27 +42,25 @@
                         </tr>
                     </thead>
                     <tbody>
-                    	<?php $i=1 ?>
-                        @foreach ($teachers as $teacher)
-                        <tr>
-                            <td width="140px;">
-                                @if($teacher->profile_image == null)
-                                    <img src="images/140x140.png" alt="profesor"></td>
-                                @else
-                                  <img src="{{Lang::get('show_image').'?src='.storage_path().$teacher->profile_image}}"/>
-                                @endif
-                            </td>
-                            <td>{{ $teacher->name }}</td>
-                            <td>{{ $teacher->last_name }}</td>
-                            <td>{{ $teacher->phone }}</td>
-                            <td>{{ $teacher->cellphone }}</td>
-                            <td>{{ $teacher->email }}</td>
-                            <td width="80px;">
-                                <a href="#"><i class="fa fa-edit" data-toggle="modal" data-target="#editModal" style="color:#337ab7;"></i></a>
-                                <a href="#" class="pull-right"><i class="fa fa-trash-o" data-toggle="modal" data-target="#deleteModal" style="color:#d9534f;"></i></a>
-                            </td>
-                        </tr>
-                        <?php $i++ ?>
+                        @foreach ($teachers as $index => $teacher)
+                            <tr>
+                                <td width="140px;">
+                                    @if($teacher->profile_image == null)
+                                        <img id="image{{$index}}" src="images/140x140.png" alt="profesor"></td>
+                                    @else
+                                      <img id="image{{$index}}" src="{{Lang::get('show_image').'?src='.storage_path().$teacher->profile_image}}"/>
+                                    @endif
+                                    </td>
+                                    <td id="name{{$index}}">{{ $teacher->name }}</td>
+                                    <td id="last_name{{$index}}">{{ $teacher->last_name }}</td>
+                                    <td id="phone{{$index}}">{{ $teacher->phone }}</td>
+                                    <td id="cellphone{{$index}}">{{ $teacher->cellphone }}</td>
+                                    <td id="email{{$index}}">{{ $teacher->email }}</td>
+                                    <td width="80px;">
+                                        <a onclick="fillModal('{{$index}}')" href="#"><i class="fa fa-edit" data-toggle="modal" data-target="#editModal" style="color:#337ab7;"></i></a>
+                                        <a href="#" class="pull-right"><i class="fa fa-trash-o" data-toggle="modal" data-target="#deleteModal" style="color:#d9534f;"></i></a>
+                                    </td>
+                            </tr>
                         @endforeach
                     </tbody>
                 </table>
@@ -58,7 +79,7 @@
                 <h4 class="modal-title" id="Eliminar profesor"><i class="fa fa-edit"></i> Modificar profesor</h4>
             </div>
             <div class="modal-body">
-                {{ Form::open(array('url' => Lang::get('routes.update_teacher'), 'id' => 'register_form', 'role' => 'form')) }}
+                {{ Form::open(array('url' => Lang::get('routes.update_teacher'), 'id' => 'register_form', 'role' => 'form', 'enctype' => 'multipart/form-data')) }}
                 <div class="form-group col-lg-6">
                     <label>{{Lang::get('list_teacher.name')}}</label>
                     <input data-validate="required,size(3, 20),characterspace" type="text" class="form-control" id="name" name="name" placeholder="{{Lang::get('register_teacher.name_placeholder')}}" >
@@ -92,6 +113,7 @@
                 <button type="button" class="btn btn-default" data-dismiss="modal">Discard</button>
                 <button type="submit" class="btn btn-primary">{{Lang::get('list_teacher.save')}}</button>
             </div>
+            <input type="hidden" id="_id", name="_id" value="">
             {{ Form::close() }}
 
         </div>
