@@ -88,9 +88,10 @@ class TeacherController extends BaseController
 
     if(strcmp($email, $teacher->email) !== 0)
     {
-      Auth::user()->user = $email;
-      Auth::user()->save();
-  
+      $user = User::first(['_id' => $teacher->_id]);
+      $user->user = $email;
+      $user->save();
+      
       $teacher->email = $email;
     }
 

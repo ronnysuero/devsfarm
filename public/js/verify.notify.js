@@ -2427,6 +2427,10 @@ String.format = function() {
       en: "Invalid End Date",
       es: "Fecha de termino invalida"
     },
+    "validateSection": {
+      en: "There can't be two sections with the same codes",
+      es: "No pueden existir 2 secciones con códigos iguales"
+    },
     "difDate": {
       en: "Start Date must come before End Date",
       es: "La fecha de inicio debe ser menor a la fecha de termino"
@@ -2474,11 +2478,11 @@ String.format = function() {
       message: dict["character"][language]
     },
     characterspace: {
-      regex: /^[a-zA-Z,\s]*$/,
+      regex: /^[0-9a-zA-Z,\s]*$/,
       message: dict["characterspace"][language]
     },
     charactercomma: {
-      regex: /^[a-zA-Z\s]*$/,
+      regex: /^[0-9a-zA-Z\s,-]*$/,
       message: dict["charactercomma"][language]
     },
     alphanumeric: {
@@ -2700,7 +2704,33 @@ String.format = function() {
         return dict["rangeVal"][language] + prefix + min + suffix + "\nand " + prefix + max + suffix;
       return true;
     },
+    validateSection: function(r) {
+      var value = String(r.val()).trim();
+      var res = value.split(',');
 
+      var sorted_arr = res.sort(); // You can define the comparing function here. 
+                                   // JS by default uses a crappy string compare.
+      var results = [];
+      for (var i = 0; i < sorted_arr.length - 1; i++) {
+          if (sorted_arr[i + 1].trim() === sorted_arr[i].trim()) {
+              results.push(sorted_arr[i].trim());
+          }
+      }
+
+      if(results.length !== 0)
+          return dict["validateSection"][language];
+      // for (var i = 0; i < res.length; i++) {
+      //   var item = res[0].trim();
+
+      //   for (var j = 0; j < res.length; j++) {
+      //     console.log(res);
+      //     // if(res[j] === item)
+      //     //   return dict["validateSection"][language];
+      //   };
+      // };
+
+      return true;
+    },
     agreement: function(r){
       if(!r.field.is(":checked"))
         return dict["agreement"][language];

@@ -51,10 +51,10 @@
                                       <img id="image{{$index}}" src="{{Lang::get('show_image').'?src='.storage_path().$teacher->profile_image}}"/>
                                     @endif
                                     </td>
-                                    <td id="name{{$index}}">{{ $teacher->name }}</td>
-                                    <td id="last_name{{$index}}">{{ $teacher->last_name }}</td>
-                                    <td id="phone{{$index}}">{{ $teacher->phone }}</td>
-                                    <td id="cellphone{{$index}}">{{ $teacher->cellphone }}</td>
+                                    <td>{{ $teacher->name }}</td>
+                                    <td>{{ $teacher->last_name }}</td>
+                                    <td>{{ $teacher->phone }}</td>
+                                    <td>{{ $teacher->cellphone }}</td>
                                     <td id="email{{$index}}">{{ $teacher->email }}</td>
                                     <td width="80px;">
                                         <a onclick="fillModal('{{$index}}')" href="#"><i class="fa fa-edit" data-toggle="modal" data-target="#editModal" style="color:#337ab7;"></i></a>

@@ -26,4 +26,5 @@ return array(
   'update_university' => 'actualizar_universidad',
   'update_teacher' => 'actualizar_profesor',
   'find_teacher' => 'buscar_profesor',
+  'find_subject' => 'buscar_materia',
 );

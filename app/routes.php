@@ -64,6 +64,8 @@ Route::group(array('before' => 'auth|university'), function()
 
   Route::post(Lang::get('routes.find_teacher'), 'TeacherController@find');
 
+  Route::post(Lang::get('routes.find_subject'), 'SubjectController@find');
+
 });
 
 Route::group(array('before' => 'auth|teacher'), function()

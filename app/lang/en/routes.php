@@ -27,4 +27,5 @@ return array(
   'update_university' => 'update_university',
   'update_teacher' => 'update_teacher',
   'find_teacher' => 'find_teacher',
+  'find_subject' => 'find_subject',
 );

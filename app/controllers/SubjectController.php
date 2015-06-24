@@ -12,7 +12,7 @@ class SubjectController extends BaseController
     $subject = new Subject;
     $subject->name = Input::get('subject_name');
     $subject->university_id = Auth::id();
-    $subject->division = Input::get('division');
+    $subject->school = Input::get('school');
     $sections = explode(',', Input::get('section'));
 
     foreach($sections as $section)
@@ -25,7 +25,7 @@ class SubjectController extends BaseController
 
     $subject->save();
 
-    return Redirect::to('add_subject')->with('message', 'Subject successfully registered!');
+    return Redirect::to('add_subject')->with('message', Lang::get('add_subject.success'));
   }
 
   public static function getSubjects()
@@ -38,5 +38,12 @@ class SubjectController extends BaseController
       return View::make('university.show_all_subjects')->with(array( 'subjects' => $this->getSubjects()));
   }
 
-
+  public function find()
+  {
+      if(Request::ajax())
+      {
+        $subject = Subject::where('name', '=', Input::get('name'))->where('university_id', '=', Auth::id())->first();
+        return Response::json($subject);
+      }
+  }
 }
