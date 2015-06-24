@@ -1,3 +1,7 @@
 .DS_Store
 Thumbs.db
-app/storage/photos/
+app/storage/photos/imagesprofile/*.png
+app/storage/photos/imagesprofile/*.jpg
+app/storage/photos/imagesprofile/*.bmp
+app/storage/photos/imagesprofile/*.gif
+app/storage/photos/imagesprofile/*.jpeg
