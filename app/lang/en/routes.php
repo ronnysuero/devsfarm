@@ -26,6 +26,7 @@ return array(
   'show_image' => 'show_image',
   'update_university' => 'update_university',
   'update_teacher' => 'update_teacher',
+  'update_subject' => 'update_subject',
   'find_teacher' => 'find_teacher',
   'find_subject' => 'find_subject',
 );

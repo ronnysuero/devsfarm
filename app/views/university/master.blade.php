@@ -126,7 +126,7 @@
                             <!-- /.nav-second-level -->
                         </li>
                         <li>
-                            <a href="#" class="nav_categoria"><i class="fa fa-check "></i> {{Lang::get('university_master.subject')}}</a>
+                            <a href="#" class="nav_categoria"><i class="fa fa-check "></i> {{Lang::get('university_master.assignment')}}</a>
                             <ul class="nav nav-second-level">
                                 <li>
                                     <a href="{{Lang::get('routes.add_assignment')}}"><i class="fa fa-plus" style="color: #0097A7;"></i> {{Lang::get('university_master.assign_subject')}}</a>

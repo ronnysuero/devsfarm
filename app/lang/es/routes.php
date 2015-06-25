@@ -25,6 +25,7 @@ return array(
   'show_image' => 'mostrar_imagen',
   'update_university' => 'actualizar_universidad',
   'update_teacher' => 'actualizar_profesor',
+  'update_subject' => 'actualizar_materia',
   'find_teacher' => 'buscar_profesor',
   'find_subject' => 'buscar_materia',
 );

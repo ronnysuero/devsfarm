@@ -6,13 +6,6 @@
             $('#subject_name').val(data.name);
             $('#school').val(data.school);       
             $('#_id').val(data._id);
-
-            var sections = "";
-
-            for (var i = 0; i < data.sections.length; i++) {
-                sections += data.sections[i].code + ", ";
-            };
-            $('#section').val(sections);
         });
     }
 </script>
@@ -22,6 +15,15 @@
         <div class="panel-body">
             @if (count($subjects) >= 1)
             <div class="table-responsive">
+            @if(Session::has('message'))
+                   <div class="alert alert-success alert-dismissable">
+                       <button type="button" class="close" data-dismiss="alert" aria-hidden="true"
+                               onclick="$('.alert.alert-success.alert-dismissable').hide('slow')">
+                           &times;
+                       </button>
+                       {{Session::get('message')}}
+                   </div>
+                @endif
                 <table class="table table-striped table-bordered table-hover">
                     <thead>
                         <tr>
@@ -73,11 +75,6 @@
                         <div class="form-group">
                             <label>{{Lang::get('add_subject.school')}}</label>
                             <input data-validate="required,size(5, 25),characterspace" class="form-control" id="school" name="school" placeholder="{{Lang::get('add_subject.school_placeholder')}}">
-                        </div>
-                        <div class="form-group">
-                            <label>{{Lang::get('add_subject.section')}}</label>
-                            <input data-validate="required,size(4, 30),charactercomma,validateSection" class="form-control" id="section" name="section" placeholder="{{Lang::get('add_subject.section_placeholder')}}">
-                            <p class="help-block">{{Lang::get('add_subject.message')}}</p>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">{{Lang::get('list_subject.discard')}}</button>

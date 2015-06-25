@@ -2707,29 +2707,19 @@ String.format = function() {
     validateSection: function(r) {
       var value = String(r.val()).trim();
       var res = value.split(',');
-
-      var sorted_arr = res.sort(); // You can define the comparing function here. 
-                                   // JS by default uses a crappy string compare.
+      var sorted_arr = res.sort(); 
       var results = [];
+
       for (var i = 0; i < sorted_arr.length - 1; i++) {
-          if (sorted_arr[i + 1].trim() === sorted_arr[i].trim()) {
+          if (sorted_arr[i + 1].trim().replace(' ', '') === sorted_arr[i].trim().replace(' ', '')) {
               results.push(sorted_arr[i].trim());
           }
       }
 
       if(results.length !== 0)
           return dict["validateSection"][language];
-      // for (var i = 0; i < res.length; i++) {
-      //   var item = res[0].trim();
-
-      //   for (var j = 0; j < res.length; j++) {
-      //     console.log(res);
-      //     // if(res[j] === item)
-      //     //   return dict["validateSection"][language];
-      //   };
-      // };
-
-      return true;
+      else
+        return true;
     },
     agreement: function(r){
       if(!r.field.is(":checked"))
