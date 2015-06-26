@@ -8,9 +8,10 @@ return array (
 	'board' => 'Dashboard',
 	'subject' => 'Subject',
 	'add' => 'Add',
-	'assignment' => 'Assignment',
-	'assign_subject' => 'Assign Subjects',
+	'assignment' => 'Enrollment',
+	'assign_subject' => 'Assign Sections',
 	'teacher' => 'Teacher',
+	'section' => 'Section',
 	
 	
 );

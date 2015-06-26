@@ -8,9 +8,9 @@ return array (
 	'board' => 'Panel Principal',
 	'subject' => 'Materias',
 	'add' => 'Agregar',
-	'assignment' => 'Asignaciones',
-	'assign_subject' => 'Asignar Materias',
+	'assignment' => 'Inscripciones',
+	'assign_subject' => 'Asignar Secciones',
 	'teacher' => 'Profesor',
-
+	'section' => 'Section',
 	
 );

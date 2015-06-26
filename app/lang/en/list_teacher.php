@@ -1,7 +1,7 @@
 <?php
 
 return array (
-	'teacher' => 'Teachers',
+	'teacher' => 'Teacher',
 	'photo' => 'Photo',
 	'name' => 'Names',
 	'last_name' => 'Last Names',

@@ -114,6 +114,17 @@
                             </ul>
                         </li>
                         <li>
+                            <a href="#" class="nav_categoria"><i class="fa fa-list-ol"></i> {{Lang::get('university_master.section')}}</a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="{{Lang::get('routes.add_section')}}"><i class="fa fa-plus" style="color: #0097A7;"></i> {{Lang::get('university_master.add')}}</a>
+                                </li>
+                                <li>
+                                    <a href="{{Lang::get('routes.show_all_sections')}}"><i class="fa fa-eye" style="color: #0097A7;"></i> {{Lang::get('university_master.list')}}</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
                             <a href="#" class="nav_categoria"><i class="fa fa-group"></i> {{Lang::get('university_master.teacher')}}</a>
                             <ul class="nav nav-second-level">
                                 <li>
@@ -126,13 +137,13 @@
                             <!-- /.nav-second-level -->
                         </li>
                         <li>
-                            <a href="#" class="nav_categoria"><i class="fa fa-check "></i> {{Lang::get('university_master.assignment')}}</a>
+                            <a href="#" class="nav_categoria"><i class="fa fa-compress"></i> {{Lang::get('university_master.assignment')}}</a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="{{Lang::get('routes.add_assignment')}}"><i class="fa fa-plus" style="color: #0097A7;"></i> {{Lang::get('university_master.assign_subject')}}</a>
+                                    <a href="{{Lang::get('routes.add_enrollment')}}"><i class="fa fa-plus" style="color: #0097A7;"></i> {{Lang::get('university_master.assign_subject')}}</a>
                                 </li>
                                 <li>
-                                    <a href="{{Lang::get('routes.show_all_assignments')}}"><i class="fa fa-eye" style="color: #0097A7;"></i> {{Lang::get('university_master.list')}}</a>
+                                    <a href="{{Lang::get('routes.show_all_enrollment')}}"><i class="fa fa-eye" style="color: #0097A7;"></i> {{Lang::get('university_master.list')}}</a>
                                 </li>
                             </ul>
                         </li>

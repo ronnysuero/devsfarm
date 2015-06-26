@@ -2339,6 +2339,10 @@ String.format = function() {
       en: "Use letters only",
       es: "Usar letras solamente "
     },
+    "compareCodes": {
+      en: "There is a code that is already pre-registered",
+      es: "Hay un codigo que ya esta previamente registrado"
+    },
     "characterspace": {
       en: "Use letters or space only",
       es: "Usar letras o espacio solamente "
@@ -2704,11 +2708,29 @@ String.format = function() {
         return dict["rangeVal"][language] + prefix + min + suffix + "\nand " + prefix + max + suffix;
       return true;
     },
+    compareCodes: function(r) {
+      var codes = String(document.getElementById(r.args[0].trim()).value).trim().toLowerCase().split(','),
+          newCodes = String(document.getElementById(r.args[1].trim()).value).trim().toLowerCase().split(',');
+
+      codes = codes.sort();
+      newCodes = newCodes.sort();
+
+      for (var i = 0; i < codes.length; i++) {
+        var item = codes[i].trim().replace(' ', '');
+
+        for (var j = 0; j < newCodes.length; j++) {
+          if (item === newCodes[j].trim().replace(' ', '')) {
+              return dict["compareCodes"][language];
+          }
+        }  
+      }
+      return true;
+    },
     validateSection: function(r) {
-      var value = String(r.val()).trim();
-      var res = value.split(',');
-      var sorted_arr = res.sort(); 
-      var results = [];
+      var value = String(r.val()).trim().toLowerCase(),
+          res = value.split(','),
+          sorted_arr = res.sort(), 
+          results = [];
 
       for (var i = 0; i < sorted_arr.length - 1; i++) {
           if (sorted_arr[i + 1].trim().replace(' ', '') === sorted_arr[i].trim().replace(' ', '')) {

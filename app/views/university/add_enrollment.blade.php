@@ -13,15 +13,6 @@
                     <div class="col-lg-8 col-lg-offset-2">
                         <form role="form">
                             <div class="form-group">
-                                <label>Profesor</label>
-                                <select class="form-control" id="professor" name="professor">
-                                    <option value="">Select teacher</option>
-                                    @foreach($teachers as $teacher)
-                                        <option value="{{ $teacher->_id  }}">{{ $teacher->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                           <div class="form-group">
                                 <label>Asignatura</label>
                                 <select class="form-control" id="subject" name="subject">
                                     <option value="">Seleccione una asignatura</option>
@@ -31,13 +22,15 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label>Secciones</label>
-                                <select multiple class="form-control" id="sections" name="sections">
-                                    @foreach($subjects as $subject)
-                                        @foreach($subject->sections as $section)
-                                            <option value="{{ $section  }}">{{ $section }}</option>
-                                        @endforeach
-                                    @endforeach
+                                <label>Seccion</label>
+                                <select class="form-control" id="section" name="section">
+                                    <option value="">Select Section</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Profesor</label>
+                                <select class="form-control" id="teacher" name="teacher">
+                                    <option value="">Select Teacher</option>
                                 </select>
                             </div>
                             <button type="submit" class="btn btn-default pull-right">Registrar</button>

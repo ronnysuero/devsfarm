@@ -49,24 +49,35 @@ Route::group(array('before' => 'auth|university'), function()
 
   Route::get(Lang::get('routes.show_all_teachers'), 'TeacherController@showAllTeachersView');
 
-  Route::get(Lang::get('routes.add_assignment'), 'AssignmentController@showView');
+  Route::get(Lang::get('routes.add_enrollment'), 'EnrollmentController@showView');
 
-  Route::get(Lang::get('routes.show_all_assignments'), 'AssignmentController@showAllAssignmentsView');
+  Route::get(Lang::get('routes.show_all_enrollment'), 'EnrollmentController@showAllAssignmentsView');
+
+  Route::get(Lang::get('routes.add_section'), 'SectionController@showView');
+
+  Route::get(Lang::get('routes.show_all_sections'), 'SectionController@showAllSectionsView');
+
 
   // HTTP POST
   Route::post(Lang::get('routes.add_subject'), 'SubjectController@addSubject');
 
   Route::post(Lang::get('routes.add_teacher'), 'TeacherController@addTeacher');
 
+  Route::post(Lang::get('routes.add_section'), 'SectionController@addSection');
+
   Route::post(Lang::get('routes.update_university'), 'UniversityController@update');
 
   Route::post(Lang::get('routes.update_teacher'), 'TeacherController@update');
+
+  Route::post(Lang::get('routes.update_section'), 'SectionController@update');
 
   Route::post(Lang::get('routes.update_subject'), 'SubjectController@update');
 
   Route::post(Lang::get('routes.find_teacher'), 'TeacherController@find');
 
   Route::post(Lang::get('routes.find_subject'), 'SubjectController@find');
+
+  Route::post(Lang::get('routes.find_section'), 'SectionController@find');
 
 });
 

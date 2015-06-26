@@ -18,7 +18,7 @@ class SubjectController extends BaseController
     foreach($sections as $section)
     {
       $sect = new Section;
-      $sect->code = trim($section);
+      $sect->code = strtoupper(trim($section));
       $sect->is_free = true;
       $subject->sections()->associate($sect);
     }
