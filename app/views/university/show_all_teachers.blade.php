@@ -19,52 +19,44 @@
         <h1 class="page-header"><i class="fa fa-group"></i> {{Lang::get('list_teacher.teacher')}}</h1>
         <div class="panel-body">
         	@if (count($teachers) >= 1)
-            <div class="table-responsive">
-                @if(Session::has('message'))
-                   <div class="alert alert-success alert-dismissable">
-                       <button type="button" class="close" data-dismiss="alert" aria-hidden="true"
-                               onclick="$('.alert.alert-success.alert-dismissable').hide('slow')">
-                           &times;
-                       </button>
-                       {{Session::get('message')}}
-                   </div>
-                @endif
-                <table class="table table-striped table-bordered table-hover">
-                    <thead>
-                        <tr>
-                            <th>{{Lang::get('list_teacher.photo')}}</th>
-                            <th>{{Lang::get('list_teacher.name')}}</th>
-                            <th>{{Lang::get('list_teacher.last_name')}}</th>
-                            <th>{{Lang::get('list_teacher.phone')}}</th>
-                            <th>{{Lang::get('list_teacher.cellphone')}}</th>
-                            <th>{{Lang::get('list_teacher.email')}}</th>
-                            <th>{{Lang::get('list_teacher.modify_disable')}}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($teachers as $index => $teacher)
+                <div class="table-responsive">
+                    @include('alert')
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
                             <tr>
-                                <td width="140px;">
-                                    @if($teacher->profile_image == null)
-                                        <img id="image{{$index}}" src="images/140x140.png" alt="profesor"></td>
-                                    @else
-                                      <img id="image{{$index}}" src="{{Lang::get('show_image').'?src='.storage_path().$teacher->profile_image}}"/>
-                                    @endif
-                                    </td>
-                                    <td>{{ $teacher->name }}</td>
-                                    <td>{{ $teacher->last_name }}</td>
-                                    <td>{{ $teacher->phone }}</td>
-                                    <td>{{ $teacher->cellphone }}</td>
-                                    <td id="email{{$index}}">{{ $teacher->email }}</td>
-                                    <td width="80px;">
-                                        <a onclick="fillModal('{{$index}}')" href="#"><i class="fa fa-edit" data-toggle="modal" data-target="#editModal" style="color:#337ab7;"></i></a>
-                                        <a href="#" class="pull-right"><i class="fa fa-trash-o" data-toggle="modal" data-target="#deleteModal" style="color:#d9534f;"></i></a>
-                                    </td>
+                                <th>{{Lang::get('list_teacher.photo')}}</th>
+                                <th>{{Lang::get('list_teacher.name')}}</th>
+                                <th>{{Lang::get('list_teacher.last_name')}}</th>
+                                <th>{{Lang::get('list_teacher.phone')}}</th>
+                                <th>{{Lang::get('list_teacher.cellphone')}}</th>
+                                <th>{{Lang::get('list_teacher.email')}}</th>
+                                <th>{{Lang::get('list_teacher.modify_disable')}}</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+                        </thead>
+                        <tbody>
+                            @foreach ($teachers as $index => $teacher)
+                                <tr>
+                                    <td width="140px;">
+                                        @if($teacher->profile_image == null)
+                                            <img id="image{{$index}}" src="images/140x140.png" alt="profesor"></td>
+                                        @else
+                                          <img id="image{{$index}}" src="{{Lang::get('show_image').'?src='.storage_path().$teacher->profile_image}}"/>
+                                        @endif
+                                        </td>
+                                        <td>{{ $teacher->name }}</td>
+                                        <td>{{ $teacher->last_name }}</td>
+                                        <td>{{ $teacher->phone }}</td>
+                                        <td>{{ $teacher->cellphone }}</td>
+                                        <td id="email{{$index}}">{{ $teacher->email }}</td>
+                                        <td width="80px;">
+                                            <a onclick="fillModal('{{$index}}')" href="#"><i class="fa fa-edit" data-toggle="modal" data-target="#editModal" style="color:#337ab7;"></i></a>
+                                            <a href="#" class="pull-right"><i class="fa fa-trash-o" data-toggle="modal" data-target="#deleteModal" style="color:#d9534f;"></i></a>
+                                        </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             @else
                 <p><a href="{{Lang::get('routes.add_teacher')}}"><i class="fa fa-plus" style="color: #0097A7;"></i>{{Lang::get('list_teacher.add')}}</a></p>
             @endif
@@ -115,7 +107,6 @@
             </div>
             <input type="hidden" id="_id", name="_id" value="">
             {{ Form::close() }}
-
         </div>
     </div>
 </div>

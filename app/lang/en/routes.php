@@ -33,4 +33,6 @@ return array(
   'show_all_sections' => 'show_all_sections',
   'find_section' => 'find_section',
   'update_section' => 'update_section',
+  'find_unused_section' => 'find_unused_section',
+  
 );

@@ -1,39 +1,91 @@
 @extends('university.master')
 @section('content')
+<script type="text/javascript">
+    $('document').ready(function() 
+    {
+        $('#subject').on('change', function() 
+        {
+            if($('#subject').val() !== "")
+            {
+                $.post("{{Lang::get('routes.find_unused_section')}}",{ _id: $('#subject').val() }).done(function( data ) 
+                {    
+                    var message = "";
 
+                    if(data === "")
+                        message = '<option value="">{{Lang::get("add_enroll.no_record")}}</option>';
+                    else
+                        message = '<option value="">{{Lang::get("add_enroll.section_placeholder")}}</option>';
+        
+                    $('#section')
+                        .find('option')
+                        .remove()
+                        .end()
+                        .append(message);
+
+                    if(data !== "")
+                    {
+                        for(var item in data.sections)
+                            $('#section').append( new Option(data.sections[item].code, data.sections[item]._id) );
+                        
+                        $('#_id').val(data.subject);
+                    }
+                });
+            }
+        }); 
+
+        $('#teacher').on('change', function() 
+        {
+            $('#teacher_id').val($('#teacher').val());
+        }); 
+    });
+</script>
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header"><i class="fa fa-plus"></i> Asignar asignatura a profesor</h1>
+        <h1 class="page-header"><i class="fa fa-plus"></i> {{Lang::get('add_enroll.enroll')}}</h1>
         <div class="panel panel-default">
             <div class="panel-heading">
-                Asignar asignatura a profesor
+                {{Lang::get('add_enroll.enroll')}}
             </div>
+             @if(Session::has('message'))
+                  <div class="alert alert-success alert-dismissable">
+                   <button type="button" class="close" data-dismiss="alert" aria-hidden="true"
+                        onclick="$('.alert.alert-success.alert-dismissable').hide('slow')">
+                        &times;
+                     </button>
+                     {{Session::get('message')}}
+                  </div>
+                @endif
             <div class="panel-body">
                 <div class="row">
                     <div class="col-lg-8 col-lg-offset-2">
-                        <form role="form">
+                        {{ Form::open(array('url' => Lang::get('routes.add_enrollment'), 'id' => 'register_form', 'role' => 'form')) }}
                             <div class="form-group">
-                                <label>Asignatura</label>
-                                <select class="form-control" id="subject" name="subject">
-                                    <option value="">Seleccione una asignatura</option>
-                                    @foreach($subjects as $subject)
-                                        <option value="{{ $subject->_id  }}">{{ $subject->name }}</option>
+                                <label>{{Lang::get('add_enroll.teacher')}}</label>
+                                <input type="hidden" id="teacher_id" name="teacher_id" value="">  
+                                <select data-validate="required" class="form-control" id="teacher" name="teacher">
+                                    <option value="">{{Lang::get('add_enroll.teacher_placeholder')}}</option>
+                                    @foreach($teachers as $teacher)
+                                        <option value="{{ $teacher->_id }}">{{ $teacher->name.' '.$teacher->last_name }}</option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label>Seccion</label>
-                                <select class="form-control" id="section" name="section">
-                                    <option value="">Select Section</option>
+                                <label>{{Lang::get('add_enroll.subject')}}</label>
+                                <input type="hidden" id="_id" name="_id" value="">   
+                                <select data-validate="required" class="form-control" id="subject" name="subject">
+                                    <option value="">{{Lang::get('add_enroll.subject_placeholder')}}</option>
+                                    @foreach($subjects as $subject)
+                                        <option value="{{ $subject->_id }}">{{ $subject->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label>Profesor</label>
-                                <select class="form-control" id="teacher" name="teacher">
-                                    <option value="">Select Teacher</option>
+                                <label>{{Lang::get('add_enroll.section')}}</label>
+                                <select data-validate="required" class="form-control" id="section" name="section">
+                                    <option value="">{{Lang::get('add_enroll.section_placeholder')}}</option>
                                 </select>
                             </div>
-                            <button type="submit" class="btn btn-default pull-right">Registrar</button>
+                            <button type="submit" class="btn btn-default pull-right">{{Lang::get('add_enroll.register')}}</button>
                         </form>
                     </div>
                 </div>

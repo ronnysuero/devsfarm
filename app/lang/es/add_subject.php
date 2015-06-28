@@ -10,4 +10,5 @@ return array (
 	'section_placeholder' => 'Ingrese las secciones separadas por coma',
 	'message' => 'Las secciones deben separarse por coma. 1, 2, 3',
 	'success' => 'Materia exitosamente registrada',
+	'subject_duplicated' => 'Esta materia o alguna seccion ya se encuentra registrado en nuestro sistema',
 );

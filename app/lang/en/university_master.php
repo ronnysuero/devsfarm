@@ -6,12 +6,12 @@ return array (
 	'profile' => 'User Profile',
 	'logout' => 'Logout',
 	'board' => 'Dashboard',
-	'subject' => 'Subject',
+	'subject' => 'Subjects',
 	'add' => 'Add',
-	'assignment' => 'Enrollment',
+	'assignment' => 'Enrollments',
 	'assign_subject' => 'Assign Sections',
-	'teacher' => 'Teacher',
-	'section' => 'Section',
+	'teacher' => 'Teachers',
+	'section' => 'Sections',
 	
 	
 );

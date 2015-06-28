@@ -10,7 +10,7 @@ return array (
 	'add' => 'Agregar',
 	'assignment' => 'Inscripciones',
 	'assign_subject' => 'Asignar Secciones',
-	'teacher' => 'Profesor',
-	'section' => 'Section',
+	'teacher' => 'Profesores',
+	'section' => 'Secciones',
 	
 );

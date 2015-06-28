@@ -79,6 +79,10 @@ Route::group(array('before' => 'auth|university'), function()
 
   Route::post(Lang::get('routes.find_section'), 'SectionController@find');
 
+  Route::post(Lang::get('routes.find_unused_section'), 'SectionController@findUnusedSection');
+
+  Route::post(Lang::get('routes.add_enrollment'), 'EnrollmentController@addEnrollment');
+
 });
 
 Route::group(array('before' => 'auth|teacher'), function()

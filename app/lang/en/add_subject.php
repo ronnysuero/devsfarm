@@ -10,4 +10,5 @@ return array (
 	'section_placeholder' => 'Enter the sections separated by commas',
 	'message' => 'The sections must be separated by commas. 1, 2, 3',
 	'success' => 'Subject successfully registered',
+	'subject_duplicated' => 'This subject or some sections is already registered in our system',
 );

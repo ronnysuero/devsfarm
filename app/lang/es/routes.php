@@ -32,4 +32,5 @@ return array(
   'show_all_sections' => 'mostrar_todos_secciones',
   'find_section' => 'buscar_seccion',
   'update_section' => 'actualizar_seccion',
+  'find_unused_section' => 'buscar_seccion_no_utilizada',
 );
