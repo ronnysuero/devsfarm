@@ -106,7 +106,7 @@
 
                     <div class="form-group col-lg-12">
                         <label for="university_name">{{Lang::get('register_university.name')}}</label>
-                        <input data-validate="required,size(20, 40),characterspace" type="text" class="form-control" id="university_name" name="university_name" placeholder="{{Lang::get('register_university.name_placeholder')}}"  />
+                        <input data-validate="required,size(5, 40),characterspace" type="text" class="form-control" id="university_name" name="university_name" placeholder="{{Lang::get('register_university.name_placeholder')}}"  />
                     </div>
                     <div class="form-group col-lg-12">
                         <label for="university_acronym">{{Lang::get('register_university.acronym')}}</label>

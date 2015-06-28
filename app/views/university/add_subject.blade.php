@@ -16,7 +16,7 @@
                 {{ Form::open(array('url' => Lang::get('routes.add_subject'), 'id' => 'register_form', 'role' => 'form')) }}
                 <div class="form-group">
                   <label>{{Lang::get('add_subject.name')}}</label>
-                  <input data-validate="required,size(5, 15),characterspace" class="form-control" id="subject_name" name="subject_name" placeholder="{{Lang::get('add_subject.name_placeholder')}}">
+                  <input data-validate="required,mi(5, 25),characterspace" class="form-control" id="subject_name" name="subject_name" placeholder="{{Lang::get('add_subject.name_placeholder')}}">
                 </div>
                 <div class="form-group">
                   <label>{{Lang::get('add_subject.school')}}</label>
