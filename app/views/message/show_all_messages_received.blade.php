@@ -3,7 +3,21 @@
 @section('title', 'All Messages')
 
 @section('content')
+<script>
+    $(".checkbox").change(function(){
+        console.log(this.checked);
+        if( !$(this).is(':checked')){
+            $("#delete_msg").removeClass("disabled");
+        } else{
+            console.log("Se ha quitado el check.");
+        }
+    });
+    $(".message").on("click", function(){
+        console.log($(this).attr("id"));
+        window.location.replace('show_message');
+    });
 
+</script>
     <div class="row">
         <div class="col-lg-12">
             <h1 class="page-header"><i class="fa fa-envelope-o"></i> Mensajes</h1>
@@ -47,19 +61,4 @@
             </div>
         </div>
     </div>
-<script>
-    $(".checkbox").change(function(){
-        console.log(this.checked);
-        if( !$(this).is(':checked')){
-            $("#delete_msg").removeClass("disabled");
-        } else{
-            console.log("Se ha quitado el check.");
-        }
-    });
-    $(".message").on("click", function(){
-        console.log($(this).attr("id"));
-        window.location.replace('show_message');
-    });
-
-</script>
 @stop

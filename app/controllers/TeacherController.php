@@ -65,6 +65,7 @@ class TeacherController extends BaseController
     $teacher->email = trim(strtolower(Input::get('email')));
     $teacher->subjects_id = array();
     $teacher->sections_id = array();
+    $teacher->messages_id = array();
     
     if (Input::hasFile('photo'))
     {

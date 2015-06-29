@@ -2343,6 +2343,10 @@ String.format = function() {
       en: "There is a code that is already pre-registered",
       es: "Hay un codigo que ya esta previamente registrado"
     },
+    "validateMail": {
+      en: "There is a repeated email",
+      es: "Hay un correo electronico repetido"
+    },
     "characterspace": {
       en: "Use letters or space only",
       es: "Usar letras o espacio solamente "
@@ -2478,19 +2482,19 @@ String.format = function() {
       message: dict["url"][language]
     },
     character: {
-      regex: /^[a-zA-Z]+$/, 
+      regex: /^[a-zA-Z,ñ]+$/, 
       message: dict["character"][language]
     },
     characterspace: {
-      regex: /^[0-9a-zA-Z,\s]*$/,
+      regex: /^[0-9a-zA-Z,\s,ñ]*$/,
       message: dict["characterspace"][language]
     },
     charactercomma: {
-      regex: /^[0-9a-zA-Z\s,-]*$/,
+      regex: /^[0-9a-zA-Z\s,-,ñ]*$/,
       message: dict["charactercomma"][language]
     },
     alphanumeric: {
-      regex: /^[0-9A-Za-z]+$/,
+      regex: /^[0-9A-Za-z,ñ]+$/,
       message: dict["alphanumeric"][language]
     },
     street_number: {
@@ -2733,13 +2737,37 @@ String.format = function() {
           results = [];
 
       for (var i = 0; i < sorted_arr.length - 1; i++) {
-          if (sorted_arr[i + 1].trim().replace(' ', '') === sorted_arr[i].trim().replace(' ', '')) {
-              results.push(sorted_arr[i].trim());
-          }
+        if (sorted_arr[i + 1].trim().replace(' ', '') === sorted_arr[i].trim().replace(' ', '')) {
+            results.push(sorted_arr[i].trim());
+        }
       }
 
       if(results.length !== 0)
           return dict["validateSection"][language];
+      else
+        return true;
+    },
+    validateMail: function(r) {
+      var value = String(r.val()).trim().toLowerCase(),
+          res = value.split(','),
+          sorted_arr = res.sort(), 
+          results = [],
+          regex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+
+      for(var value in sorted_arr)
+      {
+        if(!regex.test(sorted_arr[value].trim().replace(' ', '')))
+          return dict["email"][language];
+      }
+
+      for (var i = 0; i < sorted_arr.length - 1; i++) {
+        if (sorted_arr[i + 1].trim().replace(' ', '') === sorted_arr[i].trim().replace(' ', '')) {
+            results.push(sorted_arr[i].trim());
+        }
+      }
+
+      if(results.length !== 0)
+          return dict["validateMail"][language];
       else
         return true;
     },

@@ -7,41 +7,44 @@
         	@if (count($teachers) >= 1)
             <div class="table-responsive">
                 @foreach($teachers as $teacher)
-                    @if($teacher->profile_image == null)
-                        <img src="images/140x140.png" alt="profesor"></td>
-                    @else
-                        <img src="{{Lang::get('show_image').'?src='.storage_path().$teacher->profile_image}}"/>
-                    @endif
-
-                    <h3>{{$teacher->name.' '.$teacher->last_name}}</h3><br />
                     <?php $subjects = Subject::whereIn('_id', $teacher->subjects_id)->get(); ?>
 
-                    @foreach($subjects as $subject)
-                        <h4>{{Lang::get('list_enroll.subject').$subject->name}}</h4>
-                        <table class="table table-striped table-bordered table-hover">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>{{Lang::get('list_enroll.section')}}</th>
-                                    <th>{{Lang::get('list_enroll.school')}}</th>
-                                    <th>{{Lang::get('list_enroll.unlink')}}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php $sections = $subject->sections()->whereIn('_id', $teacher->sections_id)->get(); ?>
-                                @foreach($sections as $index => $section)
+                    @if(count($subjects) > 0)
+                        @if($teacher->profile_image == null)
+                            <img src="images/140x140.png" alt="profesor"></td>
+                        @else
+                            <img src="{{Lang::get('show_image').'?src='.storage_path().$teacher->profile_image}}"/>
+                        @endif
+
+                        <h3>{{$teacher->name.' '.$teacher->last_name}}</h3><br />
+                        
+                        @foreach($subjects as $subject)
+                            <h4>{{Lang::get('list_enroll.subject').$subject->name}}</h4>
+                            <table class="table table-striped table-bordered table-hover">
+                                <thead>
                                     <tr>
-                                        <td>{{$index+1}}</td>
-                                        <td>{{$section->code}}</td>
-                                        <td>{{$subject->school}}</td>
-                                        <td><a href="#" class="pull-right"><i class="fa fa-chain-broken" data-toggle="modal" data-target="#deleteModal" style="color:#d9534f;"></i></a></td>
+                                        <th>#</th>
+                                        <th>{{Lang::get('list_enroll.section')}}</th>
+                                        <th>{{Lang::get('list_enroll.school')}}</th>
+                                        <th>{{Lang::get('list_enroll.unlink')}}</th>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        <br />
-                    @endforeach
-                    <br /><br />
+                                </thead>
+                                <tbody>
+                                    <?php $sections = $subject->sections()->whereIn('_id', $teacher->sections_id)->get(); ?>
+                                    @foreach($sections as $index => $section)
+                                        <tr>
+                                            <td>{{$index+1}}</td>
+                                            <td>{{$section->code}}</td>
+                                            <td>{{$subject->school}}</td>
+                                            <td><a href="#" class="pull-right"><i class="fa fa-chain-broken" data-toggle="modal" data-target="#deleteModal" style="color:#d9534f;"></i></a></td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                            <br />
+                        @endforeach
+                        <br /><br />
+                    @endif
                 @endforeach
             </div>
             <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="Eliminar inscripcion" aria-hidden="true">

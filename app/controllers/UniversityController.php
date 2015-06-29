@@ -93,6 +93,7 @@ class UniversityController extends BaseController
 		$university->email = trim(strtolower(Input::get('university_email')));
 		$university->acronym = strtoupper(trim(Input::get('university_acronym')));
 		$university->profile_image = null;
+		$university->messages_id = array();
 		$university->save();
 
 		return Redirect::to('/')->with('message', Lang::get('register_university.register_true'));

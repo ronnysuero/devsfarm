@@ -34,5 +34,6 @@ return array(
   'find_section' => 'find_section',
   'update_section' => 'update_section',
   'find_unused_section' => 'find_unused_section',
-  
+  'mail_sent' => 'mail_sent',
+  'find_message' => 'find_message',
 );

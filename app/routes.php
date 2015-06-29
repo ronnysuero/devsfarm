@@ -87,16 +87,16 @@ Route::group(array('before' => 'auth|university'), function()
 
 Route::group(array('before' => 'auth|teacher'), function()
 {
-    // HTTP GET
-    Route::get(Lang::get('routes.teacher'), 'TeacherController@showHome');
+  // HTTP GET
+  Route::get(Lang::get('routes.teacher'), 'TeacherController@showHome');
 
-    Route::get(Lang::get('routes.teacher_profile'), 'TeacherController@showProfile');
+  Route::get(Lang::get('routes.teacher_profile'), 'TeacherController@showProfile');
 
-    Route::get(Lang::get('routes.subject_details'), 'TeacherController@showSubjectDetails');
+  Route::get(Lang::get('routes.subject_details'), 'TeacherController@showSubjectDetails');
 
-    Route::get(Lang::get('routes.farm_report'), 'TeacherController@showFarmReport');
+  Route::get(Lang::get('routes.farm_report'), 'TeacherController@showFarmReport');
 
-    // HTTP POST
+  // HTTP POST
 
 });
 
@@ -111,21 +111,30 @@ Route::group(array('before' => 'auth|student'), function()
 
 Route::group(array('before' => 'auth'), function()
 {
-    Route::get(Lang::get('routes.show_all_messages'), 'MessageController@showAllMessagesView');
+  // HTTP GET  
+  Route::get(Lang::get('routes.show_all_messages'), 'MessageController@showAllMessagesView');
 
-    Route::get(Lang::get('routes.send_message'), 'MessageController@showSendMessageView');
+  Route::get(Lang::get('routes.send_message'), 'MessageController@showSendMessageView');
 
-    Route::get(Lang::get('routes.show_message'), 'MessageController@showMessageView');
+  Route::get(Lang::get('routes.show_message'), 'MessageController@showMessageDetailView');
 
-    Route::get(Lang::get('routes.logout'), 'UserController@logout');
+  Route::get(Lang::get('routes.mail_sent'), 'MessageController@showMessageSentView');
 
-    Route::get(Lang::get('show_image'), function() {
-      $src = Input::get('src', 1);
+  Route::get(Lang::get('routes.logout'), 'UserController@logout');
 
-      $cacheimage = Image::cache(function($image) use ($src) {
-          return $image->make($src);
-      }, 1, false); // one minute cache expiry
+  Route::get(Lang::get('show_image'), function() 
+  {
+    $src = Input::get('src', 1);
 
-      return Response::make($cacheimage, 200, array('Content-Type' => 'image/jpeg'));
-    });
+    $cacheimage = Image::cache(function($image) use ($src) {
+        return $image->make($src);
+    }, 1, false); // one minute cache expiry
+
+    return Response::make($cacheimage, 200, array('Content-Type' => 'image/jpeg'));
+  });
+
+  // HTTP POST
+  Route::post(Lang::get('routes.send_message'), 'MessageController@sendMessage');
+
+  Route::post(Lang::get('routes.find_message'), 'MessageController@find');
 });

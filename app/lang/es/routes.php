@@ -33,4 +33,6 @@ return array(
   'find_section' => 'buscar_seccion',
   'update_section' => 'actualizar_seccion',
   'find_unused_section' => 'buscar_seccion_no_utilizada',
+  'mail_sent' => 'mensajes_enviados',
+  'find_message' => 'encontrar_mensaje',
 );

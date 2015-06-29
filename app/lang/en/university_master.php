@@ -12,6 +12,8 @@ return array (
 	'assign_subject' => 'Assign Sections',
 	'teacher' => 'Teachers',
 	'section' => 'Sections',
-	
+	'mail_sent' => 'Mails Sent',
+	'send_message' => 'Send Message',
+	'received_message' => 'Received Messages',
 	
 );

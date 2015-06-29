@@ -22,12 +22,6 @@
     <script type="text/javascript" src="js/verify.notify.js"></script>
     <script type="text/javascript" src="js/sb-admin.js"></script>
     <script type="text/javascript" src="js/bootstrap.js"></script>
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
     <script type="text/javascript">
       function PreviewImage() {
         var oFReader = new FileReader();
@@ -69,20 +63,16 @@
                         <i class="fa fa-envelope fa-fw" style="color: #0097A7;"></i><i class="fa fa-caret-down" style="color: #0097A7;"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="{{Lang::get('routes.show_all_messages')}}"><i class="fa fa-list-alt fa-fw"></i> {{Lang::get('university_master.list')}}</a>
+                        <li><a href="{{Lang::get('routes.send_message')}}"><i class="fa fa-sign-out fa-space-shuttle"></i> {{Lang::get('university_master.send_message')}}</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="{{Lang::get('routes.send_message')}}"><i class="fa fa-sign-out fa-space-shuttle"></i> {{Lang::get('university_master.send')}}</a>
+                        <li><a href="{{Lang::get('routes.show_all_messages')}}"><i class="fa fa-list-alt fa-fw"></i> {{Lang::get('university_master.received_message')}}</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li><a href="{{Lang::get('routes.mail_sent')}}"><i class="fa fa-envelope-o"></i> {{Lang::get('university_master.mail_sent')}}</a>
                         </li>
                     </ul>
                 </li>
-                <!-- /.dropdown -->
-                {{--<li class="dropdown">--}}
-                    {{--<a class="dropdown-toggle" data-toggle="dropdown" href="#">--}}
-                        {{--<i class="fa fa-bell fa-fw" style="color: #0097A7;"></i>--}}
-                    {{--</a>--}}
-                {{--</li>--}}
-                <!-- /.dropdown -->
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-user fa-fw" style="color: #0097A7;"></i>  <i class="fa fa-caret-down" style="color: #0097A7;"></i>
