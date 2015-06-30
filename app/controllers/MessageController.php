@@ -5,17 +5,25 @@ class MessageController extends BaseController
 
     public function showAllMessagesView ()
     {
-        return View::make('message.show_all_messages_received');
+        $user = null;
+
+        if(strcmp(Auth::user()->rank, 'university') === 0)
+            $user = University::find(Auth::id());
+        elseif (strcmp(Auth::user()->rank, 'teacher') === 0) 
+            $user = Teacher::find(Auth::id());
+        elseif (strcmp(Auth::user()->rank, 'student') === 0) 
+            $user = Student::find(Auth::id());
+
+        if($user !== null)
+        {
+            $messages = Message::whereIn('_id', $user->messages_id)->whereIn('to', array(Auth::id()))->orderBy('sent_date', 'desc')->get();
+            return View::make('message.show_all_messages_received')->with(array('messages' => $messages));
+        }
     }
 
     public function showSendMessageView ()
     {
         return View::make('message.send_message');
-    }
-
-    public function showMessageDetailView ()
-    {
-        return View::make('message.show_message_detail');
     }
 
     public function showMessageSentView()
@@ -30,7 +38,10 @@ class MessageController extends BaseController
             $user = Student::find(Auth::id());
 
         if($user !== null)
-            return View::make('message.show_all_messages_sent')->with(array('messages' => Message::whereIn('_id', $user->messages_id)->get()));
+        {
+            $messages = Message::whereIn('_id', $user->messages_id)->where('from', '=', Auth::id())->orderBy('sent_date', 'desc')->get();
+            return View::make('message.show_all_messages_sent')->with(array('messages' => $messages));
+        }
     }
 
     public function sendMessage()
@@ -130,7 +141,37 @@ class MessageController extends BaseController
     {
         if(Request::ajax())
         {
+            $message = Message::find(Input::get('_id'));
+            $flag = Input::get('flag');
 
+            if($flag !== null)
+                $emails = MessageController::searchUsers($message->from);
+            else
+                $emails = MessageController::searchUsers($message->to);
+
+            return Response::json(array('messages' => $message, 'emails' => $emails));
+        }
+    }
+
+    public function drop()
+    {
+        if(Request::ajax())
+        {
+            $ids = Input::get('_ids');
+
+            $user = null;
+
+            if (strcmp(Auth::user()->rank, 'university') === 0)
+                $user = University::find(Auth::id());
+            elseif (strcmp(Auth::user()->rank, 'teacher') === 0) 
+                $user = Teacher::find(Auth::id());
+            elseif (strcmp(Auth::user()->rank, 'student') === 0) 
+                $user = Student::find(Auth::id());
+
+            foreach ($ids as $value) 
+                $user->pull('messages_id', new MongoId($value));
+            
+            return Response::json("00");
         }
     }
 }

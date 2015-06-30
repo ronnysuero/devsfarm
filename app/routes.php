@@ -16,9 +16,10 @@ $langs_availables = array('es', 'en');
 $lang_browser = substr(Request::server('HTTP_ACCEPT_LANGUAGE'), 0, 2);
 
 if (in_array($lang_browser, $langs_availables))
-  App::setLocale($lang_browser);
+	App::setLocale($lang_browser);
 else
-  App::setLocale('en'); //set default english
+	App::setLocale('en'); //set default english
+
 
 // HTTP GET
 Route::get('/', 'UserController@showView');
@@ -36,105 +37,105 @@ Route::post(Lang::get('routes.register_university'), 'UniversityController@regis
 
 Route::group(array('before' => 'auth|university'), function()
 {
-  // HTTP GET
-  Route::get(Lang::get('routes.university'), 'UniversityController@showHome');
+	// HTTP GET
+	Route::get(Lang::get('routes.university'), 'UniversityController@showHome');
 
-  Route::get(Lang::get('routes.university_profile'), 'UniversityController@showProfile');
+	Route::get(Lang::get('routes.university_profile'), 'UniversityController@showProfile');
 
-  Route::get(Lang::get('routes.add_subject'), 'SubjectController@showView');
+	Route::get(Lang::get('routes.add_subject'), 'SubjectController@showView');
 
-  Route::get(Lang::get('routes.show_all_subjects'), 'SubjectController@showAllSubjectsView');
+	Route::get(Lang::get('routes.show_all_subjects'), 'SubjectController@showAllSubjectsView');
 
-  Route::get(Lang::get('routes.add_teacher'), 'TeacherController@showView');
+	Route::get(Lang::get('routes.add_teacher'), 'TeacherController@showView');
 
-  Route::get(Lang::get('routes.show_all_teachers'), 'TeacherController@showAllTeachersView');
+	Route::get(Lang::get('routes.show_all_teachers'), 'TeacherController@showAllTeachersView');
 
-  Route::get(Lang::get('routes.add_enrollment'), 'EnrollmentController@showView');
+	Route::get(Lang::get('routes.add_enrollment'), 'EnrollmentController@showView');
 
-  Route::get(Lang::get('routes.show_all_enrollment'), 'EnrollmentController@showAllAssignmentsView');
+	Route::get(Lang::get('routes.show_all_enrollment'), 'EnrollmentController@showAllAssignmentsView');
 
-  Route::get(Lang::get('routes.add_section'), 'SectionController@showView');
+	Route::get(Lang::get('routes.add_section'), 'SectionController@showView');
 
-  Route::get(Lang::get('routes.show_all_sections'), 'SectionController@showAllSectionsView');
+	Route::get(Lang::get('routes.show_all_sections'), 'SectionController@showAllSectionsView');
 
 
-  // HTTP POST
-  Route::post(Lang::get('routes.add_subject'), 'SubjectController@addSubject');
+	// HTTP POST
+	Route::post(Lang::get('routes.add_subject'), 'SubjectController@addSubject');
 
-  Route::post(Lang::get('routes.add_teacher'), 'TeacherController@addTeacher');
+	Route::post(Lang::get('routes.add_teacher'), 'TeacherController@addTeacher');
 
-  Route::post(Lang::get('routes.add_section'), 'SectionController@addSection');
+	Route::post(Lang::get('routes.add_section'), 'SectionController@addSection');
 
-  Route::post(Lang::get('routes.update_university'), 'UniversityController@update');
+	Route::post(Lang::get('routes.update_university'), 'UniversityController@update');
 
-  Route::post(Lang::get('routes.update_teacher'), 'TeacherController@update');
+	Route::post(Lang::get('routes.update_teacher'), 'TeacherController@update');
 
-  Route::post(Lang::get('routes.update_section'), 'SectionController@update');
+	Route::post(Lang::get('routes.update_section'), 'SectionController@update');
 
-  Route::post(Lang::get('routes.update_subject'), 'SubjectController@update');
+	Route::post(Lang::get('routes.update_subject'), 'SubjectController@update');
 
-  Route::post(Lang::get('routes.find_teacher'), 'TeacherController@find');
+	Route::post(Lang::get('routes.find_teacher'), 'TeacherController@find');
 
-  Route::post(Lang::get('routes.find_subject'), 'SubjectController@find');
+	Route::post(Lang::get('routes.find_subject'), 'SubjectController@find');
 
-  Route::post(Lang::get('routes.find_section'), 'SectionController@find');
+	Route::post(Lang::get('routes.find_section'), 'SectionController@find');
 
-  Route::post(Lang::get('routes.find_unused_section'), 'SectionController@findUnusedSection');
+	Route::post(Lang::get('routes.find_unused_section'), 'SectionController@findUnusedSection');
 
-  Route::post(Lang::get('routes.add_enrollment'), 'EnrollmentController@addEnrollment');
+	Route::post(Lang::get('routes.add_enrollment'), 'EnrollmentController@addEnrollment');
 
 });
 
 Route::group(array('before' => 'auth|teacher'), function()
 {
-  // HTTP GET
-  Route::get(Lang::get('routes.teacher'), 'TeacherController@showHome');
+	// HTTP GET
+	Route::get(Lang::get('routes.teacher'), 'TeacherController@showHome');
 
-  Route::get(Lang::get('routes.teacher_profile'), 'TeacherController@showProfile');
+	Route::get(Lang::get('routes.teacher_profile'), 'TeacherController@showProfile');
 
-  Route::get(Lang::get('routes.subject_details'), 'TeacherController@showSubjectDetails');
+	Route::get(Lang::get('routes.subject_details'), 'TeacherController@showSubjectDetails');
 
-  Route::get(Lang::get('routes.farm_report'), 'TeacherController@showFarmReport');
+	Route::get(Lang::get('routes.farm_report'), 'TeacherController@showFarmReport');
 
-  // HTTP POST
+	// HTTP POST
 
 });
 
 Route::group(array('before' => 'auth|student'), function()
 {
-  // HTTP GET
-  Route::get(Lang::get('routes.student'), 'StudentController@showHome');
+	// HTTP GET
+	Route::get(Lang::get('routes.student'), 'StudentController@showHome');
 
-  // HTTP POST
+	// HTTP POST
 
 });
 
 Route::group(array('before' => 'auth'), function()
 {
-  // HTTP GET  
-  Route::get(Lang::get('routes.show_all_messages'), 'MessageController@showAllMessagesView');
+	// HTTP GET  
+	Route::get(Lang::get('routes.show_all_messages'), 'MessageController@showAllMessagesView');
 
-  Route::get(Lang::get('routes.send_message'), 'MessageController@showSendMessageView');
+	Route::get(Lang::get('routes.send_message'), 'MessageController@showSendMessageView');
 
-  Route::get(Lang::get('routes.show_message'), 'MessageController@showMessageDetailView');
+	Route::get(Lang::get('routes.mail_sent'), 'MessageController@showMessageSentView');
 
-  Route::get(Lang::get('routes.mail_sent'), 'MessageController@showMessageSentView');
+	Route::get(Lang::get('routes.logout'), 'UserController@logout');
 
-  Route::get(Lang::get('routes.logout'), 'UserController@logout');
+	Route::get(Lang::get('show_image'), function() 
+	{
+		$src = Input::get('src');
 
-  Route::get(Lang::get('show_image'), function() 
-  {
-    $src = Input::get('src', 1);
+		$cacheimage = Image::cache(function($image) use ($src) {
+			return $image->make($src);
+		}, 1, false); // one minute cache expiry
 
-    $cacheimage = Image::cache(function($image) use ($src) {
-        return $image->make($src);
-    }, 1, false); // one minute cache expiry
+		return Response::make($cacheimage, 200, array('Content-Type' => 'image/jpeg'));
+	});
 
-    return Response::make($cacheimage, 200, array('Content-Type' => 'image/jpeg'));
-  });
+	// HTTP POST
+	Route::post(Lang::get('routes.send_message'), 'MessageController@sendMessage');
 
-  // HTTP POST
-  Route::post(Lang::get('routes.send_message'), 'MessageController@sendMessage');
+	Route::post(Lang::get('routes.find_message'), 'MessageController@find');
 
-  Route::post(Lang::get('routes.find_message'), 'MessageController@find');
+	Route::post(Lang::get('routes.drop_message'), 'MessageController@drop');
 });

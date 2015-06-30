@@ -47,7 +47,7 @@ class StudentController extends BaseController
 		$student->last_name = ucfirst(trim(Input::get('guest_lastname')));
 		$student->id_number = trim(Input::get('guest_id'));
 		$student->email = trim(strtolower(Input::get('guest_email')));
-		$student->genre = strtolower(trim(Input::get('guest_genre'));
+		$student->genre = strtolower(trim(Input::get('guest_genre')));
 		$student->has_a_job = strtolower(trim(Input::get('guest_job')));
 		$student->is_teamleader = false;
 		$student->messages_id = array();
