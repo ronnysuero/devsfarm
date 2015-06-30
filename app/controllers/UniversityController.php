@@ -89,7 +89,7 @@ class UniversityController extends BaseController
 
 		$university = new University;
 		$university->_id = $user->_id;
-		$university->name = ucfirst(trim(Input::get('university_name')));
+		$university->name = trim(Input::get('university_name'));
 		$university->email = trim(strtolower(Input::get('university_email')));
 		$university->acronym = strtoupper(trim(Input::get('university_acronym')));
 		$university->profile_image = null;

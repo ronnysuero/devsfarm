@@ -19,8 +19,7 @@
         $(".message").on("click", function()
         {
             console.log($(this).attr("id"));
-            $('#editModal').modal('show');
-            //window.location.replace('show_message');    
+            $('#editModal').modal('show');  
         });
     });
 </script>
@@ -34,7 +33,7 @@
                     <thead>
                         <tr>
                             <th></th>
-                            <th>Destinatario</th>
+                            <th>Destinatarios</th>
                             <th>Asunto</th>
                             <th>Contenido</th>
                         </tr>
@@ -48,10 +47,14 @@
                                     <label> <input type="checkbox"> </label>
                                 </div>
                             </td>
-                            <?php $user = User::first($message->to); ?>
-                            <td width="22%">{{$user->user}}</td>
-                            <td width="40%">{{$message->subject}}</td>
-                            <td width="35%">
+                            <?php $emails = MessageController::searchUsers($message->to); ?>
+                            <td>
+                                @foreach ($emails as $email)
+                                    {{$email}}<br />
+                                @endforeach
+                            </td>
+                            <td>{{$message->subject}}</td>
+                            <td >
                                 @if(strlen($message->body) > 70)
                                     {{substr($message->body, 0, 70);}} ...
                                 @else

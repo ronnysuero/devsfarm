@@ -14,7 +14,6 @@
                         </div>
                         @include('alert')
                         <div class="panel-body">
-
                             <div class="row">
                                 <div class="col-lg-12">
                                     {{ Form::open(array('url' => Lang::get('routes.send_message'), 'id' => 'sendMessage_form', 'role' => 'form')) }}

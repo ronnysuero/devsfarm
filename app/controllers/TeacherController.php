@@ -58,8 +58,8 @@ class TeacherController extends BaseController
     $teacher = new Teacher;
     $teacher->_id = $user->_id;
     $teacher->university_id = Auth::id();
-    $teacher->name = ucfirst(trim(Input::get('name')));
-    $teacher->last_name = ucfirst(trim(Input::get('last_name')));
+    $teacher->name = trim(Input::get('name'));
+    $teacher->last_name = trim(Input::get('last_name'));
     $teacher->phone = trim(Input::get('phone'));
     $teacher->cellphone = trim(Input::get('cellphone'));
     $teacher->email = trim(strtolower(Input::get('email')));
