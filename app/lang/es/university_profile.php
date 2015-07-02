@@ -9,4 +9,8 @@ return array (
 	'email' => 'Correo Electronico',
 	'update' => 'Actualizar',
 	'title' => 'Perfil - Universidad',
+    'change_password' => 'Cambiar Contraseña',
+    'current_password' => 'Contraseña Actual',
+    'new_password' => 'Nueva Contraseña',
+    'confirm_new_password' => 'Confirmar Nueva Contraseña',
 );

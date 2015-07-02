@@ -23,6 +23,7 @@
 	<script type="text/javascript" src="js/sb-admin.js"></script>
 	<script type="text/javascript" src="js/bootstrap.js"></script>
 	<script type="text/javascript" src="js/jquery.tablesorter.js"></script>
+    <script type="text/javascript" src="js/metisMenu.min.js"></script>
 	<script type="text/javascript">
 		$('document').ready(function() 
 		{

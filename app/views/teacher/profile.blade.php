@@ -40,13 +40,24 @@
 								<label>Email</label>
 								<input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
 							</div>
-							<div class="form-group">
-								<label>Default Language</label>
-								<select class="form-control" id="language" name="language">
-									<option value="en">English</option>
-									<option value="es">Español</option>
-								</select>
-							</div>
+
+                            <hr/>
+                            <a href="#" id="show_password_fields"><h5>Change Password</h5></a>
+                            <hr/>
+                            <div id="password_fields" style="display: none;">
+                                <div class="form-group">
+                                    <label>Current Password</label>
+                                    <input data-validate="required,password" class="form-control" id="current_password" name="current_password">
+                                </div>
+                                <div class="form-group">
+                                    <label>New Password</label>
+                                    <input data-validate="required,password" class="form-control" id="new_password" name="new_password">
+                                </div>
+                                <div class="form-group">
+                                    <label>Confirm New Password</label>
+                                    <input data-validate="required,password" class="form-control" id="confirm_new_password" name="confirm_new_password">
+                                </div>
+                            </div>
 							<button type="submit" class="btn btn-default pull-right">Actualizar</button>
 						</form>
 					</div>
@@ -55,4 +66,10 @@
 		</div>
 	</div>
 </div>
+<script>
+    $("#show_password_fields").click(function(){
+        $("#password_fields").toggle("slow");
+    });
+    //
+</script>
 @stop

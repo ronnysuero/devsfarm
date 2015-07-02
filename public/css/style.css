@@ -33,10 +33,10 @@ body {
 .forgot_pw{
   display: block;
   margin-top: 50px;
-  color: white;
+  color: #0097A7;
   text-decoration: none;
 }
 
 .forgot_pw:hover{
-  color: white;
+  color: #0097A7;
 }

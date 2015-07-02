@@ -9,5 +9,9 @@ return array (
 	'email' => 'Email',
 	'update' => 'Update',
 	'title' => 'Profile - University',
+    'change_password' => 'Change Password',
+    'current_password' => 'Current Password',
+    'new_password' => 'New Password',
+    'confirm_new_password' => 'Confirm New Password',
 
 );

@@ -1,5 +1,6 @@
 .DS_Store
 Thumbs.db
+.idea/
 app/storage/photos/imagesprofile/*.png
 app/storage/photos/imagesprofile/*.jpg
 app/storage/photos/imagesprofile/*.bmp

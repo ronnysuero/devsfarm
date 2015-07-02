@@ -61,7 +61,7 @@
 				</div>
 				<div class="checkbox">
 					<label>
-						{{ Form::checkbox('check_user', 'remember_me') }} {{Lang::get('login.remember_me')}}
+						{{ Form::checkbox('check_user', 'remember_me', true) }} {{Lang::get('login.remember_me')}}
 					</label>
 				</div>
 				{{Form::submit(Lang::get('login.login'), array('class' => 'btn btn-primary pull-right'))}}
