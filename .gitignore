@@ -6,3 +6,5 @@ app/storage/photos/imagesprofile/*.jpg
 app/storage/photos/imagesprofile/*.bmp
 app/storage/photos/imagesprofile/*.gif
 app/storage/photos/imagesprofile/*.jpeg
+.phpintel/
+phpunit.xml

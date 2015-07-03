@@ -1,0 +1,103 @@
+"University": 
+{
+	"id": "",
+	"name": "",
+	"email":"",
+	"acronym": "",
+	"logo": ""
+}
+
+"Teacher": 
+{
+	"id": "",
+	"university_id": "",
+	"name": "",
+	"last_name": "",
+	"phone": "",
+	"cellphone": "",
+	"email": "",
+	"picture": "",
+	"genre":"",
+	"sections_id" : [],
+	"subjects_id" : []
+}
+	
+"Subject": 
+{
+	"id": "",
+	"name": "",
+	"university_id":"",
+	"Sections":
+	[
+		{
+			"id": "",
+			"code": "",
+		}
+	]
+}
+
+"Student":
+{
+	"id": "",
+	"name": "",
+	"last_name": "",
+	"university_id": "",
+	"phone": "",
+	"cellphone": "",
+	"email": "",
+	"picture": "",
+	"is_teamleader": "",
+	"has_a_job": "",
+	"genre":""
+}
+
+"User":
+{
+	"id": "", //This field must match with the id of the student, teacher or university
+	"user": "", // This field must match with the email of the student, teacher or university
+	"password": "",
+	"rank": "",
+	"last_activity":""
+}
+
+"Assignment":
+{
+	"id":"",
+	"group_id": "",
+	"assigned_by": "",
+	"assigned_to": "",
+	"date_assigned": "",
+	"deadline": "",
+	"description": "",
+	"state": "",
+	"rated":"",
+	"score":""
+}
+
+"Group":
+{
+	"id":"",
+	"name":"",
+	"teamleader_id":"",
+	"section_id":"",
+	"logo":"",
+	"student_id":[],
+	"project_name":""
+}
+
+"Group_By_Section":
+{
+	"id":"",
+	"section_id": "",
+	"group_id":"",
+	"period": "",
+}
+
+"Message":
+{
+	"id":"",
+	"to":"",
+	"from":"",
+	"subject":"",
+	"body":""
+}

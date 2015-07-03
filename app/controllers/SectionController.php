@@ -19,14 +19,14 @@ class SectionController extends BaseController
 		{
 			if(Input::get('_id') !== null)
 			{
-				$subject = Subject::where('_id', '=', Input::get('_id'))->where('university_id', '=', Auth::id())->first();
+				$subject = Subject::find(new MongoId(Input::get('_id')))->where('university_id', '=', Auth::id())->first();
 				
 				if($subject !== null)
 					return Response::json(array('subject' => $subject, 'sections' => $subject->sections));
 			}
 			else if (Input::get('code') !== null && Input::get('subject_id') !== null)
 			{
-				$subject = Subject::where('_id', '=', Input::get('subject_id'))->where('university_id', '=', Auth::id())->first();
+				$subject = Subject::find(new MongoId(Input::get('subject_id')))->where('university_id', '=', Auth::id())->first();
 				
 				if($subject !== null)
 				{
@@ -41,7 +41,7 @@ class SectionController extends BaseController
 	{
 		if(Request::ajax())
 		{
-			$subject = Subject::where('_id', '=', Input::get('_id'))->where('university_id', '=', Auth::id())->first();
+			$subject = Subject::find(new MongoId(Input::get('_id')))->where('university_id', '=', Auth::id())->first();
 			$sections = $subject->sections()->where('is_free', '=', true)->get();
 
 			if(count($sections) > 0)
@@ -51,7 +51,7 @@ class SectionController extends BaseController
 
 	public function addSection()
 	{
-		$subject = Subject::where('_id', '=', new MongoId(Input::get('_id')))->first();
+		$subject = Subject::find(new MongoId(Input::get('_id')));
 		$sections = explode(',', Input::get('section'));
 
 		foreach($sections as $section)
@@ -76,13 +76,13 @@ class SectionController extends BaseController
 
 	public function update()
 	{  
-		$subject = Subject::where('_id', '=', new MongoId(Input::get('subject_id')))->first();
-		$section = $subject->sections()->where('_id', '=', Input::get('_id'))->first();
+		$subject = Subject::find(new MongoId(Input::get('subject_id')));
+		$section = $subject->sections()->find(new MongoId(Input::get('_id')));
 		$section->code = strtoupper(trim(Input::get('section_code')));
 		
 		try
 		{
-			$subject->save();
+			$section->save();
 		}
 		catch(MongoDuplicateKeyException $e)
 		{

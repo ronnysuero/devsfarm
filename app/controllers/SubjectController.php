@@ -47,8 +47,7 @@ class SubjectController extends BaseController
 
 	public function update()
 	{
-		$subject = Subject::where('_id', '=', new MongoId(Input::get('_id')))->first();
-
+		$subject = Subject::find(new MongoId(Input::get('_id')));
 		$subject->name = strtoupper(trim(Input::get('subject_name')));
 		$subject->school = strtoupper(trim(Input::get('school')));
 		

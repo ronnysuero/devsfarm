@@ -3,500 +3,500 @@
  * Copyright (c) 2013 Jaime Pillora - MIT
  */
 
-(function(window,document,undefined) {
-(function(window,document,undefined) {
-'use strict';
+ (function(window,document,undefined) {
+  (function(window,document,undefined) {
+    'use strict';
 
-var Notification, addStyle, coreStyle, createElem, defaults, getAnchorElement, getStyle, globalAnchors, hAligns, incr, inherit, insertCSS, mainPositions, opposites, parsePosition, pluginClassName, pluginName, pluginOptions, positions, realign, stylePrefixes, styles, vAligns,
-  __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
+    var Notification, addStyle, coreStyle, createElem, defaults, getAnchorElement, getStyle, globalAnchors, hAligns, incr, inherit, insertCSS, mainPositions, opposites, parsePosition, pluginClassName, pluginName, pluginOptions, positions, realign, stylePrefixes, styles, vAligns,
+    __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
-pluginName = 'notify';
+    pluginName = 'notify';
 
-pluginClassName = pluginName + 'js';
+    pluginClassName = pluginName + 'js';
 
-positions = {
-  t: 'top',
-  m: 'middle',
-  b: 'bottom',
-  l: 'left',
-  c: 'center',
-  r: 'right'
-};
-
-hAligns = ['l', 'c', 'r'];
-
-vAligns = ['t', 'm', 'b'];
-
-mainPositions = ['t', 'b', 'l', 'r'];
-
-opposites = {
-  t: 'b',
-  m: null,
-  b: 't',
-  l: 'r',
-  c: null,
-  r: 'l'
-};
-
-parsePosition = function(str) {
-  var pos;
-  pos = [];
-  $.each(str.split(/\W+/), function(i, word) {
-    var w;
-    w = word.toLowerCase().charAt(0);
-    if (positions[w]) {
-      return pos.push(w);
-    }
-  });
-  return pos;
-};
-
-styles = {};
-
-coreStyle = {
-  name: 'core',
-  html: "<div class=\"" + pluginClassName + "-wrapper\">\n  <div class=\"" + pluginClassName + "-arrow\"></div>\n  <div class=\"" + pluginClassName + "-container\"></div>\n</div>",
-  css: "." + pluginClassName + "-corner {\n  position: fixed;\n  margin: 5px;\n  z-index: 1050;\n}\n\n." + pluginClassName + "-corner ." + pluginClassName + "-wrapper,\n." + pluginClassName + "-corner ." + pluginClassName + "-container {\n  position: relative;\n  display: block;\n  height: inherit;\n  width: inherit;\n  margin: 3px;\n}\n\n." + pluginClassName + "-wrapper {\n  z-index: 1;\n  position: absolute;\n  display: inline-block;\n  height: 0;\n  width: 0;\n}\n\n." + pluginClassName + "-container {\n  display: none;\n  z-index: 1;\n  position: absolute;\n  cursor: pointer;\n}\n\n." + pluginClassName + "-text {\n  position: relative;\n}\n\n." + pluginClassName + "-arrow {\n  position: absolute;\n  z-index: 2;\n  width: 0;\n  height: 0;\n}"
-};
-
-stylePrefixes = {
-  "border-radius": ["-webkit-", "-moz-"]
-};
-
-getStyle = function(name) {
-  return styles[name];
-};
-
-addStyle = function(name, def) {
-  var cssText, _ref;
-  if (!name) {
-    throw "Missing Style name";
-  }
-  if (!def) {
-    throw "Missing Style definition";
-  }
-  if ((_ref = styles[name]) != null ? _ref.cssElem : void 0) {
-    if (window.console) {
-      console.warn("" + pluginName + ": overwriting style '" + name + "'");
-    }
-    styles[name].cssElem.remove();
-  }
-  def.name = name;
-  styles[name] = def;
-  cssText = "";
-  if (def.classes) {
-    $.each(def.classes, function(className, props) {
-      cssText += "." + pluginClassName + "-" + def.name + "-" + className + " {\n";
-      $.each(props, function(name, val) {
-        if (stylePrefixes[name]) {
-          $.each(stylePrefixes[name], function(i, prefix) {
-            return cssText += "  " + prefix + name + ": " + val + ";\n";
-          });
-        }
-        return cssText += "  " + name + ": " + val + ";\n";
-      });
-      return cssText += "}\n";
-    });
-  }
-  if (def.css) {
-    cssText += "/* styles for " + def.name + " */\n" + def.css;
-  }
-  if (!cssText) {
-    return;
-  }
-  def.cssElem = insertCSS(cssText);
-  return def.cssElem.attr('id', "notify-" + def.name);
-};
-
-insertCSS = function(cssText) {
-  var elem;
-  elem = createElem("style");
-  elem.attr('type', 'text/css');
-  $("head").append(elem);
-  try {
-    elem.html(cssText);
-  } catch (e) {
-    elem[0].styleSheet.cssText = cssText;
-  }
-  return elem;
-};
-
-pluginOptions = {
-  clickToHide: true,
-  autoHide: true,
-  autoHideDelay: 5000,
-  arrowShow: true,
-  arrowSize: 5,
-  elementPosition: 'bottom',
-  globalPosition: 'top right',
-  style: 'bootstrap',
-  className: 'error',
-  showAnimation: 'slideDown',
-  showDuration: 400,
-  hideAnimation: 'slideUp',
-  hideDuration: 200,
-  gap: 5
-};
-
-inherit = function(a, b) {
-  var F;
-  F = function() {};
-  F.prototype = a;
-  return $.extend(true, new F(), b);
-};
-
-defaults = function(opts) {
-  return $.extend(pluginOptions, opts);
-};
-
-createElem = function(tag) {
-  return $("<" + tag + "></" + tag + ">");
-};
-
-globalAnchors = {};
-
-getAnchorElement = function(element) {
-  var radios;
-  if (element.is('[type=radio]')) {
-    radios = element.parents('form:first').find('[type=radio]').filter(function(i, e) {
-      return $(e).attr('name') === element.attr('name');
-    });
-    element = radios.first();
-  }
-  return element;
-};
-
-incr = function(obj, pos, val) {
-  var opp, temp;
-  if (typeof val === 'string') {
-    val = parseInt(val, 10);
-  } else if (typeof val !== 'number') {
-    return;
-  }
-  if (isNaN(val)) {
-    return;
-  }
-  opp = positions[opposites[pos.charAt(0)]];
-  temp = pos;
-  if (obj[opp] !== undefined) {
-    pos = positions[opp.charAt(0)];
-    val = -val;
-  }
-  if (obj[pos] === undefined) {
-    obj[pos] = val;
-  } else {
-    obj[pos] += val;
-  }
-  return null;
-};
-
-realign = function(alignment, inner, outer) {
-  if (alignment === 'l' || alignment === 't') {
-    return 0;
-  } else if (alignment === 'c' || alignment === 'm') {
-    return outer / 2 - inner / 2;
-  } else if (alignment === 'r' || alignment === 'b') {
-    return outer - inner;
-  }
-  throw "Invalid alignment";
-};
-
-Notification = (function() {
-
-  function Notification(elem, data, options) {
-    if (typeof options === 'string') {
-      options = {
-        className: options
-      };
-    }
-    this.options = inherit(pluginOptions, $.isPlainObject(options) ? options : {});
-    this.loadHTML();
-    this.wrapper = $(coreStyle.html);
-    this.wrapper.data(pluginClassName, this);
-    this.arrow = this.wrapper.find("." + pluginClassName + "-arrow");
-    this.container = this.wrapper.find("." + pluginClassName + "-container");
-    this.container.append(this.userContainer);
-    if (elem && elem.length) {
-      this.elementType = elem.attr('type');
-      this.originalElement = elem;
-      this.elem = getAnchorElement(elem);
-      this.elem.data(pluginClassName, this);
-      this.elem.before(this.wrapper);
-    }
-    this.container.hide();
-    this.run(data);
-  }
-
-  Notification.prototype.loadHTML = function() {
-    var style;
-    style = this.getStyle();
-    this.userContainer = $(style.html);
-    this.text = this.userContainer.find('[data-notify-text]');
-    if (this.text.length === 0) {
-      this.text = this.userContainer.find('[data-notify-html]');
-      this.rawHTML = true;
-    }
-    if (this.text.length === 0) {
-      throw "style: '" + name + "' HTML is missing a: 'data-notify-text' or 'data-notify-html' attribute";
-    }
-    return this.text.addClass("" + pluginClassName + "-text");
-  };
-
-  Notification.prototype.show = function(show, userCallback) {
-    var args, callback, elems, fn, hidden,
-      _this = this;
-    callback = function() {
-      if (!show && !_this.elem) {
-        _this.destroy();
-      }
-      if (userCallback) {
-        return userCallback();
-      }
+    positions = {
+      t: 'top',
+      m: 'middle',
+      b: 'bottom',
+      l: 'left',
+      c: 'center',
+      r: 'right'
     };
-    hidden = this.container.parent().parents(':hidden').length > 0;
-    elems = this.container.add(this.arrow);
-    args = [];
-    if (hidden && show) {
-      fn = 'show';
-    } else if (hidden && !show) {
-      fn = 'hide';
-    } else if (!hidden && show) {
-      fn = this.options.showAnimation;
-      args.push(this.options.showDuration);
-    } else if (!hidden && !show) {
-      fn = this.options.hideAnimation;
-      args.push(this.options.hideDuration);
-    } else {
-      return callback();
-    }
-    args.push(callback);
-    return elems[fn].apply(elems, args);
-  };
 
-  Notification.prototype.setGlobalPosition = function() {
-    var align, anchor, css, key, main, pAlign, pMain, position;
-    position = this.getPosition();
-    pMain = position[0], pAlign = position[1];
-    main = positions[pMain];
-    align = positions[pAlign];
-    key = pMain + "|" + pAlign;
-    anchor = globalAnchors[key];
-    if (!anchor) {
-      anchor = globalAnchors[key] = createElem("div");
-      css = {};
-      css[main] = 0;
-      if (align === 'middle') {
-        css.top = '45%';
-      } else if (align === 'center') {
-        css.left = '45%';
-      } else {
-        css[align] = 0;
-      }
-      anchor.css(css).addClass("" + pluginClassName + "-corner");
-      $("body").append(anchor);
-    }
-    return anchor.prepend(this.wrapper);
-  };
+    hAligns = ['l', 'c', 'r'];
 
-  Notification.prototype.setElementPosition = function() {
-    var arrowColor, arrowCss, arrowSize, color, contH, contW, css, elemH, elemIH, elemIW, elemPos, elemW, gap, mainFull, margin, opp, oppFull, pAlign, pArrow, pMain, pos, posFull, position, wrapPos, _i, _j, _len, _len1, _ref;
-    position = this.getPosition();
-    pMain = position[0], pAlign = position[1], pArrow = position[2];
-    elemPos = this.elem.position();
-    elemH = this.elem.outerHeight();
-    elemW = this.elem.outerWidth();
-    elemIH = this.elem.innerHeight();
-    elemIW = this.elem.innerWidth();
-    wrapPos = this.wrapper.position();
-    contH = this.container.height();
-    contW = this.container.width();
-    mainFull = positions[pMain];
-    opp = opposites[pMain];
-    oppFull = positions[opp];
-    css = {};
-    css[oppFull] = pMain === 'b' ? elemH : pMain === 'r' ? elemW : 0;
-    incr(css, 'top', elemPos.top - wrapPos.top);
-    incr(css, 'left', elemPos.left - wrapPos.left);
-    _ref = ['top', 'left'];
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      pos = _ref[_i];
-      margin = parseInt(this.elem.css("margin-" + pos), 10);
-      if (margin) {
-        incr(css, pos, margin);
-      }
-    }
-    gap = Math.max(0, this.options.gap - (this.options.arrowShow ? arrowSize : 0));
-    incr(css, oppFull, gap);
-    if (!this.options.arrowShow) {
-      this.arrow.hide();
-    } else {
-      arrowSize = this.options.arrowSize;
-      arrowCss = $.extend({}, css);
-      arrowColor = this.userContainer.css("border-color") || this.userContainer.css("background-color") || 'white';
-      for (_j = 0, _len1 = mainPositions.length; _j < _len1; _j++) {
-        pos = mainPositions[_j];
-        posFull = positions[pos];
-        if (pos === opp) {
-          continue;
+    vAligns = ['t', 'm', 'b'];
+
+    mainPositions = ['t', 'b', 'l', 'r'];
+
+    opposites = {
+      t: 'b',
+      m: null,
+      b: 't',
+      l: 'r',
+      c: null,
+      r: 'l'
+    };
+
+    parsePosition = function(str) {
+      var pos;
+      pos = [];
+      $.each(str.split(/\W+/), function(i, word) {
+        var w;
+        w = word.toLowerCase().charAt(0);
+        if (positions[w]) {
+          return pos.push(w);
         }
-        color = posFull === mainFull ? arrowColor : 'transparent';
-        arrowCss["border-" + posFull] = "" + arrowSize + "px solid " + color;
+      });
+      return pos;
+    };
+
+    styles = {};
+
+    coreStyle = {
+      name: 'core',
+      html: "<div class=\"" + pluginClassName + "-wrapper\">\n  <div class=\"" + pluginClassName + "-arrow\"></div>\n  <div class=\"" + pluginClassName + "-container\"></div>\n</div>",
+      css: "." + pluginClassName + "-corner {\n  position: fixed;\n  margin: 5px;\n  z-index: 1050;\n}\n\n." + pluginClassName + "-corner ." + pluginClassName + "-wrapper,\n." + pluginClassName + "-corner ." + pluginClassName + "-container {\n  position: relative;\n  display: block;\n  height: inherit;\n  width: inherit;\n  margin: 3px;\n}\n\n." + pluginClassName + "-wrapper {\n  z-index: 1;\n  position: absolute;\n  display: inline-block;\n  height: 0;\n  width: 0;\n}\n\n." + pluginClassName + "-container {\n  display: none;\n  z-index: 1;\n  position: absolute;\n  cursor: pointer;\n}\n\n." + pluginClassName + "-text {\n  position: relative;\n}\n\n." + pluginClassName + "-arrow {\n  position: absolute;\n  z-index: 2;\n  width: 0;\n  height: 0;\n}"
+    };
+
+    stylePrefixes = {
+      "border-radius": ["-webkit-", "-moz-"]
+    };
+
+    getStyle = function(name) {
+      return styles[name];
+    };
+
+    addStyle = function(name, def) {
+      var cssText, _ref;
+      if (!name) {
+        throw "Missing Style name";
       }
-      incr(css, positions[opp], arrowSize);
-      if (__indexOf.call(mainPositions, pAlign) >= 0) {
-        incr(arrowCss, positions[pAlign], arrowSize * 2);
+      if (!def) {
+        throw "Missing Style definition";
       }
-    }
-    if (__indexOf.call(vAligns, pMain) >= 0) {
-      incr(css, 'left', realign(pAlign, contW, elemW));
-      if (arrowCss) {
-        incr(arrowCss, 'left', realign(pAlign, arrowSize, elemIW));
+      if ((_ref = styles[name]) != null ? _ref.cssElem : void 0) {
+        if (window.console) {
+          console.warn("" + pluginName + ": overwriting style '" + name + "'");
+        }
+        styles[name].cssElem.remove();
       }
-    } else if (__indexOf.call(hAligns, pMain) >= 0) {
-      incr(css, 'top', realign(pAlign, contH, elemH));
-      if (arrowCss) {
-        incr(arrowCss, 'top', realign(pAlign, arrowSize, elemIH));
+      def.name = name;
+      styles[name] = def;
+      cssText = "";
+      if (def.classes) {
+        $.each(def.classes, function(className, props) {
+          cssText += "." + pluginClassName + "-" + def.name + "-" + className + " {\n";
+          $.each(props, function(name, val) {
+            if (stylePrefixes[name]) {
+              $.each(stylePrefixes[name], function(i, prefix) {
+                return cssText += "  " + prefix + name + ": " + val + ";\n";
+              });
+            }
+            return cssText += "  " + name + ": " + val + ";\n";
+          });
+          return cssText += "}\n";
+        });
       }
-    }
-    if (this.container.is(":visible")) {
-      css.display = 'block';
-    }
-    this.container.removeAttr('style').css(css);
-    if (arrowCss) {
-      return this.arrow.removeAttr('style').css(arrowCss);
-    }
-  };
+      if (def.css) {
+        cssText += "/* styles for " + def.name + " */\n" + def.css;
+      }
+      if (!cssText) {
+        return;
+      }
+      def.cssElem = insertCSS(cssText);
+      return def.cssElem.attr('id', "notify-" + def.name);
+    };
 
-  Notification.prototype.getPosition = function() {
-    var pos, text, _ref, _ref1, _ref2, _ref3, _ref4, _ref5;
-    text = this.options.position || (this.elem ? this.options.elementPosition : this.options.globalPosition);
-    pos = parsePosition(text);
-    if (pos.length === 0) {
-      pos[0] = 'b';
-    }
-    if (_ref = pos[0], __indexOf.call(mainPositions, _ref) < 0) {
-      throw "Must be one of [" + mainPositions + "]";
-    }
-    if (pos.length === 1 || ((_ref1 = pos[0], __indexOf.call(vAligns, _ref1) >= 0) && (_ref2 = pos[1], __indexOf.call(hAligns, _ref2) < 0)) || ((_ref3 = pos[0], __indexOf.call(hAligns, _ref3) >= 0) && (_ref4 = pos[1], __indexOf.call(vAligns, _ref4) < 0))) {
-      pos[1] = (_ref5 = pos[0], __indexOf.call(hAligns, _ref5) >= 0) ? 'm' : 'l';
-    }
-    if (pos.length === 2) {
-      pos[2] = pos[1];
-    }
-    return pos;
-  };
+    insertCSS = function(cssText) {
+      var elem;
+      elem = createElem("style");
+      elem.attr('type', 'text/css');
+      $("head").append(elem);
+      try {
+        elem.html(cssText);
+      } catch (e) {
+        elem[0].styleSheet.cssText = cssText;
+      }
+      return elem;
+    };
 
-  Notification.prototype.getStyle = function(name) {
-    var style;
-    if (!name) {
-      name = this.options.style;
-    }
-    if (!name) {
-      name = 'default';
-    }
-    style = styles[name];
-    if (!style) {
-      throw "Missing style: " + name;
-    }
-    return style;
-  };
+    pluginOptions = {
+      clickToHide: true,
+      autoHide: true,
+      autoHideDelay: 5000,
+      arrowShow: true,
+      arrowSize: 5,
+      elementPosition: 'bottom',
+      globalPosition: 'top right',
+      style: 'bootstrap',
+      className: 'error',
+      showAnimation: 'slideDown',
+      showDuration: 400,
+      hideAnimation: 'slideUp',
+      hideDuration: 200,
+      gap: 5
+    };
 
-  Notification.prototype.updateClasses = function() {
-    var classes, style;
-    classes = ['base'];
-    if ($.isArray(this.options.className)) {
-      classes = classes.concat(this.options.className);
-    } else if (this.options.className) {
-      classes.push(this.options.className);
-    }
-    style = this.getStyle();
-    classes = $.map(classes, function(n) {
-      return "" + pluginClassName + "-" + style.name + "-" + n;
-    }).join(' ');
-    return this.userContainer.attr('class', classes);
-  };
+    inherit = function(a, b) {
+      var F;
+      F = function() {};
+      F.prototype = a;
+      return $.extend(true, new F(), b);
+    };
 
-  Notification.prototype.run = function(data, options) {
-    var _this = this;
-    if ($.isPlainObject(options)) {
-      $.extend(this.options, options);
-    } else if ($.type(options) === 'string') {
-      this.options.color = options;
-    }
-    if (this.container && !data) {
-      this.show(false);
-      return;
-    } else if (!this.container && !data) {
-      return;
-    }
-    this.text[this.rawHTML ? 'html' : 'text'](data);
-    this.updateClasses();
-    if (this.elem) {
-      this.setElementPosition();
-    } else {
-      this.setGlobalPosition();
-    }
-    this.show(true);
-    if (this.options.autoHide) {
-      clearTimeout(this.autohideTimer);
-      return this.autohideTimer = setTimeout(function() {
-        return _this.show(false);
-      }, this.options.autoHideDelay);
-    }
-  };
+    defaults = function(opts) {
+      return $.extend(pluginOptions, opts);
+    };
 
-  Notification.prototype.destroy = function() {
-    return this.wrapper.remove();
-  };
+    createElem = function(tag) {
+      return $("<" + tag + "></" + tag + ">");
+    };
 
-  return Notification;
+    globalAnchors = {};
 
-})();
+    getAnchorElement = function(element) {
+      var radios;
+      if (element.is('[type=radio]')) {
+        radios = element.parents('form:first').find('[type=radio]').filter(function(i, e) {
+          return $(e).attr('name') === element.attr('name');
+        });
+        element = radios.first();
+      }
+      return element;
+    };
 
-$[pluginName] = function(elem, data, options) {
-  if ((elem && elem.nodeName) || elem.jquery) {
-    $(elem)[pluginName](data, options);
-  } else {
-    options = data;
-    data = elem;
-    new Notification(null, data, options);
-  }
-  return elem;
-};
+    incr = function(obj, pos, val) {
+      var opp, temp;
+      if (typeof val === 'string') {
+        val = parseInt(val, 10);
+      } else if (typeof val !== 'number') {
+        return;
+      }
+      if (isNaN(val)) {
+        return;
+      }
+      opp = positions[opposites[pos.charAt(0)]];
+      temp = pos;
+      if (obj[opp] !== undefined) {
+        pos = positions[opp.charAt(0)];
+        val = -val;
+      }
+      if (obj[pos] === undefined) {
+        obj[pos] = val;
+      } else {
+        obj[pos] += val;
+      }
+      return null;
+    };
 
-$.fn[pluginName] = function(data, options) {
-  $(this).each(function() {
-    var inst;
-    inst = getAnchorElement($(this)).data(pluginClassName);
-    if (inst) {
-      return inst.run(data, options);
-    } else {
-      return new Notification($(this), data, options);
-    }
-  });
-  return this;
-};
+    realign = function(alignment, inner, outer) {
+      if (alignment === 'l' || alignment === 't') {
+        return 0;
+      } else if (alignment === 'c' || alignment === 'm') {
+        return outer / 2 - inner / 2;
+      } else if (alignment === 'r' || alignment === 'b') {
+        return outer - inner;
+      }
+      throw "Invalid alignment";
+    };
 
-$.extend($[pluginName], {
-  defaults: defaults,
-  addStyle: addStyle,
-  pluginOptions: pluginOptions,
-  getStyle: getStyle,
-  insertCSS: insertCSS
-});
+    Notification = (function() {
 
-$(function() {
-  insertCSS(coreStyle.css).attr('id', 'core-notify');
-  return $(document).on('click notify-hide', "." + pluginClassName + "-wrapper", function(e) {
-    var inst;
-    inst = $(this).data(pluginClassName);
-    if (inst && (inst.options.clickToHide || e.type === 'notify-hide')) {
-      return inst.show(false);
-    }
-  });
-});
+      function Notification(elem, data, options) {
+        if (typeof options === 'string') {
+          options = {
+            className: options
+          };
+        }
+        this.options = inherit(pluginOptions, $.isPlainObject(options) ? options : {});
+        this.loadHTML();
+        this.wrapper = $(coreStyle.html);
+        this.wrapper.data(pluginClassName, this);
+        this.arrow = this.wrapper.find("." + pluginClassName + "-arrow");
+        this.container = this.wrapper.find("." + pluginClassName + "-container");
+        this.container.append(this.userContainer);
+        if (elem && elem.length) {
+          this.elementType = elem.attr('type');
+          this.originalElement = elem;
+          this.elem = getAnchorElement(elem);
+          this.elem.data(pluginClassName, this);
+          this.elem.before(this.wrapper);
+        }
+        this.container.hide();
+        this.run(data);
+      }
 
-}(window,document));
+      Notification.prototype.loadHTML = function() {
+        var style;
+        style = this.getStyle();
+        this.userContainer = $(style.html);
+        this.text = this.userContainer.find('[data-notify-text]');
+        if (this.text.length === 0) {
+          this.text = this.userContainer.find('[data-notify-html]');
+          this.rawHTML = true;
+        }
+        if (this.text.length === 0) {
+          throw "style: '" + name + "' HTML is missing a: 'data-notify-text' or 'data-notify-html' attribute";
+        }
+        return this.text.addClass("" + pluginClassName + "-text");
+      };
+
+      Notification.prototype.show = function(show, userCallback) {
+        var args, callback, elems, fn, hidden,
+        _this = this;
+        callback = function() {
+          if (!show && !_this.elem) {
+            _this.destroy();
+          }
+          if (userCallback) {
+            return userCallback();
+          }
+        };
+        hidden = this.container.parent().parents(':hidden').length > 0;
+        elems = this.container.add(this.arrow);
+        args = [];
+        if (hidden && show) {
+          fn = 'show';
+        } else if (hidden && !show) {
+          fn = 'hide';
+        } else if (!hidden && show) {
+          fn = this.options.showAnimation;
+          args.push(this.options.showDuration);
+        } else if (!hidden && !show) {
+          fn = this.options.hideAnimation;
+          args.push(this.options.hideDuration);
+        } else {
+          return callback();
+        }
+        args.push(callback);
+        return elems[fn].apply(elems, args);
+      };
+
+      Notification.prototype.setGlobalPosition = function() {
+        var align, anchor, css, key, main, pAlign, pMain, position;
+        position = this.getPosition();
+        pMain = position[0], pAlign = position[1];
+        main = positions[pMain];
+        align = positions[pAlign];
+        key = pMain + "|" + pAlign;
+        anchor = globalAnchors[key];
+        if (!anchor) {
+          anchor = globalAnchors[key] = createElem("div");
+          css = {};
+          css[main] = 0;
+          if (align === 'middle') {
+            css.top = '45%';
+          } else if (align === 'center') {
+            css.left = '45%';
+          } else {
+            css[align] = 0;
+          }
+          anchor.css(css).addClass("" + pluginClassName + "-corner");
+          $("body").append(anchor);
+        }
+        return anchor.prepend(this.wrapper);
+      };
+
+      Notification.prototype.setElementPosition = function() {
+        var arrowColor, arrowCss, arrowSize, color, contH, contW, css, elemH, elemIH, elemIW, elemPos, elemW, gap, mainFull, margin, opp, oppFull, pAlign, pArrow, pMain, pos, posFull, position, wrapPos, _i, _j, _len, _len1, _ref;
+        position = this.getPosition();
+        pMain = position[0], pAlign = position[1], pArrow = position[2];
+        elemPos = this.elem.position();
+        elemH = this.elem.outerHeight();
+        elemW = this.elem.outerWidth();
+        elemIH = this.elem.innerHeight();
+        elemIW = this.elem.innerWidth();
+        wrapPos = this.wrapper.position();
+        contH = this.container.height();
+        contW = this.container.width();
+        mainFull = positions[pMain];
+        opp = opposites[pMain];
+        oppFull = positions[opp];
+        css = {};
+        css[oppFull] = pMain === 'b' ? elemH : pMain === 'r' ? elemW : 0;
+        incr(css, 'top', elemPos.top - wrapPos.top);
+        incr(css, 'left', elemPos.left - wrapPos.left);
+        _ref = ['top', 'left'];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          pos = _ref[_i];
+          margin = parseInt(this.elem.css("margin-" + pos), 10);
+          if (margin) {
+            incr(css, pos, margin);
+          }
+        }
+        gap = Math.max(0, this.options.gap - (this.options.arrowShow ? arrowSize : 0));
+        incr(css, oppFull, gap);
+        if (!this.options.arrowShow) {
+          this.arrow.hide();
+        } else {
+          arrowSize = this.options.arrowSize;
+          arrowCss = $.extend({}, css);
+          arrowColor = this.userContainer.css("border-color") || this.userContainer.css("background-color") || 'white';
+          for (_j = 0, _len1 = mainPositions.length; _j < _len1; _j++) {
+            pos = mainPositions[_j];
+            posFull = positions[pos];
+            if (pos === opp) {
+              continue;
+            }
+            color = posFull === mainFull ? arrowColor : 'transparent';
+            arrowCss["border-" + posFull] = "" + arrowSize + "px solid " + color;
+          }
+          incr(css, positions[opp], arrowSize);
+          if (__indexOf.call(mainPositions, pAlign) >= 0) {
+            incr(arrowCss, positions[pAlign], arrowSize * 2);
+          }
+        }
+        if (__indexOf.call(vAligns, pMain) >= 0) {
+          incr(css, 'left', realign(pAlign, contW, elemW));
+          if (arrowCss) {
+            incr(arrowCss, 'left', realign(pAlign, arrowSize, elemIW));
+          }
+        } else if (__indexOf.call(hAligns, pMain) >= 0) {
+          incr(css, 'top', realign(pAlign, contH, elemH));
+          if (arrowCss) {
+            incr(arrowCss, 'top', realign(pAlign, arrowSize, elemIH));
+          }
+        }
+        if (this.container.is(":visible")) {
+          css.display = 'block';
+        }
+        this.container.removeAttr('style').css(css);
+        if (arrowCss) {
+          return this.arrow.removeAttr('style').css(arrowCss);
+        }
+      };
+
+      Notification.prototype.getPosition = function() {
+        var pos, text, _ref, _ref1, _ref2, _ref3, _ref4, _ref5;
+        text = this.options.position || (this.elem ? this.options.elementPosition : this.options.globalPosition);
+        pos = parsePosition(text);
+        if (pos.length === 0) {
+          pos[0] = 'b';
+        }
+        if (_ref = pos[0], __indexOf.call(mainPositions, _ref) < 0) {
+          throw "Must be one of [" + mainPositions + "]";
+        }
+        if (pos.length === 1 || ((_ref1 = pos[0], __indexOf.call(vAligns, _ref1) >= 0) && (_ref2 = pos[1], __indexOf.call(hAligns, _ref2) < 0)) || ((_ref3 = pos[0], __indexOf.call(hAligns, _ref3) >= 0) && (_ref4 = pos[1], __indexOf.call(vAligns, _ref4) < 0))) {
+          pos[1] = (_ref5 = pos[0], __indexOf.call(hAligns, _ref5) >= 0) ? 'm' : 'l';
+        }
+        if (pos.length === 2) {
+          pos[2] = pos[1];
+        }
+        return pos;
+      };
+
+      Notification.prototype.getStyle = function(name) {
+        var style;
+        if (!name) {
+          name = this.options.style;
+        }
+        if (!name) {
+          name = 'default';
+        }
+        style = styles[name];
+        if (!style) {
+          throw "Missing style: " + name;
+        }
+        return style;
+      };
+
+      Notification.prototype.updateClasses = function() {
+        var classes, style;
+        classes = ['base'];
+        if ($.isArray(this.options.className)) {
+          classes = classes.concat(this.options.className);
+        } else if (this.options.className) {
+          classes.push(this.options.className);
+        }
+        style = this.getStyle();
+        classes = $.map(classes, function(n) {
+          return "" + pluginClassName + "-" + style.name + "-" + n;
+        }).join(' ');
+        return this.userContainer.attr('class', classes);
+      };
+
+      Notification.prototype.run = function(data, options) {
+        var _this = this;
+        if ($.isPlainObject(options)) {
+          $.extend(this.options, options);
+        } else if ($.type(options) === 'string') {
+          this.options.color = options;
+        }
+        if (this.container && !data) {
+          this.show(false);
+          return;
+        } else if (!this.container && !data) {
+          return;
+        }
+        this.text[this.rawHTML ? 'html' : 'text'](data);
+        this.updateClasses();
+        if (this.elem) {
+          this.setElementPosition();
+        } else {
+          this.setGlobalPosition();
+        }
+        this.show(true);
+        if (this.options.autoHide) {
+          clearTimeout(this.autohideTimer);
+          return this.autohideTimer = setTimeout(function() {
+            return _this.show(false);
+          }, this.options.autoHideDelay);
+        }
+      };
+
+      Notification.prototype.destroy = function() {
+        return this.wrapper.remove();
+      };
+
+      return Notification;
+
+    })();
+
+    $[pluginName] = function(elem, data, options) {
+      if ((elem && elem.nodeName) || elem.jquery) {
+        $(elem)[pluginName](data, options);
+      } else {
+        options = data;
+        data = elem;
+        new Notification(null, data, options);
+      }
+      return elem;
+    };
+
+    $.fn[pluginName] = function(data, options) {
+      $(this).each(function() {
+        var inst;
+        inst = getAnchorElement($(this)).data(pluginClassName);
+        if (inst) {
+          return inst.run(data, options);
+        } else {
+          return new Notification($(this), data, options);
+        }
+      });
+      return this;
+    };
+
+    $.extend($[pluginName], {
+      defaults: defaults,
+      addStyle: addStyle,
+      pluginOptions: pluginOptions,
+      getStyle: getStyle,
+      insertCSS: insertCSS
+    });
+
+    $(function() {
+      insertCSS(coreStyle.css).attr('id', 'core-notify');
+      return $(document).on('click notify-hide', "." + pluginClassName + "-wrapper", function(e) {
+        var inst;
+        inst = $(this).data(pluginClassName);
+        if (inst && (inst.options.clickToHide || e.type === 'notify-hide')) {
+          return inst.show(false);
+        }
+      });
+    });
+
+  }(window,document));
 
 $.notify.addStyle("bootstrap", {
   html: "<div>\n<span data-notify-text></span>\n</div>",
@@ -547,8 +547,8 @@ $.notify.addStyle("bootstrap", {
 
   var fns = ["log","warn","info","group","groupCollapsed","groupEnd"];
   for (var i = fns.length - 1; i >= 0; i--)
-    if(window.console[fns[i]] === undefined)
-      window.console[fns[i]] = $.noop;
+  if(window.console[fns[i]] === undefined)
+    window.console[fns[i]] = $.noop;
 
   if(!$) return;
   
@@ -570,7 +570,7 @@ $.notify.addStyle("bootstrap", {
 
   function cons(type, opts, args) {
     if(window.console === undefined ||
-       window.console.isFake === true)
+     window.console.isFake === true)
       return;
 
     var a = $.map(args,I);
@@ -584,36 +584,36 @@ $.notify.addStyle("bootstrap", {
         window.console.log(a.join(','));
       else
         window.console[type].apply(window.console, a);
-    if(grp === false) window.console.groupEnd();
-  }
+      if(grp === false) window.console.groupEnd();
+    }
 
-  function withOptions(opts) {
-    return {
-      log:  function() { log.apply(opts, arguments); },
-      warn: function() { warn.apply(opts, arguments); },
-      info: function() { info.apply(opts, arguments); }
+    function withOptions(opts) {
+      return {
+        log:  function() { log.apply(opts, arguments); },
+        warn: function() { warn.apply(opts, arguments); },
+        info: function() { info.apply(opts, arguments); }
+      };
+    }
+
+    var console = function(opts) {
+      opts = $.extend({}, console.defaults, opts);
+      return withOptions(opts);
     };
-  }
 
-  var console = function(opts) {
-    opts = $.extend({}, console.defaults, opts);
-    return withOptions(opts);
-  };
+    console.defaults = {
+      suppressLog: false,
+      prefix: '',
+      postfix: ''
+    };
 
-  console.defaults = {
-    suppressLog: false,
-    prefix: '',
-    postfix: ''
-  };
+    $.extend(console, withOptions(console.defaults));
 
-  $.extend(console, withOptions(console.defaults));
+    if($.console === undefined)
+      $.console = console;
 
-  if($.console === undefined)
-    $.console = console;
-  
-  $.consoleNoConflict = console;
+    $.consoleNoConflict = console;
 
-}(jQuery));
+  }(jQuery));
 
 //plugin wide ajax cache
 var ajaxCache = { loading: {}, loaded: {} } ;
@@ -622,17 +622,17 @@ var ajaxCache = { loading: {}, loaded: {} } ;
 function ajaxHelper(userOpts, r) {
 
   var defaults = {
-        method: "GET",
-        timeout: 15 * 1000
-      },
-      exec = r._exec,
-      promptContainer = exec.type === "GroupRuleExecution" ?
-          exec.element.domElem :
-          r.field,
-      userSuccess = userOpts.success,
-      userError   = userOpts.error,
-      options = exec.element.options,
-      serialised = JSON ? JSON.stringify(userOpts) : guid();
+    method: "GET",
+    timeout: 15 * 1000
+  },
+  exec = r._exec,
+  promptContainer = exec.type === "GroupRuleExecution" ?
+  exec.element.domElem :
+  r.field,
+  userSuccess = userOpts.success,
+  userError   = userOpts.error,
+  options = exec.element.options,
+  serialised = JSON ? JSON.stringify(userOpts) : guid();
 
   function onErrorDefault(e) {
     log("ajax error");
@@ -648,7 +648,7 @@ function ajaxHelper(userOpts, r) {
   if(ajaxCache.loaded[serialised]) {
 
     var args = ajaxCache.loaded[serialised],
-        success = userCallbacks.success;
+    success = userCallbacks.success;
 
     success.apply(r, args);
     return;
@@ -721,8 +721,8 @@ $.fn.equals = function(that) {
   if($(this).length !== that.length)
     return false;
   for(var i=0,l=$(this).length;i<l;++i)
-    if($(this)[i] !== that[i])
-      return false;
+  if($(this)[i] !== that[i])
+    return false;
   return true;
 };
 
@@ -742,19 +742,19 @@ var Class = null;
     
     // Instantiate a base class (but only create the instance,
     // don't run the init constructor)
-    initializing = true;
-    var prototype = new this();
-    initializing = false;
-    
+initializing = true;
+var prototype = new this();
+initializing = false;
+
     // Copy the properties over onto the new prototype
     for (var name in prop) {
       // Check if we're overwriting an existing function
       prototype[name] = typeof prop[name] == "function" && 
-        typeof _super[name] == "function" && fnTest.test(prop[name]) ?
-        (function(name, fn){
-          return function() {
-            var tmp = this._super;
-            
+      typeof _super[name] == "function" && fnTest.test(prop[name]) ?
+      (function(name, fn){
+        return function() {
+          var tmp = this._super;
+
             // Add a new ._super() method that is the same method
             // but on the super-class
             this._super = _super[name];
@@ -768,8 +768,8 @@ var Class = null;
           };
         })(name, prop[name]) :
         prop[name];
-    }
-    
+      }
+
     // The dummy class constructor
     function Class() {
       // All construction is actually done in the init method
@@ -803,10 +803,10 @@ var Set = Class.extend({
 
   indexOf: function(obj) {
     for(var i = 0, l = this.array.length;i<l; ++i)
-      if($.isFunction(obj) ?
-          obj(this.get(i)) :
-          this.equals(this.get(i),obj))
-        return i;
+    if($.isFunction(obj) ?
+      obj(this.get(i)) :
+      this.equals(this.get(i),obj))
+      return i;
     return -1;
   },
 
@@ -834,15 +834,15 @@ var Set = Class.extend({
     if(!$.isArray(items)) items = [items];
     var count = 0;
     for(var i = 0, l = items.length; i<l; ++i)
-      if(this.add(items[i]))
-        count++;
+    if(this.add(items[i]))
+      count++;
     return count;
   },
   remove: function(item) {
     var newSet = [];
     for(var i = 0, l = this.array.length; i<l; ++i)
-      if(!this.equals(this.get(i),item))
-        newSet.push(this.get(i));
+    if(!this.equals(this.get(i),item))
+      newSet.push(this.get(i));
 
     this.array = newSet;
     return item;
@@ -858,8 +858,8 @@ var Set = Class.extend({
   },
   each: function(fn) {
     for(var i = 0, l = this.array.length; i<l; ++i)
-      if( fn(this.get(i)) === false)
-        return;
+    if( fn(this.get(i)) === false)
+      return;
   },
   map: function(fn) {
     return $.map(this.array,fn);
@@ -902,16 +902,16 @@ var Utils = {
   checkOptions: function(opts) {
     if(!opts) return;
     for(var key in opts)
-      if(globalOptions[key] === undefined)
-        warn("Invalid option: '" + key + "'");
+    if(globalOptions[key] === undefined)
+      warn("Invalid option: '" + key + "'");
   },
 
   //append to arguments[i]
   appendArg: function(args, expr, i) {
-      if(!i) i = 0;
-      var a = [].slice.call(args, i);
-      a[i] = expr + a[i];
-      return a;
+    if(!i) i = 0;
+    var a = [].slice.call(args, i);
+    a[i] = expr + a[i];
+    return a;
   },
 
   //memoize.js - by @addyosmani, @philogb, @mathias
@@ -925,7 +925,7 @@ var Utils = {
       while(i--){
         currentArg = args[i];
         hash += (currentArg === Object(currentArg)) ?
-              JSON.stringify(currentArg) : currentArg;
+        JSON.stringify(currentArg) : currentArg;
         fn.memoize || (fn.memoize = {});
       }
       return (hash in fn.memoize) ? fn.memoize[hash] :
@@ -950,37 +950,37 @@ var Utils = {
         date = new Date(epoch);
       } catch(e) { return null; }
     //simple regex parse
-    } else {
-      date = new Date(parseInt(m[3], 10),parseInt(m[2], 10)-1,parseInt(m[1], 10));
-    }
+  } else {
+    date = new Date(parseInt(m[3], 10),parseInt(m[2], 10)-1,parseInt(m[1], 10));
+  }
 
-    return date;
-  },
+  return date;
+},
 
   /**
    * returns true if we are in a RTLed document
    * @param {jqObject} field
    */
-  isRTL: function(field) {
+   isRTL: function(field) {
     var $document = $(document);
     var $body = $('body');
     var rtl =
-      (field && field.hasClass('rtl')) ||
-      (field && (field.attr('dir') || '').toLowerCase()==='rtl') ||
-      $document.hasClass('rtl') ||
-      ($document.attr('dir') || '').toLowerCase()==='rtl' ||
-      $body.hasClass('rtl') ||
-      ($body.attr('dir') || '').toLowerCase()==='rtl';
+    (field && field.hasClass('rtl')) ||
+    (field && (field.attr('dir') || '').toLowerCase()==='rtl') ||
+    $document.hasClass('rtl') ||
+    ($document.attr('dir') || '').toLowerCase()==='rtl' ||
+    $body.hasClass('rtl') ||
+    ($body.attr('dir') || '').toLowerCase()==='rtl';
     return Boolean(rtl);
   }
 };
 
 
 var VERSION = "0.0.1",
-    cons = $.consoleNoConflict({ prefix: 'verify.js: ' }),
-    log  = cons.log,
-    warn = cons.warn,
-    info = cons.info;
+cons = $.consoleNoConflict({ prefix: 'verify.js: ' }),
+log  = cons.log,
+warn = cons.warn,
+info = cons.info;
 
 
 
@@ -988,7 +988,7 @@ var VERSION = "0.0.1",
  * Plugin Settings/Variables
  * ===================================== */
 
-var globalOptions = {
+ var globalOptions = {
   // Display log messages flag
   debug: false,
   // Auto initialise forms (on DOM ready)
@@ -1047,11 +1047,11 @@ CustomOptions.prototype = globalOptions;
  * Base Class
  * ===================================== */
 
-var BaseClass = Class.extend({
+ var BaseClass = Class.extend({
   name: "Class",
   toString: function() {
     return (this.type ? this.type + ": ":'') +
-           (this.name ? this.name + ": ":'');
+    (this.name ? this.name + ": ":'');
   },
   log: function() {
     if(!globalOptions.debug) return;
@@ -1066,11 +1066,11 @@ var BaseClass = Class.extend({
   bind: function(name) {
     var prop = this[name];
     if(prop && $.isFunction(prop))
-        this[name] = Utils.bind(prop,this);
+      this[name] = Utils.bind(prop,this);
   },
   bindAll: function() {
     for(var propName in this)
-      this.bind(propName);
+    this.bind(propName);
   },
   //enforce asynchronicity
   nextTick: function(fn, args, ms) {
@@ -1143,7 +1143,7 @@ var Rule = BaseClass.extend({
       this.fn = this.userObj.fn;
 
     //handle object.regexp
-    } else if($.type(this.userObj.regex) === "regexp") {
+  } else if($.type(this.userObj.regex) === "regexp") {
 
       //build regex function
       this.fn = (function(regex) {
@@ -1231,25 +1231,25 @@ var Rule = BaseClass.extend({
  * Rules Manager (Plugin Wide)
  * ===================================== */
 
-var ruleManager = null;
-(function() {
+ var ruleManager = null;
+ (function() {
 
   //regex parser - with pre 'one(1,2),three.scope(6,7),five)'
-  var parseString = function(str) {
+var parseString = function(str) {
 
-    var chars = str.split(""),
-        rule, rules = [],
-        c, m, depth = 0;
+  var chars = str.split(""),
+  rule, rules = [],
+  c, m, depth = 0;
 
     //replace argument commas with semi-colons
     // TODO allow escaping of '(' ')' ','
     for(var i = 0, l = chars.length; i<l; ++i) {
       c = chars[i];
       if(c === '(') depth++;
-      if(c === ')') depth--;
-      if(depth > 1) return null;
-      if(c === ',' && depth === 1) chars[i] = ";";
-    }
+        if(c === ')') depth--;
+        if(depth > 1) return null;
+        if(c === ',' && depth === 1) chars[i] = ";";
+      }
 
     //bracket check
     if(depth !== 0) return null;
@@ -1273,7 +1273,7 @@ var ruleManager = null;
 
   //privates
   var rawRules = {},
-      builtRules = {};
+  builtRules = {};
 
   var addRules = function(type,obj) {
     //check format, insert type
@@ -1326,7 +1326,7 @@ var ruleManager = null;
 
   var getRule = function(name) {
     var r = builtRules[name],
-        obj = rawRules[name];
+    obj = rawRules[name];
 
     if(!obj)
       warn("Missing rule: " + name);
@@ -1339,7 +1339,7 @@ var ruleManager = null;
   //extract an objectified version of the "data-validate" attribute
   var parseAttribute = function(element) {
     var attrName = element.form.options.validateAttribute,
-        attr = element.domElem.attr(attrName);
+    attr = element.domElem.attr(attrName);
     if(!attr) return null;
     return parseStringMemo(attr);
   };
@@ -1348,9 +1348,9 @@ var ruleManager = null;
   var parseElement = function(element) {
 
     var required = false,
-        type = null,
-        attrResults = null,
-        results = [];
+    type = null,
+    attrResults = null,
+    results = [];
 
     if(element.type !== 'ValidationField')
       return warn("Cannot get rules from invalid type");
@@ -1400,7 +1400,7 @@ var ValidationForm = null;
    * Element Super Class
    * ===================================== */
 
-  var ValidationElement = BaseClass.extend({
+   var ValidationElement = BaseClass.extend({
 
     type: "ValidationElement",
     init: function(domElem) {
@@ -1411,8 +1411,8 @@ var ValidationForm = null;
       this.domElem = domElem;
       this.bindAll();
       this.name = this.domElem.attr('name') ||
-                  this.domElem.attr('id') ||
-                  guid();
+      this.domElem.attr('id') ||
+      guid();
       this.execution = null;
 
       if(domElem.data('verify'))
@@ -1447,7 +1447,7 @@ var ValidationForm = null;
    * Field Wrapper
    * ===================================== */
 
-  var ValidationField = ValidationElement.extend({
+   var ValidationField = ValidationElement.extend({
 
     //class variables
     type: "ValidationField",
@@ -1502,7 +1502,7 @@ var ValidationForm = null;
     handleResult: function(exec) {
 
       var opts = this.options,
-          reskinElem = opts.reskinContainer(this.domElem);
+      reskinElem = opts.reskinContainer(this.domElem);
 
       if(!reskinElem || !reskinElem.length)
         return this.warn("No reskin element found. Check 'reskinContainer' option.");
@@ -1529,7 +1529,7 @@ var ValidationForm = null;
         'Validate',
         [this.form.name,this.name].join(' '),
         exec.success ? 'Valid' : exec.response ? '"'+exec.response+'"' : 'Silent Fail'
-      );
+        );
     },
 
     //listening for 'validate' event
@@ -1541,26 +1541,26 @@ var ValidationForm = null;
           reskinElem.focus();
         };
 
-      if (this.options.scroll)
-        reskinElem.verifyScrollView(callback);
-      else if(this.options.focusFirstField)
-        field.focus();
-    }
+        if (this.options.scroll)
+          reskinElem.verifyScrollView(callback);
+        else if(this.options.focusFirstField)
+          field.focus();
+      }
 
-  });
+    });
 
   /* ===================================== *
    * Form Wrapper
    * ===================================== */
 
-  ValidationForm = ValidationElement.extend({
+   ValidationForm = ValidationElement.extend({
 
     /* ===================================== *
      * Instance variables
      * ===================================== */
-    type: "ValidationForm",
+     type: "ValidationForm",
 
-    init: function(domElem, options) {
+     init: function(domElem, options) {
       //sanity checks
       this._super(domElem);
 
@@ -1596,11 +1596,11 @@ var ValidationForm = null;
 
     bindEvents: function() {
       this.domElem
-        .on("keyup.jqv", "input", this.onKeyup)
-        .on("blur.jqv", "input[type=text]:not(.hasDatepicker),input:not([type].hasDatepicker)", this.onValidate)
-        .on("change.jqv", "input[type=text].hasDatepicker,select,[type=checkbox],[type=radio]", this.onValidate)
-        .on("submit.jqv", this.onSubmit)
-        .trigger("initialised.jqv");
+      .on("keyup.jqv", "input", this.onKeyup)
+      .on("blur.jqv", "input[type=text]:not(.hasDatepicker),input:not([type].hasDatepicker)", this.onValidate)
+      .on("change.jqv", "input[type=text].hasDatepicker,select,[type=checkbox],[type=radio]", this.onValidate)
+      .on("submit.jqv", this.onSubmit)
+      .trigger("initialised.jqv");
     },
 
     unbindEvents: function() {
@@ -1620,7 +1620,7 @@ var ValidationForm = null;
         domElem = $(domElem);
 
       var fieldSelector = "input:not([type=hidden]),select,textarea",
-          field, fieldElem;
+      field, fieldElem;
 
       if(!domElem.is(fieldSelector))
         return this.warn("Validators will not work on container elements ("+domElem.prop('tagName')+"). Please use INPUT, SELECT or TEXTAREA.");
@@ -1643,7 +1643,7 @@ var ValidationForm = null;
      * Event Handlers
      * ===================================== */
 
-    onSubmit: function(event) {
+     onSubmit: function(event) {
 
       var submitForm = false;
 
@@ -1652,24 +1652,24 @@ var ValidationForm = null;
 
       //no result -> begin
       if(!this.submitPending &&
-          this.submitResult === undefined) {
+        this.submitResult === undefined) {
 
         this.submitPending = true;
-        this.validate(this.doSubmit);
+      this.validate(this.doSubmit);
 
       //have result
-      } else if (this.submitResult !== undefined) {
-        submitForm = this.options.beforeSubmit.call(this.domElem, event, this.submitResult);
-      }
+    } else if (this.submitResult !== undefined) {
+      submitForm = this.options.beforeSubmit.call(this.domElem, event, this.submitResult);
+    }
 
-      if(!submitForm) event.preventDefault();
-      return submitForm;
-    },
+    if(!submitForm) event.preventDefault();
+    return submitForm;
+  },
 
-    doSubmit: function(success) {
-      this.log('doSubmit', success);
-      this.submitPending = false;
-      this.submitResult = success;
+  doSubmit: function(success) {
+    this.log('doSubmit', success);
+    this.submitPending = false;
+    this.submitResult = success;
       this.domElem.submit(); //trigger onSubmit, though with a result
       this.submitResult = undefined;
     },
@@ -1691,7 +1691,7 @@ var ValidationForm = null;
      * Validate Form
      * ===================================== */
 
-    validate: function(callback) {
+     validate: function(callback) {
       if(!callback) callback = $.noop;
 
       this.updateFields();
@@ -1710,7 +1710,7 @@ var ValidationForm = null;
 })();
 // only exposing two classes
 var FormExecution = null,
-    FieldExecution = null;
+FieldExecution = null;
 
 //instantiated inside private scope
 (function() {
@@ -1767,7 +1767,7 @@ var FormExecution = null,
         return this.resolve();
 
       var pipeline = fns[0](),
-          i = 1, l = fns.length;
+      i = 1, l = fns.length;
 
       this.log("SERIALIZE", l);
 
@@ -1775,7 +1775,7 @@ var FormExecution = null,
         throw "Invalid Deferred Object";
 
       for(;i < l;i++)
-        pipeline = pipeline.pipe(fns[i]);
+      pipeline = pipeline.pipe(fns[i]);
 
       //link pipeline
       pipeline.done(this.resolve).fail(this.reject);
@@ -1789,8 +1789,8 @@ var FormExecution = null,
       var fns = this.mapExecutables(objs);
 
       var _this = this,
-          n = 0, i = 0, l = fns.length,
-          rejected = false;
+      n = 0, i = 0, l = fns.length,
+      rejected = false;
 
       this.log("PARALLELIZE", l);
 
@@ -1841,7 +1841,7 @@ var FormExecution = null,
     execute: function() {
 
       var p = this.parent,
-          ps = [];
+      ps = [];
       while(p) {
         ps.unshift(p.name);
         p = p.parent;
@@ -1990,32 +1990,32 @@ var FormExecution = null,
 
       //custom-form-elements.js hidden fields
       if(this.options.skipHiddenFields &&
-         this.options.reskinContainer(this.domElem).is(':hidden')) {
+       this.options.reskinContainer(this.domElem).is(':hidden')) {
         this.log("skip (hidden)");
-        return true;
-      }
+      return true;
+    }
 
       //skip disabled
       if(this.options.skipDisabledFields &&
-         this.domElem.is('[disabled]')) {
+       this.domElem.is('[disabled]')) {
         this.log("skip (disabled)");
-        return true;
-      }
+      return true;
+    }
 
-      return false;
-    },
+    return false;
+  },
 
-    executed: function() {
-      this._super();
+  executed: function() {
+    this._super();
 
       //pass error to element
       var i, exec = this,
-          children = this.children;
+      children = this.children;
       for(i = 0; i < children.length; ++i)
-        if(children[i].success === false) {
-          exec = children[i];
-          break;
-        }
+      if(children[i].success === false) {
+        exec = children[i];
+        break;
+      }
       this.element.handleResult(exec);
     }
 
@@ -2081,7 +2081,7 @@ var FormExecution = null,
       } catch(e) {
         response = true;
         console.error("Error caught in validation rule: '" + this.rule.name +
-                      "', skipping.\nERROR: " + e.toString() + "\nSTACK:" + e.stack);
+          "', skipping.\nERROR: " + e.toString() + "\nSTACK:" + e.stack);
       }
 
       //used return statement
@@ -2093,50 +2093,50 @@ var FormExecution = null,
 
   });
 
-  var GroupRuleExecution = RuleExecution.extend({
+var GroupRuleExecution = RuleExecution.extend({
 
-    type: "GroupRuleExecution",
+  type: "GroupRuleExecution",
 
-    init: function(ruleParamObj, parent) {
-      this._super(ruleParamObj, parent);
-      this.groupName = ruleParamObj.name;
-      this.id = ruleParamObj.id;
-      this.scope = ruleParamObj.scope || 'default';
-      this.group = this.element.groups[this.groupName][this.scope];
-      if(!this.group)
-        throw "Missing Group Set";
-      if(this.group.size() === 1)
-        this.warn("Group only has 1 field. Consider a field rule.");
-    },
+  init: function(ruleParamObj, parent) {
+    this._super(ruleParamObj, parent);
+    this.groupName = ruleParamObj.name;
+    this.id = ruleParamObj.id;
+    this.scope = ruleParamObj.scope || 'default';
+    this.group = this.element.groups[this.groupName][this.scope];
+    if(!this.group)
+      throw "Missing Group Set";
+    if(this.group.size() === 1)
+      this.warn("Group only has 1 field. Consider a field rule.");
+  },
 
-    execute: function() {
+  execute: function() {
 
-      var sharedExec = this.group.exec,
-          parentExec = this.parent,
-          originExec = parentExec && parentExec.parent,
-          groupOrigin = originExec instanceof GroupRuleExecution,
-          fieldOrigin = !originExec,
-          formOrigin = originExec instanceof FormExecution,
-          _this = this, i, j, field, exec, child,
-          isMember = false;
+    var sharedExec = this.group.exec,
+    parentExec = this.parent,
+    originExec = parentExec && parentExec.parent,
+    groupOrigin = originExec instanceof GroupRuleExecution,
+    fieldOrigin = !originExec,
+    formOrigin = originExec instanceof FormExecution,
+    _this = this, i, j, field, exec, child,
+    isMember = false;
 
-      if(!sharedExec || sharedExec.status === STATUS.COMPLETE) {
-        this.log("MASTER");
-        this.members = [this];
-        this.executeGroup = this._super;
-        sharedExec = this.group.exec = this;
+    if(!sharedExec || sharedExec.status === STATUS.COMPLETE) {
+      this.log("MASTER");
+      this.members = [this];
+      this.executeGroup = this._super;
+      sharedExec = this.group.exec = this;
 
-        if(formOrigin)
-          sharedExec.linkFail(originExec);
+      if(formOrigin)
+        sharedExec.linkFail(originExec);
 
-      } else {
+    } else {
 
-        this.members = sharedExec.members;
-        for(i = 0; i < this.members.length; ++i)
-          if(this.element === this.members[i].element)
-            isMember = true;
+      this.members = sharedExec.members;
+      for(i = 0; i < this.members.length; ++i)
+      if(this.element === this.members[i].element)
+        isMember = true;
 
-        if(isMember) {
+      if(isMember) {
           //start a new execution - reject old
           this.log("ALREADY A MEMBER OF %s", sharedExec.name);
           this.reject();
@@ -2151,13 +2151,13 @@ var FormExecution = null,
       }
 
       if(fieldOrigin)
-      for(i = 0; i < this.group.size(); ++i) {
-        field = this.group.get(i);
+        for(i = 0; i < this.group.size(); ++i) {
+          field = this.group.get(i);
 
-        if(this.element === field)
-          continue;
+          if(this.element === field)
+            continue;
 
-        this.log("CHECK:", field.name);
+          this.log("CHECK:", field.name);
         //let the user make their way onto
         // the field first - silent fail!
         if(!field.touched) {
@@ -2176,33 +2176,33 @@ var FormExecution = null,
       }
 
       var groupSize = this.group.size(),
-          execSize = sharedExec.members.length;
+      execSize = sharedExec.members.length;
 
       if(groupSize === execSize&&
-         sharedExec.status === STATUS.NOT_STARTED) {
+       sharedExec.status === STATUS.NOT_STARTED) {
         sharedExec.log("RUN");
-        sharedExec.executeGroup();
-      } else {
-        this.log("WAIT (" + execSize + "/" + groupSize + ")");
-      }
-
-      return this.d.promise();
-    },
-
-    filterResponse: function(response) {
-      if(!response || !this.members.length)
-        return this._super(response);
-
-      var isObj = $.isPlainObject(response),
-          isStr = (typeof response === 'string');
-
-      if(isStr && this === this.group.exec) return response;
-      if(isObj && response[this.id]) return response[this.id];
-
-      return null;
+      sharedExec.executeGroup();
+    } else {
+      this.log("WAIT (" + execSize + "/" + groupSize + ")");
     }
 
-  });
+    return this.d.promise();
+  },
+
+  filterResponse: function(response) {
+    if(!response || !this.members.length)
+      return this._super(response);
+
+    var isObj = $.isPlainObject(response),
+    isStr = (typeof response === 'string');
+
+    if(isStr && this === this.group.exec) return response;
+    if(isObj && response[this.id]) return response[this.id];
+
+    return null;
+  }
+
+});
 
 })();
 $.fn.validate = function(callback) {
@@ -2268,20 +2268,20 @@ $.extend($.verify, {
  * Auto attach on DOM ready
  * ===================================== */
 
-$(function() {
+ $(function() {
   if(globalOptions.autoInit)
-  $("form").filter(function() {
-    return $(this).find("[" + globalOptions.validateAttribute + "]").length > 0;
-  }).verify();
+    $("form").filter(function() {
+      return $(this).find("[" + globalOptions.validateAttribute + "]").length > 0;
+    }).verify();
 });
 
-String.format = function() {
-    var s = arguments[0];
-    for (var i = 0; i < arguments.length - 1; i++) {       
-        var reg = new RegExp("\\{" + i + "\\}", "gm");             
-        s = s.replace(reg, arguments[i + 1]);
-    }
-    return s;
+ String.format = function() {
+  var s = arguments[0];
+  for (var i = 0; i < arguments.length - 1; i++) {       
+    var reg = new RegExp("\\{" + i + "\\}", "gm");             
+    s = s.replace(reg, arguments[i + 1]);
+  }
+  return s;
 };
 
 (function($) {
@@ -2469,7 +2469,7 @@ String.format = function() {
     /* Regex validators
      * - at plugin load, 'regex' will be transformed into validator function 'fn' which uses 'message'
      */
-    currency: {
+     currency: {
       regex: /^\-?\$?\d{1,2}(,?\d{3})*(\.\d+)?$/,
       message: dict["currency"][language]
     },
@@ -2490,7 +2490,7 @@ String.format = function() {
       message: dict["characterspace"][language]
     },
     charactercomma: {
-      regex: /^[0-9a-zA-Z\s,-,ñ]*$/,
+      regex: /^[0-9a-zA-Z\s,ñ-]*$/,
       message: dict["charactercomma"][language]
     },
     alphanumeric: {
@@ -2536,53 +2536,53 @@ String.format = function() {
 
         switch (field.prop("type")) {
           case "radio":
-          case "checkbox":
-            var name = field.attr("name");
-            var group = field.data('fieldGroup');
+            case "checkbox":
+              var name = field.attr("name");
+              var group = field.data('fieldGroup');
 
-            if(!group) {
-              group = r.form.find("input[name='" + name + "']");
-              field.data('fieldGroup', group);
+              if(!group) {
+                group = r.form.find("input[name='" + name + "']");
+                field.data('fieldGroup', group);
+              }
+
+              if (group.is(":checked"))
+                break;
+
+              if (group.size() === 1)
+                return r.messages.single;
+
+              return r.messages.multiple;
+
+              default:
+              if (! $.trim(v))
+                return r.messages.all;
+              break;
+            }
+            return true;
+          },
+          messages: {
+            "all": dict["all"][language],
+            "multiple": dict["multiple"][language],
+            "single": dict["single"][language]
+          }
+        },
+        regex: {
+          fn: function(r) {
+            var re;
+            try {
+              var str = r.args[0];
+              re = new RegExp(str);
+            } catch(error) {
+              r.warn("Invalid regex: " + str);
+              return true;
             }
 
-            if (group.is(":checked"))
-              break;
-
-            if (group.size() === 1)
-              return r.messages.single;
-
-            return r.messages.multiple;
-
-          default:
-            if (! $.trim(v))
-              return r.messages.all;
-            break;
-        }
-        return true;
-      },
-      messages: {
-        "all": dict["all"][language],
-        "multiple": dict["multiple"][language],
-        "single": dict["single"][language]
-      }
-    },
-    regex: {
-      fn: function(r) {
-        var re;
-        try {
-          var str = r.args[0];
-          re = new RegExp(str);
-        } catch(error) {
-          r.warn("Invalid regex: " + str);
-          return true;
-        }
-
-        if(!r.val().match(re))
-          return r.args[1] || r.message;
-        return true;
-      },
-      message: dict["regex"][language]
-    },
+            if(!r.val().match(re))
+              return r.args[1] || r.message;
+            return true;
+          },
+          message: dict["regex"][language]
+        },
     //an alias
     pattern: {
       extend: 'regex'
@@ -2636,35 +2636,35 @@ String.format = function() {
       return true;
     },
     password: function(r) {
-      
+
       var password = document.getElementById(r.args[0].trim()).value,
-          user =  document.getElementById(r.args[1].trim()).value || "";
+      user =  document.getElementById(r.args[1].trim()).value || "";
 
       if(password == user)
         return dict["password_email_match"][language];
-        
+
       var re = /[0-9]/;
-        
+
       if(!re.test(password))
         return dict["password_number"][language];
-          
+
       re = /[a-z]/;
-        
+
       if(!re.test(password))
         return dict["password_lower"][language];
-    
+
       re = /[A-Z]/;
-        
+
       if(!re.test(password))
         return dict["password_upper"][language];
-    
+
       return true;
       
     },
     verifyPassword: function(r) {
-      
+
       var password1 = document.getElementById(r.args[0].trim()).value,
-          password2 = document.getElementById(r.args[1].trim()).value;
+      password2 = document.getElementById(r.args[1].trim()).value;
 
       if(password1 != password2)
         return dict["password_dismatch"][language];
@@ -2673,13 +2673,13 @@ String.format = function() {
     },
     decimal: function(r) {
       var vStr = r.val(),
-          places = r.args[0] ? parseInt(r.args[0], 10) : 2;
+      places = r.args[0] ? parseInt(r.args[0], 10) : 2;
 
       if(!vStr.match(/^\d+(,\d{3})*(\.\d+)?$/))
         return dict["decimal"][language];
 
       var v = parseFloat(vStr.replace(/[^\d\.]/g,'')),
-          factor = Math.pow(10,places);
+      factor = Math.pow(10,places);
 
       v = (Math.round(v*factor)/factor);
       r.field.val(v);
@@ -2688,33 +2688,33 @@ String.format = function() {
     },
     minVal: function(r) {
       var v = parseFloat(r.val().replace(/[^\d\.]/g,'')),
-          suffix = r.args[1] || '',
-          min = parseFloat(r.args[0]);
+      suffix = r.args[1] || '',
+      min = parseFloat(r.args[0]);
       if(v < min)
         return dict["minVal"][language] + min + suffix;
       return true;
     },
     maxVal: function(r) {
       var v = parseFloat(r.val().replace(/[^\d\.]/g,'')),
-          suffix = r.args[1] || '',
-          max = parseFloat(r.args[0]);
+      suffix = r.args[1] || '',
+      max = parseFloat(r.args[0]);
       if(v > max)
         return dict["maxVal"][language] + max + suffix;
       return true;
     },
     rangeVal: function(r) {
       var v = parseFloat(r.val().replace(/[^\d\.]/g,'')),
-          prefix = r.args[2] || '',
-          suffix = r.args[3] || '',
-          min = parseFloat(r.args[0]),
-          max = parseFloat(r.args[1]);
+      prefix = r.args[2] || '',
+      suffix = r.args[3] || '',
+      min = parseFloat(r.args[0]),
+      max = parseFloat(r.args[1]);
       if(v > max || v < min)
         return dict["rangeVal"][language] + prefix + min + suffix + "\nand " + prefix + max + suffix;
       return true;
     },
     compareCodes: function(r) {
       var codes = String(document.getElementById(r.args[0].trim()).value).trim().toLowerCase().split(','),
-          newCodes = String(document.getElementById(r.args[1].trim()).value).trim().toLowerCase().split(',');
+      newCodes = String(document.getElementById(r.args[1].trim()).value).trim().toLowerCase().split(',');
 
       codes = codes.sort();
       newCodes = newCodes.sort();
@@ -2724,7 +2724,7 @@ String.format = function() {
 
         for (var j = 0; j < newCodes.length; j++) {
           if (item === newCodes[j].trim().replace(' ', '')) {
-              return dict["compareCodes"][language];
+            return dict["compareCodes"][language];
           }
         }  
       }
@@ -2732,27 +2732,27 @@ String.format = function() {
     },
     validateSection: function(r) {
       var value = String(r.val()).trim().toLowerCase(),
-          res = value.split(','),
-          sorted_arr = res.sort(), 
-          results = [];
+      res = value.split(','),
+      sorted_arr = res.sort(), 
+      results = [];
 
       for (var i = 0; i < sorted_arr.length - 1; i++) {
         if (sorted_arr[i + 1].trim().replace(' ', '') === sorted_arr[i].trim().replace(' ', '')) {
-            results.push(sorted_arr[i].trim());
+          results.push(sorted_arr[i].trim());
         }
       }
 
       if(results.length !== 0)
-          return dict["validateSection"][language];
+        return dict["validateSection"][language];
       else
         return true;
     },
     validateMail: function(r) {
       var value = String(r.val()).trim().toLowerCase(),
-          res = value.split(','),
-          sorted_arr = res.sort(), 
-          results = [],
-          regex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+      res = value.split(','),
+      sorted_arr = res.sort(), 
+      results = [],
+      regex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
 
       for(var value in sorted_arr)
       {
@@ -2762,12 +2762,12 @@ String.format = function() {
 
       for (var i = 0; i < sorted_arr.length - 1; i++) {
         if (sorted_arr[i + 1].trim().replace(' ', '') === sorted_arr[i].trim().replace(' ', '')) {
-            results.push(sorted_arr[i].trim());
+          results.push(sorted_arr[i].trim());
         }
       }
 
       if(results.length !== 0)
-          return dict["validateMail"][language];
+        return dict["validateMail"][language];
       else
         return true;
     },
@@ -2800,7 +2800,7 @@ String.format = function() {
 
     dateRange: function(r) {
       var start = r.field("start"),
-          end = r.field("end");
+      end = r.field("end");
 
       if(start.length === 0 || end.length === 0) {
         r.warn("Missing dateRange fields, skipping...");
@@ -2826,8 +2826,8 @@ String.format = function() {
       fn: function(r) {
 
         var size = r.fields().length,
-            message,
-            passes = [], fails = [];
+        message,
+        passes = [], fails = [];
 
         r.fields().each(function(i, field) {
           message = r.requiredField(r, field);

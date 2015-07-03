@@ -85,8 +85,7 @@ class TeacherController extends BaseController
 
 	public function update()
 	{
-		$teacher = Teacher::where('_id', '=', new MongoId(Input::get('_id')))->first();
-
+		$teacher = Teacher::find(new MongoId(Input::get('_id')));
 		$email = trim(strtolower(Input::get('email')));
 
 		if(strcmp($email, $teacher->email) !== 0)
