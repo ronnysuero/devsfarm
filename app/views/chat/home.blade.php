@@ -4,9 +4,9 @@
 	<meta charset="utf-8">
 	<title>Chat</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link href="css\bootstrap.css" rel="stylesheet">
-	<link href="css\font-awesome.css" rel="stylesheet">
-	<link href="css\style.chat.css" rel="stylesheet" type="text/css"> 
+	<link href="css/bootstrap.css" rel="stylesheet">
+	<link href="css/font-awesome.css" rel="stylesheet">
+	<link href="css/style.chat.css" rel="stylesheet" type="text/css"> 
 </head>
 <body>
 	<div class="site-holder">
@@ -28,7 +28,7 @@
 									@foreach ($contacts as $index => $contact)
 									<a class="list-group-item" onclick="setSenderId('contact{{$index + 1}}')">
 										@if($contact->profile_image == null)
-										<img src="images\profile.png" class="chat-user-avatar" alt="contact"></td>
+										<img src="images/profile.png" class="chat-user-avatar" alt="contact"></td>
 										@else
 										<img src="{{Lang::get('show_image').'?src='.storage_path().$contact->profile_image}}" class="chat-user-avatar"/>
 										@endif
@@ -51,7 +51,7 @@
 								<h3 class="panel-title ">
 									<span class="recipient">
 										@if($user->profile_image == null)
-										<img src="images\profile.png" class="chat-user-avatar" alt="picture-profile"></td>
+										<img src="images/profile.png" class="chat-user-avatar" alt="picture-profile"></td>
 										@else
 										<img src="{{Lang::get('show_image').'?src='.storage_path().$user->profile_image}}" class="chat-user-avatar"/>
 										@endif
@@ -60,16 +60,15 @@
 										@else
 										{{$user->name.' '.$user->last_name}}
 										@endif
-										<i class="fa fa-circle"></i>
 									</span>
 								</h3>
 							</div>
-							<span id="status">Connecting...</span>
+							<h4><span id="status">Connecting...</span></h4>
 							<div class="panel-body nopadding">
 								<div class="list-group conversation" id="content"></div>
 								<input type="hidden" value="{{Auth::id()}}" id="_id">
 								<input type="hidden" value="" id="chat_id">
-								<input type="hidden" value="" id="receiver">
+								<input type="hidden" value="" id="receiver_id">
 								<div class="input-group">
 									<input type="text" class="form-control write-message disabled" id="write-message" placeholder="Type something here and hit enter">
 									<span class="input-group-btn" >
@@ -88,13 +87,42 @@
 	<script type="text/javascript">
 		function setSenderId(r)
 		{
-			$('#receiver').val($('#'+r).val());
+			$('#receiver_id').val($('#'+r).val());
 			$('#content').html('');
-			
-			$.post("{{Lang::get('routes.find_chat')}}",{ _id: $('#_id').val(), receiver: $('#receiver').val() }).done(function( data ) {
-				$('#chat_id').val(data.id);
+
+			$.post("{{Lang::get('routes.find_chat')}}",{ _id: $('#_id').val(), receiver_id: $('#receiver_id').val() }).done(function( data ) {
+
+				$('#chat_id').val(data.chat._id);
+
+				for(var i = 0; i< data.chat.conversations.length; i++)
+				{
+					var conversation = data.chat.conversations[i];
+					var author = '';
+
+					if(String(conversation.sender_id.$id) === data.sender._id)
+						author = data.sender.name;
+					else 
+						author = data.receiver.name;
+
+					$('#content').append('<a class="list-group-item"> <img src="images/profile.png" class="chat-user-avatar" alt=""><span class="username">' + author + ' <span class="time">'+ formatDate(new Date(conversation.date_sended.sec*1000)) + '</span> </span>'+
+						'<p>' + conversation.message + '</p></a>');
+				}
 			});
-		}	
+		}
+
+		function formatDate(date) 
+		{
+			var hours = date.getHours(),
+			minutes = date.getMinutes(),
+			ampm = hours >= 12 ? 'pm' : 'am';
+
+			hours = hours % 12;
+			hours = hours ? hours : 12;
+			minutes = minutes < 10 ? '0'+minutes : minutes;
+			var strTime = hours + ':' + minutes + ' ' + ampm;
+
+			return date.getMonth()+1 + "/" + date.getDate() + "/" + date.getFullYear() + "  " + strTime;
+		}
 	</script>
 </body>
 </html>

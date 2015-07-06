@@ -10,6 +10,7 @@
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="css/sb-admin.css">
 	<link rel="stylesheet" type="text/css" href="css/font-awesome.css">
+	<script type="text/javascript" src="js/jquery-2.1.3.js"></script>
 </head>
 <body>
 	<div id="wrapper">
@@ -90,7 +91,6 @@
 									<a href="{{Lang::get('routes.show_all_teachers')}}"><i class="fa fa-eye" style="color: #0097A7;"></i> {{Lang::get('university_master.list')}}</a>
 								</li>
 							</ul>
-							<!-- /.nav-second-level -->
 						</li>
 						<li>
 							<a href="#" class="nav_categoria"><i class="fa fa-compress"></i> {{Lang::get('university_master.assignment')}}</a>
@@ -111,7 +111,6 @@
 			@yield('content')
 		</div>
 	</div>
-	<script type="text/javascript" src="js/jquery-2.1.3.js"></script>
 	<script type="text/javascript" src="js/verify.notify.js"></script>
 	<script type="text/javascript" src="js/sb-admin.js"></script>
 	<script type="text/javascript" src="js/bootstrap.js"></script>
@@ -135,7 +134,7 @@
 				else
 					document.getElementById("photo_display").src = oFREvent.target.result;
 			};
-		};
+		}		
 	</script>
 </body>
 </html>

@@ -128,7 +128,7 @@
 				$('#to').html("<i class='fa fa-user'></i>" + "{{Lang::get('send_message.to')}}");
 
 				for (var index in data.emails) 
-					$('#to').append("<li>" + data.emails[index] + "</li>");
+				$('#to').append("<li>" + data.emails[index] + "</li>");
 
 				$('#subject').html("{{Lang::get('send_message.subject')}} " + data.messages.subject);
 				$('#body').html(data.messages.body);

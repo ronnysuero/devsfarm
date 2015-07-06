@@ -19,8 +19,8 @@
 						@else
 						<img src="{{Lang::get('show_image').'?src='.storage_path().$university->profile_image}}" style="width: 140px; height: 140px;" id="photo_display" name="photo_display" />
 						@endif
-						<input data-validate="image" type="file" id="photo" name="photo" accept="image/x-png, image/gif, image/jpeg" onchange="PreviewImage()">
-						<br>
+						<input class="cropit-image-input" data-validate="image" type="file" id="photo" name="photo" accept="image/x-png, image/gif, image/jpeg" onchange="PreviewImage()">
+						<br />
 					</div>
 					<div class="col-lg-6" style="overflow: hidden;">
 						<div class="form-group">
@@ -65,6 +65,5 @@
 	$("#show_password_fields").click(function(){
 		$("#password_fields").toggle("slow");
 	});
-//
 </script>
 @stop

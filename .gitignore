@@ -8,3 +8,4 @@ app/storage/photos/imagesprofile/*.gif
 app/storage/photos/imagesprofile/*.jpeg
 .phpintel/
 phpunit.xml
+nodejs-chat/node_modules/

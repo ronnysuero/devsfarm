@@ -2093,7 +2093,7 @@ div[data-role="editor-toolbar"] {
 }
 .chat-box .recipient-box .conversation {
   margin-bottom: 0px;
-  height: 700px;
+  height: 400px;
   overflow: scroll;
 }
 .chat-box .recipient-box .conversation .list-group-item:nth-child(2n) {

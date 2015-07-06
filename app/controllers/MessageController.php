@@ -2,17 +2,9 @@
 
 class MessageController extends BaseController
 {
-
     public function showAllMessagesView ()
     {
-        $user = null;
-
-        if(strcmp(Auth::user()->rank, 'university') === 0)
-            $user = University::find(Auth::id());
-        elseif (strcmp(Auth::user()->rank, 'teacher') === 0) 
-            $user = Teacher::find(Auth::id());
-        elseif (strcmp(Auth::user()->rank, 'student') === 0) 
-            $user = Student::find(Auth::id());
+        $user = UserController::getUser(Auth::user());
 
         if($user !== null)
         {
@@ -28,14 +20,7 @@ class MessageController extends BaseController
 
     public function showMessageSentView()
     {
-        $user = null;
-
-        if(strcmp(Auth::user()->rank, 'university') === 0)
-            $user = University::find(Auth::id());
-        elseif (strcmp(Auth::user()->rank, 'teacher') === 0) 
-            $user = Teacher::find(Auth::id());
-        elseif (strcmp(Auth::user()->rank, 'student') === 0) 
-            $user = Student::find(Auth::id());
+        $user = UserController::getUser(Auth::user());
 
         if($user !== null)
         {
@@ -73,7 +58,6 @@ class MessageController extends BaseController
             return Redirect::back()->withErrors(array( 'error' => Lang::get('send_message.error_mail').': ['.implode(', ', $usersFails).']'));
 
         $_id = new MongoId();
-
         $message = new Message;
         $message->_id = $_id;
         $message->from = Auth::id();
@@ -84,22 +68,9 @@ class MessageController extends BaseController
         $message->save();
 
         foreach ($users as $user) 
-        {
-            if (strcmp($user->rank, 'university') === 0)
-                University::find($user->_id)->push('messages_id', $_id, true);
-            elseif (strcmp($user->rank, 'teacher') === 0) 
-                Teacher::find($user->_id)->push('messages_id', $_id, true);
-            elseif (strcmp($user->rank, 'student') === 0) 
-                Student::find($user->_id)->push('messages_id', $_id, true);
-        }
+            UserController::getUser($user)->push('messages_id', $_id, true);
 
-        if (strcmp(Auth::user()->rank, 'university') === 0)
-            University::find(Auth::id())->push('messages_id', $_id, true);
-        elseif (strcmp(Auth::user()->rank, 'teacher') === 0) 
-            Teacher::find(Auth::id())->push('messages_id', $_id, true);
-        elseif (strcmp(Auth::user()->rank, 'student') === 0) 
-            Student::find(Auth::id())->push('messages_id', $_id, true);
-        
+        UserController::getUser(Auth::user())->push('messages_id', $_id, true);
         return Redirect::to(Lang::get('routes.send_message'))->with('message', Lang::get('send_message.success')); 
     }
 
@@ -133,7 +104,6 @@ class MessageController extends BaseController
                 array_push($emails, $format);   
             } 
         }
-
         return $emails;
     }
 
@@ -158,15 +128,7 @@ class MessageController extends BaseController
         if(Request::ajax())
         {
             $ids = Input::get('_ids');
-
-            $user = null;
-
-            if (strcmp(Auth::user()->rank, 'university') === 0)
-                $user = University::find(Auth::id());
-            elseif (strcmp(Auth::user()->rank, 'teacher') === 0) 
-                $user = Teacher::find(Auth::id());
-            elseif (strcmp(Auth::user()->rank, 'student') === 0) 
-                $user = Student::find(Auth::id());
+            $user = UserController::getUser(Auth::user());
 
             foreach ($ids as $value) 
                 $user->pull('messages_id', new MongoId($value));
