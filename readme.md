@@ -20,7 +20,7 @@ De cara al profesor, DevsFarm le permitirá realizar un seguimiento continuo a l
 ###Framework
 **Laravel Framework 4.2**
 
-**mongoose**
+**Mongoose**
 
 **Intervention Image**
 
