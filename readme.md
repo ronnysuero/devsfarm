@@ -14,12 +14,16 @@ De cara al profesor, DevsFarm le permitirá realizar un seguimiento continuo a l
 
 ### Language
 **PHP 5.5**
+
 **NODE JS**
 
 ###Framework
 **Laravel Framework 4.2**
+
 **mongoose**
+
 **Intervention Image**
+
 **Web Socket**
 
 ### Database
