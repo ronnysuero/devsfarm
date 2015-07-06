@@ -2,7 +2,7 @@
 
 class Subject extends Moloquent
 {
-  protected $collection = "Subject";
+  protected $collection = "subjects";
 
   public function sections()
   {

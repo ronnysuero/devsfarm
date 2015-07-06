@@ -1,20 +1,5 @@
 @extends('university.master')
 @section('content')
-<script type="text/javascript">
-	$('document').ready(function() {
-		$('#subject').on('change', function() {
-			$.post("{{Lang::get('routes.find_section')}}",{ _id: $('#subject').val() }).done(function( data ) {
-				var codes = "";
-				
-				for (var i = 0; i < data.sections.length; i++)
-				codes += data.sections[i].code + ",";
-
-				$('#codes').val(codes);
-				$('#_id').val(data.subject._id);
-			});
-		})  
-	});
-</script>
 <div class="row">
 	<div class="col-lg-12">
 		<h1 class="page-header"><i class="fa fa-plus"></i> {{Lang::get('add_section.register')}}</h1>
@@ -55,4 +40,19 @@
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+	$('document').ready(function() {
+		$('#subject').on('change', function() {
+			$.post("{{Lang::get('routes.find_section')}}",{ _id: $('#subject').val() }).done(function( data ) {
+				var codes = "";
+				
+				for (var i = 0; i < data.sections.length; i++)
+					codes += data.sections[i].code + ",";
+
+				$('#codes').val(codes);
+				$('#_id').val(data.subject._id);
+			});
+		})  
+	});
+</script>
 @stop

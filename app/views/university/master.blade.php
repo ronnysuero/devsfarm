@@ -1,57 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="">
 	<meta name="author" content="">
-
 	<title>@yield('title')</title>
-
-	<!-- Bootstrap Core CSS -->
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-	<!-- Custom CSS -->
 	<link rel="stylesheet" type="text/css" href="css/sb-admin.css">
-
-	<!-- Custom Fonts -->
 	<link rel="stylesheet" type="text/css" href="css/font-awesome.css">
-	<script type="text/javascript" src="js/jquery-2.1.3.js"></script>
-	<script type="text/javascript" src="js/verify.notify.js"></script>
-	<script type="text/javascript" src="js/sb-admin.js"></script>
-	<script type="text/javascript" src="js/bootstrap.js"></script>
-	<script type="text/javascript" src="js/jquery.tablesorter.js"></script>
-    <script type="text/javascript" src="js/metisMenu.min.js"></script>
-	<script type="text/javascript">
-		$('document').ready(function() 
-		{
-			$("#tableOrder").tablesorter(); 
-		});
-		
-		function PreviewImage() {
-			var oFReader = new FileReader();
-			oFReader.readAsDataURL(document.getElementById("photo").files[0]);
-
-			var file = document.getElementById("photo").value || "";
-
-			oFReader.onload = function(oFREvent) {
-				if(!file.match(/(\.jpg|\.jpeg|\.bmp|\.gif|\.png)$/))
-					document.getElementById("photo_display").src = "images/140x140.png";
-				else
-					document.getElementById("photo_display").src = oFREvent.target.result;
-			};
-		};
-	</script>
-
 </head>
-
 <body>
-
 	<div id="wrapper">
-
-		<!-- Navigation -->
 		<nav class="navbar navbar-default  navbar-fixed-top" role="navigation" style="margin-bottom: 0">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -62,8 +23,6 @@
 				</button>
 				<a class="navbar-brand" href="{{Lang::get('routes.university')}}">DevsFarm</a>
 			</div>
-			<!-- /.navbar-header -->
-
 			<ul class="nav navbar-top-links navbar-right ">
 				<li class="dropdown">
 					<a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -148,13 +107,35 @@
 				</div>
 			</div>
 		</nav>
-
 		<div id="page-wrapper">
 			@yield('content')
 		</div>
-
 	</div>
+	<script type="text/javascript" src="js/jquery-2.1.3.js"></script>
+	<script type="text/javascript" src="js/verify.notify.js"></script>
+	<script type="text/javascript" src="js/sb-admin.js"></script>
+	<script type="text/javascript" src="js/bootstrap.js"></script>
+	<script type="text/javascript" src="js/jquery.tablesorter.js"></script>
+	<script type="text/javascript" src="js/metisMenu.min.js"></script>
+	<script type="text/javascript">
+		$('document').ready(function() 
+		{
+			$("#tableOrder").tablesorter(); 
+		});
+		
+		function PreviewImage() {
+			var oFReader = new FileReader();
+			oFReader.readAsDataURL(document.getElementById("photo").files[0]);
 
+			var file = document.getElementById("photo").value || "";
+
+			oFReader.onload = function(oFREvent) {
+				if(!file.match(/(\.jpg|\.jpeg|\.bmp|\.gif|\.png)$/))
+					document.getElementById("photo_display").src = "images/140x140.png";
+				else
+					document.getElementById("photo_display").src = oFREvent.target.result;
+			};
+		};
+	</script>
 </body>
-
 </html>

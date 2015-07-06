@@ -113,6 +113,7 @@ Route::group(array('before' => 'auth|student'), function()
 Route::group(array('before' => 'auth'), function()
 {
 	// HTTP GET  
+	Route::get('chat', 'ChatController@showView');
 	Route::get(Lang::get('routes.show_all_messages'), 'MessageController@showAllMessagesView');
 
 	Route::get(Lang::get('routes.send_message'), 'MessageController@showSendMessageView');
@@ -138,4 +139,6 @@ Route::group(array('before' => 'auth'), function()
 	Route::post(Lang::get('routes.find_message'), 'MessageController@find');
 
 	Route::post(Lang::get('routes.drop_message'), 'MessageController@drop');
+	
+	Route::post(Lang::get('routes.find_chat'), 'ChatController@find');
 });

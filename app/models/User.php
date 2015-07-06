@@ -13,13 +13,13 @@ class User extends MongoLid implements UserInterface
 		*
 		* @var string
 		*/
-	protected $database = 'teamland';
+		protected $database = 'devsfarm';
 	/**
 		* The database collection used by the model.
 		*
 		* @var string
 		*/
-	protected $collection = 'User';
+		protected $collection = 'users';
 
 
 	/**
@@ -27,19 +27,19 @@ class User extends MongoLid implements UserInterface
 		*
 		* @return mixed
 		*/
-	public function getAuthIdentifier()
-	{
+		public function getAuthIdentifier()
+		{
 			return $this->_id;
-	}
+		}
 
 	/**
 		* Get the password for the user.
 		*
 		* @return string
 		*/
-	public function getAuthPassword()
-	{
+		public function getAuthPassword()
+		{
 			return $this->password;
-	}
+		}
 
-}
+	}

@@ -1,14 +1,5 @@
 @extends('university.master')
 @section('content')
-<script type="text/javascript">
-	function fillModal (x) {
-		$.post("{{Lang::get('routes.find_subject')}}",{ name: $('#name'+x).html() }).done(function( data ) {
-			$('#subject_name').val(data.name);
-			$('#school').val(data.school);       
-			$('#_id').val(data._id);
-		});
-	}
-</script>
 <div class="row">
 	<div class="col-lg-12">
 		<h1 class="page-header"><i class="fa fa-list"></i> {{Lang::get('list_subject.subject')}}</h1>
@@ -95,4 +86,13 @@
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+	function fillModal (x) {
+		$.post("{{Lang::get('routes.find_subject')}}",{ name: $('#name'+x).html() }).done(function( data ) {
+			$('#subject_name').val(data.name);
+			$('#school').val(data.school);       
+			$('#_id').val(data._id);
+		});
+	}
+</script>
 @stop

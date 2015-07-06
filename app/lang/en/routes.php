@@ -37,4 +37,5 @@ return array(
 	'mail_sent' => 'mail_sent',
 	'find_message' => 'find_message',
 	'drop_message' => 'drop_message',
+	'find_chat' => 'find_chat',
 	);

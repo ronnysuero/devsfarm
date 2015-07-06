@@ -2,5 +2,5 @@
 
 class Message extends Moloquent
 {
-  protected $collection = "Message";
+  protected $collection = "messages";
 }

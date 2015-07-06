@@ -1,27 +1,5 @@
 @extends('university.master')
 @section('content')
-<script type="text/javascript">
-	function fillModal (y, x) {
-		$.post("{{Lang::get('routes.find_section')}}",{ code: x, subject_id: $('#subject_id'+y).val() }).done(function( data ) {
-			$('#section_code').val(data.section.code);
-			$('#_id').val(data.section._id);
-			$('#subject_id').val(data.subject_id);
-			getCodes(data.subject_id);
-		});
-	}
-
-	function getCodes(x)
-	{
-		$.post("{{Lang::get('routes.find_section')}}",{ _id: x }).done(function( data ) {
-			var codes = "";
-
-			for (var i = 0; i < data.sections.length; i++) 
-			codes += data.sections[i].code + ",";
-
-			$('#codes').val(codes);
-		});
-	}
-</script>
 <div class="row">
 	<div class="col-lg-12">
 		<h1 class="page-header"><i class="fa fa-list-ol"></i> {{Lang::get('list_section.section')}}</h1>
@@ -111,4 +89,26 @@
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+	function fillModal (y, x) {
+		$.post("{{Lang::get('routes.find_section')}}",{ code: x, subject_id: $('#subject_id'+y).val() }).done(function( data ) {
+			$('#section_code').val(data.section.code);
+			$('#_id').val(data.section._id);
+			$('#subject_id').val(data.subject_id);
+			getCodes(data.subject_id);
+		});
+	}
+
+	function getCodes(x)
+	{
+		$.post("{{Lang::get('routes.find_section')}}",{ _id: x }).done(function( data ) {
+			var codes = "";
+
+			for (var i = 0; i < data.sections.length; i++) 
+				codes += data.sections[i].code + ",";
+
+			$('#codes').val(codes);
+		});
+	}
+</script>
 @stop

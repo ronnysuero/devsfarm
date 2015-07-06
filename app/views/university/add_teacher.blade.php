@@ -1,19 +1,5 @@
 @extends('university.master')
 @section('content')
-<script type="text/javascript">
-	function generateEmail() 
-	{
-		var email = $('#email').val();
-		var first_letter = $('#name').val().charAt(0);
-		var last_name = $('#last_name').val().split(' ')[0];
-
-		if (email == "")
-		{
-			email = first_letter + last_name + '@' + $('#domain').val();
-			$('#email').val(email.toLowerCase());
-		}
-	}
-</script>
 <div class="row">
 	<div class="col-lg-12">
 		<h1 class="page-header"><i class="fa fa-plus"></i> {{Lang::get('register_teacher.register')}}</h1>
@@ -66,4 +52,18 @@
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+	function generateEmail() 
+	{
+		var email = $('#email').val();
+		var first_letter = $('#name').val().charAt(0);
+		var last_name = $('#last_name').val().split(' ')[0];
+
+		if (email == "")
+		{
+			email = first_letter + last_name + '@' + $('#domain').val();
+			$('#email').val(email.toLowerCase());
+		}
+	}
+</script>
 @stop

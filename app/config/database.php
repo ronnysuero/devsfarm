@@ -50,7 +50,7 @@ return array(
 			'driver'   => 'sqlite',
 			'database' => __DIR__.'/../database/production.sqlite',
 			'prefix'   => '',
-		),
+			),
 
 		'mysql' => array(
 			'driver'    => 'mysql',
@@ -61,7 +61,7 @@ return array(
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
-		),
+			),
 
 		'pgsql' => array(
 			'driver'   => 'pgsql',
@@ -72,7 +72,7 @@ return array(
 			'charset'  => 'utf8',
 			'prefix'   => '',
 			'schema'   => 'public',
-		),
+			),
 
 		'sqlsrv' => array(
 			'driver'   => 'sqlsrv',
@@ -81,31 +81,20 @@ return array(
 			'username' => 'root',
 			'password' => '',
 			'prefix'   => '',
-		),
+			),
 
 		'mongodb' => array(
-		    'driver'   => 'mongodb',
-		    'host'     => 'localhost',
-		    'port'     => 27017,
-		    'username' => '',
-		    'password' => '',
-	    	'database' => 'teamland',
+			'driver'   => 'mongodb',
+			'host'     => 'localhost',
+			'port'     => 27017,
+			'username' => '',
+			'password' => '',
+			'database' => 'devsfarm',
 			'options'  => array(
         		'db' => 'admin' // sets the authentication database required by mongo 3
-    		)
+        		)
+			),
 		),
-
-		'auth' => array(
-
-			'default' => array(
-	            'host'     => '127.0.0.1',
-	            'port'     => 27017,
-	            'database' => 'teamland',
-	            'username'     => '',
-	            'password'     => '',
-        	),
-    	),
-	),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -139,8 +128,8 @@ return array(
 			'host'     => '127.0.0.1',
 			'port'     => 6379,
 			'database' => 0,
+			),
+
 		),
 
-	),
-
-);
+	);

@@ -2,5 +2,5 @@
 
 class Student extends Moloquent
 {
-  protected $collection = "Student";
+  protected $collection = "students";
 }

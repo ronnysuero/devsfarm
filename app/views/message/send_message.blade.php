@@ -1,7 +1,5 @@
 @extends( Auth::user()->rank.'.master' )
-
 @section('title', Lang::get('send_message.title'))
-
 @section('content')
 <div class="row">
 	<div class="col-lg-12">

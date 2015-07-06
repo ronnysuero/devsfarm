@@ -1,74 +1,6 @@
 @extends( Auth::user()->rank.'.master' )
-
 @section('title', Lang::get('list_message.title_received'))
-
 @section('content')
-
-<script>
-	$('document').ready(function() 
-	{
-		$(".checkbox").change(function()
-		{
-			if($('#message_id'+ $(this).attr("id")).is(':checked'))
-				$("#delete_msg").removeClass("disabled");
-			else
-			{
-				var flag = false;
-
-				$('input[type=checkbox]').each(function () 
-				{
-					if(this.checked)
-					{
-						flag = true;
-						return false;
-					}
-				});
-
-				if(!flag)
-					$("#delete_msg").addClass("disabled");	
-			}			
-		});
-
-		$(".message").on("click", function()
-		{
-			$('#to').html("");
-			$('#subject').html("");
-			$('#body').html("");
-
-			$.post("{{Lang::get('routes.find_message')}}",{ flag: true, _id: $('#id'+$(this).attr("id")).val()}).done(function( data ) 
-			{    
-				$('#to').html("<i class='fa fa-user'></i>" + "{{Lang::get('send_message.from')}}");
-
-				for (var index in data.emails) 
-				$('#to').append("<li>" + data.emails[index] + "</li>");
-
-				$('#subject').html("{{Lang::get('send_message.subject')}} " + data.messages.subject);
-				$('#body').html(data.messages.body);
-			});
-
-			$('#editModal').modal('show');
-		});
-
-		$('#delete_btn').on('click', function() 
-		{
-			var idsArray = [];
-
-			$('input[type=checkbox]').each(function () 
-			{
-				if(this.checked)
-					idsArray.push($("#" + $(this).attr("id").replace('message_id', 'id')).val());
-			});
-
-			$.post("{{Lang::get('routes.drop_message')}}",{ _ids: idsArray}).done(function( data ) 
-			{    
-				if(data === "00")
-					location.reload();
-				else
-					$('#deleteModal').modal('hide');
-			});
-		});
-	});
-</script>
 <div class="row">
 	<div class="col-lg-12">
 		<h1 class="page-header"><i class="fa fa-envelope-o"></i> {{Lang::get('list_message.title_received')}}</h1>
@@ -160,4 +92,69 @@
 		</div>
 	</div>
 </div>
+<script>
+	$('document').ready(function() 
+	{
+		$(".checkbox").change(function()
+		{
+			if($('#message_id'+ $(this).attr("id")).is(':checked'))
+				$("#delete_msg").removeClass("disabled");
+			else
+			{
+				var flag = false;
+
+				$('input[type=checkbox]').each(function () 
+				{
+					if(this.checked)
+					{
+						flag = true;
+						return false;
+					}
+				});
+
+				if(!flag)
+					$("#delete_msg").addClass("disabled");	
+			}			
+		});
+
+		$(".message").on("click", function()
+		{
+			$('#to').html("");
+			$('#subject').html("");
+			$('#body').html("");
+
+			$.post("{{Lang::get('routes.find_message')}}",{ flag: true, _id: $('#id'+$(this).attr("id")).val()}).done(function( data ) 
+			{    
+				$('#to').html("<i class='fa fa-user'></i>" + "{{Lang::get('send_message.from')}}");
+
+				for (var index in data.emails) 
+					$('#to').append("<li>" + data.emails[index] + "</li>");
+
+				$('#subject').html("{{Lang::get('send_message.subject')}} " + data.messages.subject);
+				$('#body').html(data.messages.body);
+			});
+
+			$('#editModal').modal('show');
+		});
+
+		$('#delete_btn').on('click', function() 
+		{
+			var idsArray = [];
+
+			$('input[type=checkbox]').each(function () 
+			{
+				if(this.checked)
+					idsArray.push($("#" + $(this).attr("id").replace('message_id', 'id')).val());
+			});
+
+			$.post("{{Lang::get('routes.drop_message')}}",{ _ids: idsArray}).done(function( data ) 
+			{    
+				if(data === "00")
+					location.reload();
+				else
+					$('#deleteModal').modal('hide');
+			});
+		});
+	});
+</script>
 @stop

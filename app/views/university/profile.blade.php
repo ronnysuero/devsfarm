@@ -1,8 +1,6 @@
 @extends('university.master')
-
 @section('title', Lang::get('university_profile.title'))
 @stop
-
 @section('content')
 <div class="row">
 	<div class="col-lg-12">
@@ -38,23 +36,23 @@
 							<input data-validate="required,email" class="form-control" id="university_email" name="university_email" value="{{$university->email}}">
 						</div>
 
-                        <hr/>
-                        <a href="#" id="show_password_fields"><h5>{{Lang::get('university_profile.change_password')}}</h5></a>
-                        <hr/>
-                        <div id="password_fields" style="display: none;">
-                            <div class="form-group">
-                                <label>{{Lang::get('university_profile.current_password')}}</label>
-                                <input data-validate="required,password" class="form-control" id="current_password" name="current_password">
-                            </div>
-                            <div class="form-group">
-                                <label>{{Lang::get('university_profile.new_password')}}</label>
-                                <input data-validate="required,password" class="form-control" id="new_password" name="new_password">
-                            </div>
-                            <div class="form-group">
-                                <label>{{Lang::get('university_profile.confirm_new_password')}}</label>
-                                <input data-validate="required,password" class="form-control" id="confirm_new_password" name="confirm_new_password">
-                            </div>
-                        </div>
+						<hr/>
+						<a href="#" id="show_password_fields"><h5>{{Lang::get('university_profile.change_password')}}</h5></a>
+						<hr/>
+						<div id="password_fields" style="display: none;">
+							<div class="form-group">
+								<label>{{Lang::get('university_profile.current_password')}}</label>
+								<input data-validate="required,password" class="form-control" id="current_password" name="current_password">
+							</div>
+							<div class="form-group">
+								<label>{{Lang::get('university_profile.new_password')}}</label>
+								<input data-validate="required,password" class="form-control" id="new_password" name="new_password">
+							</div>
+							<div class="form-group">
+								<label>{{Lang::get('university_profile.confirm_new_password')}}</label>
+								<input data-validate="required,password" class="form-control" id="confirm_new_password" name="confirm_new_password">
+							</div>
+						</div>
 						<button type="submit" class="btn btn-default pull-right">{{Lang::get('university_profile.update')}}</button>
 					</div>
 				</form>
@@ -64,9 +62,9 @@
 </div>
 </div>
 <script>
-    $("#show_password_fields").click(function(){
-        $("#password_fields").toggle("slow");
-    });
+	$("#show_password_fields").click(function(){
+		$("#password_fields").toggle("slow");
+	});
 //
 </script>
 @stop

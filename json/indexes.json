@@ -1,6 +1,0 @@
-db.User.createIndex({"user": 1}, {unique:true}),
-db.Student.createIndex({"email": 1}, {unique:true}),
-db.University.createIndex({"email": 1}, {unique:true}),
-db.teacher.createIndex({"email": 1}, {unique:true}),
-db.Subject.createIndex({"name": 1}, {unique: true}),
-db.Subject.createIndex({"Sections.code": 1}, {unique: true})
