@@ -1,4 +1,4 @@
-TEAMLAND
+DEVSFARM
 ========
 
 Currently, work platforms exist in groups, assignments and embodiments thereof. These platforms allow us to create group projects, adding members, allowing the assignment of tasks and provide evidence of compliance with these, however, none of these platforms is aimed at the student / teacher interaction in universities, referring specifically to project management software.
