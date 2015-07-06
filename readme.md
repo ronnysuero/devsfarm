@@ -1,20 +1,30 @@
-TEAMLAND
+DEVSFARM
 ========
 
-Currently, work platforms exist in groups, assignments and embodiments thereof. These platforms allow us to create group projects, adding members, allowing the assignment of tasks and provide evidence of compliance with these, however, none of these platforms is aimed at the student / teacher interaction in universities, referring specifically to project management software.
+DevsFarm será una plataforma web para la gestión de proyectos grupales de software entre estudiantes y profesores en las universidades. Esta plataforma permitirá el trabajo en equipo, la distribución de tareas entre los integrantes de los grupos, el seguimiento en la  realización de las tareas y visualización de reportes sobre el desempeño de los estudiantes.   
 
-For the reasons mentioned above, born TeamLand, it will be a web platform oriented project management software among students and teachers in universities.
+DevsFarm proveerá una herramienta amigable a los usuarios y fácil de acceder. El acceso al sistema será a través de internet, desde cualquier dispositivo, su diseño web adaptable (responsive design) permitirá adaptar la apariencia de la página web al dispositivo que se esté utilizando.
 
-One of the main features that provide TeamLand, will introduce students to the management and implementation of concepts such as homework assignments, taking into account time management, allocation of roles and an equitable distribution of work, as well as lists Post, among others.
+DevsFarm estará disponible en las plataformas móviles (Android, Windows Phone y iPhone), posibilitando tener acceso al sistema desde cualquier teléfono inteligente. Además su característica bilingüe, permite adaptarlo al idioma inglés o español.
 
-In addition, some of the features that allow TeamLand facing the teacher or tutor is the ability to continuously monitor the team members to assess their performance and development over the course of the project.
+Con la utilización de la plataforma, los estudiantes podrán obtener beneficios que le servirán para su desarrollo profesional y de sus conocimientos, tales como: Trabajo en equipo, división de las responsabilidades, cumplimiento de plazos de tiempo para la realización de tareas y el desarrollo de liderazgo en un equipo de trabajo.
+
+De cara al profesor, DevsFarm le permitirá realizar un seguimiento continuo a los estudiante para evaluar su desempeño y desarrollo en el transcurso del proyecto, además, podrán manejar datos estadísticos sobre el rendimiento de sus estudiantes en cada proyecto, estos datos se mostraran con gráficos, garantizándoles a los maestros un ahorro de tiempo considerable a la hora de  evaluar y calificar a los alumnos
 
 
 ### Language
 **PHP 5.5**
 
+**NODE JS**
+
 ###Framework
 **Laravel Framework 4.2**
+
+**Mongoose**
+
+**Intervention Image**
+
+**Web Socket**
 
 ### Database
 **MongoDB 3.0**
