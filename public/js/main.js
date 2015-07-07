@@ -83,11 +83,11 @@
 
     initIframe: function () {
       var target = 'upload-iframe-' + (new Date()).getTime(),
-          $iframe = $('<iframe>').attr({
-            name: target,
-            src: ''
-          }),
-          _this = this;
+      $iframe = $('<iframe>').attr({
+        name: target,
+        src: ''
+      }),
+      _this = this;
 
       // Ready ifrmae
       $iframe.one('load', function () {
@@ -125,12 +125,13 @@
 
     click: function () {
       this.$avatarModal.modal('show');
+      this.$avatarInput.val('');
       this.initPreview();
     },
 
     change: function () {
       var files,
-          file;
+      file;
 
       if (this.support.datauri) {
         files = this.$avatarInput.prop('files');
@@ -201,12 +202,12 @@
           strict: false,
           crop: function (data) {
             var json = [
-                  '{"x":' + data.x,
-                  '"y":' + data.y,
-                  '"height":' + data.height,
-                  '"width":' + data.width,
-                  '"rotate":' + data.rotate + '}'
-                ].join();
+            '{"x":' + data.x,
+            '"y":' + data.y,
+            '"height":' + data.height,
+            '"width":' + data.width,
+            '"rotate":' + data.rotate + '}'
+            ].join();
 
             _this.$avatarData.val(json);
           }
@@ -231,8 +232,8 @@
 
     ajaxUpload: function () {
       var url = this.$avatarForm.attr('action'),
-          data = new FormData(this.$avatarForm[0]),
-          _this = this;
+      data = new FormData(this.$avatarForm[0]),
+      _this = this;
 
       $.ajax(url, {
         type: 'post',
@@ -309,11 +310,11 @@
 
     alert: function (msg) {
       var $alert = [
-            '<div class="alert alert-danger avatar-alert alert-dismissable">',
-              '<button type="button" class="close" data-dismiss="alert">&times;</button>',
-              msg,
-            '</div>'
-          ].join('');
+      '<div class="alert alert-danger avatar-alert alert-dismissable">',
+      '<button type="button" class="close" data-dismiss="alert">&times;</button>',
+      msg,
+      '</div>'
+      ].join('');
 
       this.$avatarUpload.after($alert);
     }

@@ -10,6 +10,8 @@
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="css/sb-admin.css">
 	<link rel="stylesheet" type="text/css" href="css/font-awesome.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<link rel="stylesheet" type="text/css" href="css/cropper.min.css">
 	<script type="text/javascript" src="js/jquery-2.1.3.js"></script>
 </head>
 <body>
@@ -116,6 +118,8 @@
 	<script type="text/javascript" src="js/bootstrap.js"></script>
 	<script type="text/javascript" src="js/jquery.tablesorter.js"></script>
 	<script type="text/javascript" src="js/metisMenu.min.js"></script>
+	<script type="text/javascript" src="js/cropper.min.js"></script>
+	<script type="text/javascript" src="js/main.js"></script>
 	<script type="text/javascript">
 		$('document').ready(function() 
 		{
