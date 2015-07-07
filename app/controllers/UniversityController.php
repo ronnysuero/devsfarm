@@ -1,5 +1,7 @@
 <?php
 
+include(app_path().'\helpers\CropImage.php');
+
 class UniversityController extends BaseController
 {
 	public function showHome()
@@ -35,21 +37,17 @@ class UniversityController extends BaseController
 
 		$university->acronym = strtoupper(trim(Input::get('university_acronym')));
 
-		if(Input::hasFile('photo'))
+		if(Input::hasFile('avatar_file'))
 		{
+			$data = Input::get('avatar_data');
+
 			if($university->profile_image === null)
 			{
-				$file = Input::file('photo');
-				$photoname = uniqid();
-				$file->move(storage_path() . '/photos/imagesprofile', $photoname.'.'.$file->guessClientExtension());
-				$image = Image::make(storage_path().'/photos/imagesprofile/'.$photoname.'.'.$file->guessClientExtension())->resize(140, 140)->save();
-				$university->profile_image = '/photos/imagesprofile/' . $photoname.'.'.$file->guessClientExtension();
+				$image = new CropImage(null, $data, $_FILES['avatar_file']);
+				$university->profile_image = $image->getURL();
 			}
 			else
-			{
-				$file = Input::file('photo')->getRealPath();
-				$image = Image::make($file)->resize(140, 140)->save(storage_path().$university->profile_image);
-			}	        
+				new CropImage($university->profile_image, $data, $_FILES['avatar_file']);
 		}
 
 		$university->save();

@@ -77,7 +77,6 @@
 
     initPreview: function () {
       var url = this.$avatar.attr('src');
-
       this.$avatarPreview.html('<img src="' + url + '">');
     },
 
@@ -125,8 +124,8 @@
 
     click: function () {
       this.$avatarModal.modal('show');
-      this.$avatarInput.val('');
-      this.initPreview();
+      this.initPreview();   
+      this.change();
     },
 
     change: function () {

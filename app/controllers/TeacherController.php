@@ -109,24 +109,6 @@ class TeacherController extends BaseController
 		$teacher->last_name = ucfirst(trim(Input::get('last_name')));
 		$teacher->phone = trim(Input::get('phone'));
 		$teacher->cellphone = trim(Input::get('cellphone'));
-
-		if (Input::hasFile('photo'))
-		{
-			if($teacher->profile_image == null)
-			{
-				$file = Input::file('photo');
-				$photoname = uniqid();
-				$file->move(storage_path() . '/photos/imagesprofile', $photoname.'.'.$file->guessClientExtension());
-				$image = Image::make(storage_path().'/photos/imagesprofile/'.$photoname.'.'.$file->guessClientExtension())->resize(140, 140)->save();
-				$teacher->profile_image = '/photos/imagesprofile/' . $photoname.'.'.$file->guessClientExtension();
-			}
-			else
-			{
-				$file = Input::file('photo')->getRealPath();
-				$image = Image::make($file)->resize(140, 140)->save(storage_path().$teacher->profile_image);
-			}        
-		}
-		
 		$teacher->save();
 
 		return Redirect::to(Lang::get('routes.show_all_teachers'))->with('message', Lang::get('university_profile.update_message'));  

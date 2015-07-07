@@ -78,14 +78,6 @@
 					<label>{{Lang::get('list_teacher.email')}}</label>
 					<input data-validate="required,email" type="email" class="form-control" id="email" name="email" placeholder="{{Lang::get('register_teacher.email_placeholder')}}" >
 				</div>
-				<div class="form-group col-lg-12">
-					<label>{{Lang::get('list_teacher.photo')}}</label>
-					<input data-validate="image" type="file" id="photo" name="photo" accept="image/x-png, image/gif, image/jpeg" onchange="PreviewImage()">
-				</div>
-				<div class="form-group">
-					<label></label>
-					<img src="images/140x140.png" alt="" style="width: 140px; height: 140px;" id="photo_display" name="photo_display">
-				</div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Discard</button>

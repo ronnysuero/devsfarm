@@ -1,7 +1,5 @@
 <?php
 
-namespace helpers\CropImage;
-
 class CropImage 
 {
 	private $src;
@@ -11,38 +9,23 @@ class CropImage
 	private $type;
 	private $extension;
 	private $msg;
+	private $url;
 
-	function __construct($src, $data, $file) 
+	function __construct($url, $data, $file) 
 	{
-		$this->setSrc($src);
+		$this->url = ($url === null) ? '/photos/imagesprofile/'.uniqid() : $url;
 		$this->setData($data);
-		$this->setFile($file);
+		$this->setFile($file, $url);
 		$this->crop($this->src, $this->dst, $this->data);
-	}
-
-	private function setSrc($src) 
-	{
-		if (!empty($src)) 
-		{
-			$type = exif_imagetype($src);
-
-			if ($type) 
-			{
-				$this->src = $src;
-				$this->type = $type;
-				$this->extension = image_type_to_extension($type);
-				$this->setDst();
-			}
-		}
 	}
 
 	private function setData($data) 
 	{
-		if (!empty($data)) 
+		if (!empty($data))
 			$this->data = json_decode(stripslashes($data));
 	}
 
-	private function setFile($file) 
+	private function setFile($file, $url) 
 	{
 		$errorCode = $file['error'];
 
@@ -53,11 +36,18 @@ class CropImage
 			if ($type) 
 			{
 				$extension = image_type_to_extension($type);
-				$src = 'img/' . date('YmdHis') . '.original' . $extension;
+				
+				if($url === null)
+				{
+					$src = storage_path().$this->url.$extension;
+					$this->url .= $extension;					
+				}
+				else
+					$src = storage_path().$this->url;
 
 				if ($type == IMAGETYPE_GIF || $type == IMAGETYPE_JPEG || $type == IMAGETYPE_PNG) 
 				{
-					if (file_exists($src)) 
+					if (file_exists($src))
 						unlink($src);
 
 					$result = move_uploaded_file($file['tmp_name'], $src);
@@ -67,9 +57,9 @@ class CropImage
 						$this->src = $src;
 						$this->type = $type;
 						$this->extension = $extension;
-						$this->setDst();
+						$this->dst = $src;
 					} 
-					else 
+					else
 						$this->msg = 'Failed to save file';
 				} 
 				else
@@ -78,13 +68,8 @@ class CropImage
 			else
 				$this->msg = 'Please upload image file';
 		} 
-		else 
+		else
 			$this->msg = $this->codeToMessage($errorCode);
-	}
-
-	private function setDst() 
-	{
-		$this->dst = 'img/' . date('YmdHis') . '.png';
 	}
 
 	private function crop($src, $dst, $data) 
@@ -113,8 +98,8 @@ class CropImage
 			}
 
 			$size = getimagesize($src);
-			$size_w = $size[0];
-			$size_h = $size[1]; 
+			$size_w = $size[0]; // natural width
+			$size_h = $size[1]; // natural height
 
 			$src_img_w = $size_w;
 			$src_img_h = $size_h;
@@ -143,13 +128,13 @@ class CropImage
 
 			$tmp_img_w = $data->width;
 			$tmp_img_h = $data->height;
-			$dst_img_w = 220;
-			$dst_img_h = 220;
+			$dst_img_w = 140;
+			$dst_img_h = 140;
 
 			$src_x = $data->x;
 			$src_y = $data->y;
 
-			if ($src_x <= -$tmp_img_w || $src_x > $src_img_w) 
+			if ($src_x <= -$tmp_img_w || $src_x > $src_img_w)
 				$src_x = $src_w = $dst_x = $dst_w = 0;
 			else if ($src_x <= 0) 
 			{
@@ -163,7 +148,7 @@ class CropImage
 				$src_w = $dst_w = min($tmp_img_w, $src_img_w - $src_x);
 			}
 
-			if ($src_w <= 0 || $src_y <= -$tmp_img_h || $src_y > $src_img_h)
+			if ($src_w <= 0 || $src_y <= -$tmp_img_h || $src_y > $src_img_h) 
 				$src_y = $src_h = $dst_y = $dst_h = 0;
 			else if ($src_y <= 0) 
 			{
@@ -194,7 +179,7 @@ class CropImage
 
 			if ($result) 
 			{
-				if (!imagepng($dst_img, $dst)) 
+				if (!imagepng($dst_img, $dst))
 					$this->msg = "Failed to save the cropped image file";
 			} 
 			else
@@ -243,9 +228,9 @@ class CropImage
 		return $message;
 	}
 
-	public function getResult() 
+	public function getURL() 
 	{
-		return !empty($this->data) ? $this->dst : $this->src;
+		return !empty($this->data) ? $this->url : $this->src;
 	}
 
 	public function getMsg() 
