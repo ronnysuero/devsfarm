@@ -1,6 +1,6 @@
 <?php
 
-include(app_path().'/helpers/CropImage.php');
+include_once(app_path().'/helpers/CropImage.php');
 
 class UniversityController extends BaseController
 {
@@ -16,9 +16,9 @@ class UniversityController extends BaseController
 		$university = University::find(Auth::id());
 		$university->name = ucfirst(trim(Input::get('university_name')));
 		$email = trim(strtolower(Input::get('university_email')));
-		
+
 		if(strcmp($email, $university->email) !== 0)
-		{	
+		{
 			Auth::user()->last_activity = new MongoDate;
 			Auth::user()->user = $email;
 
