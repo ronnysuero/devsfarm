@@ -1,6 +1,6 @@
 <?php
 
-include(app_path().'\helpers\CropImage.php');
+include(app_path().'/helpers/CropImage.php');
 
 class UniversityController extends BaseController
 {
