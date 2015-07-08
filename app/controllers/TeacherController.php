@@ -1,7 +1,5 @@
 <?php
 
-include(app_path().'/helpers/CropImage.php');
-
 class TeacherController extends BaseController
 {
 	public static function getTeachers()
@@ -40,6 +38,8 @@ class TeacherController extends BaseController
 
 	public function addTeacher()
 	{
+		require(app_path().'/helpers/CropImage.php');
+
 		$user = new User;
 		$user->user = trim(strtolower(Input::get('email')));
 		$user->password = Hash::make(Input::get('email'));
@@ -68,7 +68,7 @@ class TeacherController extends BaseController
 		$teacher->subjects_id = array();
 		$teacher->sections_id = array();
 		$teacher->messages_id = array();
-		
+
 		if(Input::hasFile('avatar_file'))
 		{
 			$data = Input::get('avatar_data');
@@ -92,7 +92,7 @@ class TeacherController extends BaseController
 		{
 			$user = User::first(['_id' => $teacher->_id]);
 			$user->user = $email;
-			
+
 			try
 			{
 				$user->save();
@@ -101,7 +101,7 @@ class TeacherController extends BaseController
 			{
 				return Redirect::back()->withErrors(array( 'error' => Lang::get('register_student.email_duplicated')));
 			}
-			
+
 			$teacher->email = $email;
 		}
 
@@ -111,7 +111,7 @@ class TeacherController extends BaseController
 		$teacher->cellphone = trim(Input::get('cellphone'));
 		$teacher->save();
 
-		return Redirect::to(Lang::get('routes.show_all_teachers'))->with('message', Lang::get('university_profile.update_message'));  
+		return Redirect::to(Lang::get('routes.show_all_teachers'))->with('message', Lang::get('university_profile.update_message'));
 	}
 
 	public function find()

@@ -1,7 +1,5 @@
 <?php
 
-include_once(app_path().'/helpers/CropImage.php');
-
 class UniversityController extends BaseController
 {
 	public function showHome()
@@ -12,6 +10,8 @@ class UniversityController extends BaseController
 
 	public function update()
 	{
+		require(app_path().'/helpers/CropImage.php');
+
 		$flag = false;
 		$university = University::find(Auth::id());
 		$university->name = ucfirst(trim(Input::get('university_name')));
