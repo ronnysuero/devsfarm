@@ -13,8 +13,8 @@
 				<div class="row">
 					@include('alert')
 					{{ Form::open(array('url' => Lang::get('routes.update_university'), 'enctype' => 'multipart/form-data', 'id' => 'form')) }}
-					<div class="col-lg-2" style="overflow: hidden;" title="Change the avatar">
-						<div id="photo_display" name="photo_display" class="avatar-view avatar-preview preview-lg" style="width:140px; height:140px">
+					<div class="col-lg-2" style="overflow: hidden;">
+						<div id="photo_display" name="photo_display" title="{{Lang::get('crop.change_avatar')}}" class="avatar-view avatar-preview preview-lg" style="width:140px; height:140px">
 							@if($university->profile_image == null)
 							<img src="images/140x140.png" alt="Avatar">
 							@else
@@ -56,43 +56,7 @@
 					</div>
 					{{Form::close()}}
 				</div>
-				<div class="modal fade" id="avatar-modal" aria-hidden="true" aria-labelledby="avatar-modal-label" role="dialog" tabindex="-1" >
-					<div class="modal-dialog modal-lg" style="width:700px">
-						<div class="modal-content">
-							<div class="avatar-form">
-								<div class="modal-header">
-									<button class="close" data-dismiss="modal" type="button">&times;</button>
-									<h4 class="modal-title" id="avatar-modal-label">Change Avatar</h4>
-								</div>
-								<div class="modal-body">
-									<div class="avatar-body">
-										<div class="avatar-upload">
-											<input form="form" class="avatar-src" name="avatar_src" type="hidden">
-											<input form="form" class="avatar-data" name="avatar_data" type="hidden">
-											<label for="avatarInput">Busque el archivo</label>
-											<input form="form" data-validate="image" class="avatar-input" id="avatarInput" name="avatar_file" type="file" accept="image/x-png, image/gif, image/jpeg">
-										</div>
-										<div class="row">
-											<div class="col-md-9">
-												<div class="avatar-wrapper"></div>
-											</div>
-											<div class="col-md-2">
-												<div id="preview" style="width:140px; height:140px" class="avatar-preview preview-lg"></div>
-											</div>
-										</div>
-										<div class="row avatar-btns">
-											<div class="col-md-9">
-											</div>
-											<div class="col-md-3">
-												<button id="crop" class="btn btn-primary btn-block avatar-save" type="submit">Done</button>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+				@include('crop')
 			</div>
 		</div>
 	</div>

@@ -1,5 +1,7 @@
 <?php
 
+include(app_path().'\helpers\CropImage.php');
+
 class TeacherController extends BaseController
 {
 	public static function getTeachers()
@@ -67,13 +69,11 @@ class TeacherController extends BaseController
 		$teacher->sections_id = array();
 		$teacher->messages_id = array();
 		
-		if (Input::hasFile('photo'))
+		if(Input::hasFile('avatar_file'))
 		{
-			$file = Input::file('photo');
-			$photoname = uniqid();
-			$file->move(storage_path() . '/photos/imagesprofile', $photoname.'.'.$file->guessClientExtension());
-			$image = Image::make(storage_path().'/photos/imagesprofile/'.$photoname.'.'.$file->guessClientExtension())->resize(140, 140)->save();
-			$teacher->profile_image = '/photos/imagesprofile/' . $photoname.'.'.$file->guessClientExtension();
+			$data = Input::get('avatar_data');
+			$image = new CropImage(null, $data, $_FILES['avatar_file']);
+			$teacher->profile_image = $image->getURL();
 		}
 		else
 			$teacher->profile_image = null;
