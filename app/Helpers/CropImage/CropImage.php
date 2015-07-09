@@ -1,4 +1,4 @@
-<?php
+<?php namespace Helpers\CropImage;
 
 class CropImage
 {

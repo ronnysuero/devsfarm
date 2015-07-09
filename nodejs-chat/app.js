@@ -3,60 +3,77 @@
 process.title = 'nodejs-chat';
 
 var webSocketsServerPort = 5000,
-webSocketServer = require('websocket').server,
-http = require('http'),
-db = require('./database/mongodb'),
-clients = new Array(),
-connections = new Array(),
-server = http.createServer(function(request, response) {});
+	webSocketServer = require('websocket').server,
+	http = require('http'),
+	db = require('./database/mongodb'),
+	connections = new Array(),
+	util = require('./helpers/helper'),
+	server = http.createServer(function(request, response) {});
 
 server.listen(webSocketsServerPort, function() {
-	console.log((new Date()) + " Server is listening on port: " + webSocketsServerPort);
+	console.log(util.formatDate(new Date()) + " -> Server is listening on port: " + webSocketsServerPort);
 });
 
 var wsServer = new webSocketServer({ httpServer: server });
 
-wsServer.on('request', function(request) {
-	console.log((new Date()) + ' Connection from origin ' + request.origin);
+wsServer.on('request', function(request) 
+{
+	console.log(util.formatDate(new Date()) + ' -> Connection from origin: ' + request.origin);
+
+	if (!util.originIsAllowed(request.origin)) 
+	{
+      request.reject();
+      console.log(util.formatDate(new Date()) + ' -> Connection rejected');
+      return;
+    }
+
 	var connection = request.accept(null, request.origin), 
-	index = clients.push(connection) - 1,
-	userName = false;
-	
-	console.log((new Date()) + ' Connection accepted.');
+		userName = false;
 
-	connection.on('message', function(message) {
+	console.log(util.formatDate(new Date()) + ' -> Connection accepted.');
 
-		if (message.type === 'utf8') { 
-
-			if (userName === false) { 
+	connection.on('message', function(message) 
+	{
+		if (message.type === 'utf8') 
+		{ 
+			if (userName === false) 
+			{ 
 				var obj = JSON.parse(message.utf8Data);
 				connections.push({id: obj.sender_id, socket: connection});
 
-				db.findUser(obj.sender_id, function(data){
+				db.findUser(obj.sender_id, function(data)
+				{
 					userName = data;
-					connection.sendUTF(JSON.stringify({ type:'first-time', user: userName }));
-					console.log((new Date()) + ' User is known as: ' + userName);
+					connection.sendUTF(JSON.stringify({ type:'first-time' }));
+					console.log(util.formatDate(new Date()) + ' -> The user is known as: ' + userName);
 				});
-			} else {
-
-				console.log((new Date()) + ' Received Message from ' + userName + ': ' + message.utf8Data);
+			} 
+			else 
+			{
+				console.log(util.formatDate(new Date()) + ' -> Received Message from ' + userName + ': ' + message.utf8Data);	
 				var obj = JSON.parse(message.utf8Data);
 
 				if(obj._id === "" || obj._id === undefined)
 				{
-					db.createChat(obj, function(data){
+					db.createChat(obj, function(data)
+					{
 						var json = JSON.stringify({ type:'message', 'data': data });
 
-						for (var i = 0; i < connections.length; i++){
+						for (var i = 0; i < connections.length; i++)
+						{
 							if(connections[i].id === data.sender_id || connections[i].id === data.receiver_id)
 								connections[i].socket.sendUTF(json);
 						}
 					});
-				}else{
-					db.findChat(obj, function(data){
+				}
+				else
+				{
+					db.findChat(obj, function(data)
+					{
 						var json = JSON.stringify({ type:'message', 'data': data });
 
-						for (var i = 0; i < connections.length; i++){
+						for (var i = 0; i < connections.length; i++)
+						{
 							if(connections[i].id === data.sender_id || connections[i].id === data.receiver_id)
 								connections[i].socket.sendUTF(json);
 						}
@@ -66,11 +83,20 @@ wsServer.on('request', function(request) {
 		}
 	});
 
-connection.on('close', function(connection) {
-
-	if (userName !== false) {	
-		console.log((new Date()) + " Peer " + connection.remoteAddress + " disconnected.");
-		clients.splice(index, 1);
-	}
-});
+	connection.on('close', function(reasonCode, description) 
+	{
+		if (userName !== false) 
+		{		
+	        console.log(util.formatDate(new Date()) + ' -> The user ' + userName + ', address: ' + connection.remoteAddress + ' is disconnected');
+	        
+	        for (var i = 0; i < connections.length; i++)
+			{
+				if(connections[i].socket === connection)
+				{
+					connections.splice(i, 1);
+					return;
+				}
+			}
+		}
+    });
 });

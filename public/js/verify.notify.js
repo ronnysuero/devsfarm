@@ -2450,6 +2450,10 @@ $.extend($.verify, {
     "password_email_match": {
       en: "Password must be different from User Email",
       es: "La contraseña debe ser diferente al correo"
+    },
+    "password_equals": {
+      en: "The new password can't be equal to the current",
+      es: "La nueva contraseña no puede ser igual a la actual"
     }, 
     "password_number": {
       en: "Password must contain at least one number (0-9)",
@@ -2633,6 +2637,15 @@ $.extend($.verify, {
       var v = r.val(), max = parseInt(r.args[0], 10);
       if(v.length > max)
         return String.format(dict["max"][language], max);
+      return true;
+    },
+    passwordEquals: function(r) {
+      var password = document.getElementById(r.args[0].trim()).value,
+      user =  document.getElementById(r.args[1].trim()).value || "";
+
+      if(password == user)
+        return dict["password_equals"][language];
+      
       return true;
     },
     password: function(r) {

@@ -15,4 +15,5 @@ return array(
 	'register' => 'Register',
 	'email_duplicated' => 'This email is already registered in our system',
 	'register_true' => 'Thank you for registering',
+	'error_password' => 'The current password doesn\'t match the password stored'
 	);

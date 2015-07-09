@@ -23,8 +23,10 @@ class ChatController extends BaseController
 			$user = Student::find(Auth::id());
 		} 
 
+		$ip = (App::isLocal()) ? '127.0.0.1' : '104.131.3.39';
+
 		if($users !== null)
-			return View::make('chat.home')->with(array('contacts' => $users, 'user' => $user));
+			return View::make('chat.home')->with(array('contacts' => $users, 'user' => $user, 'ip'=> $ip));
 	}
 
 	public function find()
@@ -46,12 +48,12 @@ class ChatController extends BaseController
 				$receiver = UserController::getUser($user_receiver);
 				$sender_name = "";
 				$receiver_name = "";	
-				
+
 				if(strcmp($user_sender->rank, 'university') === 0)
 					$sender_name = $sender->acronym;
 				else
 					$sender_name = $sender->name.' '.$sender->last_name;
-				
+
 				if(strcmp($user_receiver->rank, 'university') === 0)
 					$receiver_name = $receiver->acronym;
 				else

@@ -38,8 +38,6 @@ class TeacherController extends BaseController
 
 	public function addTeacher()
 	{
-		require(app_path().'/helpers/CropImage.php');
-
 		$user = new User;
 		$user->user = trim(strtolower(Input::get('email')));
 		$user->password = Hash::make(Input::get('email'));

@@ -118,13 +118,12 @@
 			</div>
 			<div class="form-group col-lg-12">
 				<label for="university_password">{{Lang::get('register_university.password')}}</label>
-				<input data-validate="required,min(6),password(university_password, guest_email)" type="password" class="form-control" id="university_password" name="university_password" placeholder="{{Lang::get('register_university.password_placeholder')}}"  />
+				<input data-validate="required,min(6),password(university_password, university_email)" type="password" class="form-control" id="university_password" name="university_password" placeholder="{{Lang::get('register_university.password_placeholder')}}"  />
 			</div>
 			<div class="form-group col-lg-12">
 				<label for="university_confirm_password">{{Lang::get('register_university.confirm_password')}}</label>
 				<input data-validate="required,min(6),verifyPassword(university_password, university_confirm_password)" type="password" class="form-control" id="university_confirm_password" name="university_confirm_password" placeholder="{{Lang::get('register_university.confirm_password_placeholder')}}"  />
 			</div>
-
 			<button type="submit" class="btn btn-primary pull-right" style="margin-right: 15px;">{{Lang::get('register_university.register')}}</button>
 			{{ Form::close() }}
 		</div>

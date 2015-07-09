@@ -28,7 +28,7 @@
 									@foreach ($contacts as $index => $contact)
 									<a class="list-group-item" onclick="setSenderId('contact{{$index + 1}}')">
 										@if($contact->profile_image == null)
-										<img src="images/profile.png" class="chat-user-avatar" alt="contact"></td>
+										<img src="images/profile.png" class="chat-user-avatar" alt="contact">
 										@else
 										<img src="{{Lang::get('show_image').'?src='.storage_path().$contact->profile_image}}" class="chat-user-avatar"/>
 										@endif
@@ -69,8 +69,9 @@
 								<input type="hidden" value="{{Auth::id()}}" id="_id">
 								<input type="hidden" value="" id="chat_id">
 								<input type="hidden" value="" id="receiver_id">
+								<input type="hidden" value="{{$ip}}" id="ip">
 								<div class="input-group">
-									<input type="text" class="form-control write-message disabled" id="write-message" placeholder="Type something here and hit enter">
+									<input type="text" class="form-control write-message" id="write-message" placeholder="Type something here and hit enter">
 									<span class="input-group-btn" >
 										<button class="btn text-white bg-primary disabled" type="button" id="send-message">Send</button>
 									</span>
@@ -83,8 +84,16 @@
 		</div>
 	</div>
 	<script type="text/javascript" src="js/jquery-2.1.3.js"></script>
+	<script src="js/reconnecting-websocket.min.js"></script>
 	<script src="js/server.client.js"></script>
 	<script type="text/javascript">
+		function scrollDiv()
+		{
+			var content = $('#content');
+			var height = content[0].scrollHeight;
+		  	content.scrollTop(height);
+		}
+
 		function setSenderId(r)
 		{
 			$('#receiver_id').val($('#'+r).val());
@@ -104,9 +113,13 @@
 					else 
 						author = data.receiver.name;
 
-					$('#content').append('<a class="list-group-item"> <img src="images/profile.png" class="chat-user-avatar" alt=""><span class="username">' + author + ' <span class="time">'+ formatDate(new Date(conversation.date_sended.sec*1000)) + '</span> </span>'+
-						'<p>' + conversation.message + '</p></a>');
+					$('#content').append('<a class="list-group-item"> '+
+						'<img src="images/profile.png" class="chat-user-avatar" alt="">'+
+						'<span class="username">' + author + ' <span class="time">'+ 
+						formatDate(new Date(conversation.date_sended.sec*1000)) + 
+						'</span> </span> <p>' + conversation.message + '</p></a>');
 				}
+				scrollDiv();
 			});
 		}
 
@@ -121,7 +134,7 @@
 			minutes = minutes < 10 ? '0'+minutes : minutes;
 			var strTime = hours + ':' + minutes + ' ' + ampm;
 
-			return date.getMonth()+1 + "/" + date.getDate() + "/" + date.getFullYear() + "  " + strTime;
+			return date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear() + " " + strTime;
 		}
 	</script>
 </body>

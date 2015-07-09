@@ -41,15 +41,15 @@
 						<div id="password_fields" style="display: none;">
 							<div class="form-group">
 								<label>{{Lang::get('university_profile.current_password')}}</label>
-								<input data-validate="required,password" class="form-control" id="current_password" name="current_password">
+								<input data-validate="required" class="form-control" id="current_password" name="current_password" type="password">
 							</div>
 							<div class="form-group">
 								<label>{{Lang::get('university_profile.new_password')}}</label>
-								<input data-validate="required,password" class="form-control" id="new_password" name="new_password">
+								<input data-validate="required,min(6),password(new_password, university_email),passwordEquals(new_password, current_password)" class="form-control" id="new_password" name="new_password" type="password">
 							</div>
 							<div class="form-group">
 								<label>{{Lang::get('university_profile.confirm_new_password')}}</label>
-								<input data-validate="required,password" class="form-control" id="confirm_new_password" name="confirm_new_password">
+								<input data-validate="required,min(6),verifyPassword(new_password, confirm_new_password)" class="form-control" id="confirm_new_password" name="confirm_new_password" type="password">
 							</div>
 						</div>
 						<button type="submit" class="btn btn-default pull-right">{{Lang::get('university_profile.update')}}</button>

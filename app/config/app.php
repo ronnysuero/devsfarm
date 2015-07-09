@@ -13,7 +13,7 @@ return array(
 	|
 	*/
 
-	'debug' => true,
+	'debug' => false,
 
 	/*
 	|--------------------------------------------------------------------------
@@ -124,8 +124,9 @@ return array(
 		'Jenssegers\Mongodb\MongodbServiceProvider',
 		'Jenssegers\Mongodb\Session\SessionServiceProvider',
 		'Zizaco\MongolidLaravel\MongolidServiceProvider',
-		'Intervention\Image\ImageServiceProvider'
-	),
+		'Intervention\Image\ImageServiceProvider',
+		'Helpers\CropImage\CropImageServiceProvider',
+		),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -194,7 +195,11 @@ return array(
 		'Moloquent'       	=> 'Jenssegers\Mongodb\Model',
 		'MongoLid' 			=> 'Zizaco\MongolidLaravel\MongoLid',
 		'Image' 			=> 'Intervention\Image\Facades\Image'
+		),
 
+'ip' => array(
+	'local' => '127.0.0.1',
+	'production' => '104.131.3.39'
 	),
 
 );

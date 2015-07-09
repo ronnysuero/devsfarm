@@ -15,4 +15,5 @@ return array(
 	'register' => 'Registrar',
 	'email_duplicated' => 'Este correo electronico ya se encuentra registrado en nuestro sistema',
 	'register_true' => 'Gracias por registrarte',
+	'error_password' => 'La contraseña actual no coincide con la contraseña almacenada',
 	);

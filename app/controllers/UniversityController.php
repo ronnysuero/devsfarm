@@ -10,12 +10,18 @@ class UniversityController extends BaseController
 
 	public function update()
 	{
-		require(app_path().'/helpers/CropImage.php');
-
 		$flag = false;
 		$university = University::find(Auth::id());
 		$university->name = ucfirst(trim(Input::get('university_name')));
 		$email = trim(strtolower(Input::get('university_email')));
+
+		if(strlen(Input::get('current_password')) > 0) 
+		{
+			if(!Hash::check(Input::get('current_password'), Auth::user()->password))		
+				return Redirect::back()->withErrors(array( 'error' => Lang::get('register_university.error_password')));
+			else
+				Auth::user()->password = Hash::make(Input::get('new_password'));		
+		}
 
 		if(strcmp($email, $university->email) !== 0)
 		{
@@ -34,9 +40,11 @@ class UniversityController extends BaseController
 			$flag = true;
 			$university->email = $email;
 		}
+		else if(strlen(Input::get('current_password')) > 0)
+			Auth::user()->save();
 
 		$university->acronym = strtoupper(trim(Input::get('university_acronym')));
-
+		
 		if(Input::hasFile('avatar_file'))
 		{
 			$data = Input::get('avatar_data');
