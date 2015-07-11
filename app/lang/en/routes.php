@@ -38,4 +38,7 @@ return array(
 	'find_message' => 'find_message',
 	'drop_message' => 'drop_message',
 	'find_chat' => 'find_chat',
+	'forget_password' => 'forget_password',
+	'reset_password' => 'reset_password',
+	
 	);

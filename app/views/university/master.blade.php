@@ -12,6 +12,7 @@
 	<link rel="stylesheet" type="text/css" href="css/font-awesome.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 	<link rel="stylesheet" type="text/css" href="css/cropper.min.css">
+	<link rel="shortcut icon" href="favicon.png"> 
 	<script type="text/javascript" src="js/jquery-2.1.3.js"></script>
 </head>
 <body>

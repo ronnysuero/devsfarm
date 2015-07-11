@@ -37,4 +37,7 @@ return array(
 	'find_message' => 'encontrar_mensaje',
 	'drop_message' => 'eliminar_mensaje',
 	'find_chat' => 'encontrar_chat',
+	'forget_password' => 'olvide_mi_contraseña',
+	'reset_password' => 'cambiar_contraseña',
+	
 	);

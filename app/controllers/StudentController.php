@@ -12,16 +12,6 @@ class StudentController extends BaseController
 		return View::make('student.home');
 	}
 
-	/**
-	 * Show the view on the navigator
-	 *
-	 * @return void
-	 */
-	public function showRegisterView()
-	{
-		return View::make('student.register');
-	}
-
 	public function registerStudent()
 	{
 		$user = new User;

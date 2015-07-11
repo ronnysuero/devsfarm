@@ -24,8 +24,12 @@
 							<td>{{ $subject->name }}</td>
 							<td>{{ $subject->school }}</td>
 							<td>
-								@foreach ($subject->sections as $section)
-								{{ $section->code }},
+								@foreach ($subject->sections as $i => $section)
+								@if($i === 0)
+								{{ $section->code }}
+								@else 
+								, {{ $section->code }}
+								@endif
 								@endforeach
 							</td>
 						</tr>

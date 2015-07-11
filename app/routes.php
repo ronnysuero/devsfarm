@@ -11,29 +11,39 @@
 |
 */
 
-// SET DEFAULT LANGUAGE BROWSER
-$langs_availables = array('es', 'en');
-$lang_browser = substr(Request::server('HTTP_ACCEPT_LANGUAGE'), 0, 2);
+Route::get('test', function(){
+	Mail::send('forget-password-mail', array('firstname'=>'Ronny'), function($message){
+		$message->to('ronnysuero@gmail.com', 'ronny'.' '.'zapata')->subject('Welcome to the Laravel 4 Auth App!');
+	});
+});
 
-if (in_array($lang_browser, $langs_availables))
-	App::setLocale($lang_browser);
-else
-	App::setLocale('en'); //set default english
+Route::group(array(), function()
+{
+	// HTTP GET
+	Route::get('/', 'UserController@showView');
 
+	Route::get(Lang::get('routes.forget_password'), 'UserController@showForgetPasswordView');
 
-// HTTP GET
-Route::get('/', 'UserController@showView');
+	Route::get(Lang::get('routes.forget_password').'/{token}', 'UserController@confirmToken');
 
-Route::get(Lang::get('routes.register'), 'StudentController@showRegisterView');
+	Route::get(Lang::get('routes.reset_password'), 'UserController@showResetPasswordView');
 
-Route::get(Lang::get('routes.register_university'), 'UniversityController@showRegisterUniversityView');
+	Route::get(Lang::get('routes.register'), 'UserController@showRegisterView');
 
-// HTTP POST
-Route::post(Lang::get('routes.login'), 'UserController@login');
+	Route::get(Lang::get('routes.register_university'), 'UniversityController@showRegisterUniversityView');
 
-Route::post(Lang::get('routes.register_student'), 'StudentController@registerStudent');
+	// HTTP POST
+	Route::post(Lang::get('routes.login'), 'UserController@login');
 
-Route::post(Lang::get('routes.register_university'), 'UniversityController@registerUniversity');
+	Route::post(Lang::get('routes.register_student'), 'StudentController@registerStudent');
+
+	Route::post(Lang::get('routes.register_university'), 'UniversityController@registerUniversity');
+
+	Route::post(Lang::get('routes.forget_password'), 'UserController@forgetPassword');
+
+	Route::post(Lang::get('routes.reset_password'), 'UserController@resetPassword');
+});
+
 
 Route::group(array('before' => 'auth|university'), function()
 {

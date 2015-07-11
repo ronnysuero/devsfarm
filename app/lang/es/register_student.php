@@ -25,4 +25,17 @@ return array(
 	'register_student' => 'Registrar Estudiante',
 	'email_duplicated' => 'Este correo electronico ya se encuentra registrado en nuestro sistema',
 	'register_true' => 'Gracias por registrarte',
+	'register_university' => 'Registrar Universidad',
+	'register_now' => 'Registrate Ahora',
+	'sign_in' => '¿Ya tienes una cuenta?  <strong>Inicia Sesion</strong>',
+	'sign_up' => '¿No tienes una cuenta? <strong>Registrate</strong>',
+	'reset_password' => 'Cambia tu contaseña',
+	'reset' => 'Cambiar Contraseña',
+	'send_mail' => 'Enviar Correo',
+	'message_reset' => 'Escribe tu correo electrónico debajo y te enviaremos un enlace especial de restablecimiento de contraseña a su correo',
+	'email_not_found' => 'Lo sentimos, este correo no esta registrado en nuestro sistema',
+	'success_forget_password' => 'Ahora vaya a su bandeja de entrada y haga click en el link enviado en el mensaje',
+	'link_expired' => 'Este enlace ya no se encuentra disponible',
+	'password_changed' => 'Contraseña cambiada exitosamente',
+
 	);

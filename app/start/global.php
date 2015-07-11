@@ -19,7 +19,7 @@ ClassLoader::addDirectories(array(
 	app_path().'/models',
 	app_path().'/database/seeds',
 
-));
+    ));
 
 /*
 |--------------------------------------------------------------------------
@@ -52,27 +52,37 @@ Log::useFiles(storage_path().'/logs/laravel.log');
 // 	Log::error($exception);
 // });
 
+// SET DEFAULT LANGUAGE BROWSER
+$langs_availables = array('es', 'en');
+$lang_browser = substr(Request::server('HTTP_ACCEPT_LANGUAGE'), 0, 2);
+
+if (in_array($lang_browser, $langs_availables))
+    App::setLocale($lang_browser);
+else
+    App::setLocale('en'); //set default english
+
+
 App::error(function(Exception $exception, $code)
 {
 	if(Config::get('app.debug'))
 		Log::error($exception);
 	else
 	{
-    switch ($code)
-    {
-        case 403:
+        switch ($code)
+        {
+            case 403:
             return Response::view('error.403', array(), 403);
 
-        case 404:
+            case 404:
             return Response::view('error.404', array(), 404);
 
-        case 500:
+            case 500:
             return Response::view('error.500', array(), 500);
 
-        default:
+            default:
             return Response::view('error.default', array(), $code);
+        }
     }
-	}
 });
 
 /*
