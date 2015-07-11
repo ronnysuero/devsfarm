@@ -125,7 +125,6 @@ return array(
 		'Jenssegers\Mongodb\Session\SessionServiceProvider',
 		'Zizaco\MongolidLaravel\MongolidServiceProvider',
 		'Intervention\Image\ImageServiceProvider',
-		'Helpers\CropImage\CropImageServiceProvider',
 		),
 
 	/*
