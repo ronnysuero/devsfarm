@@ -25,7 +25,7 @@ class ChatController extends BaseController
 
 		$ip = (App::isLocal()) ? '127.0.0.1' : '104.131.3.39';
 
-		if($users !== null)
+		if(!is_null($users))
 			return View::make('chat.home')->with(array('contacts' => $users, 'user' => $user, 'ip'=> $ip));
 	}
 
@@ -40,7 +40,7 @@ class ChatController extends BaseController
 
 			$chat = Chat::whereIn('participants', $array)->first();
 
-			if($chat !== null)
+			if(!is_null($chat))
 			{
 				$user_sender = User::first(new MongoId(Input::get('_id')));
 				$user_receiver = User::first(new MongoId(Input::get('receiver_id')));

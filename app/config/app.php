@@ -195,10 +195,4 @@ return array(
 		'MongoLid' 			=> 'Zizaco\MongolidLaravel\MongoLid',
 		'Image' 			=> 'Intervention\Image\Facades\Image'
 		),
-
-'ip' => array(
-	'local' => '127.0.0.1',
-	'production' => '104.131.3.39'
-	),
-
 );

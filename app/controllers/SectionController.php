@@ -17,18 +17,18 @@ class SectionController extends BaseController
 	{
 		if(Request::ajax())
 		{
-			if(Input::get('_id') !== null)
+			if(!is_null(Input::get('_id')))
 			{
 				$subject = Subject::find(new MongoId(Input::get('_id')))->where('university_id', '=', Auth::id())->first();
 				
 				if($subject !== null)
 					return Response::json(array('subject' => $subject, 'sections' => $subject->sections));
 			}
-			else if (Input::get('code') !== null && Input::get('subject_id') !== null)
+			else if (!is_null(Input::get('code')) && Input::get('subject_id') !== null)
 			{
 				$subject = Subject::find(new MongoId(Input::get('subject_id')))->where('university_id', '=', Auth::id())->first();
 				
-				if($subject !== null)
+				if(!is_null($subject))
 				{
 					$section = $subject->sections()->where('code', '=', Input::get('code'))->first();
 					return Response::json(array('section' => $section, 'subject_id' => $subject->_id));

@@ -16,7 +16,7 @@
 					</ul>
 					<div id="tab-1" class="login-form tab-content current">
 						@include('alert')
-						{{ Form::open(array('url' => Lang::get('routes.register_student'), 'class' => 'register_form', 'id' => 'register_form')) }}
+						{{ Form::open(array('url' => Lang::get('routes.register_student'), 'style' => 'overflow: hidden; color: #26A69A;', 'class' => 'register_form', 'id' => 'register_form')) }}
 						<div class="form-group col-xs-12 col-sm-6">
 							<label for="guest_name">{{Lang::get('register_student.first_name')}}</label>
 							<input data-validate="required,size(3, 10),character" type="text" class="form-control" id="guest_name" name="guest_name" placeholder="{{Lang::get('register_student.first_name_placeholder')}}"/>

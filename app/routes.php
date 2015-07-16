@@ -11,12 +11,6 @@
 |
 */
 
-Route::get('test', function(){
-	Mail::send('forget-password-mail', array('firstname'=>'Ronny'), function($message){
-		$message->to('ronnysuero@gmail.com', 'ronny'.' '.'zapata')->subject('Welcome to the Laravel 4 Auth App!');
-	});
-});
-
 Route::group(array(), function()
 {
 	// HTTP GET
@@ -124,11 +118,14 @@ Route::group(array('before' => 'auth'), function()
 {
 	// HTTP GET  
 	Route::get('chat', 'ChatController@showView');
-	Route::get(Lang::get('routes.show_all_messages'), 'MessageController@showAllMessagesView');
+	
+	Route::get(Lang::get('routes.inbox'), 'MessageController@showInboxView');
 
-	Route::get(Lang::get('routes.send_message'), 'MessageController@showSendMessageView');
-
-	Route::get(Lang::get('routes.mail_sent'), 'MessageController@showMessageSentView');
+	Route::get(Lang::get('routes.sent'), 'MessageController@showMessageSentView');
+	
+	Route::get(Lang::get('routes.archived'), 'MessageController@showMessageArchivedView');
+	
+	Route::get(Lang::get('routes.unread'), 'MessageController@showMessageUnreadView');
 
 	Route::get(Lang::get('routes.logout'), 'UserController@logout');
 
@@ -151,4 +148,5 @@ Route::group(array('before' => 'auth'), function()
 	Route::post(Lang::get('routes.drop_message'), 'MessageController@drop');
 	
 	Route::post(Lang::get('routes.find_chat'), 'ChatController@find');
+
 });

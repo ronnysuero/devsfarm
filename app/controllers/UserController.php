@@ -57,11 +57,11 @@ class UserController extends BaseController
 	public static function getUser($user)
 	{
 		if(strcmp($user->rank, 'university') === 0)
-			return University::find(new MongoId($user->_id));
+			return University::find($user->_id);
 		elseif (strcmp($user->rank, 'teacher') === 0) 
-			return Teacher::find(new MongoId($user->_id));
+			return Teacher::find($user->_id);
 		elseif (strcmp($user->rank, 'student') === 0) 
-			return Student::find(new MongoId($user->_id));
+			return Student::find($user->_id);
 		return null;
 	}
 
@@ -76,7 +76,7 @@ class UserController extends BaseController
 		
 		$user = User::first(['user' => $email]);
 
-		if($user === null)
+		if(is_null($user))
 			return Redirect::back()->withErrors(array( 'error' => Lang::get('register_student.email_not_found')));
 
 		$token = "";
@@ -109,7 +109,7 @@ class UserController extends BaseController
 	{
 		$user = User::first(['password_token' => $token]);
 
-		if($user === null)
+		if(is_null($user))
 			return Redirect::to(Lang::get('routes.forget_password'))->withErrors(array( 'error' => Lang::get('register_student.link_expired')));
 
 		$datebegin = new DateTime(date('Y-m-d H:i', $user->date_password_token->sec));
@@ -129,7 +129,6 @@ class UserController extends BaseController
 	public function showResetPasswordView()
 	{
 		$user = Session::get('user');
-
 		return ($user === null) ? Redirect::to('/') : View::make('reset-password')->with('user', $user);
 	}
 

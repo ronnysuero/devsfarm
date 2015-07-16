@@ -34,11 +34,14 @@ return array(
 	'find_section' => 'find_section',
 	'update_section' => 'update_section',
 	'find_unused_section' => 'find_unused_section',
-	'mail_sent' => 'mail_sent',
+	'sent' => 'mails_sent',
 	'find_message' => 'find_message',
 	'drop_message' => 'drop_message',
 	'find_chat' => 'find_chat',
 	'forget_password' => 'forget_password',
 	'reset_password' => 'reset_password',
-	
+	'inbox' => 'inbox',
+	'archived' => 'mails_archived',
+	'unread' => 'mails_unread',
+
 	);

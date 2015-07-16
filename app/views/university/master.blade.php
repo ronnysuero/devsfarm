@@ -27,7 +27,33 @@
 				</button>
 				<a class="navbar-brand" href="{{Lang::get('routes.university')}}">DevsFarm</a>
 			</div>
-			<ul class="nav navbar-top-links navbar-right ">
+			<ul class="nav navbar-top-links navbar-right user-menu" id="user-menu">
+				<li class="dropdown">
+					<a href="#" class="settings dropdown-toggle" data-toggle="dropdown">
+						<i class="fa fa-envelope" style="color: #0097A7;"></i>
+						<span class="badge bg-pink">4</span>
+					</a>
+					<ul class="dropdown-menu inbox dropdown-user">
+						<li>
+							<a href="inbox.php">     
+								<img src="images/eleven.png" alt="" class="avatar">
+								<div class="message">
+									<span class="username">John Deo</span> 
+									<span class="mini-details">
+										(1) <i class="fa fa-paper-clip"></i>
+									</span>
+									<span class="time pull-right"> 
+										<i class="fa fa-clock-o"></i> 06:58 PM
+									</span>
+									<p>
+										Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ... 
+									</p>
+								</div>
+							</a>
+						</li>
+						<li><a href="inbox.php" class="btn bg-primary">View All</a></li>
+					</ul>
+				</li>
 				<li class="dropdown">
 					<a class="dropdown-toggle" data-toggle="dropdown" href="#">
 						<i class="fa fa-envelope fa-fw" style="color: #0097A7;"></i><i class="fa fa-caret-down" style="color: #0097A7;"></i>
@@ -51,7 +77,9 @@
 						<li><a href="{{Lang::get('routes.university_profile')}}"><i class="fa fa-user fa-fw" ></i> {{Lang::get('university_master.profile')}}</a>
 						</li>
 						<li class="divider"></li>
-						<li><a href="{{Lang::get('routes.logout')}}"><i class="fa fa-sign-out fa-fw" ></i> {{Lang::get('university_master.logout')}}</a>
+						<li><a href="{{Lang::get('routes.inbox')}}"><i class="fa fa-envelope"></i>   {{Lang::get('university_master.inbox')}}</a></li>
+						<li class="divider"></li>
+						<li><a href="{{Lang::get('routes.logout')}}"><i class="fa fa-sign-out fa-fw text-danger" ></i> {{Lang::get('university_master.logout')}}</a>
 						</li>
 					</ul>
 				</li>
@@ -126,20 +154,6 @@
 		{
 			$("#tableOrder").tablesorter(); 
 		});
-		
-		function PreviewImage() {
-			var oFReader = new FileReader();
-			oFReader.readAsDataURL(document.getElementById("photo").files[0]);
-
-			var file = document.getElementById("photo").value || "";
-
-			oFReader.onload = function(oFREvent) {
-				if(!file.match(/(\.jpg|\.jpeg|\.bmp|\.gif|\.png)$/))
-					document.getElementById("photo_display").src = "images/140x140.png";
-				else
-					document.getElementById("photo_display").src = oFREvent.target.result;
-			};
-		}		
 	</script>
 </body>
 </html>

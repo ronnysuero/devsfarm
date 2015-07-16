@@ -5,7 +5,7 @@ class EnrollmentController extends BaseController
 	public function showView ()
 	{
 		return View::make('university.add_enrollment')->with(array( 'teachers' => TeacherController::getTeachers(),
-			'subjects' => SubjectController::getSubjects()));
+						  'subjects' => SubjectController::getSubjects()));
 	}
 
 	public function showAllAssignmentsView ()

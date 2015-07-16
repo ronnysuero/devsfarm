@@ -33,11 +33,14 @@ return array(
 	'find_section' => 'buscar_seccion',
 	'update_section' => 'actualizar_seccion',
 	'find_unused_section' => 'buscar_seccion_no_utilizada',
-	'mail_sent' => 'mensajes_enviados',
+	'sent' => 'mensajes_enviados',
 	'find_message' => 'encontrar_mensaje',
 	'drop_message' => 'eliminar_mensaje',
 	'find_chat' => 'encontrar_chat',
 	'forget_password' => 'olvide_mi_contraseña',
 	'reset_password' => 'cambiar_contraseña',
-	
+	'inbox' => 'bandeja_de_entrada',
+	'archived' => 'mensajes_archivados',
+	'unread' => 'mensajes_no_leidos',
+
 	);
