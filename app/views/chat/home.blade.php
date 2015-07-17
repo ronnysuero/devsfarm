@@ -99,8 +99,12 @@
 			$('#receiver_id').val($('#'+r).val());
 			$('#content').html('');
 
-			$.post("{{Lang::get('routes.find_chat')}}",{ _id: $('#_id').val(), receiver_id: $('#receiver_id').val() }).done(function( data ) {
+			$.post("{{Lang::get('routes.find_chat')}}",{ receiver_id: $('#receiver_id').val() }).done(function( data ) {
 
+				console.log(data);
+				if(data.chat == '')
+				return;
+				
 				$('#chat_id').val(data.chat._id);
 
 				for(var i = 0; i< data.chat.conversations.length; i++)
@@ -116,7 +120,7 @@
 					$('#content').append('<a class="list-group-item"> '+
 						'<img src="images/profile.png" class="chat-user-avatar" alt="">'+
 						'<span class="username">' + author + ' <span class="time">'+ 
-						formatDate(new Date(conversation.date_sended.sec*1000)) + 
+						formatDate(new Date(conversation.sent_date.sec*1000)) + 
 						'</span> </span> <p>' + conversation.message + '</p></a>');
 				}
 				scrollDiv();

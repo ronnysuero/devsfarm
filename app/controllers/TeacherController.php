@@ -4,12 +4,13 @@ class TeacherController extends BaseController
 {
 	public static function getTeachers()
 	{
-		return Teacher::where('university_id', '=', Auth::id())->get();
+		return Teacher::where('university_id', Auth::id())->get();
 	}
 
 	public function showView ()
 	{
-		return View::make('university.add_teacher');
+		return View::make('university.add_teacher')->with(array('stats' => MessageController::getStats(),
+															    'unreadMessages' => MessageController::unReadMessages()));
 	}
 
 	public function showHome()
@@ -33,7 +34,9 @@ class TeacherController extends BaseController
 
 	public function showAllTeachersView ()
 	{
-		return View::make('university.show_all_teachers')->with(array( 'teachers' => $this->getTeachers()));
+		return View::make('university.show_all_teachers')->with(array(  'teachers' => $this->getTeachers(),
+																		'stats' => MessageController::getStats(),
+														  				'unreadMessages' => MessageController::unReadMessages()));
 	}
 
 	public function addTeacher()
@@ -115,7 +118,7 @@ class TeacherController extends BaseController
 	{
 		if(Request::ajax())
 		{
-			$teacher = Teacher::where('email', '=', Input::get('email'))->first();
+			$teacher = Teacher::where('email', Input::get('email'))->first();
 			return Response::json($teacher);
 		}
 	}

@@ -16,4 +16,5 @@ return array (
 	'send_message' => 'Enviar mensaje',
 	'received_message' => 'Mensajes recibidos',
 	'inbox' => 'Bandeja De Correos',
+	'view' => 'Ver Todos',
 );

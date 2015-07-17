@@ -49,7 +49,7 @@ var chatSchema = new Schema({
 		_id: Schema.Types.ObjectId,
 		sender_id: Schema.Types.ObjectId,
 		receiver_id: Schema.Types.ObjectId,
-		date_sended: Date,
+		sent_date: Date,
 		message: String
 	}]
 }, { versionKey: false });

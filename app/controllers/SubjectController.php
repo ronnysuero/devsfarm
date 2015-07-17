@@ -4,7 +4,8 @@ class SubjectController extends BaseController
 {
 	public function showView()
 	{
-		return View::make('university.add_subject');
+		return View::make('university.add_subject')->with(array('stats' => MessageController::getStats(),
+														  		'unreadMessages' => MessageController::unReadMessages()));
 	}
 
 	public function addSubject()
@@ -37,17 +38,19 @@ class SubjectController extends BaseController
 
 	public static function getSubjects()
 	{
-		return Subject::where('university_id', '=', Auth::id())->get();
+		return Subject::where('university_id', Auth::id())->get();
 	}
 
 	public function showAllSubjectsView ()
 	{
-		return View::make('university.show_all_subjects')->with(array( 'subjects' => $this->getSubjects()));
+		return View::make('university.show_all_subjects')->with(array(  'subjects' => $this->getSubjects(),
+																		'stats' => MessageController::getStats(),
+														  				'unreadMessages' => MessageController::unReadMessages()));
 	}
 
 	public function update()
 	{
-		$subject = Subject::find(new MongoId(Input::get('_id')));
+		$subject = Subject::find(Input::get('_id'));
 		$subject->name = strtoupper(trim(Input::get('subject_name')));
 		$subject->school = strtoupper(trim(Input::get('school')));
 		
@@ -67,7 +70,7 @@ class SubjectController extends BaseController
 	{
 		if(Request::ajax())
 		{
-			$subject = Subject::where('name', '=', Input::get('name'))->where('university_id', '=', Auth::id())->first();
+			$subject = Subject::where('name', Input::get('name'))->where('university_id', Auth::id())->first();
 			return Response::json($subject);
 		}
 	}

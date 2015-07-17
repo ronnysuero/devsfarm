@@ -34,16 +34,16 @@ class ChatController extends BaseController
 		if(Request::ajax())
 		{
 			$array = array(
-				new MongoId(Input::get('_id')),
+				Auth::id(),
 				new MongoId(Input::get('receiver_id'))
 				);
 
-			$chat = Chat::whereIn('participants', $array)->first();
+			$chat = Chat::where('participants', 'all', $array)->first();
 
 			if(!is_null($chat))
 			{
-				$user_sender = User::first(new MongoId(Input::get('_id')));
-				$user_receiver = User::first(new MongoId(Input::get('receiver_id')));
+				$user_sender = User::first(Auth::id());
+				$user_receiver = User::first(Input::get('receiver_id'));
 				$sender = UserController::getUser($user_sender);		
 				$receiver = UserController::getUser($user_receiver);
 				$sender_name = "";

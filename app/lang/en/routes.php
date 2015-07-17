@@ -43,5 +43,6 @@ return array(
 	'inbox' => 'inbox',
 	'archived' => 'mails_archived',
 	'unread' => 'mails_unread',
-
+	'mark_read_message' => 'mark_read_message',
+	'archived_message' => 'archived_message',
 	);

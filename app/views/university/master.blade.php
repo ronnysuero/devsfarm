@@ -12,6 +12,8 @@
 	<link rel="stylesheet" type="text/css" href="css/font-awesome.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 	<link rel="stylesheet" type="text/css" href="css/cropper.min.css">
+	<link rel="stylesheet" href="css/alertify.core.css" />
+	<link rel="stylesheet" href="css/alertify.default.css" id="toggleCSS" />
 	<link rel="shortcut icon" href="favicon.png"> 
 	<script type="text/javascript" src="js/jquery-2.1.3.js"></script>
 </head>
@@ -31,42 +33,45 @@
 				<li class="dropdown">
 					<a href="#" class="settings dropdown-toggle" data-toggle="dropdown">
 						<i class="fa fa-envelope" style="color: #0097A7;"></i>
-						<span class="badge bg-pink">4</span>
+						@if($stats['unread'] !== 0)
+							<span id="span_unread" class="badge bg-pink">{{$stats['unread']}}</span>
+						@endif
 					</a>
 					<ul class="dropdown-menu inbox dropdown-user">
-						<li>
-							<a href="inbox.php">     
-								<img src="images/eleven.png" alt="" class="avatar">
-								<div class="message">
-									<span class="username">John Deo</span> 
-									<span class="mini-details">
-										(1) <i class="fa fa-paper-clip"></i>
-									</span>
-									<span class="time pull-right"> 
-										<i class="fa fa-clock-o"></i> 06:58 PM
-									</span>
-									<p>
-										Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ... 
-									</p>
-								</div>
-							</a>
-						</li>
-						<li><a href="inbox.php" class="btn bg-primary">View All</a></li>
-					</ul>
-				</li>
-				<li class="dropdown">
-					<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-						<i class="fa fa-envelope fa-fw" style="color: #0097A7;"></i><i class="fa fa-caret-down" style="color: #0097A7;"></i>
-					</a>
-					<ul class="dropdown-menu dropdown-user">
-						<li><a href="{{Lang::get('routes.send_message')}}"><i class="fa fa-sign-out fa-space-shuttle"></i> {{Lang::get('university_master.send_message')}}</a>
-						</li>
-						<li class="divider"></li>
-						<li><a href="{{Lang::get('routes.show_all_messages')}}"><i class="fa fa-list-alt fa-fw"></i> {{Lang::get('university_master.received_message')}}</a>
-						</li>
-						<li class="divider"></li>
-						<li><a href="{{Lang::get('routes.mail_sent')}}"><i class="fa fa-envelope-o"></i> {{Lang::get('university_master.mail_sent')}}</a>
-						</li>
+						@foreach($unreadMessages as $index => $message)
+							<li class="popups" id="{{$index+1}}">
+								<a>
+									<?php
+										$user = UserController::getUser(User::first($message->from));
+									?>
+
+									@if($user->profile_image == null)
+										<img src="images/140x140.png" class="avatar" alt="avatar"></td>
+									@else
+										<img src="{{Lang::get('show_image').'?src='.storage_path().$user->profile_image}}" class="avatar"/>
+									@endif    
+									<input type="hidden" id="id{{$index+1}}" value="{{$message->_id}}">
+									<div>
+										<span class="username">{{$user->name}}</span> 
+										<span class="time pull-right"> 
+											<i class="fa fa-clock-o"></i> 
+											{{date('d-m-Y h:i A', $message->sent_date->sec)}}
+										</span>
+									</div>
+									<div>
+										<br/>
+										<p>
+											@if(strlen($message->body) > 50)
+												{{substr($message->body, 0, 50)}} ...
+											@else
+												{{$message->body}}
+											@endif
+										</p>
+									</div>
+								</a>
+							</li>
+						@endforeach
+						<li><a href="{{Lang::get('routes.inbox')}}" class="btn bg-primary">{{Lang::get('university_master.view')}}</a></li>
 					</ul>
 				</li>
 				<li class="dropdown">
@@ -141,6 +146,7 @@
 		<div id="page-wrapper">
 			@yield('content')
 		</div>
+		@include('message.modals')
 	</div>
 	<script type="text/javascript" src="js/verify.notify.js"></script>
 	<script type="text/javascript" src="js/sb-admin.js"></script>
@@ -149,10 +155,45 @@
 	<script type="text/javascript" src="js/metisMenu.min.js"></script>
 	<script type="text/javascript" src="js/cropper.min.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
+	<script type="text/javascript" src="js/alertify.min.js"></script>
 	<script type="text/javascript">
 		$('document').ready(function() 
 		{
 			$("#tableOrder").tablesorter(); 
+
+			$(".popups").on("click", function()
+			{
+				$('#to').html("");
+				$('#title').html("");
+				$('#body').html("");
+
+				$.post("{{Lang::get('routes.find_message')}}",{ _id: $('#id'+$(this).attr("id")).val(), flag: true, user: $('#user').val()}).done(function( data ) 
+				{    
+					$('#to').html("<i class='fa fa-user'></i>" + "{{Lang::get('send_message.to')}}");
+
+					for (var index in data.emails) 
+						$('#to').append("<li>" + data.emails[index] + "</li>");
+
+					$('#title').html("{{Lang::get('send_message.subject')}} " + data.messages.subject);
+					$('#body').html(data.messages.body);
+					$('#span_unread').html(data.stats['unread']);
+					$('#editModal').modal('show');
+					
+				});
+				
+				$('#'+$(this).attr("id")).hide();
+			});
+
+			@if($stats['unread'] > 0)
+				var plural = "";
+
+				@if($stats['unread'] > 1)
+					plural = "s";
+				@endif
+
+				alertify.set({ delay: 10000 });
+				alertify.log("{{Lang::get('messages.welcome')}} {{UserController::getUser(Auth::user())->name}}, {{Lang::get('messages.alert_message')}} {{$stats['unread']}} {{Lang::get('messages.message')}}" + plural);
+			@endif
 		});
 	</script>
 </body>

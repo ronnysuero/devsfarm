@@ -146,6 +146,10 @@ Route::group(array('before' => 'auth'), function()
 	Route::post(Lang::get('routes.find_message'), 'MessageController@find');
 
 	Route::post(Lang::get('routes.drop_message'), 'MessageController@drop');
+
+	Route::post(Lang::get('routes.mark_read_message'), 'MessageController@markRead');
+
+	Route::post(Lang::get('routes.archived_message'), 'MessageController@archived');
 	
 	Route::post(Lang::get('routes.find_chat'), 'ChatController@find');
 

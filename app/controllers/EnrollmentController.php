@@ -5,21 +5,25 @@ class EnrollmentController extends BaseController
 	public function showView ()
 	{
 		return View::make('university.add_enrollment')->with(array( 'teachers' => TeacherController::getTeachers(),
-						  'subjects' => SubjectController::getSubjects()));
+						  											'subjects' => SubjectController::getSubjects(),
+						  											'stats' => MessageController::getStats(),
+														  			'unreadMessages' => MessageController::unReadMessages()));
 	}
 
 	public function showAllAssignmentsView ()
 	{
-		return View::make('university.show_all_enrollment')->with(array( 'teachers' => TeacherController::getTeachers()));
+		return View::make('university.show_all_enrollment')->with(array( 'teachers' => TeacherController::getTeachers(),
+																		 'stats' => MessageController::getStats(),
+														  				 'unreadMessages' => MessageController::unReadMessages()));
 	}
 
 	public function addEnrollment()
 	{
-		$subject = Subject::find(new MongoId(Input::get('_id')));
+		$subject = Subject::find(Input::get('_id'));
 		$section = $subject->sections()->find(new MongoId(Input::get('section')));
 		
-		Teacher::find(new MongoId(Input::get('teacher_id')))->push('subjects_id', new MongoId($subject->_id), true);
-		Teacher::find(new MongoId(Input::get('teacher_id')))->push('sections_id', new MongoId($section->_id), true);	
+		Teacher::find(Input::get('teacher_id'))->push('subjects_id', new MongoId($subject->_id), true);
+		Teacher::find(Input::get('teacher_id'))->push('sections_id', new MongoId($section->_id), true);	
 
 		$section->is_free = false;
 		$section->save();

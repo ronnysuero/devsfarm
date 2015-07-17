@@ -1,5 +1,8 @@
 @extends('message.master')
 @stop
+@section('header')
+	<h1 class="page-header">{{Lang::get('messages.title_sent')}}</h1>
+@stop
 @section('body')
 	@foreach($messages as $index => $message)
 		<tr>
@@ -44,9 +47,8 @@
 
 					$('#title').html("{{Lang::get('send_message.subject')}} " + data.messages.subject);
 					$('#body').html(data.messages.body);
+					$('#editModal').modal('show');
 				});
-
-				$('#editModal').modal('show');
 			});
 		});
 	</script>

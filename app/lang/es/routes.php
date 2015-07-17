@@ -42,5 +42,6 @@ return array(
 	'inbox' => 'bandeja_de_entrada',
 	'archived' => 'mensajes_archivados',
 	'unread' => 'mensajes_no_leidos',
-
+	'mark_read_message' => 'marcar_como_leido',
+	'archived_message' => 'archivar_mensaje',
 	);

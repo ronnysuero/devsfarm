@@ -1,16 +1,17 @@
 "universities": 
 {
-	"id": "",
+	"_id": "",
 	"name": "",
 	"email":"",
 	"acronym": "",
-	"logo": ""
+	"logo": "",
+	"messages":[]
 }
 
 "teachers": 
 {
-	"id": "",
-	"university_id": "",
+	"_id": "",
+	"university__id": "",
 	"name": "",
 	"last_name": "",
 	"phone": "",
@@ -18,19 +19,20 @@
 	"email": "",
 	"picture": "",
 	"genre":"",
-	"sections_id" : [],
-	"subjects_id" : []
+	"sections__id" : [],
+	"subjects__id" : [],
+	"messages":[]
 }
 	
 "subjects": 
 {
-	"id": "",
+	"_id": "",
 	"name": "",
-	"university_id":"",
+	"university__id":"",
 	"sections":
 	[
 		{
-			"id": "",
+			"_id": "",
 			"code": "",
 		}
 	]
@@ -38,23 +40,24 @@
 
 "students":
 {
-	"id": "",
+	"_id": "",
 	"name": "",
 	"last_name": "",
-	"university_id": "",
+	"university__id": "",
 	"phone": "",
 	"cellphone": "",
 	"email": "",
 	"picture": "",
 	"is_teamleader": "",
 	"has_a_job": "",
-	"genre":""
+	"genre":"",
+	"messages":[]
 }
 
 "users":
 {
-	"id": "", //This field must match with the id of the student, teacher or university
-	"user": "", // This field must match with the email of the student, teacher or university
+	"_id": "", 
+	"user": "",
 	"password": "",
 	"rank": "",
 	"last_activity":""
@@ -62,8 +65,8 @@
 
 "assignments":
 {
-	"id":"",
-	"group_id": "",
+	"_id":"",
+	"group__id": "",
 	"assigned_by": "",
 	"assigned_to": "",
 	"date_assigned": "",
@@ -76,28 +79,48 @@
 
 "groups":
 {
-	"id":"",
+	"_id":"",
 	"name":"",
-	"teamleader_id":"",
-	"section_id":"",
+	"teamleader__id":"",
+	"section__id":"",
 	"logo":"",
-	"student_id":[],
+	"student__id":[],
 	"project_name":""
 }
 
 "group_by_sections":
 {
-	"id":"",
-	"section_id": "",
-	"group_id":"",
+	"_id":"",
+	"section__id": "",
+	"group__id":"",
 	"period": "",
+}
+
+"chats":
+{
+	"_id": "",
+	"subject_id": "",
+	"section_id": "",
+	"participants": [],
+	"conversations": [
+		{
+			"_id": "",
+			"sender_id": "",
+			"receiver_id": "",
+			"sent_date": "",
+			"message": ""
+		}
+	]
 }
 
 "messages":
 {
-	"id":"",
-	"to":"",
+	"_id":"",
+	"to":[],
 	"from":"",
 	"subject":"",
-	"body":""
+	"body":"",
+	"read": "",
+	"archived": "",
+	"sent_date":""
 }

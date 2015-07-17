@@ -1,8 +1,11 @@
 @extends('message.master')
 @stop
+@section('header')
+	<h1 class="page-header">{{Lang::get('messages.title_unread')}}</h1>
+@stop
 @section('body')
 	@foreach($messages as $index => $message)
-		<tr>
+		<tr class="unread">
 			<input type="hidden" id="id{{$index+1}}" value="{{$message->_id}}">
 			<td id="{{$index+1}}">
 				<div class="checkboxs delete_message" id="{{$index+1}}">
@@ -44,9 +47,12 @@
 
 					$('#title').html("{{Lang::get('send_message.subject')}} " + data.messages.subject);
 					$('#body').html(data.messages.body);
+					$('#span_inbox').html(data.stats['inbox']);			
+					$('#span_unread').html(data.stats['unread']);
+					$('#span_sent').html(data.stats['sent']);
+					$('#span_archived').html(data.stats['archived']);
+					$('#editModal').modal('show');
 				});
-
-				$('#editModal').modal('show');
 			});
 		});
 	</script>

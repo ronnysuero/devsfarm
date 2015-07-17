@@ -716,6 +716,7 @@
   opacity: 1;
 }
 .mail-right-box .mails table tr td.subject {
+  cursor: pointer;
   font-weight: bold;
 }
 .mail-right-box .mails table tr td.body {

@@ -48,7 +48,7 @@ module.exports = {
 				_id: mongoose.Types.ObjectId(),
 				sender_id: data.sender_id,
 				receiver_id: data.receiver_id,
-				date_sended: new Date(),
+				sent_date: new Date(),
 				message: data.message
 			}]
 		});
@@ -75,7 +75,7 @@ module.exports = {
 			_id: mongoose.Types.ObjectId(),
 			sender_id: data.sender_id,
 			receiver_id: data.receiver_id,
-			date_sended: new Date(),
+			sent_date: new Date(),
 			message: data.message
 		};
 

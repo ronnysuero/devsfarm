@@ -4,13 +4,18 @@ class SectionController extends BaseController
 {
 	public function showView()
 	{
-		return View::make('university.add_section')->with(array('subjects' => Subject::where('university_id', '=', Auth::id())->get()));
+		return View::make('university.add_section')->with(array('subjects' => Subject::where('university_id', Auth::id())->get(),
+																'stats' => MessageController::getStats(),
+														  		'unreadMessages' => MessageController::unReadMessages()));
 	}
 
 	public function showAllSectionsView()
 	{
-		$subjects = Subject::where('university_id', '=', Auth::id())->get();   
-		return View::make('university.show_all_sections')->with(array( 'subjects' => $subjects));
+		$subjects = Subject::where('university_id', Auth::id())->get();
+
+		return View::make('university.show_all_sections')->with(array(  'subjects' => $subjects,
+																		'stats' => MessageController::getStats(),
+														  				'unreadMessages' => MessageController::unReadMessages()));
 	}
 
 	public function find()
@@ -19,18 +24,18 @@ class SectionController extends BaseController
 		{
 			if(!is_null(Input::get('_id')))
 			{
-				$subject = Subject::find(new MongoId(Input::get('_id')))->where('university_id', '=', Auth::id())->first();
+				$subject = Subject::find(new MongoId(Input::get('_id')))->where('university_id', Auth::id())->first();
 				
 				if($subject !== null)
 					return Response::json(array('subject' => $subject, 'sections' => $subject->sections));
 			}
-			else if (!is_null(Input::get('code')) && Input::get('subject_id') !== null)
+			else if (!is_null(Input::get('code')) && !is_null(Input::get('subject_id')))
 			{
-				$subject = Subject::find(new MongoId(Input::get('subject_id')))->where('university_id', '=', Auth::id())->first();
+				$subject = Subject::find(new MongoId(Input::get('subject_id')))->where('university_id', Auth::id())->first();
 				
 				if(!is_null($subject))
 				{
-					$section = $subject->sections()->where('code', '=', Input::get('code'))->first();
+					$section = $subject->sections()->where('code', Input::get('code'))->first();
 					return Response::json(array('section' => $section, 'subject_id' => $subject->_id));
 				}
 			}
@@ -41,8 +46,8 @@ class SectionController extends BaseController
 	{
 		if(Request::ajax())
 		{
-			$subject = Subject::find(new MongoId(Input::get('_id')))->where('university_id', '=', Auth::id())->first();
-			$sections = $subject->sections()->where('is_free', '=', true)->get();
+			$subject = Subject::find(new MongoId(Input::get('_id')))->where('university_id', Auth::id())->first();
+			$sections = $subject->sections()->where('is_free', true)->get();
 
 			if(count($sections) > 0)
 				return Response::json(array('subject' => $subject->_id, 'sections' => $sections));

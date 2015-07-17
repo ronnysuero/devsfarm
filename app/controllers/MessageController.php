@@ -5,29 +5,43 @@ class MessageController extends BaseController
 	public function showInboxView()
 	{
 		$user = UserController::getUser(Auth::user());
-		$data = $user->where('messages.to', Auth::id())->where('_id', '=', Auth::user()->_id)->get();
-		return View::make('message.inbox')->with(array('data' => $data, 'stats' => $this->getStats()));
+		$messages = $user->messages()->where('from', '!=', Auth::id())
+   									 ->where('archived', false)
+									 ->orderBy('sent_date', 'desc')->get();
+
+		return View::make('message.inbox')->with(array(	'messages' => $messages, 
+														'stats' => $this->getStats(),
+														'unreadMessages' => $this->unReadMessages()));
 	}
 
 	public function showMessageSentView()
 	{
 		$user = UserController::getUser(Auth::user());
-		$messages = $user->messages()->where('from', '=', Auth::id())->orderBy('sent_date', 'desc')->get();
-		return View::make('message.sent')->with(array('messages' => $messages, 'stats' => $this->getStats()));
+		$messages = $user->messages()->where('from', Auth::id())
+									 ->where('archived', false)
+									 ->orderBy('sent_date', 'desc')->get();
+		
+		return View::make('message.sent')->with(array(	'messages' => $messages, 
+														'stats' => $this->getStats(),
+														'unreadMessages' => $this->unReadMessages()));
 	}
 
 	public function showMessageArchivedView()
 	{
 		$user = UserController::getUser(Auth::user());
-		$messages = $user->messages()->where('archived', '=', true)->orderBy('sent_date', 'desc')->get();
-		return View::make('message.archived')->with(array('messages' => $messages, 'stats' => $this->getStats()));
+		$messages = $user->messages()->where('archived', true)
+									 ->orderBy('sent_date', 'desc')->get();
+		
+		return View::make('message.archived')->with(array(	'messages' => $messages, 
+															'stats' => $this->getStats(),
+															'unreadMessages' => $this->unReadMessages()));
 	}
 
 	public function showMessageUnreadView()
 	{
-		$user = UserController::getUser(Auth::user());
-		$messages = $user->messages()->where('read', '=', false)->orderBy('sent_date', 'desc')->get();
-		return View::make('message.unread')->with(array('messages' => $messages, 'stats' => $this->getStats()));
+		return View::make('message.unread')->with(array('messages' => $this->unReadMessages(), 
+														'stats' => $this->getStats(),
+														'unreadMessages' => $this->unReadMessages()));
 	}
 
 	public function sendMessage()
@@ -77,13 +91,13 @@ class MessageController extends BaseController
 		return Redirect::to(Lang::get('routes.inbox'))->with('message', Lang::get('send_message.success')); 
 	}
 
-	public static function searchUsers($id)
+	private function searchUsers($id)
 	{
 		$emails = array();
 
 		foreach ($id as $user_id) 
 		{
-			$user = User::find(new MongoId($user_id));
+			$user = User::find($user_id);
 			$user_search = null;
 
 			if (strcmp($user->rank, 'university') === 0)
@@ -126,11 +140,13 @@ class MessageController extends BaseController
 			$flag = Input::get('flag');            
 
 			if(!is_null($flag))
-				 $emails = MessageController::searchUsers(array($message->from));
+				 $emails = $this->searchUsers(array($message->from));
 			 else
-				 $emails = MessageController::searchUsers($message->to);
+				 $emails = $this->searchUsers($message->to);
 
-			return Response::json(array('messages' => $message, 'emails' => $emails));
+			return Response::json(array('messages' => $message, 
+										'emails' => $emails, 
+										'stats' => $this->getStats()));
 		}
 	}
 
@@ -142,7 +158,7 @@ class MessageController extends BaseController
 			$user = UserController::getUser(Auth::user());
 
 			foreach ($ids as $value) 
-				 $user->messages()->where('_id', '=', new MongoId($value))->first()->delete();
+				 $user->messages()->find($value)->delete();
 			
 			return Response::json("00");
 		}
@@ -152,23 +168,65 @@ class MessageController extends BaseController
 	{
 		if(Request::ajax())
 		{
-			
+			$ids = Input::get('_ids');
+			$user = UserController::getUser(Auth::user());
+
+			foreach ($ids as $value)
+			{
+			 	$message = $user->messages()->find($value);
+
+				if($message->archived === false)
+			 	{
+					$message->archived = true;
+					$message->save();					
+			 	}
+			} 
+			return Response::json("00");
 		}
 	}
 
-	private function getStats()
+	public function markRead()
+	{
+		if(Request::ajax())
+		{
+			$ids = Input::get('_ids');
+			$user = UserController::getUser(Auth::user());
+
+			foreach ($ids as $value)
+			{
+				$message = $user->messages()->find($value);
+				
+				if($message->read === false)
+				{
+					$message->read = true;
+					$message->save();					
+				}
+			} 
+			return Response::json("00");
+		}
+	}
+
+	public static function getStats()
 	{
 		$user = UserController::getUser(Auth::user());
-		$inbox = $user->where('messages.to', Auth::id())->where('_id', '=', Auth::id())->where('messages.archived', '=', false)->count();
-		$unread = $user->where('messages.to', Auth::id())->where('_id', '=', Auth::id())->where('messages.read', '=', false)->where('messages.archived', '=', false)->count();
-		$sent = $user->messages()->where('from', '=', Auth::id())->where('archived', '=', false)->count();
-		$archived = $user->messages()->where('archived', '=', true)->count();
+		$inbox = $user->messages()->where('from', '!=', Auth::id())->where('archived', false)->count();
+		$sent = $user->messages()->where('from', Auth::id())->where('archived', false)->count();
+		$archived = $user->messages()->where('archived', true)->count();
 		
 		return array(
 			'inbox' => $inbox,
-			'unread' => $unread,
+			'unread' => count(MessageController::unReadMessages()),
 			'sent' => $sent,
 			'archived' => $archived
 		);	
+	}
+
+	public static function unReadMessages()
+	{
+		$user = UserController::getUser(Auth::user());
+		$messages = $user->messages()->where('read', false)
+									 ->where('archived', false)
+									 ->orderBy('sent_date', 'desc')->get();
+		return $messages;
 	}
 }

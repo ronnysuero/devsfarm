@@ -22,10 +22,10 @@ wsServer.on('request', function(request)
 
 	if (!util.originIsAllowed(request.origin)) 
 	{
-	  request.reject();
-	  console.log(util.formatDate(new Date()) + ' -> Connection rejected');
-	  return;
-	}
+      request.reject();
+      console.log(util.formatDate(new Date()) + ' -> Connection rejected');
+      return;
+    }
 
 	var connection = request.accept(null, request.origin), 
 		userName = false;
@@ -35,40 +35,32 @@ wsServer.on('request', function(request)
 	connection.on('message', function(message) 
 	{
 		if (message.type === 'utf8') 
-		{ 
+		{ 	
 			var obj;
 
 			try
 			{
-				obj = JSON.parse(message.utf8Data);	
+				obj = JSON.parse(message.utf8Data);
 			}
-			catch(Exception)
+			catch(err)
 			{
-				console.log(util.formatDate(new Date()) + " -> Failed to cast a bad JSON request");
 				connection.close();
+				console.log(util.formatDate(new Date()) + ' -> Bad JSON received');
 				return;
 			}
 
 			if (userName === false) 
 			{ 
-				if(obj.sender_id === undefined || obj.sender_id === "")
+				if(!obj.sender_id)
 				{
 					connection.close();
-					console.log(util.formatDate(new Date()) + ' -> User Unknow, connection rejected');
 					return;
-				}	
+				}
 
 				connections.push({id: obj.sender_id, socket: connection});
 
 				db.findUser(obj.sender_id, function(data)
 				{
-					if(data === undefined || data === "" || data === false)
-					{
-						connection.close();
-						console.log(util.formatDate(new Date()) + ' -> User Unknow, connection rejected');
-						return;
-					}
-
 					userName = data;
 					connection.sendUTF(JSON.stringify({ type:'first-time' }));
 					console.log(util.formatDate(new Date()) + ' -> The user is known as: ' + userName);
@@ -112,9 +104,9 @@ wsServer.on('request', function(request)
 	{
 		if (userName !== false) 
 		{		
-			console.log(util.formatDate(new Date()) + ' -> The user ' + userName + ', address: ' + connection.remoteAddress + ' is disconnected');
-			
-			for (var i = 0; i < connections.length; i++)
+	        console.log(util.formatDate(new Date()) + ' -> The user ' + userName + ', address: ' + connection.remoteAddress + ' is disconnected');
+	        
+	        for (var i = 0; i < connections.length; i++)
 			{
 				if(connections[i].socket === connection)
 				{
@@ -123,5 +115,5 @@ wsServer.on('request', function(request)
 				}
 			}
 		}
-	});
+    });
 });

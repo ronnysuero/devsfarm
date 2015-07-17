@@ -5,7 +5,9 @@ class UniversityController extends BaseController
 	public function showHome()
 	{
 		return View::make('university.home')->with(array( 'subjects' => SubjectController::getSubjects(),
-			'teachers' => TeacherController::getTeachers()));
+														  'teachers' => TeacherController::getTeachers(),
+														  'stats' => MessageController::getStats(),
+														  'unreadMessages' => MessageController::unReadMessages()));
 	}
 
 	public function update()
@@ -71,7 +73,9 @@ class UniversityController extends BaseController
 
 	public function showProfile()
 	{
-		return View::make('university.profile')->with(array('university' => University::where('_id', '=', Auth::id())->first()));
+		return View::make('university.profile')->with(array('university' => University::find(Auth::id()),
+															'stats' => MessageController::getStats(),
+														 	'unreadMessages' => MessageController::unReadMessages()));
 	}
 
 	public function registerUniversity()
@@ -102,10 +106,5 @@ class UniversityController extends BaseController
 		$university->save();
 
 		return Redirect::to('/')->with('message', Lang::get('register_university.register_true'));
-	}
-
-	public function showRegisterUniversityView()
-	{
-		return View::make('university.register');
 	}
 }
