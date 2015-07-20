@@ -33,8 +33,8 @@
 				<li class="dropdown">
 					<a href="#" class="settings dropdown-toggle" data-toggle="dropdown">
 						<i class="fa fa-envelope" style="color: #0097A7;"></i>
-						@if($stats['unread'] !== 0)
-							<span id="span_unread" class="badge bg-pink">{{$stats['unread']}}</span>
+						@if($stats['unread'] > 0)
+							<span id="unread" class="badge bg-pink">{{$stats['unread']}}</span>
 						@endif
 					</a>
 					<ul class="dropdown-menu inbox dropdown-user">
@@ -176,7 +176,18 @@
 
 					$('#title').html("{{Lang::get('send_message.subject')}} " + data.messages.subject);
 					$('#body').html(data.messages.body);
-					$('#span_unread').html(data.stats['unread']);
+					
+					if(data.stats['unread'] === 0)
+					{
+						$('#span_unread').hide();
+						$('#unread').hide();
+					}
+					else
+					{
+						$('#span_unread').html(data.stats['unread']);
+						$('#unread').html(data.stats['unread']);
+					}
+
 					$('#editModal').modal('show');
 					
 				});
@@ -184,7 +195,7 @@
 				$('#'+$(this).attr("id")).hide();
 			});
 
-			@if($stats['unread'] > 0)
+			@if($stats['unread'] > 0 && Request::is(Lang::get('routes.'.Auth::user()->rank)))
 				var plural = "";
 
 				@if($stats['unread'] > 1)

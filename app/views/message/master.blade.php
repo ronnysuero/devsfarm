@@ -13,25 +13,25 @@
 				<div class="list-group inbox-options">
 					<a href="{{Lang::get('routes.inbox')}}" class="list-group-item">
 						<i class="fa fa-inbox"></i> {{Lang::get('messages.inbox')}} 
-						@if($stats['inbox'] !== 0)
+						@if($stats['inbox'] > 0)
 							<span id="span_inbox" class="badge bg-primary">{{$stats['inbox']}}</span>
 						@endif 
 					</a> 
 					<a href="{{Lang::get('routes.unread')}}"class="list-group-item">
 						<i class="fa fa-bolt"></i> {{Lang::get('messages.unread')}} 
-						@if($stats['unread'] !== 0)
+						@if($stats['unread'] > 0)
 							<span id="span_unread" class="badge bg-primary">{{$stats['unread']}}</span> 
 						@endif
 					</a> 
 					<a href="{{Lang::get('routes.sent')}}" id="sent" class="list-group-item">
 						<i class="fa fa-check-square-o"></i> {{Lang::get('messages.sent')}} 
-						@if($stats['sent'] !== 0)
+						@if($stats['sent'] > 0)
 							<span id="span_sent" class="badge  bg-primary">{{$stats['sent']}}</span> 
 						@endif
 					</a>
 					<a href="{{Lang::get('routes.archived')}}" class="list-group-item">
 						<i class="fa fa-archive"></i> {{Lang::get('messages.archived')}} 
-						@if($stats['archived'] !== 0)
+						@if($stats['archived'] > 0)
 							<span id="span_archived" class="badge bg-primary">{{$stats['archived']}}</span> 
 						@endif
 					</a> 
