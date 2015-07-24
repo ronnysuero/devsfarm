@@ -93,7 +93,7 @@
 				<div class="sidebar-nav navbar-collapse">
 					<ul class="nav" id="side-menu">
 						<li>
-							<a href="{{Lang::get('routes.university')}}" class="nav_home_categoria"><i class="fa fa-home"></i> {{Lang::get('university_master.board')}}</a>
+							<a href="{{Lang::get('routes.university')}}" class="nav_home_categoria" style="background-color: #0097A7; color: white;"><i class="fa fa-home"></i> {{Lang::get('university_master.board')}}</a>
 						</li>
 						<li>
 							<a href="#" class="nav_categoria"><i class="fa fa-list"></i> {{Lang::get('university_master.subject')}}</a>

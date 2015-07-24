@@ -1,5 +1,7 @@
 <?php
 
+use Helpers\CropImage\CropImage;
+
 class UniversityController extends BaseController
 {
 	public function showHome()

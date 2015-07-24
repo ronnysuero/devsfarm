@@ -45,4 +45,5 @@ return array(
 	'unread' => 'mails_unread',
 	'mark_read_message' => 'mark_read_message',
 	'archived_message' => 'archived_message',
+    'section_codes' => 'section_codes',
 	);

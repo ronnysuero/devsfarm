@@ -1,75 +1,96 @@
 @extends('teacher.master')
 
-@section('title', 'Profile - Teacher')
+@section('title', Lang::get("teacher_profile.title") )
 @stop
 
 @section('content')
 <div class="row">
 	<div class="col-lg-12">
-		<h1 class="page-header"><i class="fa fa-user"></i>My Profile</h1>
+		<h1 class="page-header"><i class="fa fa-user"></i> {{Lang::get('teacher_profile.profile')}}</h1>
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				Information
+                {{Lang::get('teacher_profile.profile')}}
 			</div>
-			<div class="panel-body">
+			<div class="panel-body" id="crop-avatar">
 				<div class="row">
+                    @include('alert')
 					<div class="col-lg-3" style="overflow: hidden;">
-						<img src="http://placehold.it/150x150" alt="">
-						<input type="file" id="logo" name="logo">
-						<br>
+                        <div id="photo_display" name="photo_display" title="{{Lang::get('teacher_profile.teacher_photo')}}"
+                             class="avatar-view avatar-preview preview-lg" style="width:140px; height:140px">
+                            @if($teacher->profile_image == null)
+                                <img src="images/140x140.png" alt="Avatar">
+                            @else
+                                <img src="{{Lang::get('show_image').'?src='.storage_path().$teacher->profile_image}}" alt="Avatar" />
+                            @endif
+                        </div>
 					</div>
 					<div class="col-lg-6" style="overflow: hidden;">
-						<form role="form">
+                        {{ Form::open(array('url' => Lang::get('routes.update_teacher'), 'enctype' => 'multipart/form-data', 'id' => 'form')) }}
 							<div class="form-group">
-								<label>Nombres</label>
-								<input type="text" class="form-control" id="name" name="name" placeholder="Nombres" required>
+								<label>{{Lang::get('teacher_profile.teacher_name')}}</label>
+								<input type="text" class="form-control" id="teacher_name" name="teacher_name"
+                                       placeholder="Nombres" value="{{$teacher->name}}" required>
 							</div>
 							<div class="form-group">
-								<label>Apellidos</label>
-								<input type="text" class="form-control" id="last_name" name="last_name" placeholder="Apellidos" required>
+								<label>{{Lang::get('teacher_profile.teacher_last_name')}}</label>
+								<input type="text" class="form-control" id="teacher_last_name" name="teacher_last_name"
+                                       placeholder="Apellidos" value="{{$teacher->last_name}}" required>
 							</div>
 							<div class="form-group">
-								<label>Telefono</label>
-								<input type="text" class="form-control" id="phone" name="phone" placeholder="Telefono">
+								<label>{{Lang::get('teacher_profile.teacher_phone')}}</label>
+								<input type="text" class="form-control" id="teacher_phone" name="teacher_phone"
+                                       placeholder="Telefono" value="{{$teacher->phone}}">
 							</div>
 							<div class="form-group">
-								<label>Celular</label>
-								<input type="text" class="form-control" id="cellphone" name="cellphone" placeholder="Celular">
+								<label>{{Lang::get('teacher_profile.teacher_cellphone')}}</label>
+								<input type="text" class="form-control" id="teacher_cellphone" name="teacher_cellphone"
+                                       placeholder="Celular" value="{{$teacher->cellphone}}">
 							</div>
 							<div class="form-group">
-								<label>Email</label>
-								<input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
+								<label>{{Lang::get('teacher_profile.teacher_email')}}</label>
+								<input type="email" class="form-control" id="teacher_email" name="teacher_email"
+                                       placeholder="Email" value="{{$teacher->email}}" readonly required>
 							</div>
 
                             <hr/>
-                            <a href="#" id="show_password_fields"><h5>Change Password</h5></a>
+                            <a href="#" id="show_password_fields"><h5>{{Lang::get('teacher_profile.change_password')}}</h5></a>
                             <hr/>
                             <div id="password_fields" style="display: none;">
                                 <div class="form-group">
-                                    <label>Current Password</label>
-                                    <input data-validate="required,password" class="form-control" id="current_password" name="current_password">
+                                    <label>{{Lang::get('teacher_profile.current_password')}}</label>
+                                    <input data-validate="required,password" class="form-control" id="current_password" name="current_password" type="password">
                                 </div>
                                 <div class="form-group">
-                                    <label>New Password</label>
-                                    <input data-validate="required,password" class="form-control" id="new_password" name="new_password">
+                                    <label>{{Lang::get('teacher_profile.new_password')}}</label>
+                                    <input data-validate="required,password" class="form-control" id="new_password" name="new_password" type="password">
                                 </div>
                                 <div class="form-group">
-                                    <label>Confirm New Password</label>
-                                    <input data-validate="required,password" class="form-control" id="confirm_new_password" name="confirm_new_password">
+                                    <label>{{Lang::get('teacher_profile.confirm_new_password')}}</label>
+                                    <input data-validate="required,min(6),verifyPassword(new_password, confirm_new_password)"
+                                           class="form-control" id="confirm_new_password" name="confirm_new_password" type="password">
                                 </div>
                             </div>
-							<button type="submit" class="btn btn-default pull-right">Actualizar</button>
-						</form>
+							<button type="submit" class="btn btn-default pull-right">{{Lang::get('teacher_profile.update')}}</button>
+                        {{Form::close()}}
 					</div>
 				</div>
+                @include('crop')
 			</div>
 		</div>
 	</div>
 </div>
 <script>
-    $("#show_password_fields").click(function(){
-        $("#password_fields").toggle("slow");
+    $('document').ready(function()
+    {
+        $("#crop").on("click", function()
+        {
+            $('#photo_display').html($('#preview').html());
+            $('#avatar-modal').modal('hide');
+        });
+
+        $("#show_password_fields").click(function(){
+            $("#password_fields").toggle("slow");
+        });
     });
-    //
 </script>
 @stop

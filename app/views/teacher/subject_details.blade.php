@@ -4,7 +4,7 @@
 @stop
 
 @section('content')
-<div class="row">
+<div class="row" style="color: #000000;">
 	<h1 class="page-header"></h1>
 	<div class="col-lg-12">
 		<div class="row">
@@ -145,7 +145,8 @@
 </div>
 </div>
 
-<div class="modal fade" id="studentDetailsModal" tabindex="-1" role="dialog" aria-labelledby="Register University" aria-hidden="true">
+<div class="modal fade" id="studentDetailsModal" style="color: #000000;"
+        tabindex="-1" role="dialog" aria-labelledby="Register University" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">

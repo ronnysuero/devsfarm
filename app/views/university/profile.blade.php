@@ -33,7 +33,8 @@
 						</div>
 						<div class="form-group">
 							<label>{{Lang::get('university_profile.email')}}</label>
-							<input data-validate="required,email" class="form-control" id="university_email" name="university_email" value="{{$university->email}}">
+							<input data-validate="required,email" class="form-control" id="university_email" name="university_email"
+                                   value="{{$university->email}}" readonly>
 						</div>
 						<hr/>
 						<a href="#" id="show_password_fields"><h5>{{Lang::get('university_profile.change_password')}}</h5></a>
@@ -54,7 +55,7 @@
 						</div>
 						<button type="submit" class="btn btn-default pull-right">{{Lang::get('university_profile.update')}}</button>
 					</div>
-					{{Form::close()}}
+                    {{Form::close()}}
 				</div>
 				@include('crop')
 			</div>

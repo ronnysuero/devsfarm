@@ -96,4 +96,9 @@ class SectionController extends BaseController
 
 		return Redirect::to(Lang::get('routes.show_all_sections'))->with('message', Lang::get('university_profile.update_message'));  
 	}
+
+    public function showAllSectionsCodesView(){
+        return View::make('teacher.section_codes')->with(array('stats' => MessageController::getStats(),
+                                                                'unreadMessages' => MessageController::unReadMessages()));
+    }
 }

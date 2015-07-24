@@ -30,4 +30,5 @@ class EnrollmentController extends BaseController
 		
 		return Redirect::to(Lang::get('routes.add_enrollment'))->with('message', Lang::get('add_enroll.success'));  
 	}
+
 }

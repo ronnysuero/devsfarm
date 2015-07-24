@@ -1,5 +1,7 @@
 <?php
 
+use Helpers\CropImage\CropImage;
+
 class TeacherController extends BaseController
 {
 	public static function getTeachers()
@@ -15,11 +17,14 @@ class TeacherController extends BaseController
 
 	public function showHome()
 	{
-		return View::make('teacher.home');
+		return View::make('teacher.home')->with(array('stats' => MessageController::getStats(),
+                                                        'unreadMessages' => MessageController::unReadMessages()));
 	}
 	public function showProfile()
 	{
-		return View::make('teacher.profile');
+		return View::make('teacher.profile')->with(array('teacher' => Teacher::find(Auth::id()),
+                                                        'stats' => MessageController::getStats(),
+                                                        'unreadMessages' => MessageController::unReadMessages()));
 	}
 
 	public function showSubjectDetails()
@@ -113,6 +118,61 @@ class TeacherController extends BaseController
 
 		return Redirect::to(Lang::get('routes.show_all_teachers'))->with('message', Lang::get('university_profile.update_message'));
 	}
+
+    public function updateTeacher(){
+
+        $teacher = Teacher::find(Auth::id());
+        $teacher->name = ucfirst(trim(Input::get('teacher_name')));
+        $teacher->last_name = ucfirst(trim(Input::get('teacher_last_name')));
+        $teacher->phone = trim(Input::get('teacher_phone'));
+        $teacher->cellphone = trim(Input::get('teacher_cellphone'));
+
+        if(strlen(Input::get('current_password')) > 0)
+        {
+            if(!Hash::check(Input::get('current_password'), Auth::user()->password))
+                return Redirect::back()->withErrors(array( 'error' => Lang::get('teacher_profile.error_password')));
+            else
+                Auth::user()->password = Hash::make(Input::get('new_password'));
+                Auth::user()->save();
+        }
+
+//        if(strcmp($email, $teacher->email) !== 0)
+//        {
+//            Auth::user()->last_activity = new MongoDate;
+//            Auth::user()->user = $email;
+//
+//            try
+//            {
+//                Auth::user()->save();
+//            }
+//            catch(MongoDuplicateKeyException $e)
+//            {
+//                return Redirect::back()->withErrors(array( 'error' => Lang::get('register_university.email_duplicated')));
+//            }
+//
+//            //$flag = true;
+//            $teacher->email = $email;
+//        }
+//        else if(strlen(Input::get('current_password')) > 0)
+//            Auth::user()->save();
+
+        if(Input::hasFile('avatar_file'))
+        {
+            $data = Input::get('avatar_data');
+
+            if($teacher->profile_image === null)
+            {
+                $image = new CropImage(null, $data, $_FILES['avatar_file']);
+                $teacher->profile_image = $image->getURL();
+            }
+            else
+                new CropImage($teacher->profile_image, $data, $_FILES['avatar_file']);
+        }
+
+        $teacher->save();
+
+        return Redirect::to(Lang::get('routes.teacher_profile'))->with('message', Lang::get('teacher_profile.update_message'));
+    }
 
 	public function find()
 	{

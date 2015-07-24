@@ -40,3 +40,9 @@ body {
 .forgot_pw:hover{
   color: #0097A7;
 }
+
+.coding_ground {
+    background-color: #0097A7;
+    color: white;
+    font-weight: bold;
+}
