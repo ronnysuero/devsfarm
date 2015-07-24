@@ -44,4 +44,5 @@ return array(
 	'unread' => 'mensajes_no_leidos',
 	'mark_read_message' => 'marcar_como_leido',
 	'archived_message' => 'archivar_mensaje',
+	'generate_user' => 'generar_usuario',
 	);

@@ -55,7 +55,7 @@
 										<span class="username">{{$user->name}}</span> 
 										<span class="time pull-right"> 
 											<i class="fa fa-clock-o"></i> 
-											{{date('d-m-Y h:i A', $message->sent_date->sec)}}
+											{{MessageController::getDate($message->sent_date)}}
 										</span>
 									</div>
 									<div>

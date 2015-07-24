@@ -39,6 +39,22 @@
 			</div>
 			<div class="col-md-10  mail-right-box">
 				<div class="mail-options-nav">
+					<div class="input-group select-all">
+						<span class="input-group-addon">
+							<input id="select_all" type="checkbox">
+						</span>
+						<div class="input-group-btn">
+							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" tabindex="-1">
+								<span class="caret"></span>
+								<span class="sr-only">Toggle Dropdown</span>
+							</button>
+							<ul class="dropdown-menu" role="menu">
+								<li><a id="mark">{{Lang::get('messages.mark')}}</a></li>
+								<li class="divider"></li>
+								<li><a id="unmark">{{Lang::get('messages.unmark')}}</a></li>
+							</ul>
+						</div>
+					</div>
 					<div class="btn-group mail-options">
 						<button id="archivebtn" class="btn btn-success disabled"><i class="fa fa-archive"></i> {{Lang::get('messages.archive')}}</button>
 						<button id="readbtn" class="btn btn-warning disabled"><i class="fa fa-ban"></i> {{Lang::get('messages.read')}}</button>
@@ -52,7 +68,7 @@
 						</table>
 					</div>
 				</div>
-				@include('message.modals')
+				{{--@include('message.modals')--}}
 			</div>
 		</div> 
 	</div>
@@ -62,6 +78,82 @@
 			$('#compose').on('click', function()
 			{
 				$('#sendMessage').modal('show');
+			});
+
+			$('#mark').click(function()
+			{
+				$(':checkbox').prop('checked', true);
+				var flag = false;
+
+				$('input[type=checkbox]').each(function () 
+				{
+					if(this.checked && $(this).attr('id') !== "select_all")
+					{
+						flag = true;
+						return false;
+					}
+				});
+
+				if(!flag)
+				{
+					$("#archivebtn").addClass("disabled");
+					$("#deletebtn").addClass("disabled");	
+					$("#readbtn").addClass("disabled");
+					$(':checkbox').prop('checked', false);
+				}
+				else
+				{
+					$("#archivebtn").removeClass("disabled");
+					$("#deletebtn").removeClass("disabled");	
+					$("#readbtn").removeClass("disabled");
+				}
+			});
+			
+			$('#unmark').click(function()
+			{
+				$(':checkbox').prop('checked', false);
+				$("#archivebtn").addClass("disabled");
+				$("#deletebtn").addClass("disabled");	
+				$("#readbtn").addClass("disabled");
+			});
+
+			$('#select_all').change(function() 
+			{
+			    $(':checkbox').prop('checked', this.checked);
+
+			    if($(this).is(':checked'))
+				{
+					var flag = false;
+
+					$('input[type=checkbox]').each(function () 
+					{
+						if(this.checked && $(this).attr('id') !== "select_all")
+						{
+							flag = true;
+							return false;
+						}
+					});
+
+					if(!flag)
+					{
+						$("#archivebtn").addClass("disabled");
+						$("#deletebtn").addClass("disabled");	
+						$("#readbtn").addClass("disabled");
+						$(':checkbox').prop('checked', false);
+					}
+					else
+					{
+						$("#archivebtn").removeClass("disabled");
+						$("#deletebtn").removeClass("disabled");	
+						$("#readbtn").removeClass("disabled");
+					}
+				}
+				else
+				{
+					$("#archivebtn").addClass("disabled");
+					$("#deletebtn").addClass("disabled");	
+					$("#readbtn").addClass("disabled");
+				}
 			});
 
 			$(".checkboxs").change(function()
@@ -78,7 +170,7 @@
 
 					$('input[type=checkbox]').each(function () 
 					{
-						if(this.checked)
+						if(this.checked && $(this).attr('id') !== "select_all")
 						{
 							flag = true;
 							return false;
@@ -96,11 +188,16 @@
 
 			$('#deletebtn').on('click', function() 
 			{
+				$('#deleteModal').modal('show');
+			});
+
+			$('#delete_btn').on('click', function()
+			{
 				var idsArray = [];
 
 				$('input[type=checkbox]').each(function () 
 				{
-					if(this.checked)
+					if(this.checked && $(this).attr('id') !== "select_all")
 						idsArray.push($("#" + $(this).attr("id").replace('message_id', 'id')).val());
 				});
 
@@ -117,7 +214,7 @@
 
 				$('input[type=checkbox]').each(function () 
 				{
-					if(this.checked)
+					if(this.checked && $(this).attr('id') !== "select_all")
 						idsArray.push($("#" + $(this).attr("id").replace('message_id', 'id')).val());
 				});
 
@@ -134,7 +231,7 @@
 
 				$('input[type=checkbox]').each(function () 
 				{
-					if(this.checked)
+					if(this.checked && $(this).attr('id') !== "select_all")
 						idsArray.push($("#" + $(this).attr("id").replace('message_id', 'id')).val());
 				});
 
@@ -144,6 +241,39 @@
 						location.reload();
 				});
 			});
+
+			$('#submit').click(function()
+			{
+				$.post("{{Lang::get('routes.send_message')}}", { receptor: $('#receptor').val(),
+																 subject: $('#subject').val(),
+																 content: $('#content').val()}).done(function( data ) 
+                {  
+					if(data === '00')
+						location.reload();
+					else
+					{
+						$('#alert').html(
+							'<div class="test alert alert-danger alert-dismissable">'+
+							'<button type="button" class="close" data-dismiss="alert" aria-hidden="true"'+
+							'> &times; </button> ' + data + ' </div>'
+						);
+					}						
+				});
+			});
 		});
+		
+		function formatDate(date) 
+		{
+			var hours = date.getHours(),
+			minutes = date.getMinutes(),
+			ampm = hours >= 12 ? 'pm' : 'am';
+
+			hours = hours % 12;
+			hours = hours ? hours : 12;
+			minutes = minutes < 10 ? '0'+minutes : minutes;
+			var strTime = hours + ':' + minutes + ' ' + ampm;
+
+			return date.getDate() + "-" + (date.getMonth()+1) + "-" + date.getFullYear() + " " + strTime;
+		}
 	</script>
 @stop

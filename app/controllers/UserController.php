@@ -113,17 +113,20 @@ class UserController extends BaseController
 			return Redirect::to(Lang::get('routes.forget_password'))->withErrors(array( 'error' => Lang::get('register_student.link_expired')));
 
 		$datebegin = new DateTime(date('Y-m-d H:i', $user->date_password_token->sec));
-		
-		if($datebegin->diff(new DateTime())->i > 60)
+		$datebegin = $datebegin->diff(new DateTime());
+
+		$user->password_token = null;
+		$user->date_password_token = null;
+		$user->save();
+
+		$minutes = $datebegin->days * 24 * 60;
+		$minutes += $datebegin->h * 60;
+		$minutes += $datebegin->i;
+
+		if($minutes > 60)
 			return Redirect::to(Lang::get('routes.forget_password'))->withErrors(array( 'error' => Lang::get('register_student.link_expired')));
 		else
-		{
-			$user->password_token = null;
-			$user->date_token_password = null;
-			$user->save();
-
 			return Redirect::to(Lang::get('routes.reset_password'))->with('user', $user);
-		}
 	}
 
 	public function showResetPasswordView()
@@ -150,5 +153,36 @@ class UserController extends BaseController
 		});		
 
 		return Redirect::to('/')->with('message', Lang::get('register_student.password_changed'));
+	}
+
+	public function generateUser()
+	{
+		if(Request::ajax())
+		{
+			$email = Input::get('email');
+			$domain = substr(Auth::user()->user, strpos(Auth::user()->user, '@'));
+			$user = User::find(['user' => $email.$domain]);
+
+			if(isset($user->user))
+			{
+				$seed = 01;
+			
+				while(isset($user->user))
+				{
+					$user = User::find(['user' => $email.$seed.$domain]);
+
+					if(!isset($user->user))
+					{
+						if($seed < 10)
+							$email .= ('0'.$seed);
+						else
+							$email .= $seed;
+					}
+					else
+						$seed++;
+				}
+			}
+			return Response::json($email.$domain);
+		}
 	}
 }
