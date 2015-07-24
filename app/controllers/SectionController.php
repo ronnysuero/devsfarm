@@ -24,7 +24,7 @@ class SectionController extends BaseController
 		{
 			if(!is_null(Input::get('_id')))
 			{
-				$subject = Subject::find(new MongoId(Input::get('_id')))->where('university_id', Auth::id())->first();
+				$subject = Subject::find(Input::get('_id'))->where('university_id', Auth::id())->first();
 				
 				if($subject !== null)
 					return Response::json(array('subject' => $subject, 'sections' => $subject->sections));
@@ -46,17 +46,20 @@ class SectionController extends BaseController
 	{
 		if(Request::ajax())
 		{
-			$subject = Subject::find(new MongoId(Input::get('_id')))->where('university_id', Auth::id())->first();
+			$subject = Subject::where('university_id', Auth::id())
+								->where("_id", new MongoId(Input::get("_id")))
+								->first();
+		
 			$sections = $subject->sections()->where('is_free', true)->get();
 
 			if(count($sections) > 0)
-				return Response::json(array('subject' => $subject->_id, 'sections' => $sections));
+	 			return Response::json(array('subject' => $subject->_id, 'sections' => $sections));
 		}
 	}
 
 	public function addSection()
 	{
-		$subject = Subject::find(new MongoId(Input::get('_id')));
+		$subject = Subject::find(Input::get('_id'));
 		$sections = explode(',', Input::get('section'));
 
 		foreach($sections as $section)

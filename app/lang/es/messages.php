@@ -14,5 +14,7 @@ return array(
 	'title_unread' => 'Mensajes Sin Leer',
 	'welcome' => 'Bienvenido',
 	'alert_message' => 'usted tiene',
-	'message' => ' mensajes sin leer'
+	'message' => ' mensajes sin leer',
+	'mark' => 'Marcar Todos',
+	'unmark' => 'Desmarcar Todos'
 );

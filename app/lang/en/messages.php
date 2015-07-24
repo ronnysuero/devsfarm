@@ -14,5 +14,7 @@ return array(
 	'title_unread' => 'Unread Messages',
 	'welcome' => 'Welcome',
 	'alert_message' => 'you have',
-	'message' => ' unread message'
+	'message' => ' unread message',
+	'mark' => 'Mark All',
+	'unmark' => 'Unmark All'
 );

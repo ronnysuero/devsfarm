@@ -26,8 +26,12 @@
 							<td id="name{{$index+1}}">{{ $subject->name }}</td>
 							<td>{{ $subject->school }}</td>
 							<td>
-								@foreach ($subject->sections as $section)
-								{{ $section->code }},
+								@foreach ($subject->sections as $item => $section)
+									@if($item === 0)
+										{{ $section->code }}
+									@else
+										, {{ $section->code }}
+									@endif
 								@endforeach
 							</td>
 							<td><a href="" data-toggle="modal" data-target="#deleteModal" ><i class="fa fa-trash-o" style="color:#d9534f;"></i></a></td>

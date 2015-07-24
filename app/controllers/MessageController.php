@@ -46,49 +46,58 @@ class MessageController extends BaseController
 
 	public function sendMessage()
 	{
-		$emails = explode(',', trim(Input::get('receptor')));
-		$emailsValidate = array();        
-		$users = array();
-		$usersFails = array();
-
-		foreach($emails as $email)
-			array_push($emailsValidate, strtolower(trim($email)));
-		
-		$emails = array();
-
-		foreach ($emailsValidate as $email) 
+		if(Request::ajax())
 		{
-			$user = User::first(['user' => $email]);
+			$emails = explode(',', trim(Input::get('receptor')));
+			$emailsValidate = array();        
+			$users = array();
+			$usersFails = array();
 
-			if(is_null($user))
-				array_push($usersFails, $email);
-			else
-			{            
-				array_push($users, $user);
-				array_push($emails, $user->_id); 
+			foreach($emails as $email)
+				array_push($emailsValidate, strtolower(trim($email)));
+			
+			$emails = array();
+
+			foreach ($emailsValidate as $email) 
+			{
+				$user = User::first(['user' => $email]);
+
+				if(is_null($user))
+					array_push($usersFails, $email);
+				else
+				{            
+					array_push($users, $user);
+					array_push($emails, $user->_id); 
+				}
 			}
-		}
 
-		if(count($usersFails) > 0)
-			return Redirect::back()->withErrors(array( 'error' => Lang::get('send_message.error_mail').': ['.implode(', ', $usersFails).']'));
+			if(count($usersFails) > 0)
+				return Response::json(Lang::get('send_message.error_mail').': ['.implode(', ', $usersFails).']');
 
-		$message = new Message;
-		$message->_id = new MongoId;
-		$message->from = Auth::id();
-		$message->to = $emails;
-		$message->subject = trim(Input::get('subject'));
-		$message->body = trim(Input::get('content'));
-		$message->sent_date = new MongoDate;
-		$message->read = false;
-		$message->archived = false;
+			// if(count($usersFails) > 0 && count($users) === 0)
+			// 	return Redirect::back()->withErrors(array( 'error' => Lang::get('send_message.error_mail').': ['.implode(', ', $usersFails).']'));
 
-		foreach ($users as $user) 
-			UserController::getUser($user)->messages()->associate($message)->save();
+			$message = new Message;
+			$message->_id = new MongoId;
+			$message->from = Auth::id();
+			$message->to = $emails;
+			$message->subject = trim(Input::get('subject'));
+			$message->body = trim(Input::get('content'));
+			$message->sent_date = new MongoDate;
+			$message->read = false;
+			$message->archived = false;
 
-		$message->read = true;	
-		UserController::getUser(Auth::user())->messages()->associate($message)->save();
-		
-		return Redirect::to(Lang::get('routes.inbox'))->with('message', Lang::get('send_message.success')); 
+			foreach ($users as $user) 
+				UserController::getUser($user)->messages()->associate($message)->save();
+
+			$message->read = true;	
+			UserController::getUser(Auth::user())->messages()->associate($message)->save();
+			return Response::json('00');
+		}		
+		// if(count($usersFails) > 0)
+		// 	return Redirect::to(URL::previous())->withErrors(array('error' => Lang::get('send_message.warning').': ['.implode(', ', $usersFails).']'));			
+
+		// return Redirect::to(URL::previous())->with('message', Lang::get('send_message.success')); 
 	}
 
 	private function searchUsers($id)
@@ -139,7 +148,7 @@ class MessageController extends BaseController
 			
 			$flag = Input::get('flag');            
 
-			if(!is_null($flag))
+			if(!is_null($flag) && $flag === true)
 				 $emails = $this->searchUsers(array($message->from));
 			 else
 				 $emails = $this->searchUsers($message->to);
@@ -208,10 +217,10 @@ class MessageController extends BaseController
 
 	public static function getStats()
 	{
-		$user = UserController::getUser(Auth::user());
-		$inbox = $user->messages()->where('from', '!=', Auth::id())->where('archived', false)->count();
-		$sent = $user->messages()->where('from', Auth::id())->where('archived', false)->count();
-		$archived = $user->messages()->where('archived', true)->count();
+		$messages = UserController::getUser(Auth::user())->messages();
+		$inbox = $messages->where('from', '!=', Auth::id())->where('archived', false)->count();
+		$sent = $messages->where('from', Auth::id())->where('archived', false)->count();
+		$archived = $messages->where('archived', true)->count();
 		
 		return array(
 			'inbox' => $inbox,
@@ -228,5 +237,32 @@ class MessageController extends BaseController
 									 ->where('archived', false)
 									 ->orderBy('sent_date', 'desc')->get();
 		return $messages;
+	}
+
+	public static function getDate($date)
+	{
+		$compare = new DateTime(date('Y-m-d H:i:s', $date->sec));
+		$compare = $compare->diff(new DateTime());
+				
+		if($compare->days > 0)
+			return date('d-m-Y h:i A', $date->sec);
+		else if($compare->h < 24 && $compare->h > 0)
+		  	return (App::getLocale() === 'es') ? "Hace ".$compare->h.' horas' : $compare->h." hours ago";
+		else if($compare->i < 60 && $compare->i > 0)
+		  	return (App::getLocale() === 'es') ? "Hace ".$compare->i.' minutos' : $compare->i." mins ago";
+		else if($compare->s < 60 && $compare->s > 0)
+		  	return (App::getLocale() === 'es') ? "Hace ".$compare->s.' segundos' : $compare->s." segs ago";
+		else 
+			return (App::getLocale() === 'es') ? "Hace 1 segundo" : "1 segs ago";
+	}
+
+	public static function searchOrigin($id)
+	{
+		$message = UserController::getUser(Auth::user())->messages()->find($id);
+
+		if($message->from !== Auth::id())
+			return true;
+		else
+			return null;
 	}
 }

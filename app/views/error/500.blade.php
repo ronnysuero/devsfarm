@@ -17,7 +17,7 @@
 		@if(Auth::check())
 		<a href="{{Lang::get('routes.'.Auth::user()->rank)}}">{{Lang::get('error.back')}}</a>
 		@else
-		<a href="{{URL::to('/')}}">{{Lang::get('error.back')}}</a>
+		<a href="{{URL::previous()}}">{{Lang::get('error.back')}}</a>
 		@endif
 	</div>
 </div>

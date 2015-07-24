@@ -46,4 +46,5 @@ return array(
 	'mark_read_message' => 'mark_read_message',
 	'archived_message' => 'archived_message',
     'section_codes' => 'section_codes',
+	'generate_user' => 'generate_User',
 	);

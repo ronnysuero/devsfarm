@@ -2294,11 +2294,8 @@ $.extend($.verify, {
 	var langsAvailables = ['es', 'en'],
 		language = window.navigator.userLanguage || window.navigator.language;
 
-	if(language === 'en-US')
-		language = 'en';
-	else if(language === 'es-ES')
-		language = 'es';
-
+	language = language.substring(0, 2).toLowerCase();
+	
 	if($.inArray(language, langsAvailables) === -1)
 		language = 'en';
 

@@ -42,7 +42,6 @@
 										<img src="images/140x140.png" alt="Avatar">
 									</div>
 								</div>
-								<input type="hidden" id="domain" value="{{substr(Auth::user()->user, strpos(Auth::user()->user, '@')+1)}}">
 								<button type="submit" class="btn btn-default pull-right">{{Lang::get('register_teacher.register')}}</button>
 								{{ Form::close() }}
 							</div>
@@ -63,16 +62,21 @@
 			$('#avatar-modal').modal('hide');
 		});
 	});
+
 	function generateEmail() 
 	{
 		var email = $('#email').val();
 		var first_letter = $('#name').val().charAt(0);
 		var last_name = $('#last_name').val().split(' ')[0];
-
+		
 		if (email == "")
 		{
-			email = first_letter + last_name + '@' + $('#domain').val();
-			$('#email').val(email.toLowerCase());
+			email = first_letter + last_name;
+
+			$.post("{{Lang::get('routes.generate_user')}}",{ email: email }).done(function( data )
+			{
+				$('#email').val(data);
+			}); 
 		}
 	}
 </script>

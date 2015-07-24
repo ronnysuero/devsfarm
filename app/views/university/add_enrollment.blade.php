@@ -56,7 +56,7 @@
 				$.post("{{Lang::get('routes.find_unused_section')}}",{ _id: $('#subject').val() }).done(function( data ) 
 				{    
 					var message = "";
-
+					
 					if(data === "")
 						message = '<option value="">{{Lang::get("add_enroll.no_record")}}</option>';
 					else

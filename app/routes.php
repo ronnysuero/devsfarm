@@ -87,6 +87,7 @@ Route::group(array('before' => 'auth|university'), function()
 
 	Route::post(Lang::get('routes.add_enrollment'), 'EnrollmentController@addEnrollment');
 
+	Route::post(Lang::get('routes.generate_user'), 'UserController@generateUser');
 });
 
 Route::group(array('before' => 'auth|teacher'), function()
