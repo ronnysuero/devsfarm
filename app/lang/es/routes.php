@@ -45,4 +45,8 @@ return array(
 	'mark_read_message' => 'marcar_como_leido',
 	'archived_message' => 'archivar_mensaje',
 	'generate_user' => 'generar_usuario',
+	'drop_section' => 'eliminar_seccion',
+	'drop_subject' => 'eliminar_materia',
+	'drop_teacher' => 'eliminar_profesor',
+	'unlink_enrollment' => 'desenlazar_inscripcion',
 	);

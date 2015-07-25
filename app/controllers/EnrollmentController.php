@@ -31,4 +31,22 @@ class EnrollmentController extends BaseController
 		return Redirect::to(Lang::get('routes.add_enrollment'))->with('message', Lang::get('add_enroll.success'));  
 	}
 
+	public function unlink()
+	{
+		if(Request::ajax())
+		{
+			$subject = Subject::find(Input::get('subject_id'));
+			$teacher = Teacher::find(Input::get('teacher_id'));
+			$teacher->pull('sections_id', new MongoId(Input::get('section_id')));
+			$section = $subject->sections()->find(Input::get('section_id'));
+			$section->is_free = true;
+			$section->save();
+
+			if($subject->sections()->whereIn('_id', $teacher->sections_id)->count() === 0)
+				$teacher->pull('subjects_id', new MongoId(Input::get('subject_id')));
+
+			return Response::json("00");
+		}
+	}
+
 }

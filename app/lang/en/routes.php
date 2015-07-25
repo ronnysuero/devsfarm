@@ -47,4 +47,8 @@ return array(
 	'archived_message' => 'archived_message',
     'section_codes' => 'section_codes',
 	'generate_user' => 'generate_User',
+	'drop_section' => 'drop_section',
+	'drop_subject' => 'drop_subject',
+	'drop_teacher' => 'drop_teacher',
+	'unlink_enrollment' => 'unlink_enrollment',
 	);

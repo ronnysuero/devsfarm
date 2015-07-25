@@ -182,4 +182,18 @@ class TeacherController extends BaseController
 			return Response::json($teacher);
 		}
 	}
+
+	public function drop()
+	{
+		if(Request::ajax())
+		{
+			$teacher = Teacher::find(Input::get('teacher_id'));
+			$teacher->delete();
+
+			if ($teacher->trashed())
+				return Response::json("00");
+			else
+				return Response::json("99");
+		}
+	}
 }

@@ -96,25 +96,17 @@
 
 				if(!flag)
 				{
-					$("#archivebtn").addClass("disabled");
-					$("#deletebtn").addClass("disabled");	
-					$("#readbtn").addClass("disabled");
+					disableBtn();
 					$(':checkbox').prop('checked', false);
 				}
 				else
-				{
-					$("#archivebtn").removeClass("disabled");
-					$("#deletebtn").removeClass("disabled");	
-					$("#readbtn").removeClass("disabled");
-				}
+					enableBtn();
 			});
 			
 			$('#unmark').click(function()
 			{
 				$(':checkbox').prop('checked', false);
-				$("#archivebtn").addClass("disabled");
-				$("#deletebtn").addClass("disabled");	
-				$("#readbtn").addClass("disabled");
+				disableBtn();
 			});
 
 			$('#select_all').change(function() 
@@ -136,34 +128,20 @@
 
 					if(!flag)
 					{
-						$("#archivebtn").addClass("disabled");
-						$("#deletebtn").addClass("disabled");	
-						$("#readbtn").addClass("disabled");
+						disableBtn();
 						$(':checkbox').prop('checked', false);
 					}
 					else
-					{
-						$("#archivebtn").removeClass("disabled");
-						$("#deletebtn").removeClass("disabled");	
-						$("#readbtn").removeClass("disabled");
-					}
+						enableBtn();
 				}
 				else
-				{
-					$("#archivebtn").addClass("disabled");
-					$("#deletebtn").addClass("disabled");	
-					$("#readbtn").addClass("disabled");
-				}
+					disableBtn();
 			});
 
 			$(".checkboxs").change(function()
 			{
 				if($('#message_id'+ $(this).attr("id")).is(':checked'))
-				{
-					$("#archivebtn").removeClass("disabled");
-					$("#deletebtn").removeClass("disabled");	
-					$("#readbtn").removeClass("disabled");
-				}
+					enableBtn();
 				else
 				{
 					var flag = false;
@@ -178,11 +156,7 @@
 					});
 
 					if(!flag)
-					{
-						$("#archivebtn").addClass("disabled");
-						$("#deletebtn").addClass("disabled");	
-						$("#readbtn").addClass("disabled");
-					}
+						disableBtn();
 				}		
 			});
 
@@ -274,6 +248,20 @@
 			var strTime = hours + ':' + minutes + ' ' + ampm;
 
 			return date.getDate() + "-" + (date.getMonth()+1) + "-" + date.getFullYear() + " " + strTime;
+		}
+
+		function enableBtn()
+		{
+			$("#archivebtn").removeClass("disabled");
+			$("#deletebtn").removeClass("disabled");	
+			$("#readbtn").removeClass("disabled");
+		}
+
+		function disableBtn()
+		{
+			$("#archivebtn").addClass("disabled");
+			$("#deletebtn").addClass("disabled");	
+			$("#readbtn").addClass("disabled");
 		}
 	</script>
 @stop

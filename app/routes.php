@@ -88,6 +88,14 @@ Route::group(array('before' => 'auth|university'), function()
 	Route::post(Lang::get('routes.add_enrollment'), 'EnrollmentController@addEnrollment');
 
 	Route::post(Lang::get('routes.generate_user'), 'UserController@generateUser');
+
+	Route::post(Lang::get('routes.drop_section'), 'SectionController@drop');	
+
+	Route::post(Lang::get('routes.drop_subject'), 'SubjectController@drop');
+
+	Route::post(Lang::get('routes.drop_teacher'), 'TeacherController@drop');
+	
+	Route::post(Lang::get('routes.unlink_enrollment'), 'EnrollmentController@unlink');
 });
 
 Route::group(array('before' => 'auth|teacher'), function()

@@ -74,4 +74,18 @@ class SubjectController extends BaseController
 			return Response::json($subject);
 		}
 	}
+
+	public function drop()
+	{
+		if(Request::ajax())
+		{
+			$subject = Subject::find(Input::get('subject_id'));
+			$subject->delete();
+
+			if ($subject->trashed())
+				return Response::json("00");
+			else
+				return Response::json("99");
+		}
+	}
 }

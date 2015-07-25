@@ -50,7 +50,7 @@ class SectionController extends BaseController
 								->where("_id", new MongoId(Input::get("_id")))
 								->first();
 		
-			$sections = $subject->sections()->where('is_free', true)->get();
+			$sections = $subject->sections()->where('is_free', true)->whereNull('deleted_at')->get();
 
 			if(count($sections) > 0)
 	 			return Response::json(array('subject' => $subject->_id, 'sections' => $sections));
@@ -84,8 +84,8 @@ class SectionController extends BaseController
 
 	public function update()
 	{  
-		$subject = Subject::find(new MongoId(Input::get('subject_id')));
-		$section = $subject->sections()->find(new MongoId(Input::get('_id')));
+		$subject = Subject::find(Input::get('subject_id'));
+		$section = $subject->sections()->find(Input::get('_id'));
 		$section->code = strtoupper(trim(Input::get('section_code')));
 		
 		try
@@ -100,8 +100,24 @@ class SectionController extends BaseController
 		return Redirect::to(Lang::get('routes.show_all_sections'))->with('message', Lang::get('university_profile.update_message'));  
 	}
 
-    public function showAllSectionsCodesView(){
+    public function showAllSectionsCodesView()
+    {
         return View::make('teacher.section_codes')->with(array('stats' => MessageController::getStats(),
                                                                 'unreadMessages' => MessageController::unReadMessages()));
+    }
+
+    public function drop()
+    {
+    	if(Request::ajax())
+    	{
+    		$subject = Subject::find(Input::get('subject_id'));
+			$section = $subject->sections()->find(Input::get('_id'));
+			$section->delete();
+
+			if ($section->trashed())
+				return Response::json("00");
+			else
+				return Response::json("99");
+    	}
     }
 }

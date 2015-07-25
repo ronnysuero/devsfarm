@@ -13,9 +13,9 @@
 					<div class="login-form">
 						@include('alert')
 						{{ Form::open(array('url' => Lang::get('routes.forget_password'), 'class' => 'register_form', 'id' => 'register_form')) }}
-						<p>{{lang::get('register_student.message_reset')}}</p>
-						<input data-validate="required,email" type="email" name="email" placeholder="{{Lang::get('login.email_placeholder')}}"> 
-						<button type="submit" class="btn btn-red btn-reset">{{lang::get('register_student.send_mail')}}</button> 
+							<p>{{lang::get('register_student.message_reset')}}</p>
+							<input data-validate="required,email" type="email" name="email" placeholder="{{Lang::get('login.email_placeholder')}}"> 
+							<button type="submit" class="btn btn-red btn-reset">{{lang::get('register_student.send_mail')}}</button> 
 						{{ Form::close() }}   
 						<div class="login-links"> 
 							<a href="{{URL::to('/')}}">

@@ -45,8 +45,12 @@
 				$('#title').html("");
 				$('#body').html("");
 
-				$.post("{{Lang::get('routes.find_message')}}",{ _id: $('#id'+$(this).attr("id")).val(), 
-																flag: $('#flag'+$(this).attr("id")).val()}).done(function( data ) 
+				$.post("{{Lang::get('routes.find_message')}}",
+				{ 
+					_id: $('#id'+$(this).attr("id")).val(), 
+					flag: $('#flag'+$(this).attr("id")).val()
+				})
+				.done(function( data ) 
 				{    
 					$('#to').html("<i class='fa fa-user'></i>" + "{{Lang::get('send_message.to')}}");
 
