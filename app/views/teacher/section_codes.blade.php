@@ -139,7 +139,7 @@
             });
 
             function subjectNameInitials(subject){
-                var acronym = getLetters(subject).substring(3) + '-';
+                var acronym = getLetters(subject) + '-';
                 subject_name = acronym;
             }
 
