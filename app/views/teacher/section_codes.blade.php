@@ -95,7 +95,7 @@
 
                 if($('#subject').val() !== "")
                 {
-                    subjectNameInitials($('#subject').text());
+                    subjectNameInitials($('#subject :selected').text());
                     $("#section_code").text(subject_name + section_name + current_period_txt);
 
                     $.post("{{Lang::get('routes.find_subject_section')}}",
