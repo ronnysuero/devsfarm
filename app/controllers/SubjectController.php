@@ -80,6 +80,13 @@ class SubjectController extends BaseController
 		if(Request::ajax())
 		{
 			$subject = Subject::find(Input::get('subject_id'));
+
+			foreach(Teacher::where('university_id', Auth::id())->get() as $teacher) 
+			{
+				if($teacher->whereIn('subjects_id', array(new MongoId($subject->_id)))->count() > 0)
+					return Response::json(Lang::get('add_subject.subject_used'));
+			}	
+
 			$subject->delete();
 
 			if ($subject->trashed())

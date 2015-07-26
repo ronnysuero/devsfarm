@@ -188,6 +188,18 @@ class TeacherController extends BaseController
 		if(Request::ajax())
 		{
 			$teacher = Teacher::find(Input::get('teacher_id'));
+
+			foreach (Subject::whereIn('_id', $teacher->subjects_id)->get() as $subject) 
+			{
+				foreach ($subject->sections()->whereIn('_id', $teacher->sections_id)->get() as $section) 
+				{
+					$section->is_free = true;
+					$section->save();
+				}
+			}
+
+			$teacher->unset('subjects_id');
+			$teacher->unset('sections_id');	
 			$teacher->delete();
 
 			if ($teacher->trashed())

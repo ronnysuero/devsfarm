@@ -112,6 +112,13 @@ class SectionController extends BaseController
     	{
     		$subject = Subject::find(Input::get('subject_id'));
 			$section = $subject->sections()->find(Input::get('_id'));
+			
+			foreach(Teacher::where('university_id', Auth::id())->get() as $teacher) 
+			{
+				if($teacher->whereIn('sections_id', array(new MongoId($section->_id)))->count() > 0)
+					return Response::json(Lang::get('add_section.section_used'));
+			}
+
 			$section->delete();
 
 			if ($section->trashed())

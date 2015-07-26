@@ -159,7 +159,7 @@ class UserController extends BaseController
 	{
 		if(Request::ajax())
 		{
-			$email = Input::get('email');
+			$email = strtolower(Input::get('email'));
 			$domain = substr(Auth::user()->user, strpos(Auth::user()->user, '@'));
 			$user = User::find(['user' => $email.$domain]);
 
