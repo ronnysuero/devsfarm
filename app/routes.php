@@ -109,8 +109,6 @@ Route::group(array('before' => 'auth|teacher'), function()
 
 	Route::get(Lang::get('routes.farm_report'), 'TeacherController@showFarmReport');
 
-    Route::post(Lang::get('routes.update_teacher'), 'TeacherController@updateTeacher');
-
     Route::get(Lang::get('routes.section_codes'), 'SectionController@showAllSectionsCodesView');
 
 	// HTTP POST
