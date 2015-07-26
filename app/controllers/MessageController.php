@@ -39,7 +39,7 @@ class MessageController extends BaseController
 
 	public function showMessageUnreadView()
 	{
-		return View::make('message.unread')->with(array('messages' => $this->unReadMessages(), 
+		return View::make('message.unread')->with(array('messages' => $this->unReadMessages("all"), 
 														'stats' => $this->getStats(),
 														'unreadMessages' => $this->unReadMessages()));
 	}
@@ -224,19 +224,21 @@ class MessageController extends BaseController
 		
 		return array(
 			'inbox' => $inbox,
-			'unread' => count(MessageController::unReadMessages()),
+			'unread' => count(MessageController::unReadMessages("all")),
 			'sent' => $sent,
 			'archived' => $archived
 		);	
 	}
 
-	public static function unReadMessages()
+	public static function unReadMessages($limit = null)
 	{
 		$user = UserController::getUser(Auth::user());
 		$messages = $user->messages()->where('read', false)
-									 ->where('archived', false)
-									 ->orderBy('sent_date', 'desc')->get();
-		return $messages;
+									 ->where('archived', false);
+		if($limit === null)
+			$messages = $messages->take(5);
+		
+		return $messages->orderBy('sent_date', 'desc')->get();
 	}
 
 	public static function getDate($date)

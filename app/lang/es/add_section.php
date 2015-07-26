@@ -7,4 +7,5 @@ return array (
 	'success' => 'Seccion registrada exitosamente',
 	'update' => 'Seccion actualizada exitosamente',
 	'section_duplicated' => 'Esta seccion ya esta registrada en nuestro sistema',
+	'section_used' => 'Esta sección esta asignada a un profesor, no se puede eliminar',
 );

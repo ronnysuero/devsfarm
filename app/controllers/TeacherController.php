@@ -119,8 +119,8 @@ class TeacherController extends BaseController
 		return Redirect::to(Lang::get('routes.show_all_teachers'))->with('message', Lang::get('university_profile.update_message'));
 	}
 
-    public function updateTeacher(){
-
+    public function updateTeacher()
+    {
         $teacher = Teacher::find(Auth::id());
         $teacher->name = ucfirst(trim(Input::get('teacher_name')));
         $teacher->last_name = ucfirst(trim(Input::get('teacher_last_name')));
@@ -135,26 +135,6 @@ class TeacherController extends BaseController
                 Auth::user()->password = Hash::make(Input::get('new_password'));
                 Auth::user()->save();
         }
-
-//        if(strcmp($email, $teacher->email) !== 0)
-//        {
-//            Auth::user()->last_activity = new MongoDate;
-//            Auth::user()->user = $email;
-//
-//            try
-//            {
-//                Auth::user()->save();
-//            }
-//            catch(MongoDuplicateKeyException $e)
-//            {
-//                return Redirect::back()->withErrors(array( 'error' => Lang::get('register_university.email_duplicated')));
-//            }
-//
-//            //$flag = true;
-//            $teacher->email = $email;
-//        }
-//        else if(strlen(Input::get('current_password')) > 0)
-//            Auth::user()->save();
 
         if(Input::hasFile('avatar_file'))
         {
@@ -188,6 +168,18 @@ class TeacherController extends BaseController
 		if(Request::ajax())
 		{
 			$teacher = Teacher::find(Input::get('teacher_id'));
+
+			foreach (Subject::whereIn('_id', $teacher->subjects_id)->get() as $subject) 
+			{
+				foreach ($subject->sections()->whereIn('_id', $teacher->sections_id)->get() as $section) 
+				{
+					$section->is_free = true;
+					$section->save();
+				}
+			}
+
+			$teacher->unset('subjects_id');
+			$teacher->unset('sections_id');	
 			$teacher->delete();
 
 			if ($teacher->trashed())

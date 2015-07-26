@@ -127,8 +127,15 @@
 		})
 		.done(function( data ) 
 		{
+			console.log(data);
+			
 			if(data === '00')
 				location.reload();
+			else
+			{
+				$('#deleteModal').modal('hide');
+				alertify.alert(data);
+			}
 		});
 	}
 </script>
