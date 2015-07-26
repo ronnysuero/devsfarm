@@ -51,4 +51,5 @@ return array(
 	'drop_subject' => 'drop_subject',
 	'drop_teacher' => 'drop_teacher',
 	'unlink_enrollment' => 'unlink_enrollment',
+    'find_subject_section' => 'find_subject_section',
 	);

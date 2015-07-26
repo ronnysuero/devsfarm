@@ -50,25 +50,22 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-8 col-lg-offset-2">
-                            {{ Form::open(array('url' => Lang::get('routes.add_enrollment'), 'id' => 'register_form', 'role' => 'form')) }}
+                            {{ Form::open(array('url' => Lang::get('routes.create_section_code'), 'id' => 'register_form', 'role' => 'form')) }}
                             <div class="form-group">
                                 <label>{{Lang::get('section_codes.subject')}}</label>
                                 <input type="hidden" id="subject_id" name="subject_id" value="">
                                 <select data-validate="required" class="form-control" id="subject" name="subject">
                                     <option value="">{{Lang::get('section_codes.subject_placeHolder')}}</option>
-                                    {{--@foreach($teachers as $teacher)--}}
-                                        {{--<option value="{{ $teacher->_id }}">{{ $teacher->name.' '.$teacher->last_name }}</option>--}}
-                                    {{--@endforeach--}}
+                                    @foreach($subjects as $subject)
+                                        <option value="{{ $subject->_id }}">{{ $subject->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label>{{Lang::get('section_codes.section')}}</label>
                                 <input type="hidden" id="section_id" name="section_id" value="">
                                 <select data-validate="required" class="form-control" id="section" name="section">
-                                    <option value="">{{Lang::get('section_codes.section_placeHolder')}}</option>
-                                    {{--@foreach($subjects as $subject)--}}
-                                        {{--<option value="{{ $subject->_id }}">{{ $subject->name }}</option>--}}
-                                    {{--@endforeach--}}
+                                    <option value="">{{Lang::get("section_codes.section_placeHolder")}}</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -76,6 +73,7 @@
                                 <input type="text" class="form-control" id="current_period" name="current_period"
                                        placeholder="{{Lang::get('section_codes.period_placeHolder')}}">
                             </div>
+                            <label>Code: <p id="section_code"></p></label>
                             <button type="submit" class="btn btn-default pull-right">{{Lang::get('section_codes.generate_code')}}</button>
                             {{Form::close()}}
                         </div>
@@ -84,4 +82,77 @@
             </div>
         </div>
     </div>
+
+    <script type="text/javascript">
+        $('document').ready(function()
+        {
+            var section_name = '';
+            var subject_name = '';
+            var current_period_txt = '';
+
+            $('#subject').on('change', function()
+            {
+
+                if($('#subject').val() !== "")
+                {
+                    subjectNameInitials($('#subject').text());
+                    $("#section_code").text(subject_name + section_name + current_period_txt);
+
+                    $.post("{{Lang::get('routes.find_subject_section')}}",
+                            {
+                                _id: $('#subject').val()
+                            })
+                            .done(function( data )
+                            {
+                                var message = "";
+
+                                message = '<option value="">{{Lang::get("section_codes.section_placeHolder")}} </option>';
+
+                                $('#section')
+                                        .find('option')
+                                        .remove()
+                                        .end()
+                                        .append(message);
+
+                                if(data !== "")
+                                {
+                                    for(var item in data.sections)
+                                        $('#section').append( new Option(data.sections[item].code, data.sections[item]._id) );
+
+                                    $('#_id').val(data.subject);
+                                }
+                            });
+                }
+
+            });
+
+            $("#section").on("change", function(){
+                if($('#section').val() !== "") {
+                    sectionName( $('#section').text() );
+                    $("#section_code").text(subject_name + section_name + current_period_txt);
+                }
+            });
+
+            $("#current_period").on("focusout", function(){
+                current_period_txt = $("#current_period").val();
+                $("#section_code").text(subject_name + section_name + current_period_txt);
+            });
+
+            function sectionName(section){
+                var acronym = section.split(' ').slice(-1)[0] + '-';
+                section_name = acronym;
+            }
+
+            function subjectNameInitials(subject){
+                var acronym = getLetters(subject).substring(3) + '-';
+                subject_name = acronym;
+            }
+
+            function getLetters(word){
+                var letters = word.match(/\b(\w)/g);
+                return letters.join('');
+            }
+        });
+
+    </script>
 @stop

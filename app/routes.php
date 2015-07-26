@@ -96,6 +96,8 @@ Route::group(array('before' => 'auth|university'), function()
 	Route::post(Lang::get('routes.drop_teacher'), 'TeacherController@drop');
 	
 	Route::post(Lang::get('routes.unlink_enrollment'), 'EnrollmentController@unlink');
+
+
 });
 
 Route::group(array('before' => 'auth|teacher'), function()
@@ -114,7 +116,7 @@ Route::group(array('before' => 'auth|teacher'), function()
     Route::get(Lang::get('routes.section_codes'), 'SectionController@showAllSectionsCodesView');
 
 	// HTTP POST
-
+    Route::post(Lang::get('routes.find_subject_section'), 'SectionController@getSubjectSections');
 });
 
 Route::group(array('before' => 'auth|student'), function()

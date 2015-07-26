@@ -98,15 +98,15 @@
 						<li>
 							<a href="#" class="nav_categoria"><i class="fa fa-list"></i> {{Lang::get('teacher_master.subject')}}</a>
 							<ul class="nav nav-second-level">
-                                <?php $teacher = Teacher::where('_id', Auth::id() )->get(); ?>
+                                <?php $teacher = Teacher::where('_id', Auth::id() )->first(); ?>
 
-                                <?php $subjects = Subject::whereIn('_id', $teacher[0]->subjects_id)->get(); ?>
+                                <?php $subjects = Subject::whereIn('_id', $teacher->subjects_id)->get(); ?>
                                 @if(count($subjects) != 0)
                                 @foreach($subjects as $subject)
 								<li style="background-color: #FAFAFA;">
 									<a href="#"><i class="fa fa-eye" style="color: #0097A7;"></i> {{ $subject->name  }}</a>
 									<ul class="nav nav-third-level">
-                                        <?php $sections = $subject->sections()->whereIn('_id', $teacher[0]->sections_id)->get(); ?>
+                                        <?php $sections = $subject->sections()->whereIn('_id', $teacher->sections_id)->get(); ?>
                                         @foreach($sections as $index => $section)
 										<li>
 											<a href="{{Lang::get('/')}}"><i class="fa fa-arrow-right" style="color: #0097A7;"></i> {{ $section->code  }}</a>

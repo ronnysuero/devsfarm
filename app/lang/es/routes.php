@@ -49,4 +49,5 @@ return array(
 	'drop_subject' => 'eliminar_materia',
 	'drop_teacher' => 'eliminar_profesor',
 	'unlink_enrollment' => 'desenlazar_inscripcion',
+    'find_subject_section' => 'buscar_secciones',
 	);
