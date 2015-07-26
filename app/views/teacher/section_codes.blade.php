@@ -128,7 +128,7 @@
 
             $("#section").on("change", function(){
                 if($('#section').val() !== "") {
-                    sectionName( $('#section').text() );
+                    section_name = $("#section :selected").text() + '-';
                     $("#section_code").text(subject_name + section_name + current_period_txt);
                 }
             });
@@ -137,11 +137,6 @@
                 current_period_txt = $("#current_period").val();
                 $("#section_code").text(subject_name + section_name + current_period_txt);
             });
-
-            function sectionName(section){
-                var acronym = section.split(' ').slice(-1)[0] + '-';
-                section_name = acronym;
-            }
 
             function subjectNameInitials(subject){
                 var acronym = getLetters(subject).substring(3) + '-';
