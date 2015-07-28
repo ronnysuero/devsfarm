@@ -115,6 +115,7 @@ Route::group(array('before' => 'auth|teacher'), function()
 
 	// HTTP POST
     Route::post(Lang::get('routes.find_subject_section'), 'SectionController@getSubjectSections');
+    Route::post(Lang::get('create_section_code'), 'SectionCodesController@addSectionCode');
 });
 
 Route::group(array('before' => 'auth|student'), function()

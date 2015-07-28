@@ -4,3 +4,4 @@ db.universities.createIndex({"email": 1}, {unique:true}),
 db.teachers.createIndex({"email": 1}, {unique:true}),
 db.subjects.createIndex({"name": 1}, {unique: true}),
 db.subjects.createIndex({"sections.code": 1}, {unique: true})
+db.section_codes.createIndex({'code': 1}, {unique: true})

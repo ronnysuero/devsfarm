@@ -70,7 +70,7 @@
                             </div>
                             <div class="form-group">
                                 <label>{{Lang::get('section_codes.period')}}</label>
-                                <input type="text" class="form-control" id="current_period" name="current_period"
+                                <input data-validate="required" type="text" class="form-control" id="current_period" name="current_period"
                                        placeholder="{{Lang::get('section_codes.period_placeHolder')}}">
                             </div>
                             <label>Code: <p id="section_code"></p></label>
@@ -119,7 +119,7 @@
                                     for(var item in data.sections)
                                         $('#section').append( new Option(data.sections[item].code, data.sections[item]._id) );
 
-                                    $('#_id').val(data.subject);
+                                    $('#subject_id').val(data.subject);
                                 }
                             });
                 }
@@ -130,10 +130,12 @@
                 if($('#section').val() !== "") {
                     section_name = $("#section :selected").text() + '-';
                     $("#section_code").text(subject_name + section_name + current_period_txt);
+
+                    $("#section_id").val( $("#section").val() );
                 }
             });
 
-            $("#current_period").on("focusout", function(){
+            $("#current_period").on("keyup", function(){
                 current_period_txt = $("#current_period").val();
                 $("#section_code").text(subject_name + section_name + current_period_txt);
             });

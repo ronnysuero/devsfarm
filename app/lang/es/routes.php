@@ -50,4 +50,5 @@ return array(
 	'drop_teacher' => 'eliminar_profesor',
 	'unlink_enrollment' => 'desenlazar_inscripcion',
     'find_subject_section' => 'buscar_secciones',
+    'create_section_code' => 'crear_codigo_seccion',
 	);
