@@ -41,7 +41,7 @@
 								<img id="image{{$index}}" src="images/140x140.png" alt="profesor"></td>
 								@else
 								<img id="image{{$index}}" src="{{Lang::get('show_image').'?src='.storage_path().$teacher->profile_image}}"/>
-								@endif
+
 							</td>
 							<td>{{ $teacher->name }}</td>
 							<td>{{ $teacher->last_name }}</td>

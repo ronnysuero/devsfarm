@@ -1,0 +1,152 @@
+"universities": 
+{
+	"_id": Object_Id,
+	"name": String,
+	"email": String,
+	"acronym": String,
+	"profile_image": String,
+	"messages":
+	[
+		{
+			"_id": Object_Id,
+			"to": [Object_Id],
+			"from": String,
+			"subject": String,
+			"body": String,
+			"read": Boolean,
+			"archived": Boolean,
+			"sent_date": Date
+		}
+	]
+}
+
+"teachers": 
+{
+	"_id": Object_Id,
+	"university_id": Object_Id,
+	"name": String,
+	"last_name": String,
+	"phone": String,
+	"cellphone": String,
+	"email": String,
+	"profile_image": String,
+	"genre": String,
+	"sections_id" : [Object_Id],
+	"subjects_id" : [Object_Id],
+	"messages":
+	[
+		{
+			"_id": Object_Id,
+			"to": [Object_Id],
+			"from": String,
+			"subject": String,
+			"body": String,
+			"read": Boolean,
+			"archived": Boolean,
+			"sent_date": Date
+		}
+	]
+}
+	
+"subjects": 
+{
+	"_id": Object_Id,
+	"name": String,
+	"university_id": Object_Id,
+	"sections":
+	[
+		{
+			"_id": Object_Id,
+			"code": String,
+			"is_free": Boolean
+		}
+	]
+}
+
+"students":
+{
+	"_id": Object_Id,
+	"name": String,
+	"last_name": String,
+	"university_id": String,
+	"phone": String,
+	"cellphone": String,
+	"email": String,
+	"profile_image": String,
+	"is_teamleader": Boolean,
+	"has_a_job": Boolean,
+	"genre": String,
+	"messages":
+	[
+		{
+			"_id": Object_Id,
+			"to": [Object_Id],
+			"from": String,
+			"subject": String,
+			"body": String,
+			"read": Boolean,
+			"archived": Boolean,
+			"sent_date": Date
+		}
+	]
+}
+
+"users":
+{
+	"_id": Object_Id, 
+	"user": String,
+	"password": String,
+	"rank": String,
+	"last_activity": Date
+}
+
+"assignments":
+{
+	"_id": Object_Id,
+	"group_id": Object_Id,
+	"assigned_by": Object_Id,
+	"assigned_to": Object_Id,
+	"date_assigned": Date,
+	"deadline": Date,
+	"description": String,
+	"state": String,
+	"rated": Decimal,
+	"score": Decimal
+}
+
+"groups":
+{
+	"_id": Object_Id,
+	"name": String,
+	"teamleader_id": Object_Id,
+	"section_id": Object_Id,
+	"profile_image": String,
+	"student_id": [Object_Id],
+	"project_name": String
+}
+
+"group_by_sections":
+{
+	"_id": Object_Id,
+	"section_id": Object_Id,
+	"group_id": Object_Id,
+	"period": Object_Id,
+}
+
+"chats":
+{
+	"_id": Object_Id,
+	"subject_id": Object_Id,
+	"section_id": Object_Id,
+	"participants": [Object_Id],
+	"conversations": 
+	[
+		{
+			"_id": Object_Id,
+			"sender_id": Object_Id,
+			"receiver_id": Object_Id,
+			"sent_date": Date,
+			"message": String
+		}
+	]
+}
