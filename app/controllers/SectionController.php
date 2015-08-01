@@ -18,6 +18,20 @@ class SectionController extends BaseController
                                                                         'unreadMessages' => MessageController::unReadMessages()));
     }
 
+    public function getSubjectSections(){
+
+        if(Request::ajax())
+        {
+            $subject = Subject::where("_id", new MongoId(Input::get("_id")))->first();
+
+            $teacher = Teacher::where('_id', Auth::id() )->first();
+            $sections = $subject->sections()->whereIn('_id', $teacher->sections_id)->get();
+
+            if(count($sections) > 0)
+                return Response::json(array('subject' => $subject->_id, 'sections' => $sections));
+        }
+    }
+
     public function find()
     {
         if(Request::ajax())
