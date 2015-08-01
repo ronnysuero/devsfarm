@@ -22,13 +22,13 @@
                         <tbody>
                         @if (count($subjects) >= 1)
                         @foreach ($subjects as $subject)
-                            <?php $sections = $subject->sections()->whereIn('_id', $teacher_section_id)->whereNull('deleted_at')->get(); ?>
+                            <?php $sections = $subject->sections()->whereIn('_id', $teacher_section_id)->whereNull('delete_at')->get(); ?>
                             @foreach($sections as $section)
                                 <?php $section_code = SectionCodes::where('code', $section->current_code)->first(); ?>
                                 <tr>
                                     <td>{{ $subject->name }}</td>
                                     <td>{{ $section->code  }}</td>
-                                    <td>{{ $section_code->current_period  }}</td>
+                                    <td>{{ isset($section_code->current_period) ? $section_code->current_period : ""  }}</td>
                                     <td>{{ $section->current_code  }}</td>
                                 </tr>
                             @endforeach
