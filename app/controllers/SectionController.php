@@ -81,6 +81,7 @@ class SectionController extends BaseController
             $sect = new Section;
             $sect->code = strtoupper(trim($section));
             $sect->is_free = true;
+            $sect->current_code = null;
             $subject->sections()->associate($sect);
         }
 
