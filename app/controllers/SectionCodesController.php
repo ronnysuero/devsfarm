@@ -2,6 +2,20 @@
 
 class SectionCodesController extends BaseController{
 
+    public function showAllSectionsCodesView()
+    {
+        $teacher = $teacher = Teacher::find(Auth::id() );
+        $subjects = Subject::whereIn('_id', $teacher->subjects_id)->get();
+        $section_codes = SectionCodes::where('teacher_id', $teacher->_id)->get();
+
+        return View::make('teacher.section_codes')->with(array( 'subjects' => $subjects,
+                                                                'teacher_section_id' => $teacher->sections_id,
+                                                                'section_codes' => $section_codes,
+                                                                'stats' => MessageController::getStats(),
+                                                                'unreadMessages' => MessageController::unReadMessages()));
+    }
+
+
     public function getInitialLetters($word){
         $words = explode(' ', $word);
         $acronym = '';
@@ -37,12 +51,14 @@ class SectionCodesController extends BaseController{
         try
         {
             $section_code->save();
+            $section->current_code = $code;
+            $section->save();
         }
         catch(MongoDuplicateKeyException $e)
         {
-            return Redirect::back()->withErrors(array( 'error' => 'Codigo Duplicado'));
+            return Redirect::back()->withErrors(array( 'error' => Lang::get('section_codes.duplicate_code')));
         }
 
-        return Redirect::to(Lang::get('routes.section_codes'))->with('message', 'Se ha registrado super chevere');
+        return Redirect::to(Lang::get('routes.section_codes'))->with(array('message' => Lang::get('section_codes.success_message')));
     }
 }

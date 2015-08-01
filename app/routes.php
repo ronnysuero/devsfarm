@@ -111,7 +111,7 @@ Route::group(array('before' => 'auth|teacher'), function()
 
 	Route::get(Lang::get('routes.farm_report'), 'TeacherController@showFarmReport');
 
-    Route::get(Lang::get('routes.section_codes'), 'SectionController@showAllSectionsCodesView');
+    Route::get(Lang::get('routes.section_codes'), 'SectionCodesController@showAllSectionsCodesView');
 
 	// HTTP POST
     Route::post(Lang::get('routes.find_subject_section'), 'SectionController@getSubjectSections');

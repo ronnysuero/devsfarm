@@ -29,7 +29,8 @@ class TeacherController extends BaseController
 
 	public function showSubjectDetails()
 	{
-		return View::make('teacher.subject_details');
+		return View::make('teacher.subject_details')->with(array('stats' => MessageController::getStats(),
+                                                                'unreadMessages' => MessageController::unReadMessages()));
 	}
 
 	public function showFarmReport()

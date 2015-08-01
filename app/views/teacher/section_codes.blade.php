@@ -9,31 +9,34 @@
         </div>
         <div class="col-lg-12">
             <div class="panel-body">
-                {{--@if (count($subjects) >= 1)--}}
-                    <div class="table-responsive">
-                        @include('alert')
-                        <table id="tableOrder" class="table table-striped table-bordered table-hover tablesorter">
-                            <thead>
-                            <tr>
-                                <th>{{Lang::get('section_codes.subject')}}</th>
-                                <th>{{Lang::get('section_codes.section')}}</th>
-                                <th>{{Lang::get('section_codes.code')}}</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {{--@foreach ($subjects as $index => $subject)--}}
+                <div class="table-responsive">
+                    <table id="tableOrder" class="table table-striped table-bordered table-hover tablesorter">
+                        <thead>
+                        <tr>
+                            <th>{{Lang::get('section_codes.subject')}}</th>
+                            <th>{{Lang::get('section_codes.section')}}</th>
+                            <th>{{Lang::get('section_codes.period')}}</th>
+                            <th>{{Lang::get('section_codes.code')}}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @if (count($subjects) >= 1)
+                        @foreach ($subjects as $subject)
+                            <?php $sections = $subject->sections()->whereIn('_id', $teacher_section_id)->whereNull('deleted_at')->get(); ?>
+                            @foreach($sections as $section)
+                                <?php $section_code = SectionCodes::where('code', $section->current_code)->first(); ?>
                                 <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td>{{ $subject->name }}</td>
+                                    <td>{{ $section->code  }}</td>
+                                    <td>{{ $section_code->current_period  }}</td>
+                                    <td>{{ $section->current_code  }}</td>
                                 </tr>
-                            {{--@endforeach--}}
-                            </tbody>
-                        </table>
-                    </div>
-                {{--@else--}}
-                    {{--<p><a href="{{Lang::get('routes.add_subject')}}"><i class="fa fa-plus" style="color: #0097A7;"></i>{{Lang::get('list_subject.add_subject')}}</a></p>--}}
-                {{--@endif--}}
+                            @endforeach
+                        @endforeach
+                        @endif
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

@@ -100,16 +100,6 @@ class SectionController extends BaseController
 		return Redirect::to(Lang::get('routes.show_all_sections'))->with('message', Lang::get('university_profile.update_message'));  
 	}
 
-    public function showAllSectionsCodesView()
-    {
-        $teacher = $teacher = Teacher::where('_id', Auth::id() )->first();
-        $subjects = Subject::whereIn('_id', $teacher->subjects_id)->get();
-
-        return View::make('teacher.section_codes')->with(array( 'subjects' => $subjects,
-                                                                'stats' => MessageController::getStats(),
-                                                                'unreadMessages' => MessageController::unReadMessages()));
-    }
-
     public function getSubjectSections(){
 
         if(Request::ajax())

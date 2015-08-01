@@ -11,4 +11,6 @@ return array (
     'section_placeHolder' => 'Seleccionar sección',
     'period_placeHolder' => 'Periodo actual',
     'generate_code' => 'Generar código',
+    'duplicate_code' => 'Código duplicado. Intenlar nuevamente cambiando el periodo actual.',
+    'success_message' => 'Se ha registrado exitosamente.',
 );
