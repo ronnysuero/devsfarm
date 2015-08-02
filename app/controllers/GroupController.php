@@ -91,7 +91,12 @@ class GroupController extends BaseController{
     {
 
         $groups = Group::where('section_id', trim(strtolower(Input::get('section_code'))))->get();
+        $colors = ['#673AB7', '#009688', '#00BCD4', '#673AB7', '#9C27B0', '#E91E63', '#F44336', '#2196F3', '#4CAF50',
+            '#8BC34A', '#FFC107', '#795548', '#9E9E9E', '#CDDC39', '#607D8B'];
+
+
         return View::make('teacher.subject_details')->with(array('groups' => $groups,
+                                                                'colors' => $colors,
                                                                 'stats' => MessageController::getStats(),
                                                                 'unreadMessages' => MessageController::unReadMessages()));
     }

@@ -125,6 +125,8 @@
                                     $('#subject_id').val(data.subject);
                                 }
                             });
+                }else{
+                    $('#section').html('<option value="">{{Lang::get("section_codes.section_placeHolder")}} </option>');
                 }
 
             });

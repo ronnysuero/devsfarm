@@ -4,22 +4,44 @@ use Helpers\CropImage\CropImage;
 
 class TeacherController extends BaseController
 {
+
+    /**
+     * Function that return all the teachers
+     *
+     * @return Array
+     */
 	public static function getTeachers()
 	{
 		return Teacher::where('university_id', Auth::id())->get();
 	}
 
+    /**
+     * Function that return add_teacher view (Form)
+     *
+     * @return View
+     */
 	public function showView ()
 	{
 		return View::make('university.add_teacher')->with(array('stats' => MessageController::getStats(),
 															    'unreadMessages' => MessageController::unReadMessages()));
 	}
 
+    /**
+     * Function that show the teacher home page
+     *
+     * @return view
+     */
 	public function showHome()
 	{
 		return View::make('teacher.home')->with(array('stats' => MessageController::getStats(),
                                                         'unreadMessages' => MessageController::unReadMessages()));
 	}
+
+    /**
+     * Function that return the teacher profile view
+     *
+     * @return view
+     */
 	public function showProfile()
 	{
 		return View::make('teacher.profile')->with(array('teacher' => Teacher::find(Auth::id()),
@@ -27,18 +49,11 @@ class TeacherController extends BaseController
                                                         'unreadMessages' => MessageController::unReadMessages()));
 	}
 
-//	public function showSubjectDetails()
-//	{
-//		return View::make('teacher.subject_details')->with(array('stats' => MessageController::getStats(),
-//                                                                'unreadMessages' => MessageController::unReadMessages()));
-//	}
-//
-//	public function showFarmReport()
-//	{
-//		return View::make('teacher.farm_report')->with(array('stats' => MessageController::getStats(),
-//                                                            'unreadMessages' => MessageController::unReadMessages()));
-//	}
-
+    /**
+     * Function that return the university teachers view
+     *
+     * @return view
+     */
 	public function showAllTeachersView ()
 	{
 		return View::make('university.show_all_teachers')->with(array(  'teachers' => $this->getTeachers(),
@@ -46,6 +61,11 @@ class TeacherController extends BaseController
 														  				'unreadMessages' => MessageController::unReadMessages()));
 	}
 
+    /**
+     * Function that add a new teacher to the collection and return to add_teacher view
+     *
+     * @return view
+     */
 	public function addTeacher()
 	{
 		$user = new User;
@@ -54,6 +74,7 @@ class TeacherController extends BaseController
 		$user->rank = "teacher";
 		$user->last_activity = null;
 
+//        Try to save, if not work, then redirect back with an error message
 		try
 		{
 			$user->save();
@@ -76,6 +97,7 @@ class TeacherController extends BaseController
 		$teacher->subjects_id = array();
 		$teacher->sections_id = array();
 
+//        Check for profile image, an then set to the teacher
 		if(Input::hasFile('avatar_file'))
 		{
 			$data = Input::get('avatar_data');
@@ -90,6 +112,11 @@ class TeacherController extends BaseController
 		return Redirect::to(Lang::get('routes.add_teacher'))->with('message', Lang::get('register_teacher.success'));
 	}
 
+    /**
+     * Function that update the teacher data.
+     *
+     * @return view
+     */
 	public function update()
 	{
 		$teacher = Teacher::find(new MongoId(Input::get('_id')));
@@ -100,6 +127,7 @@ class TeacherController extends BaseController
 			$user = User::first(['_id' => $teacher->_id]);
 			$user->user = $email;
 
+//        Try to save, if not work, then redirect back with an error message
 			try
 			{
 				$user->save();
@@ -121,6 +149,11 @@ class TeacherController extends BaseController
 		return Redirect::to(Lang::get('routes.show_all_teachers'))->with('message', Lang::get('university_profile.update_message'));
 	}
 
+    /**
+     * Function that update the teacher profile information include the password.
+     *
+     * @return view
+     */
     public function updateTeacher()
     {
         $teacher = Teacher::find(Auth::id());
@@ -138,6 +171,7 @@ class TeacherController extends BaseController
                 Auth::user()->save();
         }
 
+//        Check for teacher profile picture
         if(Input::hasFile('avatar_file'))
         {
             $data = Input::get('avatar_data');
@@ -156,6 +190,11 @@ class TeacherController extends BaseController
         return Redirect::to(Lang::get('routes.teacher_profile'))->with('message', Lang::get('teacher_profile.update_message'));
     }
 
+    /**
+     * Function that return a teacher information array
+     *
+     * @return Array
+     */
 	public function find()
 	{
 		if(Request::ajax())
@@ -165,6 +204,11 @@ class TeacherController extends BaseController
 		}
 	}
 
+    /**
+     * Function that unlink a section from a teacher
+     *
+     * @return view
+     */
 	public function drop()
 	{
 		if(Request::ajax())
