@@ -11,16 +11,11 @@
 |
 */
 
-App::before(function($request)
-{
-	//
+App::before(function($request) { 
+	UserController::updateLastActivity();
 });
 
-
-App::after(function($request, $response)
-{
-	//
-});
+App::after(function($request, $response) { });
 
 /*
 |--------------------------------------------------------------------------

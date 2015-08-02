@@ -1,7 +1,14 @@
 <?php
 
 class GanttController extends BaseController
-{
+{	
+	/**
+	 * search all the data belonging to the user to generate a Gantt chart
+	 * 
+	 * @param  $subject_id MongoId
+	 * @param  $section_id MongoId
+	 * @return Array(Gantt)
+	 */
 	public function getData($subject_id, $section_id)
 	{
 		return Gantt::where('user_id', Auth::id())
@@ -13,6 +20,13 @@ class GanttController extends BaseController
 					  				 'open'))->get();
 	}
 	
+	/**
+	 * search all the link belonging to the user to generate a Gantt chart
+	 * 
+	 * @param  $subject_id MongoId
+	 * @param  $section_id MongoId
+	 * @return Array(Gantt)
+	 */
 	public function getLink($subject_id, $section_id)
 	{
 		return Gantt::where('user_id', Auth::id())
@@ -21,6 +35,12 @@ class GanttController extends BaseController
 					  ->select(array('id', 'source', 'target', 'type_link'))->get();
 	}
 
+	/**
+	 *	Remove quotes for a type word
+	 * 
+	 * @param  $string String
+	 * @return String
+	 */
 	public static function removeQuotes($string)
 	{
 		$pos = strpos($string, 'type');
