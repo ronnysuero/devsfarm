@@ -9,6 +9,11 @@ class Teacher extends Moloquent
 	protected $collection = "teachers";
 	protected $dates = ['deleted_at'];
 	
+	/**
+     * Embeds relation with Message Collection
+     * 
+     * @return Array(Message)
+     */
 	public function messages()
 	{
 		return $this->embedsMany('Message');

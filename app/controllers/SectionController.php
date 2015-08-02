@@ -2,6 +2,11 @@
 
 class SectionController extends BaseController
 {
+    /**
+     * Show view for add a new section
+     * 
+     * @return View
+     */
     public function showView()
     {
         return View::make('university.add_section')->with(array('subjects' => Subject::where('university_id', Auth::id())->get(),
@@ -9,6 +14,11 @@ class SectionController extends BaseController
                                                                 'unreadMessages' => MessageController::unReadMessages()));
     }
 
+    /**
+     * Show view of all sections of a subject
+     * 
+     * @return View
+     */
     public function showAllSectionsView()
     {
         $subjects = Subject::where('university_id', Auth::id())->get();
@@ -18,13 +28,17 @@ class SectionController extends BaseController
                                                                         'unreadMessages' => MessageController::unReadMessages()));
     }
 
-    public function getSubjectSections(){
-
+    /**
+     * Return the sections belonging to a teacher
+     * 
+     * @return JSON Ajax
+     */
+    public function getSubjectSections()
+    {
         if(Request::ajax())
         {
             $subject = Subject::where("_id", new MongoId(Input::get("_id")))->first();
-
-            $teacher = Teacher::where('_id', Auth::id() )->first();
+            $teacher = Teacher::find(Auth::id());
             $sections = $subject->sections()->whereIn('_id', $teacher->sections_id)->get();
 
             if(count($sections) > 0)
@@ -32,22 +46,27 @@ class SectionController extends BaseController
         }
     }
 
+    /**
+     * Find a section in the Section Collection
+     * 
+     * @return JSON Ajax
+     */
     public function find()
     {
         if(Request::ajax())
         {
             if(!is_null(Input::get('_id')))
             {
-                $subject = Subject::find(Input::get('_id'))->where('university_id', Auth::id())->first();
+                $subject = Subject::where(Input::get('_id'))->where('university_id', Auth::id())->first();
                 
-                if($subject !== null)
+                if(!isset($subject->_id))
                     return Response::json(array('subject' => $subject, 'sections' => $subject->sections));
             }
             else if (!is_null(Input::get('code')) && !is_null(Input::get('subject_id')))
             {
                 $subject = Subject::find(new MongoId(Input::get('subject_id')))->where('university_id', Auth::id())->first();
                 
-                if(!is_null($subject))
+                if(!isset($subject->_id))
                 {
                     $section = $subject->sections()->where('code', Input::get('code'))->first();
                     return Response::json(array('section' => $section, 'subject_id' => $subject->_id));
@@ -56,6 +75,11 @@ class SectionController extends BaseController
         }
     }
 
+    /**
+     * Find a unused section
+     * 
+     * @return JSON Ajax
+     */
     public function findUnusedSection()
     {
         if(Request::ajax())
@@ -71,6 +95,11 @@ class SectionController extends BaseController
         }
     }
 
+    /**
+     * Store a new section in Section Collection
+     * 
+     * @return View
+     */
     public function addSection()
     {
         $subject = Subject::find(Input::get('_id'));
@@ -97,6 +126,11 @@ class SectionController extends BaseController
         return Redirect::to(Lang::get('routes.add_section'))->with('message', Lang::get('add_section.success'));
     }   
 
+    /**
+     *  Update all data for a Section 
+     * 
+     * @return View
+     */
     public function update()
     {  
         $subject = Subject::find(Input::get('subject_id'));
@@ -115,12 +149,22 @@ class SectionController extends BaseController
         return Redirect::to(Lang::get('routes.show_all_sections'))->with('message', Lang::get('university_profile.update_message'));  
     }
 
+    /**
+     * Show all sections codes for a section
+     * 
+     * @return View
+     */
     public function showAllSectionsCodesView()
     {
         return View::make('teacher.section_codes')->with(array('stats' => MessageController::getStats(),
                                                                 'unreadMessages' => MessageController::unReadMessages()));
     }
 
+    /**
+     * Remove a section for the collection
+     * 
+     * @return JSON Ajax
+     */
     public function drop()
     {
         if(Request::ajax())

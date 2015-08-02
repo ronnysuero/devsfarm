@@ -4,6 +4,11 @@ use Helpers\CropImage\CropImage;
 
 class UniversityController extends BaseController
 {
+	/**
+	 * Show university home
+	 * 
+	 * @return View
+	 */
 	public function showHome()
 	{
 		return View::make('university.home')->with(array( 'subjects' => SubjectController::getSubjects(),
@@ -11,7 +16,11 @@ class UniversityController extends BaseController
 														  'stats' => MessageController::getStats(),
 														  'unreadMessages' => MessageController::unReadMessages()));
 	}
-
+	/**
+	 * Update the data for the University
+	 * 
+	 * @return View
+	 */
 	public function update()
 	{
 		$flag = false;
@@ -73,6 +82,11 @@ class UniversityController extends BaseController
 			return Redirect::to(Lang::get('routes.university_profile'))->with('message', Lang::get('university_profile.update_message'));
 	}
 
+	/**
+	 * Show view university profile
+	 * 
+	 * @return View
+	 */
 	public function showProfile()
 	{
 		return View::make('university.profile')->with(array('university' => University::find(Auth::id()),
@@ -80,6 +94,11 @@ class UniversityController extends BaseController
 														 	'unreadMessages' => MessageController::unReadMessages()));
 	}
 
+	/**
+	 * Register University
+	 * 
+	 * @return View
+	 */
 	public function registerUniversity()
 	{
 		$user = new User;

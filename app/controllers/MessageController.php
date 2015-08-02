@@ -2,6 +2,11 @@
 
 class MessageController extends BaseController
 {
+	/**
+	 * Show view Inbox
+	 * 
+	 * @return View
+	 */
 	public function showInboxView()
 	{
 		$user = UserController::getUser(Auth::user());
@@ -14,6 +19,11 @@ class MessageController extends BaseController
 														'unreadMessages' => $this->unReadMessages()));
 	}
 
+	/**
+	 * Show view message sent
+	 * 
+	 * @return View
+	 */
 	public function showMessageSentView()
 	{
 		$user = UserController::getUser(Auth::user());
@@ -26,6 +36,11 @@ class MessageController extends BaseController
 														'unreadMessages' => $this->unReadMessages()));
 	}
 
+	/**
+	 * Show view message archived
+	 * 
+	 * @return View
+	 */
 	public function showMessageArchivedView()
 	{
 		$user = UserController::getUser(Auth::user());
@@ -37,6 +52,11 @@ class MessageController extends BaseController
 															'unreadMessages' => $this->unReadMessages()));
 	}
 
+	/**
+	 * Show view message unread
+	 * 
+	 * @return View
+	 */
 	public function showMessageUnreadView()
 	{
 		return View::make('message.unread')->with(array('messages' => $this->unReadMessages("all"), 
@@ -44,6 +64,11 @@ class MessageController extends BaseController
 														'unreadMessages' => $this->unReadMessages()));
 	}
 
+	/**
+	 * Send a message to one or more users
+	 * 
+	 * @return JSON Ajax
+	 */
 	public function sendMessage()
 	{
 		if(Request::ajax())
@@ -74,9 +99,6 @@ class MessageController extends BaseController
 			if(count($usersFails) > 0)
 				return Response::json(Lang::get('send_message.error_mail').': ['.implode(', ', $usersFails).']');
 
-			// if(count($usersFails) > 0 && count($users) === 0)
-			// 	return Redirect::back()->withErrors(array( 'error' => Lang::get('send_message.error_mail').': ['.implode(', ', $usersFails).']'));
-
 			$message = new Message;
 			$message->_id = new MongoId;
 			$message->from = Auth::id();
@@ -94,12 +116,14 @@ class MessageController extends BaseController
 			UserController::getUser(Auth::user())->messages()->associate($message)->save();
 			return Response::json('00');
 		}		
-		// if(count($usersFails) > 0)
-		// 	return Redirect::to(URL::previous())->withErrors(array('error' => Lang::get('send_message.warning').': ['.implode(', ', $usersFails).']'));			
-
-		// return Redirect::to(URL::previous())->with('message', Lang::get('send_message.success')); 
 	}
 
+	/**
+	 * Seach the emails of users ids
+	 * 
+	 * @param  $id Array(MongoId)
+	 * @return Array(String)
+	 */
 	private function searchUsers($id)
 	{
 		$emails = array();
@@ -133,6 +157,11 @@ class MessageController extends BaseController
 		return $emails;
 	}
 
+	/**
+	 * Find a message
+	 * 
+	 * @return JSON Ajax
+	 */
 	public function find()
 	{
 		if(Request::ajax())
@@ -159,6 +188,11 @@ class MessageController extends BaseController
 		}
 	}
 
+	/**
+	 * Remove a message from the Message Collection
+	 * 
+	 * @return JSON Ajax
+	 */
 	public function drop()
 	{
 		if(Request::ajax())
@@ -173,6 +207,11 @@ class MessageController extends BaseController
 		}
 	}
 
+	/**
+	 * Archived a message
+	 * 
+	 * @return JSON Ajax
+	 */
 	public function archived()
 	{
 		if(Request::ajax())
@@ -194,6 +233,11 @@ class MessageController extends BaseController
 		}
 	}
 
+	/**
+	 * Mark a message as read
+	 *  
+	 * @return JSON Ajax
+	 */
 	public function markRead()
 	{
 		if(Request::ajax())
@@ -215,6 +259,11 @@ class MessageController extends BaseController
 		}
 	}
 
+	/**
+	 *	Return the stats message for a User
+	 * 
+	 * @return Array(Stats)
+	 */
 	public static function getStats()
 	{
 		$messages = UserController::getUser(Auth::user())->messages();
@@ -230,6 +279,12 @@ class MessageController extends BaseController
 		);	
 	}
 
+	/**
+	 * Return the unread messages for an User
+	 * 
+	 * @param  $limit
+	 * @return Array(Messages)
+	 */
 	public static function unReadMessages($limit = null)
 	{
 		$user = UserController::getUser(Auth::user());
@@ -241,6 +296,12 @@ class MessageController extends BaseController
 		return $messages->orderBy('sent_date', 'desc')->get();
 	}
 
+	/**
+	 * Convert the date in a format readable for the user
+	 *  
+	 * @param  $date Date
+	 * @return Date
+	 */
 	public static function getDate($date)
 	{
 		$compare = new DateTime(date('Y-m-d H:i:s', $date->sec));
@@ -258,6 +319,12 @@ class MessageController extends BaseController
 			return (App::getLocale() === 'es') ? "Hace 1 segundo" : "1 segs ago";
 	}
 
+	/**
+	 * Checks whether the recipient isn't the same user
+	 * 
+	 * @param  $id MongoId
+	 * @return Boolean
+	 */
 	public static function searchOrigin($id)
 	{
 		$message = UserController::getUser(Auth::user())->messages()->find($id);

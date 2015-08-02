@@ -2,12 +2,22 @@
 
 class SubjectController extends BaseController
 {
+    /**
+     * Show the view for add a subject
+     * 
+     * @return View
+     */
     public function showView()
     {
         return View::make('university.add_subject')->with(array('stats' => MessageController::getStats(),
                                                                 'unreadMessages' => MessageController::unReadMessages()));
     }
 
+    /**
+     * Store a subject in the Subject collection
+     * 
+     * @return View
+     */
     public function addSubject()
     {
         $subject = new Subject;
@@ -36,11 +46,21 @@ class SubjectController extends BaseController
         return Redirect::to(Lang::get('routes.add_subject'))->with('message', Lang::get('add_subject.success'));
     }
 
+    /**
+     * Return the subject an University
+     * 
+     * @return Array(Subject)
+     */
     public static function getSubjects()
     {
         return Subject::where('university_id', Auth::id())->get();
     }
 
+    /**
+     * Show all subjects of an University 
+     * 
+     * @return View
+     */
     public function showAllSubjectsView ()
     {
         return View::make('university.show_all_subjects')->with(array(  'subjects' => $this->getSubjects(),
@@ -48,6 +68,11 @@ class SubjectController extends BaseController
                                                                         'unreadMessages' => MessageController::unReadMessages()));
     }
 
+    /**
+     * Update the data of a Subject
+     * 
+     * @return View
+     */
     public function update()
     {
         $subject = Subject::find(Input::get('_id'));
@@ -66,6 +91,11 @@ class SubjectController extends BaseController
         return Redirect::to(Lang::get('routes.show_all_subjects'))->with('message', Lang::get('university_profile.update_message'));  
     }
 
+    /**
+     * Find a subject of an University
+     * 
+     * @return JSON Ajax
+     */
     public function find()
     {
         if(Request::ajax())
@@ -75,6 +105,11 @@ class SubjectController extends BaseController
         }
     }
 
+    /**
+     * Remove the subjects of an University
+     * 
+     * @return JSON Ajax
+     */
     public function drop()
     {
         if(Request::ajax())
