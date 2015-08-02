@@ -5,9 +5,11 @@
 
 @section('content')
 <div class="row" style="color: #000000;">
-	<h1 class="page-header"></h1>
+	<h1 class="page-header"><i class="fa fa-group"></i> Section groups</h1>
 	<div class="col-lg-12">
 		<div class="row">
+            @if(count($groups) >= 1)
+            @foreach($groups as $index => $group)
 			<div class="col-lg-4 col-md-6">
 				<div class="panel panel-primary">
 					<div class="panel-heading">
@@ -16,19 +18,21 @@
 								<i class="fa fa-group fa-5x"></i>
 							</div>
 							<div class="col-xs-9 text-right">
-								<div class="huge">4</div>
-								<div>Integrantes</div>
+								<div class="huge">{{ $group->project_name  }}</div>
+								<div>{{ strtoupper($group->section_id)  }}</div>
 							</div>
 						</div>
 					</div>
 
 					<div class="panel-footer">
-						Narciso Nunez - TeamLeader <a href="#"  data-toggle="modal" data-target="#studentDetailsModal">
+                        @foreach($group->student_id as $student)
+                        <?php $member = Student::find($student ); ?>
+						{{ $member->name  }} {{ $member->last_name }}
+                            <a href="#" onclick="fillModal('{{$member->email}}')" data-toggle="modal" data-target="#studentDetailsModal">
 						<i class="fa fa-external-link"></i></a><br>
-						Leticia Reyes <a href="#"><i class="fa fa-external-link"></i></a><br>
-						Ronny Suero <a href="#"><i class="fa fa-external-link"></i></a>
+						@endforeach
 						<br><br>
-						<a href="{{Lang::get('routes.farm_report')}}">
+						<a href="#" class="show_group_detail" id="{{ $group->_id  }}">
 							<span class="pull-left">View Details</span>
 							<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
 							<div class="clearfix"></div>
@@ -37,113 +41,22 @@
 
 				</div>
 			</div>
-			<div class="col-lg-4 col-md-6">
-				<div class="panel panel-green">
-					<div class="panel-heading">
-						<div class="row">
-							<div class="col-xs-3">
-								<i class="fa fa-group fa-5x"></i>
-							</div>
-							<div class="col-xs-9 text-right">
-								<div class="huge">2</div>
-								<div>Integrantes</div>
-							</div>
-						</div>
-					</div>
-					<div class="panel-footer">
-						Narciso Nunez - TeamLeader <a href="#"><i class="fa fa-external-link"></i></a><br>
-						Leticia Reyes <a href="#"><i class="fa fa-external-link"></i></a>
-						<br><br>
-						<a href="{{Lang::get('routes.farm_report')}}">
-							<span class="pull-left">View Details</span>
-							<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-							<div class="clearfix"></div>
-						</a>
-					</div>
-				</div>
-			</div>
-			<div class="col-lg-4 col-md-6">
-				<div class="panel panel-yellow">
-					<div class="panel-heading">
-						<div class="row">
-							<div class="col-xs-3">
-								<i class="fa fa-group fa-5x"></i>
-							</div>
-							<div class="col-xs-9 text-right">
-								<div class="huge">2</div>
-								<div>Integrantes</div>
-							</div>
-						</div>
-					</div>
-					<div class="panel-footer">
-						Ronny Suero <a href="#"><i class="fa fa-external-link"></i></a><br>
-						Leticia Reyes <a href="#"><i class="fa fa-external-link"></i></a>
-						<br><br>
-						<a href="{{Lang::get('routes.farm_report')}}">
-							<span class="pull-left">View Details</span>
-							<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-							<div class="clearfix"></div>
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-lg-4 col-md-6">
-				<div class="panel panel-red">
-					<div class="panel-heading">
-						<div class="row">
-							<div class="col-xs-3">
-								<i class="fa fa-group fa-5x"></i>
-							</div>
-							<div class="col-xs-9 text-right">
-								<div class="huge">2</div>
-								<div>Integrantes</div>
-							</div>
-						</div>
-					</div>
-					<div class="panel-footer">
-						Ronny Suero <a href="#"><i class="fa fa-external-link"></i></a><br>
-						Leticia Reyes <a href="#"><i class="fa fa-external-link"></i></a>
-						<br><br>
-						<a href="{{Lang::get('routes.farm_report')}}">
-							<span class="pull-left">View Details</span>
-							<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-							<div class="clearfix"></div>
-						</a>
-					</div>
-				</div>
-			</div>
-			<div class="col-lg-4 col-md-6">
-				<div class="panel panel-info">
-					<div class="panel-heading">
-						<div class="row">
-							<div class="col-xs-3">
-								<i class="fa fa-group fa-5x"></i>
-							</div>
-							<div class="col-xs-9 text-right">
-								<div class="huge">2</div>
-								<div>Integrantes</div>
-							</div>
-						</div>
-					</div>
-					<div class="panel-footer">
-						Ronny Suero <a href="#"><i class="fa fa-external-link"></i></a><br>
-						Leticia Reyes <a href="#"  data-toggle="modal" data-target="#studentDetailsModal">
-						<i class="fa fa-external-link"></i></a>
-						<br><br>
-						<a href="#">
-							<span class="pull-left">View Details</span>
-							<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-							<div class="clearfix"></div>
-						</a>
-					</div>
-				</div>
-			</div>
+            @endforeach
+            @else
+                <h4>There is not groups for this section yet.</h4>
+            @endif
+
 		</div>
 	</div>
 </div>
 </div>
+
+{{ Form::open(array('url' => Lang::get('routes.get_farm_report'), 'id' => 'form_groups_report', 'class' => 'hide')) }}
+<div class="form-group">
+    <input type="text" class="form-control" id="group_id" name="group_id"
+           value="">
+</div>
+{{Form::close()}}
 
 <div class="modal fade" id="studentDetailsModal" style="color: #000000;"
         tabindex="-1" role="dialog" aria-labelledby="Register University" aria-hidden="true">
@@ -155,17 +68,17 @@
 			</div>
 			<div class="modal-body">
 				<div class="row">
-					<div class="col-lg-3"><img src="http://placehold.it/150x150" alt=""/></div>
+					<div class="col-lg-3"><img id="photo_display" name="photo_display" src="http://placehold.it/150x150" alt=""/></div>
 					<div class="col-lg-8" style="margin-left: 10px; font-size: 1.2em;">
 
 						<table class="table">
-							<tr><th>Nombre</th><td>Narciso Nunez - Team Leader</td></tr>
-							<tr><th>Matricula</th> <td>10094304</td></tr>
-							<tr><th>Correo</th> <td>narciso.arias21@gmail.com</td></tr>
-							<tr><th>Trabaja</th> <td>Si</td></tr>
-							<tr><th>Telefono</th> <td>809-000-0000</td></tr>
-							<tr><th>Celular</th> <td>809-000-2333</td></tr>
-							<tr><th>Sexo</th> <td>Masculino</td></tr>
+                            <tr><th>{{Lang::get('student_profile.name')}}</th><td id="name" name="name"></td></tr>
+                            <tr><th>{{Lang::get('student_profile.nip')}}</th><td id="last_name" name="last_name"></td></tr>
+                            <tr><th>{{Lang::get('student_profile.email')}}</th> <td id="mail" name="mail"></td></tr>
+                            <tr><th>{{Lang::get('student_profile.job')}}</th> <td id="job" name="job"></td></tr>
+                            <tr><th>{{Lang::get('student_profile.phone')}}</th> <td id="phone" name="phone"></td></tr>
+                            <tr><th>{{Lang::get('student_profile.cellphone')}}</th> <td id="cellphone" name="cellphone"></td></tr>
+                            <tr><th>{{Lang::get('student_profile.genre')}}</th> <td id="genre" name="genre"></td></tr>
 						</table>
 					</div>
 				</div>
@@ -174,4 +87,38 @@
 		</div>
 	</div>
 </div>
+
+<script type="text/javascript">
+    function fillModal (x) {
+        var yes =  '{{Lang::get('student_profile.yes')}}';
+        var no = '{{Lang::get('student_profile.no')}}';
+
+        $.post("{{Lang::get('routes.find_member_information')}}",
+        {
+            email:x
+        }).done(function( data ) {
+
+            $("#name").html(data.name);
+            $("#last_name").html(data.last_name);
+            $("#mail").html(x);
+            $("#phone").html(data.phone);
+            $("#cellphone").html(data.cellphone);
+            $("#genre").html(data.genre);
+            if(data.has_a_job==1){
+                $("#job").html(yes);
+            }else{
+                $("#job").html(no);
+            }
+            $('#photo_display').attr('src', data.picture  );
+            $('#photo').val('');
+            console.log(data);
+        });
+    }
+
+    $(".show_group_detail").on("click", function(){
+        var group = $(this).attr("id");
+        $("#group_id").val(group);
+        $("#form_groups_report").submit();
+    });
+</script>
 @stop

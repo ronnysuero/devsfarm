@@ -27,16 +27,17 @@ class TeacherController extends BaseController
                                                         'unreadMessages' => MessageController::unReadMessages()));
 	}
 
-	public function showSubjectDetails()
-	{
-		return View::make('teacher.subject_details')->with(array('stats' => MessageController::getStats(),
-                                                                'unreadMessages' => MessageController::unReadMessages()));
-	}
-
-	public function showFarmReport()
-	{
-		return View::make('teacher.farm_report');
-	}
+//	public function showSubjectDetails()
+//	{
+//		return View::make('teacher.subject_details')->with(array('stats' => MessageController::getStats(),
+//                                                                'unreadMessages' => MessageController::unReadMessages()));
+//	}
+//
+//	public function showFarmReport()
+//	{
+//		return View::make('teacher.farm_report')->with(array('stats' => MessageController::getStats(),
+//                                                            'unreadMessages' => MessageController::unReadMessages()));
+//	}
 
 	public function showAllTeachersView ()
 	{

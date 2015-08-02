@@ -64,30 +64,36 @@ class GroupController extends BaseController{
     {
 
 
-        $group = Group::whereIn('student_id', array(Auth::id()))
-            ->get();
+        $group = Group::where('student_id', Auth::id())->get();
 
         return View::make('Group.show_group')->with(array( 'groups' => $group));
 
 
     }
 
+    public function findMemberInformation()
+    {
+        if(Request::ajax())
+        {
+            $student = Student::where('email', '=', Input::get('email'))->first();
+            return Response::json($student);
+        }
+    }
+
+    public function getFarmReport(){
+        $group_id = Input::get('group_id');
+        return View::make('teacher.farm_report')->with(array('group_id' => $group_id,
+                                                            'stats' => MessageController::getStats(),
+                                                             'unreadMessages' => MessageController::unReadMessages()));
+    }
+
     public function findGroupBySection()
     {
 
-
-        if(Request::ajax())
-        {
-
-
-            $groups = Group::where('section_id','=',Input::get('_id'))->get();
-
-
-
-
-            if(count($groups) > 0)
-                return Response::json(array('groups' =>  $groups));
-        }
+        $groups = Group::where('section_id', trim(strtolower(Input::get('section_code'))))->get();
+        return View::make('teacher.subject_details')->with(array('groups' => $groups,
+                                                                'stats' => MessageController::getStats(),
+                                                                'unreadMessages' => MessageController::unReadMessages()));
     }
 
     public function addStudentToGroup()
@@ -96,10 +102,7 @@ class GroupController extends BaseController{
         $user = Student::find(Auth::id());
         Group::find(Input::get('group'))->push('student_id', array(new MongoId($user->_id)));
 
-
         return Redirect::to(Lang::get('routes.join_to_group'))->with('message', Lang::get('register_group.success'));
-
-
     }
 
 }

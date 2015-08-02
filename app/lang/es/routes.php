@@ -51,4 +51,7 @@ return array(
 	'unlink_enrollment' => 'desenlazar_inscripcion',
     'find_subject_section' => 'buscar_secciones',
     'create_section_code' => 'crear_codigo_seccion',
+    'get_section_groups' => 'obtener_seccion_grupos',
+    'find_member_information' => 'buscar_informacion_miembro',
+    'get_farm_report' => 'obtener_reporte_granja',
 	);

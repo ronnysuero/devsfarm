@@ -53,4 +53,7 @@ return array(
 	'unlink_enrollment' => 'unlink_enrollment',
     'find_subject_section' => 'find_subject_section',
     'create_section_code' => 'create_section_code',
+    'get_section_groups' => 'get_section_groups',
+    'find_member_information' => 'find_member_information',
+    'get_farm_report' => 'get_farm_report',
 	);

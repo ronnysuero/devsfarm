@@ -105,15 +105,18 @@ Route::group(array('before' => 'auth|teacher'), function()
 
     Route::get(Lang::get('routes.teacher_profile'), 'TeacherController@showProfile');
 
-    Route::get(Lang::get('routes.subject_details'), 'TeacherController@showSubjectDetails');
+//    Route::get(Lang::get('routes.subject_details'), 'TeacherController@showSubjectDetails');
 
-    Route::get(Lang::get('routes.farm_report'), 'TeacherController@showFarmReport');
+//    Route::get(Lang::get('routes.farm_report'), 'TeacherController@showFarmReport');
 
     Route::get(Lang::get('routes.section_codes'), 'SectionCodesController@showAllSectionsCodesView');
 
     // HTTP POST
     Route::post(Lang::get('routes.find_subject_section'), 'SectionController@getSubjectSections');
-    Route::post(Lang::get('create_section_code'), 'SectionCodesController@addSectionCode');
+    Route::post(Lang::get('routes.create_section_code'), 'SectionCodesController@addSectionCode');
+    Route::post(Lang::get('routes.get_section_groups'), 'GroupController@findGroupBySection');
+    Route::post(Lang::get('routes.find_member_information'), 'GroupController@findMemberInformation');
+    Route::post(Lang::get('routes.get_farm_report'), 'GroupController@getFarmReport');
 });
 
 Route::group(array('before' => 'auth|student'), function()

@@ -5,7 +5,7 @@
 @section('content')
 <div class="row">
 	<div class="col-lg-12">
-		<h1 class="page-header">Report</h1>
+		<h1 class="page-header">Report - group id -> {{ $group_id }}</h1>
 
 	</div>
 </div>

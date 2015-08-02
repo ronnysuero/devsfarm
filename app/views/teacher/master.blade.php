@@ -109,7 +109,7 @@
                                         <?php $sections = $subject->sections()->whereIn('_id', $teacher->sections_id)->get(); ?>
                                         @foreach($sections as $index => $section)
 										<li>
-											<a href="{{Lang::get('/')}}"><i class="fa fa-arrow-right" style="color: #0097A7;"></i> {{ $section->code  }}</a>
+											<a href="#" id="{{$section->current_code}}" class="menu_section" value="{{ $section->code  }}"><i class="fa fa-arrow-right" style="color: #0097A7;"></i> {{ $section->code  }}</a>
 										</li>
                                         @endforeach
 									</ul>
@@ -127,6 +127,13 @@
 				</div>
 			</div>
 		</nav>
+
+        {{ Form::open(array('url' => Lang::get('routes.get_section_groups'), 'id' => 'form_section_groups', 'class' => 'hide')) }}
+        <div class="form-group">
+            <input type="text" class="form-control" id="section_code" name="section_code"
+                   value="">
+        </div>
+        {{Form::close()}}
 
 		<div id="page-wrapper">
 			@yield('content')
@@ -190,6 +197,12 @@
         alertify.set({ delay: 10000 });
         alertify.log("{{Lang::get('messages.welcome')}} {{UserController::getUser(Auth::user())->name}}, {{Lang::get('messages.alert_message')}} {{$stats['unread']}} {{Lang::get('messages.message')}}" + plural);
         @endif
+    });
+
+    $(".menu_section").on("click", function(){
+        var section = $(this).attr("id");
+        $("#section_code").val(section);
+        $("#form_section_groups").submit();
     });
 </script>
 
