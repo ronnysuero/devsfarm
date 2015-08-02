@@ -9,7 +9,45 @@ class StudentController extends BaseController
     */
     public function showHome()
     {
-        return View::make('student.home');
+        return View::make('student.home')->with(
+            array(
+                'data' => array(
+                    json_encode(array(
+                        "id" => 1, 
+                        "text" => 'Office itinerancy', 
+                        "type" => 'gantt.config.types.project', 
+                        "order" => 10, 
+                        "progress" => 0.4, 
+                        "open" => false
+                    )),
+                    json_encode(array(
+                        "id" => 2, 
+                        "text" => 'Office facing', 
+                        "type" => 'gantt.config.types.project', 
+                        "order" => 10, 
+                        'progress' =>  0.6, 
+                        "open" =>  true,
+                        "parent" => 1, 
+                        "start_date" => '02-04-2013', 
+                        "duration" => 8, 
+                    ))
+                ),
+                'links' => array(
+                    json_encode(array(
+                        "id" => 1, 
+                        "source" => 1, 
+                        "target" => 2, 
+                        "type" => 1,
+                    )),
+                    json_encode(array(
+                        "id" => 2, 
+                        "source" => 2, 
+                        "target" => 3, 
+                        "type" => 0,
+                    ))
+                ),
+            )
+        );
     }
 
     public function registerStudent()
