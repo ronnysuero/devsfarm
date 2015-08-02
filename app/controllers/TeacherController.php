@@ -207,7 +207,7 @@ class TeacherController extends BaseController
     /**
      * Function that unlink a section from a teacher
      *
-     * @return view
+     * @return void
      */
 	public function drop()
 	{
