@@ -3,7 +3,7 @@
 class UserController extends BaseController
 {
 	/**
-	* Verify the user's data
+	* Verify the user's data for login
 	*
 	* @return void
 	*/
@@ -23,9 +23,9 @@ class UserController extends BaseController
 	}
 
 	/**
-	* Removes user login token
+	* Logout User
 	*
-	* @return void
+	* @return View
 	*/
 	public function logout()
 	{
@@ -34,6 +34,11 @@ class UserController extends BaseController
 		return Redirect::to('/');
 	}
 
+	/**
+	 * Check if the user is logged for show their respective home or login screen
+	 * 
+	 * @return View
+	 */
 	public function showView()
 	{
 		// Check if the user is reminded in the system
@@ -43,17 +48,35 @@ class UserController extends BaseController
 			return View::make('login.login');
 	}
 
+	/**
+	 * Show view for register Users
+	 * @return View
+	 */
 	public function showRegisterView()
 	{
 		return View::make('login.register');
 	}
 
-	public function updateLastActivity()
+	/**
+	 * Update the User data for stored the last activity
+	 * 
+	 * @return void
+	 */
+	public static function updateLastActivity()
 	{
-		Auth::user()->last_activity = new MongoDate;
-		Auth::user()->save();
+		if (!Auth::guest())
+		{
+			Auth::user()->last_activity = new MongoDate;
+			Auth::user()->save();
+		}
 	}
 
+	/**
+	 * Returns the collection to which the user belongs
+	 * 
+	 * @param  $user User
+	 * @return Object
+	 */
 	public static function getUser($user)
 	{
 		if(strcmp($user->rank, 'university') === 0)
@@ -65,18 +88,39 @@ class UserController extends BaseController
 		return null;
 	}
 
+	/**
+	 * Return view forget password
+	 * 
+	 * @return View
+	 */
 	public function showForgetPasswordView()
 	{
 		return View::make('login.forget-password');
 	}
 
+	/**
+	 * Show view reset password 
+	 * 
+	 * @return View
+	 */
+	public function showResetPasswordView()
+	{
+		$user = Session::get('user');
+		return ($user === null) ? Redirect::to('/') : View::make('reset-password')->with('user', $user);
+	}
+
+	/**
+	 * Generate a token and sends it by mail to the user to retrieve your password
+	 * 
+	 * @return View
+	 */
 	public function forgetPassword()
 	{
 		$email = strtolower(trim(Input::get('email')));
 		
 		$user = User::first(['user' => $email]);
 
-		if(is_null($user))
+		if(!isset($user->user))
 			return Redirect::back()->withErrors(array( 'error' => Lang::get('register_student.email_not_found')));
 
 		$token = "";
@@ -105,33 +149,41 @@ class UserController extends BaseController
 		return Redirect::to('/')->with('message', Lang::get('register_student.success_forget_password'));
 	}
 
+	/**
+	 * Verifies that the token is stored in a Student collection
+	 * 
+	 * @param  $token String 
+	 * @return View
+	 */
 	public function confirmToken($token)
 	{
 		$user = User::first(['password_token' => $token]);
 
-		if(is_null($user))
+		if(!isset($user->user))
 			return Redirect::to(Lang::get('routes.forget_password'))->withErrors(array( 'error' => Lang::get('register_student.link_expired')));
 
 		$datebegin = new DateTime(date('Y-m-d H:i', $user->date_password_token->sec));
-		
-		if($datebegin->diff(new DateTime())->i > 60)
+		$datebegin = $datebegin->diff(new DateTime());
+
+		$user->password_token = null;
+		$user->date_password_token = null;
+		$user->save();
+
+		$minutes = $datebegin->days * 24 * 60;
+		$minutes += $datebegin->h * 60;
+		$minutes += $datebegin->i;
+
+		if($minutes > 60)
 			return Redirect::to(Lang::get('routes.forget_password'))->withErrors(array( 'error' => Lang::get('register_student.link_expired')));
 		else
-		{
-			$user->password_token = null;
-			$user->date_token_password = null;
-			$user->save();
-
 			return Redirect::to(Lang::get('routes.reset_password'))->with('user', $user);
-		}
 	}
 
-	public function showResetPasswordView()
-	{
-		$user = Session::get('user');
-		return ($user === null) ? Redirect::to('/') : View::make('reset-password')->with('user', $user);
-	}
-
+	/**
+	 * Reset password for the student
+	 * 
+	 * @return View
+	 */
 	public function resetPassword()
 	{
 		$user = User::first(['_id' => trim(Input::get('_id'))]);
@@ -150,5 +202,41 @@ class UserController extends BaseController
 		});		
 
 		return Redirect::to('/')->with('message', Lang::get('register_student.password_changed'));
+	}
+
+	/**
+	 * Generate an email valid for the teacher 
+	 *  
+	 * @return String
+	 */
+	public function generateUser()
+	{
+		if(Request::ajax())
+		{
+			$email = strtolower(Input::get('email'));
+			$domain = substr(Auth::user()->user, strpos(Auth::user()->user, '@'));
+			$user = User::find(['user' => $email.$domain]);
+
+			if(isset($user->user))
+			{
+				$seed = 01;
+			
+				while(isset($user->user))
+				{
+					$user = User::find(['user' => $email.$seed.$domain]);
+
+					if(!isset($user->user))
+					{
+						if($seed < 10)
+							$email .= ('0'.$seed);
+						else
+							$email .= $seed;
+					}
+					else
+						$seed++;
+				}
+			}
+			return Response::json($email.$domain);
+		}
 	}
 }

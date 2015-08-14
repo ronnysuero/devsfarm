@@ -2,6 +2,11 @@
 
 class ChatController extends BaseController
 {
+	/**
+	 * Show chat home view
+	 * 
+	 * @return View
+	 */
 	public function showView()
 	{
 		$users = null;
@@ -22,13 +27,16 @@ class ChatController extends BaseController
 			$users = Student::where('_id', '!=', Auth::id())->get();
 			$user = Student::find(Auth::id());
 		} 
-
+		
 		$ip = (App::isLocal()) ? '127.0.0.1' : '104.131.3.39';
-
-		if(!is_null($users))
-			return View::make('chat.home')->with(array('contacts' => $users, 'user' => $user, 'ip'=> $ip));
+		return View::make('chat.home')->with(array('contacts' => $users, 'user' => $user, 'ip'=> $ip));
 	}
 
+	/**
+	 * Find all conversations between 2 users
+	 * 
+	 * @return JSON Ajax
+	 */
 	public function find()
 	{
 		if(Request::ajax())
@@ -40,7 +48,7 @@ class ChatController extends BaseController
 
 			$chat = Chat::where('participants', 'all', $array)->first();
 
-			if(!is_null($chat))
+			if(!isset($chat->_id))
 			{
 				$user_sender = User::first(Auth::id());
 				$user_receiver = User::first(Input::get('receiver_id'));

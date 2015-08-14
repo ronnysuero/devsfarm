@@ -5,7 +5,7 @@
 @stop
 @section('body')
 	@foreach($messages as $index => $message)
-		<tr class="unread">
+		<tr class="unread" id="tr{{$index+1}}">
 			<input type="hidden" id="id{{$index+1}}" value="{{$message->_id}}">
 			<td id="{{$index+1}}">
 				<div class="checkboxs delete_message" id="{{$index+1}}">
@@ -26,7 +26,9 @@
 					{{$message->body}}
 				@endif
 			</td>
-			<td class="time message" id="{{$index+1}}"> {{date('d-m-Y h:i A', $message->sent_date->sec)}}</td>
+			<td class="time message" id="{{$index+1}}"> 
+				{{MessageController::getDate($message->sent_date)}}
+			</td>
 		</tr>
 	@endforeach
 	<script type="text/javascript">
@@ -38,23 +40,38 @@
 				$('#title').html("");
 				$('#body').html("");
 
-				$.post("{{Lang::get('routes.find_message')}}",{ _id: $('#id'+$(this).attr("id")).val(), user: $('#user').val()}).done(function( data ) 
+				$.post("{{Lang::get('routes.find_message')}}",
+				{ 
+					_id: $('#id'+$(this).attr("id")).val()
+				})
+				.done(function( data ) 
 				{    
 					$('#to').html("<i class='fa fa-user'></i>" + "{{Lang::get('send_message.to')}}");
 
 					for (var index in data.emails) 
 						$('#to').append("<li>" + data.emails[index] + "</li>");
-
+					
 					$('#title').html("{{Lang::get('send_message.subject')}} " + data.messages.subject);
-					$('#body').html(data.messages.body);
+					$('#body').html(formatDate(new Date(data.messages.sent_date.sec*1000))+"<br/>");
+					$('#body').append(data.messages.body);
 					$('#span_inbox').html(data.stats['inbox']);			
-					$('#span_unread').html(data.stats['unread']);
 					$('#span_sent').html(data.stats['sent']);
 					$('#span_archived').html(data.stats['archived']);
+					
+					if(data.stats['unread'] === 0)
+					{
+						$('#span_unread').hide();
+						$('#unread').hide();
+					}
+					else
+					{
+						$('#span_unread').html(data.stats['unread']);
+						$('#unread').html(data.stats['unread']);
+					}
 					$('#editModal').modal('show');
 				});
+				$('#tr'+$(this).attr("id")).hide();
 			});
 		});
 	</script>
 @stop
-

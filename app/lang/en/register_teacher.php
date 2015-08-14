@@ -14,4 +14,5 @@ return array (
 	'cellphone_placeholder' => 'Enter the cellphone',
 	'email_placeholder' => 'Enter the Email',
 	'success' => 'Teacher successfully registered',
+    'error_password' => 'The current password doesn\'t match the password stored'
 );

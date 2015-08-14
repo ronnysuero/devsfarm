@@ -11,4 +11,5 @@ return array (
 	'message' => 'The sections must be separated by commas. 1, 2, 3',
 	'success' => 'Subject successfully registered',
 	'subject_duplicated' => 'This subject or some sections is already registered in our system',
+	'subject_used' => 'This subject has assigned sections, you can\'t be deleted',
 );

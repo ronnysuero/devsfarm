@@ -11,5 +11,5 @@ return array(
 	'subject' => 'Asunto: ',
 	'subject_placeholder' => 'Ingrese el asunto',
 	'body' => 'Mensaje: ',
-
+	'warning' => 'El mensaje no fue entregado a los siguientes destinatarios'
 	);

@@ -12,11 +12,11 @@
 					<hr>
 					<div class="login-form">
 						{{ Form::open(array('url' => Lang::get('routes.reset_password'), 'class' => 'register_form', 'id' => 'register_form')) }}
-						<input data-validate="required,min(6),password(password, email)" type="password" name="password" id="password" placeholder="{{Lang::get('register_student.password_placeholder')}}">
-						<input data-validate="required,min(6),verifyPassword(password, confirm_password)" type="password" name="password_confirm" id="confirm_password" placeholder="{{Lang::get('register_student.confirm_password')}}"> 
-						<button type="submit" class="btn btn-red btn-reset">{{lang::get('register_student.reset')}}</button> 
-						<input type="hidden" id="email" value="{{$user->user}}"> 
-						<input type="hidden" name="_id" value="{{$user->_id}}"> 
+							<input data-validate="required,min(6),password(password, email)" type="password" name="password" id="password" placeholder="{{Lang::get('register_student.password_placeholder')}}">
+							<input data-validate="required,min(6),verifyPassword(password, confirm_password)" type="password" name="password_confirm" id="confirm_password" placeholder="{{Lang::get('register_student.confirm_password')}}"> 
+							<button type="submit" class="btn btn-red btn-reset">{{lang::get('register_student.reset')}}</button> 
+							<input type="hidden" id="email" value="{{$user->user}}"> 
+							<input type="hidden" name="_id" value="{{$user->_id}}"> 
 						{{ Form::close() }}   
 						<div class="login-links"> 
 							<a href="{{URL::to('/')}}">

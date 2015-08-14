@@ -11,5 +11,5 @@ return array(
 	'subject' => 'Subject: ',
 	'subject_placeholder' => 'Enter the subject',
 	'body' => 'Body: ',
-
+	'warning' => 'The message wasn\'t delivered to the following recipients'
 	);
