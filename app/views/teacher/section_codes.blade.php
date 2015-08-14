@@ -95,66 +95,70 @@
 
             $('#subject').on('change', function()
             {
-
                 if($('#subject').val() !== "")
                 {
                     subjectNameInitials($('#subject :selected').text());
                     $("#section_code").text(subject_name + section_name + current_period_txt);
 
                     $.post("{{Lang::get('routes.find_subject_section')}}",
-                            {
-                                _id: $('#subject').val()
-                            })
-                            .done(function( data )
-                            {
-                                var message = "";
+                    {
+                        _id: $('#subject').val()
+                    })
+                    .done(function( data )
+                    {
+                        var message = "";
 
-                                message = '<option value="">{{Lang::get("section_codes.section_placeHolder")}} </option>';
+                        message = '<option value="">{{Lang::get("section_codes.section_placeHolder")}} </option>';
 
-                                $('#section')
-                                        .find('option')
-                                        .remove()
-                                        .end()
-                                        .append(message);
+                        $('#section')
+                            .find('option')
+                            .remove()
+                            .end()
+                            .append(message);
 
-                                if(data !== "")
-                                {
-                                    for(var item in data.sections)
-                                        $('#section').append( new Option(data.sections[item].code, data.sections[item]._id) );
+                        if(data !== "")
+                        {
+                            for(var item in data.sections)
+                                $('#section').append( new Option(data.sections[item].code, data.sections[item]._id) );
 
-                                    $('#subject_id').val(data.subject);
-                                }
-                            });
-                }else{
+                            $('#subject_id').val(data.subject);
+                        }
+                    });
+                }
+                else
+                {
                     $('#section').html('<option value="">{{Lang::get("section_codes.section_placeHolder")}} </option>');
                 }
 
             });
 
-            $("#section").on("change", function(){
-                if($('#section').val() !== "") {
+            $("#section").on("change", function()
+            {
+                if($('#section').val() !== "") 
+                {
                     section_name = $("#section :selected").text() + '-';
                     $("#section_code").text(subject_name + section_name + current_period_txt);
-
                     $("#section_id").val( $("#section").val() );
                 }
             });
 
-            $("#current_period").on("keyup", function(){
+            $("#current_period").on("keyup", function()
+            {
                 current_period_txt = $("#current_period").val();
                 $("#section_code").text(subject_name + section_name + current_period_txt);
             });
 
-            function subjectNameInitials(subject){
+            function subjectNameInitials(subject)
+            {
                 var acronym = getLetters(subject) + '-';
                 subject_name = acronym;
             }
 
-            function getLetters(word){
+            function getLetters(word)
+            {
                 var letters = word.match(/\b(\w)/g);
                 return letters.join('');
             }
         });
-
     </script>
 @stop

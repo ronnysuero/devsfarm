@@ -9,6 +9,10 @@ body {
     padding-top: 85px;
 }
 
+#cssmenu ul ul {
+    display: none;
+}
+
 #wrapper {
     width: 100%;
 }

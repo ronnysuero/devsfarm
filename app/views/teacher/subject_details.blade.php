@@ -72,8 +72,8 @@
         $.post("{{Lang::get('routes.find_member_information')}}",
         {
             email:x
-        }).done(function( data ) {
-
+        }).done(function( data ) 
+        {
             $("#name").html(data.name);
             $("#last_name").html(data.last_name);
             $("#mail").html(x);

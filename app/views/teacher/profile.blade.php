@@ -88,7 +88,8 @@
             $('#avatar-modal').modal('hide');
         });
 
-        $("#show_password_fields").click(function(){
+        $("#show_password_fields").click(function()
+        {
             $("#password_fields").toggle("slow");
         });
     });
