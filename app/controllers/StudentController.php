@@ -9,6 +9,8 @@ class StudentController extends BaseController
     */
     public function showHome()
     {
+        $group = Group::whereIn('student_id', array(Auth::id()))->get();
+
         return View::make('student.home')->with(
             array(
                 'data' => array(
@@ -46,6 +48,9 @@ class StudentController extends BaseController
                         "type" => 0,
                     ))
                 ),
+                'groups' => $group,
+                'stats' => MessageController::getStats(),
+                'unreadMessages' => MessageController::unReadMessages()
             )
         );
     }
@@ -85,7 +90,8 @@ class StudentController extends BaseController
 
     public function showProfile()
     {
-        return View::make('student.profile')->with(array('student' => Student::where('_id', '=', Auth::id())->first()));
+        return View::make('student.profile')->with(array('student' => Student::where('_id', '=', Auth::id())->first(), 'stats' => MessageController::getStats(),
+            'unreadMessages' => MessageController::unReadMessages()));
     }
 
     public function updateStudent()
