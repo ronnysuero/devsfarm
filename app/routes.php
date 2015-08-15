@@ -119,8 +119,9 @@ Route::group(array('before' => 'auth|student'), function()
 {
     // HTTP GET
     Route::get(Lang::get('routes.student'), 'StudentController@showHome');
+    Route::get(Lang::get('routes.find_Group'), 'GroupController@findGroup');
     Route::get(Lang::get('routes.register_group'), 'GroupController@registerGroup');
-    Route::get(Lang::get('routes.register_group'), 'GroupController@showView');
+    //Route::get(Lang::get('routes.register_group'), 'GroupController@showView');
     Route::get(Lang::get('routes.student_profile'), 'StudentController@showProfile');
     Route::get(Lang::get('routes.show_groups'), 'GroupController@showAllGroupView');
     Route::get(Lang::get('routes.join_to_group'), 'GroupController@joinToGroup');
@@ -128,30 +129,37 @@ Route::group(array('before' => 'auth|student'), function()
     // HTTP POST
     Route::post(Lang::get('routes.findSection'), 'SectionController@findSection');
     Route::post(Lang::get('routes.register_group'), 'GroupController@addGroup');
+    Route::post(Lang::get('routes.assign'), 'AssignmentController@assign');
     Route::post(Lang::get('routes.update_student'), 'StudentController@updateStudent');
-    Route::get(Lang::get('routes.register_assignment'),'AssignmentController@');
+    Route::post(Lang::get('routes.register_assignment'), 'AssignmentController@addAssignment');
     Route::post(Lang::get('routes.find_Group_By_Section'), 'GroupController@findGroupBySection');
+    Route::post(Lang::get('routes.find_Group'), 'GroupController@findGroup');
     Route::post(Lang::get('routes.join_to_group'), 'GroupController@addStudentToGroup');
     Route::post(Lang::get('routes.find_student'), 'StudentController@find');
+    Route::post(Lang::get('routes.find_students'), 'GroupController@find_students');
+    Route::post(Lang::get('routes.drop_tasks'), 'AssignmentController@drop');
+    Route::post(Lang::get('routes.drop_group'), 'GroupController@drop');
+
+
 
 });
 
 Route::group(array('before' => 'auth'), function()
 {
-    // HTTP GET  
+    // HTTP GET
     Route::get('chat', 'ChatController@showView');
-    
+
     Route::get(Lang::get('routes.inbox'), 'MessageController@showInboxView');
 
     Route::get(Lang::get('routes.sent'), 'MessageController@showMessageSentView');
-    
+
     Route::get(Lang::get('routes.archived'), 'MessageController@showMessageArchivedView');
-    
+
     Route::get(Lang::get('routes.unread'), 'MessageController@showMessageUnreadView');
 
     Route::get(Lang::get('routes.logout'), 'UserController@logout');
 
-    Route::get(Lang::get('show_image'), function() 
+    Route::get(Lang::get('show_image'), function()
     {
         $src = Input::get('src');
 
@@ -172,7 +180,8 @@ Route::group(array('before' => 'auth'), function()
     Route::post(Lang::get('routes.mark_read_message'), 'MessageController@markRead');
 
     Route::post(Lang::get('routes.archived_message'), 'MessageController@archived');
-    
+
     Route::post(Lang::get('routes.find_chat'), 'ChatController@find');
+
 
 });

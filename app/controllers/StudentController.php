@@ -9,7 +9,15 @@ class StudentController extends BaseController
     */
     public function showHome()
     {
-        return View::make('student.home');
+
+        $task= Assignment::all();
+
+        $group = Group::whereIn('student_id', array(Auth::id()))
+            ->get();
+
+        return View::make('student.home')->with(array( 'groups' => $group,'tasks' => $task,
+            'stats' => MessageController::getStats(),
+                    'unreadMessages' => MessageController::unReadMessages()));
     }
 
     public function registerStudent()
@@ -47,7 +55,8 @@ class StudentController extends BaseController
 
     public function showProfile()
     {
-        return View::make('student.profile')->with(array('student' => Student::where('_id', '=', Auth::id())->first()));
+        return View::make('student.profile')->with(array('student' => Student::where('_id', '=', Auth::id())->first(), 'stats' => MessageController::getStats(),
+            'unreadMessages' => MessageController::unReadMessages()));
     }
 
     public function updateStudent()
