@@ -1,4 +1,5 @@
 @extends('university.master')
+@section('title', Lang::get('university_title.show_enroll'))
 @section('content')
 <div class="row">
 	<div class="col-lg-12">
@@ -38,7 +39,7 @@
 												<td>{{$index+1}}</td>
 												<td>{{$section->code}}</td>
 												<td>{{$subject->school}}</td>
-												<td>
+												<td style="width: 7%">
 													<a onclick="fillModal('{{$teacher->_id}}', '{{$section->_id}}', '{{$subject->_id}}')" class="pull-right">
 														<i class="fa fa-chain-broken" data-toggle="modal" data-target="#deleteModal" style="color:#d9534f;"></i>
 													</a>

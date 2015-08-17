@@ -8,4 +8,6 @@ return array (
     'board' => 'Dashboard',
     'subject' => 'Subjects',
     'section_codes' => 'Section Codes',
+    'teamleader' => 'TeamLeaders',
+    'approval' => 'Pending for approval',
 );

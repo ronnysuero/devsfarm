@@ -5,3 +5,4 @@ db.teachers.createIndex({"email": 1}, {unique:true}),
 db.subjects.createIndex({"name": 1}, {unique: true}),
 db.subjects.createIndex({"sections.code": 1}, {unique: true})
 db.section_codes.createIndex({'code': 1}, {unique: true})
+db.pending_enrollments.createIndex({'section_code_id': 1, 'student_id': 1}, {unique: true})

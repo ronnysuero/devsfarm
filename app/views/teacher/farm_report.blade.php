@@ -1,7 +1,5 @@
 @extends('teacher.master')
-
 @section('title', 'Report - Farm')
-@stop
 @section('content')
 <div class="row">
 	<div class="col-lg-12">

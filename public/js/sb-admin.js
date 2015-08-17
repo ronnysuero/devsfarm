@@ -43,47 +43,47 @@ $(function()
 	if (element.is('li'))
 		element.addClass('active');
 
-	$('#cssmenu > ul > li:has(ul)').addClass("has-sub");
+	// $('#cssmenu > ul > li:has(ul)').addClass("has-sub");
 
-	$('#cssmenu > ul > li > a').click(function() 
-	{
-		var checkElement = $(this).next();
+	// $('#cssmenu > ul > li > a').click(function() 
+	// {
+	// 	var checkElement = $(this).next();
 
-		$('#cssmenu li').removeClass('active');
-		$(this).closest('li').addClass('active');   
+	// 	$('#cssmenu li').removeClass('active');
+	// 	$(this).closest('li').addClass('active');   
 
-		if((checkElement.is('ul')) && (checkElement.is(':visible'))) 
-		{
-			$(this).closest('li').removeClass('active');
-			checkElement.slideUp('normal');
-		}
+	// 	if((checkElement.is('ul')) && (checkElement.is(':visible'))) 
+	// 	{
+	// 		$(this).closest('li').removeClass('active');
+	// 		checkElement.slideUp('normal');
+	// 	}
 
-		if((checkElement.is('ul')) && (!checkElement.is(':visible'))) 
-		{
-			$('#cssmenu ul ul:visible').slideUp('normal');
-			checkElement.slideDown('normal');
-		}
-		return (checkElement.is('ul')) ? false : true;    
-	});
+	// 	if((checkElement.is('ul')) && (!checkElement.is(':visible'))) 
+	// 	{
+	// 		$('#cssmenu ul ul:visible').slideUp('normal');
+	// 		checkElement.slideDown('normal');
+	// 	}
+	// 	return (checkElement.is('ul')) ? false : true;    
+	// });
 
-	$('#cssmenu > ul > li > ul > li > a').click(function() 
-	{
-		var checkElement = $(this).next();
+	// $('#cssmenu > ul > li > ul > li > a').click(function() 
+	// {
+	// 	var checkElement = $(this).next();
 
-		$('#cssmenu li').removeClass('active');
-		$(this).closest('li').addClass('active');   
+	// 	$('#cssmenu li').removeClass('active');
+	// 	$(this).closest('li').addClass('active');   
 
-		if((checkElement.is('ul')) && (checkElement.is(':visible'))) 
-		{
-			$(this).closest('li').removeClass('active');
-			checkElement.slideUp('normal');
-		}
+	// 	if((checkElement.is('ul')) && (checkElement.is(':visible'))) 
+	// 	{
+	// 		$(this).closest('li').removeClass('active');
+	// 		checkElement.slideUp('normal');
+	// 	}
 
-		if((checkElement.is('ul')) && (!checkElement.is(':visible'))) 
-		{
-			$('#cssmenu ul li ul li ul:visible').slideUp('normal');
-			checkElement.slideDown('normal');
-		}		
-		return (checkElement.is('ul')) ? false : true;    
-	});
+	// 	if((checkElement.is('ul')) && (!checkElement.is(':visible'))) 
+	// 	{
+	// 		$('#cssmenu ul li ul li ul:visible').slideUp('normal');
+	// 		checkElement.slideDown('normal');
+	// 	}		
+	// 	return (checkElement.is('ul')) ? false : true;    
+	// });
 });

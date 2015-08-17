@@ -36,34 +36,40 @@ class GroupController extends BaseController{
 
     public function addGroup()
     {
-
         $user = Student::find(Auth::id());
+        $sectionCode = SectionCode::where('code', Input::get('sectionCode'))->first();
 
-        $group=new Group;
-        $group->name=trim(strtolower(Input::get('name')));
-        $group->teamleader_id= new MongoId($user->_id);
-        //$group->section_id= new MongoId(trim(strtolower(Input::get('idSubject'))));
-        $group->section_id= trim(strtolower(Input::get('idSubject')));
-        $group->student_id=array(new MongoId($user->_id));
-        $group->project_name=trim(strtolower(Input::get('project_name')));
-
-
-        if (Input::hasFile('logo'))
+        if(isset($sectionCode->_id))
         {
-            $file = Input::file('logo');
-            $photoname = uniqid();
-            $file->move(storage_path() . '/photos/imagesprofile', $photoname.'.'.$file->guessClientExtension());
-            $image = Image::make(storage_path().'/photos/imagesprofile/'.$photoname.'.'.$file->guessClientExtension())->resize(140, 140)->save();
-            $group->logo = '/photos/imagesprofile/' . $photoname.'.'.$file->guessClientExtension();
+            $section = Subject::find($sectionCode->subject_id)->sections()->find($sectionCode->section_id);
+
+            if(strcasecmp($section->current_code, $sectionCode->code) === 0)
+            {
+                $group=new Group;
+                $group->name=trim(strtolower(Input::get('name')));
+                $group->teamleader_id= new MongoId($user->_id);
+                $group->section_code = $sectionCode->code;
+                $group->student_id=array(new MongoId($user->_id));
+                $group->project_name=trim(strtolower(Input::get('project_name')));
+
+                if(Input::hasFile('avatar_file'))
+                {
+                    $data = Input::get('avatar_data');
+                    $image = new CropImage(null, $data, $_FILES['avatar_file']);
+                    $group->logo = $image->getURL();
+                }
+                else
+                    $group->logo = null;
+
+                $group->save();
+
+                return Redirect::to(Lang::get('routes.register_group'))->with('message', Lang::get('register_group.success'));
+            }
+            else
+                return Redirect::back()->withErrors(array( 'error' => Lang::get('register_group.code_expired')));
         }
         else
-            $group->logo=null;
-
-
-        $group->save();
-
-
-        return Redirect::to(Lang::get('routes.register_group'))->with('message', Lang::get('register_group.success'));
+            return Redirect::back()->withErrors(array( 'error' => Lang::get('register_group.code_fail')));
     }
 
 

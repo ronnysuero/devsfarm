@@ -1,5 +1,4 @@
 @extends(Auth::user()->rank.'.master')
-@stop
 @section('content')
 	<div class="content">
 		<div class="row">

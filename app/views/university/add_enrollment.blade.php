@@ -1,4 +1,5 @@
 @extends('university.master')
+@section('title', Lang::get('university_title.add_enroll'))
 @section('content')
 <div class="row">
 	<div class="col-lg-12">
@@ -14,7 +15,6 @@
 						{{ Form::open(array('url' => Lang::get('routes.add_enrollment'), 'id' => 'register_form', 'role' => 'form')) }}
 							<div class="form-group">
 								<label>{{Lang::get('add_enroll.teacher')}}</label>
-								<input type="hidden" id="teacher_id" name="teacher_id" value="">  
 								<select data-validate="required" class="form-control" id="teacher" name="teacher">
 									<option value="">{{Lang::get('add_enroll.teacher_placeholder')}}</option>
 									@foreach($teachers as $teacher)
@@ -24,7 +24,6 @@
 							</div>
 							<div class="form-group">
 								<label>{{Lang::get('add_enroll.subject')}}</label>
-								<input type="hidden" id="_id" name="_id" value="">   
 								<select data-validate="required" class="form-control" id="subject" name="subject">
 									<option value="">{{Lang::get('add_enroll.subject_placeholder')}}</option>
 									@foreach($subjects as $subject)
@@ -73,19 +72,10 @@
 					.append(message);
 
 					if(data !== "")
-					{
 						for(var item in data.sections)
 							$('#section').append( new Option(data.sections[item].code, data.sections[item]._id) );
-						
-						$('#_id').val(data.subject);
-					}
 				});
 			}
-		}); 
-
-		$('#teacher').on('change', function() 
-		{
-			$('#teacher_id').val($('#teacher').val());
 		}); 
 	});
 </script>

@@ -275,7 +275,8 @@ class MessageController extends BaseController
 			'inbox' => $inbox,
 			'unread' => count(MessageController::unReadMessages("all")),
 			'sent' => $sent,
-			'archived' => $archived
+			'archived' => $archived,
+			'approve' => PendingEnrollment::where('teacher_id', Auth::id())->count(),
 		);	
 	}
 

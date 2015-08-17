@@ -12,4 +12,6 @@ return array (
 	'success' => 'Enrollment successfully registered',
 	'update' => 'Enrollment successfully updated',
 	'no_record' => 'No sections available',
+	'no_student' => 'No student available',
+	
 );

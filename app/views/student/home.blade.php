@@ -2,9 +2,9 @@
 @section('title', 'Dashboard - Student')
 @stop
 <style type="text/css">
-	@media only screen and (max-width: 604px)
+	@media only screen and (max-width: 604px) 
 	{
-		.container-fluid {display: none;}
+    	.container-fluid { display: none; }
 	}
 </style>
 @section('content')

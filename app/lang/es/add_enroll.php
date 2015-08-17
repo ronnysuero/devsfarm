@@ -12,4 +12,6 @@ return array (
 	'success' => 'Inscripcion satisfactoriamente registrada',
 	'update' => 'Inscripcion satisfactoriamente actualizada',
 	'no_record' => 'No hay secciones disponibles',
+	'no_student' => 'No hay estudiantes disponibles',
+
 );

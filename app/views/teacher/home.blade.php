@@ -1,7 +1,5 @@
 @extends('teacher.master')
-
 @section('title', 'Dashboard - Teacher')
-@stop
 @section('content')
 <div class="row">
 	<div class="col-lg-12">
@@ -10,13 +8,13 @@
 </div>
 
 <div class="row">
-    <div class="col-lg-12">
-        <p  id="no_groups" class="hide"></p>
-    </div>
+	<div class="col-lg-12">
+		<p  id="no_groups" class="hide"></p>
+	</div>
 </div>
 <div class="row" class="hide">
-    <div class="col-lg-12" id="groups">
+	<div class="col-lg-12" id="groups">
 
-    </div>
+	</div>
 </div>
 @stop

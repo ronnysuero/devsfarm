@@ -8,8 +8,15 @@ body {
     background-color: #f8f8f8;
     padding-top: 85px;
 }
-
+/*
 #cssmenu ul ul {
+    display: none;
+}*/
+
+.gantt_grid_head_cell.gantt_grid_head_add.gantt_last_cell {
+    display: none;
+} 
+.gantt_add {
     display: none;
 }
 
