@@ -8,4 +8,6 @@ return array (
     'board' => 'Panel Principal',
     'subject' => 'Materias',
     'section_codes' => 'Código de secciones',
+    'teamleader' => 'Lideres de equipos',
+    'approval' => 'Pendiente por aprobacion',
 );

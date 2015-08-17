@@ -1,5 +1,5 @@
 @extends('university.master')
-@section('title', Lang::get('university_profile.title'))
+@section('title', Lang::get('university_title.profile'))
 @stop
 @section('content')
 <div class="row">
@@ -62,7 +62,7 @@
 		</div>
 	</div>
 </div>
-<script>
+<script type="text/javascript">
 	$('document').ready(function() 
 	{
 		$("#crop").on("click", function()

@@ -4,7 +4,6 @@ use Helpers\CropImage\CropImage;
 
 class TeacherController extends BaseController
 {
-
     /**
      * Function that return all the teachers
      *
@@ -34,7 +33,7 @@ class TeacherController extends BaseController
 	public function showHome()
 	{
 		return View::make('teacher.home')->with(array('stats' => MessageController::getStats(),
-                                                        'unreadMessages' => MessageController::unReadMessages()));
+                                                      'unreadMessages' => MessageController::unReadMessages()));
 	}
 
     /**
@@ -74,7 +73,7 @@ class TeacherController extends BaseController
 		$user->rank = "teacher";
 		$user->last_activity = null;
 
-//        Try to save, if not work, then redirect back with an error message
+		// Try to save, if not work, then redirect back with an error message
 		try
 		{
 			$user->save();
@@ -97,7 +96,7 @@ class TeacherController extends BaseController
 		$teacher->subjects_id = array();
 		$teacher->sections_id = array();
 
-//        Check for profile image, an then set to the teacher
+		// Check for profile image, an then set to the teacher
 		if(Input::hasFile('avatar_file'))
 		{
 			$data = Input::get('avatar_data');
@@ -127,7 +126,7 @@ class TeacherController extends BaseController
 			$user = User::first(['_id' => $teacher->_id]);
 			$user->user = $email;
 
-//        Try to save, if not work, then redirect back with an error message
+			// Try to save, if not work, then redirect back with an error message
 			try
 			{
 				$user->save();
@@ -171,7 +170,7 @@ class TeacherController extends BaseController
                 Auth::user()->save();
         }
 
-//        Check for teacher profile picture
+		// Check for teacher profile picture
         if(Input::hasFile('avatar_file'))
         {
             $data = Input::get('avatar_data');
@@ -233,5 +232,58 @@ class TeacherController extends BaseController
 			else
 				return Response::json("99");
 		}
+	}
+
+	public function showApprovalStudentView()
+	{
+		$pending = PendingEnrollment::where('teacher_id', Auth::id())->get();
+
+		if(count($pending) > 0)
+			return View::make('teacher.approval_student')->with(array('pending' => $pending,
+																	  'stats' => MessageController::getStats(),
+														 	 		  'unreadMessages' => MessageController::unReadMessages()));
+		else
+			return Redirect::to(Lang::get('routes.'.Auth::user()->rank));
+	}
+
+	public function showAddTeamleaderView()
+	{
+		$teacher = Teacher::find(Auth::id());
+		$subjects = Subject::whereIn('_id', $teacher->subjects_id)->get();
+
+		return View::make('teacher.add_teamleader')->with(array( 'subjects' => $subjects,
+																 'stats' => MessageController::getStats(),
+																 'unreadMessages' => MessageController::unReadMessages()));	
+	}
+
+	public function addTeamleader()
+	{
+		$aux = Input::get('teamleader');
+		$teamleaders = array();
+		$subject = Subject::find(Input::get('subject'));
+		$section = $subject->sections()->find(Input::get('section'));
+		
+		foreach ($aux as $value) 
+			array_push($teamleaders, new MongoId($value));
+
+		if(isset($section->current_code))
+		{
+			$sectionCode = SectionCode::where('code', $section->current_code)->first();
+			$sectionCode->push('teamleaders_id', $teamleaders, true);
+				
+			return Redirect::to(Lang::get('routes.add_teamleader'))->with('message', Lang::get('teacher_profile.success'));
+		}
+		else
+			return Redirect::back()->withErrors(array( 'error' => Lang::get('teacher_profile.section_code_fail')));
+	}
+
+	public function showAllTeamleaderView()
+	{
+		$teacher = Teacher::find(Auth::id());
+		$subjects = Subject::whereIn('_id', $teacher->subjects_id)->get();
+
+		return View::make('teacher.show_all_teamleader')->with(array( 'subjects' => $subjects,
+																 'stats' => MessageController::getStats(),
+																 'unreadMessages' => MessageController::unReadMessages()));	
 	}
 }

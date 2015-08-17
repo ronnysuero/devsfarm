@@ -1,5 +1,5 @@
 @extends('message.master')
-@stop
+@section('title', Lang::get('message_title.archived'))
 @section('header')
 	<h1 class="page-header">{{Lang::get('messages.title_archived')}}</h1>
 @stop

@@ -1,5 +1,5 @@
 @extends('university.master')
-@section('title', Lang::get('university_profile.title'))
+@section('title', Lang::get('university_title.university'))
 @stop
 @section('content')
 <div class="row">

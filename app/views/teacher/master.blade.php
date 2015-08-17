@@ -14,7 +14,7 @@
 	<link rel="stylesheet" type="text/css" href="css/cropper.min.css">
 	<link rel="stylesheet" href="css/alertify.core.css" />
 	<link rel="stylesheet" href="css/alertify.default.css" id="toggleCSS" />
-	<link rel="shortcut icon" href="favicon.png">
+	<link rel="shortcut icon" href="favicon.png"> 
 	<script type="text/javascript" src="js/jquery-2.1.3.js"></script>
 </head>
 <body>
@@ -107,7 +107,7 @@
 			</ul>
 			<div class="navbar-default sidebar" role="navigation">
 				<div id="cssmenu" class="sidebar-nav navbar-collapse">
-					<ul class="nav">
+					<ul class="nav" id="side-menu">
 						<li>
 							<a href="{{Lang::get('routes.teacher')}}" class="nav_home_categoria" style="background-color: #0097A7; color: white;">
 								<i class="fa fa-home"></i> {{Lang::get('teacher_master.board')}}
@@ -123,8 +123,8 @@
 								<?php $subjects = Subject::whereIn('_id', $teacher->subjects_id)->get(); ?>
 		
 								@foreach($subjects as $subject)
-									<li style="background-color: #FAFAFA;">
-										<a href="#" class="nav_categoria">
+									<li>
+										<a href="#">
 											<i class="fa fa-eye" style="color: #0097A7;"></i> 
 											{{ $subject->name }}
 										</a>
@@ -150,6 +150,35 @@
 						</li>
 						<li>
 							<a href="#" class="nav_categoria">
+								<i class="fa fa-list"></i> 
+								{{Lang::get('teacher_master.teamleader')}}
+							</a>
+							<ul class="nav nav-second-level">
+								<li>
+									<a href="{{Lang::get('routes.add_teamleader')}}">
+										<i class="fa fa-plus" style="color: #0097A7;"></i> 
+										{{Lang::get('university_master.add')}}
+									</a>
+								</li>
+								<li>
+									<a href="{{Lang::get('routes.show_teamleader')}}">
+										<i class="fa fa-eye" style="color: #0097A7;"></i> 
+										{{Lang::get('university_master.list')}}
+									</a>
+								</li>
+							</ul>
+						</li>
+						@if($stats['approve'] > 0)
+							<li id="approve_li">
+								<a href="{{Lang::get('routes.approval')}}" style="background-color: #0097A7; color: white;">
+									<i class="fa fa-sign-in"></i>
+									{{Lang::get('teacher_master.approval')}}
+									<span id="approve" class="badge bg-pink">{{$stats['approve']}}</span>
+								</a>
+							</li>
+						@endif
+						<li>
+							<a href="#" class="nav_categoria">
 								<i class="fa fa-weixin"></i> 
 								Chat
 							</a>
@@ -172,12 +201,7 @@
 														{{ $section->code }}
 													</a>
 													<ul class="nav nav-fourth-level">
-														<li>
-															asdsadsad
-														</li>
-														<li>
-															asdsadsad
-														</li>
+														
 													</ul>
 												</li>
 											@endforeach
@@ -252,15 +276,36 @@
 				$('#'+$(this).attr("id")).hide();
 			});
 
+			var welcome = "";
+
 			@if($stats['unread'] > 0 && Request::is(Lang::get('routes.'.Auth::user()->rank)))
 				var plural = "";
-
+				welcome = "{{Lang::get('messages.welcome')}} {{UserController::getUser(Auth::user())->name}}: ";
+				
 				@if($stats['unread'] > 1)
 					plural = "s";
 				@endif
 
 				alertify.set({ delay: 10000 });
-				alertify.log("{{Lang::get('messages.welcome')}} {{UserController::getUser(Auth::user())->name}}, {{Lang::get('messages.alert_message')}} {{$stats['unread']}} {{Lang::get('messages.message')}}" + plural);
+				alertify.log(welcome + " {{Lang::get('messages.alert_message')}} {{$stats['unread']}} "+
+							 "{{Lang::get('messages.message')}}" + plural);
+			@endif
+
+			@if($stats['approve'] > 0 && Request::is(Lang::get('routes.'.Auth::user()->rank)))
+				var plural = "";
+				
+				if(welcome === "")
+					welcome = "{{Lang::get('messages.welcome')}} {{UserController::getUser(Auth::user())->name}}: ";
+				else
+					welcome = "";
+
+				@if($stats['approve'] > 1)
+					plural = "s";
+				@endif
+
+				alertify.set({ delay: 10000 });
+				alertify.log(welcome + "{{Lang::get('messages.have')}} {{$stats['approve']}} "+
+							 "{{Lang::get('messages.student')}}" + plural + "{{Lang::get('messages.alert_approve')}}");
 			@endif
 		});
 

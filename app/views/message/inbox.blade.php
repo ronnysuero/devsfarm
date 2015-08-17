@@ -1,5 +1,5 @@
 @extends('message.master')
-@stop
+@section('title', Lang::get('message_title.inbox'))
 @section('header')
 	<h1 class="page-header">{{Lang::get('messages.inbox')}}</h1>
 @stop

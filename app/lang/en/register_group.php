@@ -1,19 +1,36 @@
 <?php
 
 return array (
-
-    'group'=>'Group',
-    'new_group'=>'New Group',
-    'join_to_group'=>'Join to Group',
-    'name'=>'name',
-    'name_placeholder'=>'Enter the name',
-    'register_group'=>'Register Group',
-    'register'=>'Register Group',
-    'section'=>'Section',
-    'logo'=>'Logo',
-    'project_name'=>'Project Name ',
-    'success'=>'Group successfully registered',
-    'Code_secction'=>'Code Section'
-
-
+	'group'=>'Group',
+	'new_group'=>'New Group',
+	'join_to_group'=>'Join to Group',
+	'name'=>'name',
+	'name_placeholder'=>'Enter the name',
+	'register_group'=>'Register Group',
+	'register'=>'Register Group',
+	'section'=>'Section',
+	'logo'=>'Logo',
+	'project_name'=>'Project Name ',
+	'success'=>'Group successfully registered',
+	'Code_secction'=>'Code Section',
+	'sectionCode_placeholer' => 'Enter the section code',
+	'code_fail' => 'The code section doesn\'t exist, please check and try again',
+	'code_expired' => 'The code section already expired or prior period',
+	'enroll_pending' => 'A pending application of this section already exists, please wait for the teacher to accept you.',
+	'enroll_sucess' => 'The request has been sent to the teacher responsible for the section',
+	'drop_enroll' => 'Do you want to remove this request for enroll?',
+	'drop_message' => 'If you delete this request the teacher can\'t accept you in his section',
+	'approve_title' => 'To approve pending requests',
+	'subject' => 'Subject',
+	'section' => 'Section code',
+	'section_code' => 'Section',
+	'teacher' => 'Assigned teacher',
+	'cancel' => 'Cancel',
+	'active' => 'Active inscriptions',
+	'approve' => 'Approve',
+	'deny' => 'Deny',
+	'student' => 'Student',
+	'user_register' => 'You are already registered in this section',
+	
+	
 );

@@ -1,4 +1,5 @@
 @extends('university.master')
+@section('title', Lang::get('university_title.show_section'))
 @section('content')
 <div class="row">
 	<div class="col-lg-12">
@@ -33,13 +34,13 @@
 												{{Lang::get('list_section.no')}} 
 											@endif
 										</td>
-										<td>
-											<a onclick="fillModal('{{$item+1}}', '{{$section->code}}')">
+										<td style="width: 6%">
+											<a onclick="fillModal('{{$item+1}}', '{{$section->code}}')" class="pull-right"> 
 												<i class="fa fa-edit" data-toggle="modal" data-target="#editModal" style="color:#337ab7;"></i>
 											</a>
 										</td>
-										<td>
-											<a onclick="fillModal('{{$item+1}}', '{{$section->code}}')" data-toggle="modal" data-target="#deleteModal" >
+										<td style="width: 6%">
+											<a onclick="fillModal('{{$item+1}}', '{{$section->code}}')" data-toggle="modal" data-target="#deleteModal" class="pull-right">
 												<i class="fa fa-trash-o" style="color:#d9534f;"></i>
 											</a>
 										</td>

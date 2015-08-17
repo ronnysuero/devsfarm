@@ -1,4 +1,5 @@
 @extends('university.master')
+@section('title', Lang::get('university_title.show_subject'))
 @section('content')
 <div class="row">
 	<div class="col-lg-12">
@@ -11,10 +12,10 @@
 						<thead>
 							<tr>
 								<th>#</th>
-								<th>{{Lang::get('list_subject.edit')}}</th>
 								<th>{{Lang::get('list_subject.subject')}}</th>
 								<th>{{Lang::get('list_subject.school')}}</th>
 								<th>{{Lang::get('list_subject.section')}}</th>
+								<th>{{Lang::get('list_subject.edit')}}</th>
 								<th>{{Lang::get('list_subject.delete')}}</th>
 							</tr>
 						</thead>
@@ -22,11 +23,6 @@
 							@foreach ($subjects as $index => $subject)
 							<tr>
 								<td>{{$index + 1}}</td>
-								<td>
-									<a onclick="fillModal('{{$index+1}}')" href="#">
-										<i class="fa fa-edit" data-toggle="modal" data-target="#editModal" style="color:#337ab7;"></i>
-									</a>
-								</td>
 								<td id="name{{$index+1}}">{{ $subject->name }}</td>
 								<td>{{ $subject->school }}</td>
 								<td>
@@ -39,8 +35,13 @@
 										@endif
 									@endforeach
 								</td>
-								<td>
-									<a onclick="$('#_id').val('{{$subject->_id}}')" data-toggle="modal" data-target="#deleteModal" >
+								<td style="width: 6%">
+									<a onclick="fillModal('{{$index+1}}')" href="#" class="pull-right">
+										<i class="fa fa-edit" data-toggle="modal" data-target="#editModal" style="color:#337ab7;"></i>
+									</a>
+								</td>
+								<td style="width: 6%">
+									<a onclick="$('#_id').val('{{$subject->_id}}')" data-toggle="modal" data-target="#deleteModal" class="pull-right">
 										<i class="fa fa-trash-o" style="color:#d9534f;"></i>
 									</a>
 								</td>

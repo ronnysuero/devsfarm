@@ -57,16 +57,16 @@ class SectionController extends BaseController
         {
             if(!is_null(Input::get('_id')))
             {
-                $subject = Subject::where(Input::get('_id'))->where('university_id', Auth::id())->first();
+                $subject = Subject::find(Input::get('_id'))->where('university_id', Auth::id())->first();
                 
-                if(!isset($subject->_id))
-                    return Response::json(array('subject' => $subject, 'sections' => $subject->sections));
+                if(isset($subject->_id))
+                    return Response::json(array('subject' => $subject, 'sections' => $subject->sections()->get()));
             }
             else if (!is_null(Input::get('code')) && !is_null(Input::get('subject_id')))
             {
                 $subject = Subject::find(new MongoId(Input::get('subject_id')))->where('university_id', Auth::id())->first();
                 
-                if(!isset($subject->_id))
+                if(isset($subject->_id))
                 {
                     $section = $subject->sections()->where('code', Input::get('code'))->first();
                     return Response::json(array('section' => $section, 'subject_id' => $subject->_id));

@@ -34,11 +34,11 @@ class EnrollmentController extends BaseController
 	 */
 	public function addEnrollment()
 	{
-		$subject = Subject::find(Input::get('_id'));
+		$subject = Subject::find(Input::get('subject'));
 		$section = $subject->sections()->find(new MongoId(Input::get('section')));
 		
-		Teacher::find(Input::get('teacher_id'))->push('subjects_id', new MongoId($subject->_id), true);
-		Teacher::find(Input::get('teacher_id'))->push('sections_id', new MongoId($section->_id), true);	
+		Teacher::find(Input::get('teacher'))->push('subjects_id', new MongoId($subject->_id), true);
+		Teacher::find(Input::get('teacher'))->push('sections_id', new MongoId($section->_id), true);	
 
 		$section->is_free = false;
 		$section->save();

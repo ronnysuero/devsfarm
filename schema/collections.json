@@ -15,7 +15,7 @@
 			"body": String,
 			"read": Boolean,
 			"archived": Boolean,
-			"sent_date": Date
+			"sent_date": Date,
 		}
 	]
 }
@@ -43,7 +43,7 @@
 			"body": String,
 			"read": Boolean,
 			"archived": Boolean,
-			"sent_date": Date
+			"sent_date": Date,
 		}
 	]
 }
@@ -58,7 +58,7 @@
 		{
 			"_id": Object_Id,
 			"code": String,
-			"is_free": Boolean
+			"is_free": Boolean,
 		}
 	]
 }
@@ -73,7 +73,6 @@
 	"cellphone": String,
 	"email": String,
 	"profile_image": String,
-	"is_teamleader": Boolean,
 	"has_a_job": Boolean,
 	"genre": String,
 	"messages":
@@ -86,7 +85,7 @@
 			"body": String,
 			"read": Boolean,
 			"archived": Boolean,
-			"sent_date": Date
+			"sent_date": Date,
 		}
 	]
 }
@@ -97,7 +96,7 @@
 	"user": String,
 	"password": String,
 	"rank": String,
-	"last_activity": Date
+	"last_activity": Date,
 }
 
 "assignments":
@@ -111,7 +110,7 @@
 	"description": String,
 	"state": String,
 	"rated": Decimal,
-	"score": Decimal
+	"score": Decimal,
 }
 
 "groups":
@@ -122,7 +121,7 @@
 	"section_id": Object_Id,
 	"profile_image": String,
 	"student_id": [Object_Id],
-	"project_name": String
+	"project_name": String,
 }
 
 "group_by_sections":
@@ -146,7 +145,27 @@
 			"sender_id": Object_Id,
 			"receiver_id": Object_Id,
 			"sent_date": Date,
-			"message": String
+			"message": String,
 		}
 	]
+}
+
+"section_codes":
+{
+	"_id": Object_Id,
+	"teacher_id": Object_Id,
+	"subject_id": Object_Id,
+	"section_id": Object_Id,
+	"current_period": String,
+	"code": String,
+	"teamleaders_id: [Object_Id],
+	"students_id": [Object_Id],
+}
+
+"pending_enrollments":
+{
+	"_id": Object_Id,
+	"section_code_id": Object_Id,
+	"student_id": Object_Id,
+	"teacher_id": Object_Id,
 }

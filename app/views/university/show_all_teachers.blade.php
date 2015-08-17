@@ -1,4 +1,5 @@
 @extends('university.master')
+@section('title', Lang::get('university_title.show_teacher'))
 @section('content')
 <div class="row">
 	<div class="col-lg-12">
@@ -16,7 +17,8 @@
 								<th>{{Lang::get('list_teacher.phone')}}</th>
 								<th>{{Lang::get('list_teacher.cellphone')}}</th>
 								<th>{{Lang::get('list_teacher.email')}}</th>
-								<th>{{Lang::get('list_teacher.modify_disable')}}</th>
+								<th>{{Lang::get('list_subject.edit')}}</th>
+								<th>{{Lang::get('list_subject.delete')}}</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -34,10 +36,12 @@
 									<td>{{ $teacher->phone }}</td>
 									<td>{{ $teacher->cellphone }}</td>
 									<td id="email{{$index}}">{{ $teacher->email }}</td>
-									<td width="80px;">
-										<a onclick="fillModal('{{$index}}')" href="#">
+									<td style="width: 6%">
+										<a onclick="fillModal('{{$index}}')" href="#" class="pull-right">
 											<i class="fa fa-edit" data-toggle="modal" data-target="#editModal" style="color:#337ab7;"></i>
 										</a>
+									</td>
+									<td style="width: 6%">
 										<a onclick="$('#_id').val('{{$teacher->_id}}')" class="pull-right">
 											<i class="fa fa-trash-o" data-toggle="modal" data-target="#deleteModal" style="color:#d9534f;"></i>
 										</a>
@@ -138,7 +142,7 @@
 	{
 		$.post("{{Lang::get('routes.drop_teacher')}}",
 		{ 
-			teacher_id: $('#_id').val(), 
+			teacher_id: $('#_id').val()
 		})
 		.done(function( data ) 
 		{

@@ -1,4 +1,4 @@
-@extends('Student.master')
+@extends('student.master')
 @section('content')
     <script type="text/javascript">
         $('document').ready(function()

@@ -13,8 +13,11 @@ return array(
 	'title_sent' => 'Mensajes Enviados',
 	'title_unread' => 'Mensajes Sin Leer',
 	'welcome' => 'Bienvenido',
-	'alert_message' => 'usted tiene',
+	'alert_message' => 'Usted tiene',
 	'message' => ' mensajes sin leer',
 	'mark' => 'Marcar Todos',
-	'unmark' => 'Desmarcar Todos'
+	'unmark' => 'Desmarcar Todos',
+	'have' => 'Usted tiene ',
+	'student' => ' estudiante ',
+	'alert_approve' => ' pendiente por aprobacion en una de sus secciones.',
 );
