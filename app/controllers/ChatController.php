@@ -17,18 +17,19 @@ class ChatController extends BaseController
 			$users = University::where('_id', '!=', Auth::id())->get();
 			$user = University::find(Auth::id());
 		}
-		elseif (strcmp(Auth::user()->rank, 'teacher') === 0) 
+		else if (strcmp(Auth::user()->rank, 'teacher') === 0) 
 		{
 			$users = Teacher::where('_id', '!=', Auth::id())->get();
 			$user = Teacher::find(Auth::id());
 		}
-		elseif (strcmp(Auth::user()->rank, 'student') === 0)
+		else if (strcmp(Auth::user()->rank, 'student') === 0)
 		{
 			$users = Student::where('_id', '!=', Auth::id())->get();
 			$user = Student::find(Auth::id());
 		} 
 		
-		$ip = (App::isLocal()) ? '127.0.0.1' : '104.131.3.39';
+		$ip = App::isLocal() ? '127.0.0.1' : '104.131.3.39';
+
 		return View::make('chat.home')->with(array('contacts' => $users, 'user' => $user, 'ip'=> $ip));
 	}
 
@@ -44,7 +45,7 @@ class ChatController extends BaseController
 			$array = array(
 				Auth::id(),
 				new MongoId(Input::get('receiver_id'))
-				);
+			);
 
 			$chat = Chat::where('participants', 'all', $array)->first();
 
@@ -67,9 +68,11 @@ class ChatController extends BaseController
 				else
 					$receiver_name = $receiver->name.' '.$receiver->last_name;
 
-				return Response::json(array('chat' => $chat, 
-					'sender' => array('_id' => $sender->_id, 'name' => $sender_name), 
-					'receiver' => array('_id' => $receiver->_id, 'name' => $receiver_name)
+				return Response::json(
+					array(
+						'chat' => $chat, 
+						'sender' => array('_id' => $sender->_id, 'name' => $sender_name), 
+						'receiver' => array('_id' => $receiver->_id, 'name' => $receiver_name)
 					)
 				);
 			}

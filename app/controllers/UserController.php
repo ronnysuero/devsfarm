@@ -13,7 +13,7 @@ class UserController extends BaseController
 		$userdata = array(
 			'user' => strtolower(Input::get('user_email')),
 			'password' => Input::get('user_password')
-			);
+		);
 
 		//checks if the user wants to be remembered
 		$isAuth = (Input::get('check_user') === 'yes') ? Auth::attempt($userdata, true) : Auth::attempt($userdata);
@@ -81,11 +81,12 @@ class UserController extends BaseController
 	{
 		if(strcmp($user->rank, 'university') === 0)
 			return University::find($user->_id);
-		elseif (strcmp($user->rank, 'teacher') === 0) 
+		else if (strcmp($user->rank, 'teacher') === 0) 
 			return Teacher::find($user->_id);
-		elseif (strcmp($user->rank, 'student') === 0) 
+		else if (strcmp($user->rank, 'student') === 0) 
 			return Student::find($user->_id);
-		return null;
+		else
+			return null;
 	}
 
 	/**
@@ -106,7 +107,8 @@ class UserController extends BaseController
 	public function showResetPasswordView()
 	{
 		$user = Session::get('user');
-		return ($user === null) ? Redirect::to('/') : View::make('reset-password')->with('user', $user);
+		
+		return is_null($user) ? Redirect::to('/') : View::make('reset-password')->with('user', $user);
 	}
 
 	/**

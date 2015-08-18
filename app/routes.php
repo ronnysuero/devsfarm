@@ -82,6 +82,8 @@ Route::group(array('before' => 'auth|teacher'), function()
 	Route::post(Lang::get('routes.get_farm_report'), 'GroupController@getFarmReport');
 	Route::post(Lang::get('routes.approve_enroll'), 'PendingEnrollmentController@approve');
 	Route::post(Lang::get('routes.add_teamleader'), 'TeacherController@addTeamleader');
+	Route::post(Lang::get('routes.drop_teamleader'), 'SectionCodeController@dropTeamleaderSectionCode');
+	
 });
 
 Route::group(array('before' => 'auth|student'), function()
@@ -93,7 +95,7 @@ Route::group(array('before' => 'auth|student'), function()
 	Route::get(Lang::get('routes.student_profile'), 'StudentController@showProfile');
 	Route::get(Lang::get('routes.show_groups'), 'GroupController@showAllGroupView');
 	Route::get(Lang::get('routes.join_to_group'), 'GroupController@joinToGroup');
-	Route::get(Lang::get('routes.enroll_section'), 'StudentController@showEnrollSection');
+	Route::get(Lang::get('routes.enroll_section'), 'PendingEnrollmentController@showEnrollSection');
 
 	// HTTP POST
 	Route::post(Lang::get('routes.findSection'), 'SectionController@findSection');
@@ -107,7 +109,7 @@ Route::group(array('before' => 'auth|student'), function()
 	Route::post(Lang::get('routes.find_students'), 'GroupController@find_students');
 	Route::post(Lang::get('routes.drop_tasks'), 'AssignmentController@drop');
 	Route::post(Lang::get('routes.drop_group'), 'GroupController@drop');
-	Route::post(Lang::get('routes.enroll_section'), 'StudentController@enrollSection');
+	Route::post(Lang::get('routes.enroll_section'), 'PendingEnrollmentController@enrollSection');
 
 });
 

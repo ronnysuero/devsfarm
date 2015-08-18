@@ -74,5 +74,6 @@ return array(
     'approve_enroll' => 'approve_enroll',
     'add_teamleader' => 'agregar_lider',
 	'show_teamleader' => 'mostrar_lideres',
+	'drop_teamleader' => 'eliminar_lider',
 	
 	);

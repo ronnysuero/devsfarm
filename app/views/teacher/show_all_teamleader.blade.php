@@ -1,161 +1,109 @@
 @extends('teacher.master')
-@section('title', "Show All Teamleader")
+@section('title', Lang::get('teacher_title.show_all_tm'))
 @section('content')
-<div class="row">
-	<div class="col-lg-12">
-		<h1 class="page-header"><i class="fa fa-list-ol"></i> {{Lang::get('list_section.section')}}</h1>
-		<div class="panel-body">
-			@if (count($subjects) >= 1)
-				<div class="table-responsive">
-					@include('alert')
-					@foreach ($subjects as $item => $subject)
-						<h3>{{Lang::get('list_section.subject').ucfirst($subject->name)}}</h3>
-						<input type="hidden" id="subject_id{{$item+1}}", name="subject_id{{$item+1}}" value="{{$subject->_id}}"> 
-						<table id="tableOrder" class="table table-striped table-bordered table-hover tablesorter">
-							<thead>
-								<tr>
-									<th>#</th>
-									<th>{{Lang::get('list_section.section')}}</th>
-									<th>{{Lang::get('list_section.assigned')}}</th>
-									<th>{{Lang::get('list_subject.edit')}}</th>
-									<th>{{Lang::get('list_subject.delete')}}</th>
-								</tr>
-							</thead>
-							<tbody>
-								<?php $sections = $subject->sections()->whereNull('deleted_at')->get();?>
-								@foreach ($sections as $index => $section)
+	<div class="row">
+		<div class="col-lg-12">
+			<h1 class="page-header"><i class="fa fa-list-ol"></i> {{Lang::get('teamleader.show_all')}} </h1>
+			<div class="panel-body">
+				@if (count($subjects) > 0)
+					<div class="table-responsive">
+						@include('alert')
+						@foreach ($subjects as $item => $subject)
+							<h3>{{Lang::get('list_section.subject').ucfirst($subject->name)}}</h3>
+							<table id="tableOrder" class="table table-striped table-bordered table-hover tablesorter">
+								<thead>
 									<tr>
-										<td>{{$index + 1}}</td>
-										<td>{{$section->code}}</td>
-										<td>
-											@if(!$section->is_free) 
-												{{Lang::get('list_section.yes')}} 
-											@else 
-												{{Lang::get('list_section.no')}} 
-											@endif
-										</td>
-										<td style="width: 6%">
-											<a onclick="fillModal('{{$item+1}}', '{{$section->code}}')" class="pull-right"> 
-												<i class="fa fa-edit" data-toggle="modal" data-target="#editModal" style="color:#337ab7;"></i>
-											</a>
-										</td>
-										<td style="width: 6%">
-											<a onclick="fillModal('{{$item+1}}', '{{$section->code}}')" data-toggle="modal" data-target="#deleteModal" class="pull-right">
-												<i class="fa fa-trash-o" style="color:#d9534f;"></i>
-											</a>
-										</td>
+										<th>#</th>
+										<th>{{Lang::get('list_section.section')}}</th>
+										<th>{{Lang::get('teamleader.section_code')}}</th>
+										<th>{{Lang::get('teamleader.tm')}}</th>
+										<th>{{Lang::get('list_subject.delete')}}</th>
 									</tr>
-								@endforeach
-							</tbody>
-						</table>
-						<br />
-					@endforeach
-				</div>
-			@else
-				<p>
-					<a href="{{Lang::get('routes.add_section')}}">
-						<i class="fa fa-plus" style="color: #0097A7;"></i>
-						{{Lang::get('list_section.add_section')}}
-					</a>
-				</p>
-			@endif
+								</thead>
+								<tbody>
+									<?php 
+										$sectionCodes = SectionCode::where('subject_id', new MongoId($subject->_id))->get(); 
+									?>
+									@foreach ($sectionCodes as $sectionCode)
+										<?php 
+											$students = Student::whereIn('_id', $sectionCode->teamleaders_id)->get();
+										?>
+										@foreach ($students as $index => $student)
+											<?php 
+												$section = $subject->sections()->find($sectionCode->section_id);
+											?>
+											<tr id="{{$item.'_'.$index}}">
+												<td>{{$index + 1}}</td>
+												<td>{{$section->code}}</td>
+												<td>{{$sectionCode->code}}</td>
+												<td>{{'('.$student->id_number.') - '.$student->name.' '.$student->last_name}}</td>
+												<td style="width: 6%">
+													<a onclick="fillModal('{{$item.'_'.$index}}', '{{$sectionCode->_id}}', '{{$student->_id}}')" data-toggle="modal" data-target="#deleteModal" class="pull-right">
+														<i class="fa fa-trash-o" style="color:#d9534f;"></i>
+													</a>
+												</td>
+											</tr>
+										@endforeach
+									@endforeach
+								</tbody>
+							</table>
+							<br />
+						@endforeach
+					</div>
+				@else
+					<p>
+						<a href="{{Lang::get('routes.add_teamleader')}}">
+							<i class="fa fa-plus" style="color: #0097A7;"></i>
+							{{Lang::get('teamleader.add_teamleader')}}
+						</a>
+					</p>
+				@endif
+			</div>
 		</div>
-	</div>
-	<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="Editar Asignatura" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h4 class="modal-title" id="myModalLabel"><i class="fa fa-edit"></i> {{Lang::get('list_section.modify_section')}}</h4>
-				</div>
-				<div class="modal-body">
-					{{ Form::open(array('url' => Lang::get('routes.update_section'), 'id' => 'register_form', 'role' => 'form')) }}
-						<div class="form-group">
-							<label>{{Lang::get('list_section.section_code')}}</label>
-							<input data-validate="required,min(4),charactercomma,validateSection,compareCodes(section_code, codes)" class="form-control" id="section_code" name="section_code">
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default" data-dismiss="modal">{{Lang::get('list_subject.discard')}}</button>
-							<button type="submit" class="btn btn-primary">{{Lang::get('list_subject.save')}}</button>
-						</div>
-						<input type="hidden" id="codes" name="codes" value="">  
-						<input type="hidden" id="_id", name="_id" value="">
-						<input type="hidden" id="subject_id", name="subject_id" value="">             
-					{{ Form::close() }}
+		<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="Eliminar asignatura" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" id="myModalLabel"><i class="fa fa-trash-o"></i> 
+							{{Lang::get('teamleader.drop_teamleader')}}
+						</h4>
+					</div>
+					<input type="hidden" value="" id="sectionCode" />
+					<input type="hidden" value="" id="student_id" />
+					<input type="hidden" value="" id="position" />
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">{{Lang::get('list_subject.cancel')}}</button>
+						<button onclick="dropTeamleader()" type="button" class="btn btn-primary">{{Lang::get('list_subject.delete')}}</button>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="Eliminar asignatura" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h4 class="modal-title" id="myModalLabel"><i class="fa fa-trash-o"></i> {{Lang::get('list_section.delete_section')}}</h4>
-				</div>
-				<div class="modal-body">
-					{{Lang::get('list_section.agree')}}
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">{{Lang::get('list_subject.cancel')}}</button>
-					<button onclick="dropSection()" type="button" class="btn btn-primary">{{Lang::get('list_subject.delete')}}</button>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-<script type="text/javascript">
-
-	function fillModal (y, x) 
-	{
-		$.post("{{Lang::get('routes.find_section')}}",
-		{ 
-			code: x, 
-			subject_id: $('#subject_id'+y).val() 
-		})
-		.done(function( data ) 
+	<script type="text/javascript">
+		function fillModal (position, code, student) 
 		{
-			$('#section_code').val(data.section.code);
-			$('#_id').val(data.section._id);
-			$('#subject_id').val(data.subject_id);
-			getCodes(data.subject_id);
-		});
-	}
+			$('#sectionCode').val(code);
+			$('#student_id').val(student);
+			$('#position').val(position);
+		}
 
-	function getCodes(x)
-	{
-		$.post("{{Lang::get('routes.find_section')}}",
+		function dropTeamleader()
 		{
-			_id: x 
-		})
-		.done(function( data ) 
-		{
-			var codes = "";
-
-			for (var i = 0; i < data.sections.length; i++) 
-				codes += data.sections[i].code + ",";
-
-			$('#codes').val(codes);
-		});
-	}
-
-	function dropSection()
-	{
-		$.post("{{Lang::get('routes.drop_section')}}",
-		{ 
-			subject_id: $('#subject_id').val(), 
-			_id: $('#_id').val() 
-		})
-		.done(function( data ) 
-		{
-			if(data === '00')
-				location.reload();
-			else
+			$.post("{{Lang::get('routes.drop_teamleader')}}",
+			{ 
+				code: $('#sectionCode').val(), 
+				student: $('#student_id').val() 
+			})
+			.done(function( data ) 
 			{
-				$('#deleteModal').modal('hide');
-				alertify.alert(data);
-			}
-		});
-	}
-</script>
+				if(data === '00')
+				{
+					$('#' + $('#position').val()).hide();
+					$('#position').val("");
+					$('#deleteModal').modal('hide');
+				}
+			});
+		}
+	</script>
 @stop

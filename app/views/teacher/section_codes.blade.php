@@ -1,5 +1,5 @@
 @extends('teacher.master')
-@section('title', 'Section Codes')
+@section('title', Lang::get('teacher_title.section_code'))
 @section('content')
 	<div class="row">
 		<div class="col-lg-12">

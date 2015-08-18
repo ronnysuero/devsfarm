@@ -11,10 +11,13 @@ class UniversityController extends BaseController
 	 */
 	public function showHome()
 	{
-		return View::make('university.home')->with(array( 'subjects' => SubjectController::getSubjects(),
-														  'teachers' => TeacherController::getTeachers(),
-														  'stats' => MessageController::getStats(),
-														  'unreadMessages' => MessageController::unReadMessages()));
+		return View::make('university.home')->with(
+			array( 
+				'subjects' => SubjectController::getSubjects(),
+			  	'teachers' => TeacherController::getTeachers(),
+			  	'stats' => MessageController::getStats(),
+			)
+		);
 	}
 	/**
 	 * Update the data for the University
@@ -31,7 +34,13 @@ class UniversityController extends BaseController
 		if(strlen(Input::get('current_password')) > 0) 
 		{
 			if(!Hash::check(Input::get('current_password'), Auth::user()->password))		
-				return Redirect::back()->withErrors(array( 'error' => Lang::get('register_university.error_password')));
+			{	
+				return Redirect::back()->withErrors(
+					array( 
+						'error' => Lang::get('register_university.error_password')
+					)
+				);
+			}
 			else
 				Auth::user()->password = Hash::make(Input::get('new_password'));		
 		}
@@ -89,9 +98,12 @@ class UniversityController extends BaseController
 	 */
 	public function showProfile()
 	{
-		return View::make('university.profile')->with(array('university' => University::find(Auth::id()),
-															'stats' => MessageController::getStats(),
-														 	'unreadMessages' => MessageController::unReadMessages()));
+		return View::make('university.profile')->with(
+			array(
+				'university' => University::find(Auth::id()),
+				'stats' => MessageController::getStats(),
+			)
+		);
 	}
 
 	/**
@@ -113,7 +125,11 @@ class UniversityController extends BaseController
 		}
 		catch(MongoDuplicateKeyException $e)
 		{
-			return Redirect::back()->withErrors(array( 'error' => Lang::get('register_university.email_duplicated')));
+			return Redirect::back()->withErrors(
+				array( 
+					'error' => Lang::get('register_university.email_duplicated')
+				)
+			);
 		}
 
 		$user = User::first(['user' => $user->user]);

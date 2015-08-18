@@ -7,16 +7,8 @@ class PendingEnrollmentController extends BaseController
 		if(Request::ajax())
 		{
 			$pending = PendingEnrollment::find(Input::get('id'));
-			
-			try
-			{
-				$pending->delete();	
-			}
-			catch(Exception $e)
-			{
-				return Response::json($e);
-			}
-			
+			$pending->delete();	
+
 			return Response::json("00");
 		}
 	}
@@ -28,7 +20,85 @@ class PendingEnrollmentController extends BaseController
 			$pending = PendingEnrollment::find(Input::get('id'));
 			SectionCode::find($pending->section_code_id)->push('students_id', $pending->student_id, true);
 			$pending->delete();
+			
 			return Response::json(array('code' => "00", 'stats' => MessageController::getStats()));
+		}
+	}
+
+	public function showEnrollSection()
+	{
+		$sections  = SectionCode::whereIn('students_id', array(Auth::id()))->get();
+		$pending = PendingEnrollment::where('student_id', Auth::id())->get();
+
+		return View::make('student.show_enrollment')->with(
+			array( 
+				'sections' => $sections,
+			   	'pending' => $pending,
+			   	'stats' => MessageController::getStats(),
+			)
+		);
+	}
+	
+	public function enrollSection()
+	{
+		$sectionCode = SectionCode::where('code', Input::get('code'))->first();
+
+		if(isset($sectionCode->_id))
+		{
+			$section = Subject::find($sectionCode->subject_id)->sections()->find($sectionCode->section_id);
+			
+			if(strcasecmp($section->current_code, $sectionCode->code) === 0)
+			{
+				$codes = SectionCode::where('code', Input::get('code'))
+									->whereIn('students_id', array(Auth::id()))->first();
+
+				if(!isset($codes->_id))
+				{
+					$pending = new PendingEnrollment;
+					$pending->section_code_id = new MongoId($sectionCode->_id);
+					$pending->student_id = Auth::id();
+					$pending->teacher_id = new MongoId($sectionCode->teacher_id);  
+					
+					try
+					{
+						$pending->save();
+					}
+					catch (MongoDuplicateKeyException $e)
+					{
+						return Redirect::back()->withErrors(
+							array( 
+								'error' => Lang::get('register_group.enroll_pending')
+							)
+						);
+					}
+					
+					return Redirect::to(Lang::get('routes.enroll_section'))->with('message', Lang::get('register_group.enroll_sucess'));
+				}
+				else
+				{
+					return Redirect::back()->withErrors(
+						array( 
+							'error' => Lang::get('register_group.user_register')
+						)
+					);
+				}
+			}
+			else
+			{
+				return Redirect::back()->withErrors(
+					array( 
+						'error' => Lang::get('register_group.code_expired')
+					)
+				);
+			}
+		}
+		else
+		{
+			return Redirect::back()->withErrors(
+				array( 
+					'error' => Lang::get('register_group.code_fail')
+				)
+			);
 		}
 	}
 }

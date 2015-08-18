@@ -50,7 +50,6 @@ class StudentController extends BaseController
 				),
 				'groups' => $group,
 				'stats' => MessageController::getStats(),
-				'unreadMessages' => MessageController::unReadMessages()
 			)
 		);
 	}
@@ -69,7 +68,11 @@ class StudentController extends BaseController
 		}
 		catch(MongoDuplicateKeyException $e)
 		{
-			return Redirect::back()->withErrors(array( 'error' => Lang::get('register_student.email_duplicated')));
+			return Redirect::back()->withErrors(
+				array( 
+					'error' => Lang::get('register_student.email_duplicated')
+				)
+			);
 		}
 
 		$user = User::first(['user' => $user->user]);
@@ -93,7 +96,6 @@ class StudentController extends BaseController
 			array(
 				'student' => Student::find(Auth::id()), 
 				'stats' => MessageController::getStats(),
-				'unreadMessages' => MessageController::unReadMessages()
 			)
 		);
 	}
@@ -107,10 +109,7 @@ class StudentController extends BaseController
 		$student->genre = strtolower(trim(Input::get('genre')));
 		$student->has_a_job = strtolower(trim(Input::get('job')));
 		$email = trim(strtolower(Input::get('email')));
-		$student->phone=trim(strtolower(Input::get('phone')));
-		$student->university_id=trim(Input::get('nip'));
-		$student->cellphone=trim(strtolower(Input::get('cellphone')));
-
+		$student->university_id = trim(Input::get('nip'));
 
 		if(strcmp($email, $student->email) !== 0) 
 		{
@@ -122,7 +121,11 @@ class StudentController extends BaseController
 			} 
 			catch (MongoDuplicateKeyException $e) 
 			{
-				return Redirect::back()->withErrors(array('error' => Lang::get('register_student.email_duplicated')));
+				return Redirect::back()->withErrors(
+					array(
+						'error' => Lang::get('register_student.email_duplicated')
+					)
+				);
 			}
 
 			$flag = true;
@@ -133,7 +136,7 @@ class StudentController extends BaseController
 		{
 			$data = Input::get('avatar_data');
 
-			if($student->profile_image === null)
+			if(is_null($student->profile_image))
 			{
 				$image = new CropImage(null, $data, $_FILES['avatar_file']);
 				$student->profile_image = $image->getURL();
@@ -169,7 +172,7 @@ class StudentController extends BaseController
 									   ->whereNotIn('_id', $sectionCode->teamleaders_id)
 									   ->orderBy('id_number', 'asc')->get();
 					
-					$code = count($students) > 0 ? '00' : '99';
+					$code = (count($students) > 0) ? '00' : '99';
 
 					return Response::json(array('students' => $students, 'code' => $code));
 				}
@@ -179,57 +182,5 @@ class StudentController extends BaseController
 			else if(!is_null(Input::get('email')))
 				return Response::json(Student::where('email', Input::get('email'))->first());
 		}
-	}
-
-	public function showEnrollSection()
-	{
-		$sections  = SectionCode::whereIn('students_id', array(Auth::id()))->get();
-		$pending = PendingEnrollment::where('student_id', Auth::id())->get();
-
-		return View::make('student.show_enrollment')->with(array( 'sections' => $sections,
-																   'pending' => $pending,
-																   'stats' => MessageController::getStats(),
-																   'unreadMessages' => MessageController::unReadMessages()));
-	}
-
-	public function enrollSection()
-	{
-		$sectionCode = SectionCode::where('code', Input::get('code'))->first();
-
-		if(isset($sectionCode->_id))
-		{
-			$section = Subject::find($sectionCode->subject_id)->sections()->find($sectionCode->section_id);
-			
-			if(strcasecmp($section->current_code, $sectionCode->code) === 0)
-			{
-				$codes = SectionCode::where('code', Input::get('code'))
-									->whereIn('students_id', array(Auth::id()))->first();
-
-				if(!isset($codes->_id))
-				{
-					$pending = new PendingEnrollment;
-					$pending->section_code_id = new MongoId($sectionCode->_id);
-					$pending->student_id = Auth::id();
-					$pending->teacher_id = new MongoId($sectionCode->teacher_id);  
-					
-					try
-					{
-						$pending->save();
-					}
-					catch (MongoDuplicateKeyException $e)
-					{
-						return Redirect::back()->withErrors(array( 'error' => Lang::get('register_group.enroll_pending')));
-					}
-					
-					return Redirect::to(Lang::get('routes.enroll_section'))->with('message', Lang::get('register_group.enroll_sucess'));
-				}
-				else
-					return Redirect::back()->withErrors(array( 'error' => Lang::get('register_group.user_register')));
-			}
-			else
-				return Redirect::back()->withErrors(array( 'error' => Lang::get('register_group.code_expired')));
-		}
-		else
-			return Redirect::back()->withErrors(array( 'error' => Lang::get('register_group.code_fail')));
 	}
 }

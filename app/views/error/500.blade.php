@@ -1,4 +1,3 @@
-
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -14,13 +13,11 @@
 	<div class="content">
 		<img src="images\error\500.png" title="error">
 		<p><span>{{Lang::get('error.sorry')}}</span>{{Lang::get('error.500_message')}}</p>
-		
 		@if(Auth::check())
 			<a href="{{Lang::get('routes.'.Auth::user()->rank)}}">{{Lang::get('error.back')}}</a>
 		@else
 			<a href="{{URL::previous()}}">{{Lang::get('error.back')}}</a>
 		@endif
 	</div>
-</div>
 </body>
 </html>

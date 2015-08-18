@@ -1,5 +1,5 @@
 @extends('teacher.master')
-@section('title', 'Add Teamleader')
+@section('title', Lang::get('teacher_title.add_teamleader'))
 @section('content')
 	<div class="row">
 		<div class="col-lg-12">
@@ -71,8 +71,10 @@
 							.append(message);
 
 						if(data !== "")
+						{
 							for(var item in data.sections)
 								$('#section').append( new Option(data.sections[item].code, data.sections[item]._id) );
+						}
 					});
 				}
 				else
@@ -112,7 +114,8 @@
 						{
 							for(var item in data.students)
 							{
-								var name = data.students[item].id_number + " - " + data.students[item].name + ' ' + data.students[item].last_name; 
+								var name = data.students[item].id_number + " - " + data.students[item].name + ' ' + data.students[item].last_name;
+								 
 								$('#teamleader').append(new Option(name, data.students[item]._id));
 							}
 						}

@@ -5,7 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1"> 
 	<meta name="author" content="DevsFarm">
 	<link rel="shortcut icon" href="favicon.png"> 
-	<title>DevsFarm</title>
+	<title>@yield('title')</title>
 	<link href="css/bootstrap.css" rel="stylesheet">
 	<link href="css/login.css" rel="stylesheet">
 	<link href="css/animate-custom.css" rel="stylesheet">

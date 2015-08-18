@@ -8,7 +8,7 @@
 		</div>
 		<div class="row inbox">
 			<div class="col-md-2 mail-left-box">
-				<a id="compose" class="btn btn-block btn-compose btn-lg"><i class="fa fa-"></i>{{Lang::get('messages.compose')}}</a> 
+				<a data-toggle="modal" data-target="#sendMessage" class="btn btn-block btn-compose btn-lg"><i class="fa fa-"></i>{{Lang::get('messages.compose')}}</a> 
 				<div class="list-group inbox-options">
 					<a href="{{Lang::get('routes.inbox')}}" class="list-group-item">
 						<i class="fa fa-inbox"></i> {{Lang::get('messages.inbox')}} 
@@ -67,21 +67,16 @@
 						</table>
 					</div>
 				</div>
-				{{--@include('message.modals')--}}
 			</div>
 		</div> 
 	</div>
 	<script type="text/javascript">
 		$(document).ready(function() 
 		{
-			$('#compose').on('click', function()
-			{
-				$('#sendMessage').modal('show');
-			});
-
 			$('#mark').click(function()
 			{
 				$(':checkbox').prop('checked', true);
+				
 				var flag = false;
 
 				$('input[type=checkbox]').each(function () 
@@ -217,10 +212,14 @@
 
 			$('#submit').click(function()
 			{
-				$.post("{{Lang::get('routes.send_message')}}", { receptor: $('#receptor').val(),
-																 subject: $('#subject').val(),
-																 content: $('#content').val()}).done(function( data ) 
-                {  
+				$.post("{{Lang::get('routes.send_message')}}", 
+				{ 
+					receptor: $('#receptor').val(),
+					subject: $('#subject').val(),
+					content: $('#content').val()
+				})
+				.done(function(data) 
+	            {  
 					if(data === '00')
 						location.reload();
 					else

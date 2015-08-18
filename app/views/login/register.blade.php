@@ -1,5 +1,5 @@
 ﻿@extends('login.master')
-@stop
+@section('title', Lang::get('login_title.register'))
 @section('content')
 	<div class="container" id="login-block">
 		<div class="row">

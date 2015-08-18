@@ -29,6 +29,7 @@
 				</button>
 				<a class="navbar-brand" href="{{Lang::get('routes.teacher')}}">DevsFarm</a>
 			</div>
+			<?php $unreadMessages = MessageController::unReadMessages(); ?>
 			<ul class="nav navbar-top-links navbar-right user-menu" id="user-menu">
 				<li class="dropdown">
 					<a href="#" class="settings dropdown-toggle" data-toggle="dropdown">
@@ -214,13 +215,11 @@
 				</div>
 			</div>
 		</nav>
-
 		{{ Form::open(array('url' => Lang::get('routes.get_section_groups'), 'id' => 'form_section_groups', 'class' => 'hide')) }}
 			<div class="form-group">
 				<input type="text" class="form-control" id="section_code" name="section_code" value="">
 			</div>
 		{{Form::close()}}
-
 		<div id="page-wrapper">
 			@yield('content')
 		</div>
@@ -280,6 +279,7 @@
 
 			@if($stats['unread'] > 0 && Request::is(Lang::get('routes.'.Auth::user()->rank)))
 				var plural = "";
+				
 				welcome = "{{Lang::get('messages.welcome')}} {{UserController::getUser(Auth::user())->name}}: ";
 				
 				@if($stats['unread'] > 1)

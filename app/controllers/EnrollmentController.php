@@ -9,10 +9,13 @@ class EnrollmentController extends BaseController
 	 */
 	public function showView ()
 	{
-		return View::make('university.add_enrollment')->with(array( 'teachers' => TeacherController::getTeachers(),
-						  											'subjects' => SubjectController::getSubjects(),
-						  											'stats' => MessageController::getStats(),
-														  			'unreadMessages' => MessageController::unReadMessages()));
+		return View::make('university.add_enrollment')->with(
+			array( 
+				'teachers' => TeacherController::getTeachers(),
+				'subjects' => SubjectController::getSubjects(),
+				'stats' => MessageController::getStats(),
+			)
+		);
 	}
 
 	/**
@@ -22,9 +25,12 @@ class EnrollmentController extends BaseController
 	 */
 	public function showAllAssignmentsView ()
 	{
-		return View::make('university.show_all_enrollment')->with(array( 'teachers' => TeacherController::getTeachers(),
-																		 'stats' => MessageController::getStats(),
-														  				 'unreadMessages' => MessageController::unReadMessages()));
+		return View::make('university.show_all_enrollment')->with(
+			array( 
+				'teachers' => TeacherController::getTeachers(),
+				'stats' => MessageController::getStats(),
+  			)
+  		);
 	}
 
 	/**
