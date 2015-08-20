@@ -36,18 +36,7 @@ class GroupController extends BaseController{
 
     public function addGroup()
     {
-<<<<<<< HEAD
 
-    	$user = Student::find(Auth::id());
-
-    	$group=new Group;
-    	$group->name=trim(strtolower(Input::get('name')));
-    	$group->teamleader_id= new MongoId($user->_id);
-        //$group->section_id= new MongoId(trim(strtolower(Input::get('idSubject'))));
-    	$group->section_id= trim(strtolower(Input::get('idSubject')));
-    	$group->student_id=array(new MongoId($user->_id));
-    	$group->project_name=trim(strtolower(Input::get('project_name')));
-=======
         $user = Student::find(Auth::id());
         $sectionCode = SectionCode::where('code', Input::get('sectionCode'))->first();
 
@@ -72,28 +61,9 @@ class GroupController extends BaseController{
                 }
                 else
                     $group->logo = null;
->>>>>>> 910ae26450589b022acb57081d8665e8185c3e0e
 
                 $group->save();
 
-<<<<<<< HEAD
-    	if (Input::hasFile('logo'))
-    	{
-    		$file = Input::file('logo');
-    		$photoname = uniqid();
-    		$file->move(storage_path() . '/photos/imagesprofile', $photoname.'.'.$file->guessClientExtension());
-    		$image = Image::make(storage_path().'/photos/imagesprofile/'.$photoname.'.'.$file->guessClientExtension())->resize(140, 140)->save();
-    		$group->logo = '/photos/imagesprofile/' . $photoname.'.'.$file->guessClientExtension();
-    	}
-    	else
-    		$group->logo=null;
-
-
-    	$group->save();
-
-
-    	return Redirect::to(Lang::get('routes.register_group'))->with('message', Lang::get('register_group.success'));
-=======
                 return Redirect::to(Lang::get('routes.register_group'))->with('message', Lang::get('register_group.success'));
             }
             else
@@ -101,7 +71,6 @@ class GroupController extends BaseController{
         }
         else
             return Redirect::back()->withErrors(array( 'error' => Lang::get('register_group.code_fail')));
->>>>>>> 910ae26450589b022acb57081d8665e8185c3e0e
     }
 
 
