@@ -70,5 +70,9 @@ return array(
 	'register_assignment'=>'register_assignment',
 	'drop_tasks'=>'drop_tasks',
 	'drop_group'=>'drop_group',
-	'assign'=>'assign'
+	'assign'=>'assign',
+	'rated'=>'rated',
+	'find_task'=>'find_task',
+	'update_task'=>'update_task',
+	'update_group'=>'update_group',
 	);

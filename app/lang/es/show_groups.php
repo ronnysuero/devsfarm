@@ -13,4 +13,9 @@ return array (
     'disable'=>'Delete',
     'delete_msg'=>'Eliminar Grupos',
     'student_placehold'=>'Elija un Estudiente',
+    'btnrated'=>'calificar',
+    'btnedit'=>'Editar',
+    'rated'=>'calificacion',
+    'titleEdit'=>'Editar Grupo',
+    'deleteGroup'=>'Eliminar Grupo',
 );

@@ -9,6 +9,7 @@ return array(
 'assignmentTo'=>'Asignado A :',
 'deadline'=>'Deadline',
 'description'=>'Description',
+'score'=>'score',
 
 
 

@@ -68,4 +68,9 @@ return array(
     'register_assignment'=>'registrar_asignacion',
     'drop_tasks'=>'borrar_assignacion',
     'drop_group'=>'borrar_grupo',
+    'rated'=>'calificar',
+    'find_task'=>'buscar_tarea',
+    'update_task'=>'actualizar_tarea',
+    'update_group'=>'actualizar_grupo',
+
     );

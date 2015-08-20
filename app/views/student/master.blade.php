@@ -134,6 +134,7 @@
                     </li>
                 </ul>
             </div>
+        </div>
         </nav>
     </div>
 <div class="row" id="page-wrapper">

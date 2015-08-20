@@ -17,4 +17,5 @@ return array(
 	'message' => ' unread message',
 	'mark' => 'Mark All',
 	'unmark' => 'Unmark All'
+	 
 );

@@ -98,7 +98,7 @@ Route::group(array('before' => 'auth|student'), function()
     // HTTP POST
     Route::post(Lang::get('routes.findSection'), 'SectionController@findSection');
     Route::post(Lang::get('routes.register_group'), 'GroupController@addGroup');
-    Route::post(Lang::get('routes.assign'), 'AssignmentController@assign');
+    Route::post(Lang::get('routes.rated'), 'AssignmentController@rated');
     Route::post(Lang::get('routes.update_student'), 'StudentController@updateStudent');
     Route::post(Lang::get('routes.register_assignment'), 'AssignmentController@addAssignment');
     Route::post(Lang::get('routes.find_Group_By_Section'), 'GroupController@findGroupBySection');
@@ -107,7 +107,10 @@ Route::group(array('before' => 'auth|student'), function()
     Route::post(Lang::get('routes.find_student'), 'StudentController@find');
     Route::post(Lang::get('routes.find_students'), 'GroupController@find_students');
     Route::post(Lang::get('routes.drop_tasks'), 'AssignmentController@drop');
+    Route::post(Lang::get('routes.update_task'), 'AssignmentController@updateTask');
     Route::post(Lang::get('routes.drop_group'), 'GroupController@drop');
+    Route::post(Lang::get('routes.update_group'), 'GroupController@findupdateGroup');
+    Route::post(Lang::get('routes.find_task'), 'AssignmentController@findTask');
 
 
 
