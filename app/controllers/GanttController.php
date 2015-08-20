@@ -54,6 +54,7 @@ class GanttController extends BaseController
 			$pos = strpos($string, $word);
 			$end = substr($string, $pos + strlen($word) + 1, strlen($string));
 		}
+		
 		return $first.$word.$end;
 	}
 }

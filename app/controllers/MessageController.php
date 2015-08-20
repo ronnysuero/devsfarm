@@ -14,9 +14,13 @@ class MessageController extends BaseController
    									 ->where('archived', false)
 									 ->orderBy('sent_date', 'desc')->get();
 
-		return View::make('message.inbox')->with(array(	'messages' => $messages, 
-														'stats' => $this->getStats(),
-														'unreadMessages' => $this->unReadMessages()));
+		return View::make('message.inbox')->with(
+			array(	
+				'messages' => $messages, 
+				'stats' => $this->getStats(),
+				'unreadMessages' => $this->unReadMessages()
+			)
+		);
 	}
 
 	/**
@@ -31,9 +35,13 @@ class MessageController extends BaseController
 									 ->where('archived', false)
 									 ->orderBy('sent_date', 'desc')->get();
 		
-		return View::make('message.sent')->with(array(	'messages' => $messages, 
-														'stats' => $this->getStats(),
-														'unreadMessages' => $this->unReadMessages()));
+		return View::make('message.sent')->with(
+			array(	
+				'messages' => $messages, 
+				'stats' => $this->getStats(),
+				'unreadMessages' => $this->unReadMessages()
+			)
+		);
 	}
 
 	/**
@@ -47,9 +55,13 @@ class MessageController extends BaseController
 		$messages = $user->messages()->where('archived', true)
 									 ->orderBy('sent_date', 'desc')->get();
 		
-		return View::make('message.archived')->with(array(	'messages' => $messages, 
-															'stats' => $this->getStats(),
-															'unreadMessages' => $this->unReadMessages()));
+		return View::make('message.archived')->with(
+			array(	
+				'messages' => $messages, 
+				'stats' => $this->getStats(),
+				'unreadMessages' => $this->unReadMessages()
+			)
+		);
 	}
 
 	/**
@@ -59,9 +71,13 @@ class MessageController extends BaseController
 	 */
 	public function showMessageUnreadView()
 	{
-		return View::make('message.unread')->with(array('messages' => $this->unReadMessages("all"), 
-														'stats' => $this->getStats(),
-														'unreadMessages' => $this->unReadMessages()));
+		return View::make('message.unread')->with(
+			array(
+				'messages' => $this->unReadMessages("all"), 
+				'stats' => $this->getStats(),
+				'unreadMessages' => $this->unReadMessages()
+			)
+		);
 	}
 
 	/**
@@ -114,6 +130,7 @@ class MessageController extends BaseController
 
 			$message->read = true;	
 			UserController::getUser(Auth::user())->messages()->associate($message)->save();
+
 			return Response::json('00');
 		}		
 	}
@@ -139,7 +156,7 @@ class MessageController extends BaseController
 				$format = $user_search->name.' ('.$user_search->email.')';
 				array_push($emails, $format);
 			}
-			elseif (strcmp($user->rank, 'teacher') === 0)
+			else if (strcmp($user->rank, 'teacher') === 0)
 			{
 				$user_search = Teacher::find($user->_id);
 				$names = explode(' ', $user_search->name);
@@ -147,7 +164,7 @@ class MessageController extends BaseController
 				$format = $names[0].' '.$last_names[0].' ('.$user_search->email.')';
 				array_push($emails, $format);
 			}
-			elseif (strcmp($user->rank, 'student') === 0)
+			else if (strcmp($user->rank, 'student') === 0)
 			{
 				$user_search = Student::find($user->_id);
 				$format = $user_search->first_name.' '.$user_search->last_name.' ('.$user_search->email.')';
@@ -182,9 +199,13 @@ class MessageController extends BaseController
 			 else
 				 $emails = $this->searchUsers($message->to);
 
-			return Response::json(array('messages' => $message, 
-										'emails' => $emails, 
-										'stats' => $this->getStats()));
+			return Response::json(
+				array(
+					'messages' => $message, 
+					'emails' => $emails, 
+					'stats' => $this->getStats()
+				)
+			);
 		}
 	}
 
@@ -229,6 +250,7 @@ class MessageController extends BaseController
 					$message->save();					
 			 	}
 			} 
+
 			return Response::json("00");
 		}
 	}
@@ -255,6 +277,7 @@ class MessageController extends BaseController
 					$message->save();					
 				}
 			} 
+			
 			return Response::json("00");
 		}
 	}
@@ -275,7 +298,8 @@ class MessageController extends BaseController
 			'inbox' => $inbox,
 			'unread' => count(MessageController::unReadMessages("all")),
 			'sent' => $sent,
-			'archived' => $archived
+			'archived' => $archived,
+			'approve' => PendingEnrollment::where('teacher_id', Auth::id())->count(),
 		);	
 	}
 
@@ -290,7 +314,7 @@ class MessageController extends BaseController
 		$user = UserController::getUser(Auth::user());
 		$messages = $user->messages()->where('read', false)
 									 ->where('archived', false);
-		if($limit === null)
+		if(is_null($limit))
 			$messages = $messages->take(5);
 		
 		return $messages->orderBy('sent_date', 'desc')->get();

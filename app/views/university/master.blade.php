@@ -29,6 +29,7 @@
 				</button>
 				<a class="navbar-brand" href="{{Lang::get('routes.university')}}">DevsFarm</a>
 			</div>
+			<?php $unreadMessages = MessageController::unReadMessages(); ?>
 			<ul class="nav navbar-top-links navbar-right user-menu" id="user-menu">
 				<li class="dropdown">
 					<a href="#" class="settings dropdown-toggle" data-toggle="dropdown">
@@ -193,7 +194,7 @@
 									</a>
 								</li>
 							</ul>
-						</li><br>
+						</li>
 					</ul>
 				</div>
 			</div>

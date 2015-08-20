@@ -4,7 +4,6 @@ use Helpers\CropImage\CropImage;
 
 class TeacherController extends BaseController
 {
-
     /**
      * Function that return all the teachers
      *
@@ -22,8 +21,11 @@ class TeacherController extends BaseController
      */
 	public function showView ()
 	{
-		return View::make('university.add_teacher')->with(array('stats' => MessageController::getStats(),
-															    'unreadMessages' => MessageController::unReadMessages()));
+		return View::make('university.add_teacher')->with(
+			array(
+				'stats' => MessageController::getStats(),
+			)
+		);
 	}
 
     /**
@@ -33,8 +35,11 @@ class TeacherController extends BaseController
      */
 	public function showHome()
 	{
-		return View::make('teacher.home')->with(array('stats' => MessageController::getStats(),
-                                                        'unreadMessages' => MessageController::unReadMessages()));
+		return View::make('teacher.home')->with(
+			array(
+				'stats' => MessageController::getStats(),
+            )
+        );
 	}
 
     /**
@@ -44,9 +49,12 @@ class TeacherController extends BaseController
      */
 	public function showProfile()
 	{
-		return View::make('teacher.profile')->with(array('teacher' => Teacher::find(Auth::id()),
-                                                        'stats' => MessageController::getStats(),
-                                                        'unreadMessages' => MessageController::unReadMessages()));
+		return View::make('teacher.profile')->with(
+			array(
+				'teacher' => Teacher::find(Auth::id()),
+                'stats' => MessageController::getStats(),
+            )
+        );
 	}
 
     /**
@@ -56,9 +64,12 @@ class TeacherController extends BaseController
      */
 	public function showAllTeachersView ()
 	{
-		return View::make('university.show_all_teachers')->with(array(  'teachers' => $this->getTeachers(),
-																		'stats' => MessageController::getStats(),
-														  				'unreadMessages' => MessageController::unReadMessages()));
+		return View::make('university.show_all_teachers')->with(
+			array(  
+				'teachers' => $this->getTeachers(),
+				'stats' => MessageController::getStats(),
+  			)
+  		);
 	}
 
     /**
@@ -74,14 +85,18 @@ class TeacherController extends BaseController
 		$user->rank = "teacher";
 		$user->last_activity = null;
 
-//        Try to save, if not work, then redirect back with an error message
+		// Try to save, if not work, then redirect back with an error message
 		try
 		{
 			$user->save();
 		}
 		catch(MongoDuplicateKeyException $e)
 		{
-			return Redirect::back()->withErrors(array( 'error' => Lang::get('register_student.email_duplicated')));
+			return Redirect::back()->withErrors(
+				array( 
+					'error' => Lang::get('register_student.email_duplicated')
+				)
+			);
 		}
 
 		$user = User::first(['user' => $user->user]);
@@ -97,7 +112,7 @@ class TeacherController extends BaseController
 		$teacher->subjects_id = array();
 		$teacher->sections_id = array();
 
-//        Check for profile image, an then set to the teacher
+		// Check for profile image, an then set to the teacher
 		if(Input::hasFile('avatar_file'))
 		{
 			$data = Input::get('avatar_data');
@@ -127,14 +142,18 @@ class TeacherController extends BaseController
 			$user = User::first(['_id' => $teacher->_id]);
 			$user->user = $email;
 
-//        Try to save, if not work, then redirect back with an error message
+			// Try to save, if not work, then redirect back with an error message
 			try
 			{
 				$user->save();
 			}
 			catch(MongoDuplicateKeyException $e)
 			{
-				return Redirect::back()->withErrors(array( 'error' => Lang::get('register_student.email_duplicated')));
+				return Redirect::back()->withErrors(
+					array( 
+						'error' => Lang::get('register_student.email_duplicated')
+					)
+				);
 			}
 
 			$teacher->email = $email;
@@ -167,11 +186,13 @@ class TeacherController extends BaseController
             if(!Hash::check(Input::get('current_password'), Auth::user()->password))
                 return Redirect::back()->withErrors(array( 'error' => Lang::get('teacher_profile.error_password')));
             else
+            {
                 Auth::user()->password = Hash::make(Input::get('new_password'));
                 Auth::user()->save();
+        	}
         }
 
-//        Check for teacher profile picture
+		// Check for teacher profile picture
         if(Input::hasFile('avatar_file'))
         {
             $data = Input::get('avatar_data');
@@ -233,5 +254,72 @@ class TeacherController extends BaseController
 			else
 				return Response::json("99");
 		}
+	}
+
+	public function showApprovalStudentView()
+	{
+		$pending = PendingEnrollment::where('teacher_id', Auth::id())->get();
+
+		if(count($pending) > 0)
+		{
+			return View::make('teacher.approval_student')->with(
+				array(
+					'pending' => $pending,
+					'stats' => MessageController::getStats(),
+		 	 	)
+		 	);
+		}
+		else
+			return Redirect::to(Lang::get('routes.'.Auth::user()->rank));
+	}
+
+	public function showAddTeamleaderView()
+	{
+		$teacher = Teacher::find(Auth::id());
+		$subjects = Subject::whereIn('_id', $teacher->subjects_id)->get();
+
+		return View::make('teacher.add_teamleader')->with(
+			array( 
+				'subjects' => $subjects,
+			 	'stats' => MessageController::getStats(),
+			 )
+		);	
+	}
+
+	public function addTeamleader()
+	{
+		$aux = Input::get('teamleader');
+		$teamleaders = array();
+		$subject = Subject::find(Input::get('subject'));
+		$section = $subject->sections()->find(Input::get('section'));
+		
+		foreach ($aux as $value) 
+			array_push($teamleaders, new MongoId($value));
+
+		if(isset($section->current_code))
+		{
+			$sectionCode = SectionCode::where('code', $section->current_code)->first();
+			$sectionCode->push('teamleaders_id', $teamleaders, true);
+				
+			return Redirect::to(Lang::get('routes.add_teamleader'))->with('message', Lang::get('teacher_profile.success'));
+		}
+		else
+			return Redirect::back()->withErrors(array( 'error' => Lang::get('teacher_profile.section_code_fail')));
+	}
+
+	public function showAllTeamleaderView()
+	{
+		$sectionCodes = SectionCode::where('teacher_id', Auth::id())->get();
+		$subjects = array();
+
+		foreach ($sectionCodes as $value)
+			array_push($subjects, Subject::find($value->subject_id));
+
+		return View::make('teacher.show_all_teamleader')->with(
+			array( 
+				'subjects' => $subjects,
+				'stats' => MessageController::getStats(),
+			)
+		);	
 	}
 }

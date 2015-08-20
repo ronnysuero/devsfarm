@@ -36,6 +36,7 @@ class GroupController extends BaseController{
 
     public function addGroup()
     {
+<<<<<<< HEAD
 
     	$user = Student::find(Auth::id());
 
@@ -46,8 +47,36 @@ class GroupController extends BaseController{
     	$group->section_id= trim(strtolower(Input::get('idSubject')));
     	$group->student_id=array(new MongoId($user->_id));
     	$group->project_name=trim(strtolower(Input::get('project_name')));
+=======
+        $user = Student::find(Auth::id());
+        $sectionCode = SectionCode::where('code', Input::get('sectionCode'))->first();
 
+        if(isset($sectionCode->_id))
+        {
+            $section = Subject::find($sectionCode->subject_id)->sections()->find($sectionCode->section_id);
 
+            if(strcasecmp($section->current_code, $sectionCode->code) === 0)
+            {
+                $group=new Group;
+                $group->name=trim(strtolower(Input::get('name')));
+                $group->teamleader_id= new MongoId($user->_id);
+                $group->section_code = $sectionCode->code;
+                $group->student_id=array(new MongoId($user->_id));
+                $group->project_name=trim(strtolower(Input::get('project_name')));
+
+                if(Input::hasFile('avatar_file'))
+                {
+                    $data = Input::get('avatar_data');
+                    $image = new CropImage(null, $data, $_FILES['avatar_file']);
+                    $group->logo = $image->getURL();
+                }
+                else
+                    $group->logo = null;
+>>>>>>> 910ae26450589b022acb57081d8665e8185c3e0e
+
+                $group->save();
+
+<<<<<<< HEAD
     	if (Input::hasFile('logo'))
     	{
     		$file = Input::file('logo');
@@ -64,6 +93,15 @@ class GroupController extends BaseController{
 
 
     	return Redirect::to(Lang::get('routes.register_group'))->with('message', Lang::get('register_group.success'));
+=======
+                return Redirect::to(Lang::get('routes.register_group'))->with('message', Lang::get('register_group.success'));
+            }
+            else
+                return Redirect::back()->withErrors(array( 'error' => Lang::get('register_group.code_expired')));
+        }
+        else
+            return Redirect::back()->withErrors(array( 'error' => Lang::get('register_group.code_fail')));
+>>>>>>> 910ae26450589b022acb57081d8665e8185c3e0e
     }
 
 

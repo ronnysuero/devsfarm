@@ -13,9 +13,16 @@ return array(
 	'title_sent' => 'Sent Messages',
 	'title_unread' => 'Unread Messages',
 	'welcome' => 'Welcome',
-	'alert_message' => 'you have',
+	'alert_message' => 'You have',
 	'message' => ' unread message',
 	'mark' => 'Mark All',
+<<<<<<< HEAD
 	'unmark' => 'Unmark All'
 	 
+=======
+	'unmark' => 'Unmark All',
+	'have' => 'You have ',
+	'student' => ' student ',
+	'alert_approve' => ' pending approval of its sections',
+>>>>>>> 910ae26450589b022acb57081d8665e8185c3e0e
 );
