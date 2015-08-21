@@ -4,16 +4,16 @@ class SectionCodeController extends BaseController
 {
 	public function showAllSectionsCodesView()
 	{
-		$teacher = Teacher::find(Auth::id());
+		$teacher = Teacher::find(Auth::id());		
 		$subjects = Subject::whereIn('_id', $teacher->subjects_id)->get();
-		$section_codes = SectionCode::where('teacher_id', $teacher->_id)->get();
+		$section_codes = SectionCode::where('teacher_id', new MongoId($teacher->_id))
+									->where('status', true)->get();
 
 		return View::make('teacher.section_codes')->with(
 			array( 
 				'subjects' => $subjects,
 				'teacher_section_id' => $teacher->sections_id,
 				'section_codes' => $section_codes,
-				'stats' => MessageController::getStats(),
 			)
 		);
 	}
@@ -45,12 +45,20 @@ class SectionCodeController extends BaseController
 		$section_code->current_period = $current_period;
 		$section_code->teamleaders_id = array();
 		$section_code->students_id = array();
+		$section_code->status = true;
 
 		$subject = Subject::find($subject_id);
 		$section = $subject->sections()->find($section_id);
 
 		$code =  $this->getInitialLetters($subject->name).'-'.$section->code.'-'.$current_period;
 		$section_code->code = $code;
+
+		if(!is_null($section->current_code))
+		{
+			$sectionCode = SectionCode::where('code', $section->current_code)->first();
+			$sectionCode->status = false;
+			$sectionCode->save();
+		}
 
 		try
 		{

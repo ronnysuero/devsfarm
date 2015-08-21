@@ -30,20 +30,9 @@ var teacherSchema = new Schema({
 	last_name: String
 });
 
-var subjectSchema = new Schema({
-	_id: Schema.Types.ObjectId,
-	name: String,
-	university_id: Schema.Types.ObjectId,
-	sections: [{
-		_id: Schema.Types.ObjectId
-		,code: String
-	}]
-});
-
 var chatSchema = new Schema({
 	_id: Schema.Types.ObjectId,
-	subject_id: Schema.Types.ObjectId,
-	section_id: Schema.Types.ObjectId,
+	section_code_id: Schema.Types.ObjectId,
 	participants: [ Schema.Types.ObjectId ],
 	conversations: [{
 		_id: Schema.Types.ObjectId,
@@ -55,10 +44,10 @@ var chatSchema = new Schema({
 }, { versionKey: false });
 
 var User = mongoose.model('users', userSchema),
-University = mongoose.model('universities', universitySchema),
-Student = mongoose.model('students', studentSchema),
-Teacher = mongoose.model('teachers', teacherSchema),
-Chat = mongoose.model('chats', chatSchema);
+	University = mongoose.model('universities', universitySchema),
+	Student = mongoose.model('students', studentSchema),
+	Teacher = mongoose.model('teachers', teacherSchema),
+	Chat = mongoose.model('chats', chatSchema);
 
 module.exports = {
 	'user': User, 

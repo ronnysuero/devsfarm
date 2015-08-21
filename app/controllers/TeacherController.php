@@ -21,11 +21,7 @@ class TeacherController extends BaseController
      */
 	public function showView ()
 	{
-		return View::make('university.add_teacher')->with(
-			array(
-				'stats' => MessageController::getStats(),
-			)
-		);
+		return View::make('university.add_teacher');
 	}
 
     /**
@@ -35,11 +31,7 @@ class TeacherController extends BaseController
      */
 	public function showHome()
 	{
-		return View::make('teacher.home')->with(
-			array(
-				'stats' => MessageController::getStats(),
-            )
-        );
+		return View::make('teacher.home');
 	}
 
     /**
@@ -52,7 +44,6 @@ class TeacherController extends BaseController
 		return View::make('teacher.profile')->with(
 			array(
 				'teacher' => Teacher::find(Auth::id()),
-                'stats' => MessageController::getStats(),
             )
         );
 	}
@@ -67,8 +58,7 @@ class TeacherController extends BaseController
 		return View::make('university.show_all_teachers')->with(
 			array(  
 				'teachers' => $this->getTeachers(),
-				'stats' => MessageController::getStats(),
-  			)
+			)
   		);
 	}
 
@@ -221,6 +211,7 @@ class TeacherController extends BaseController
 		if(Request::ajax())
 		{
 			$teacher = Teacher::where('email', Input::get('email'))->first();
+			
 			return Response::json($teacher);
 		}
 	}
@@ -281,7 +272,6 @@ class TeacherController extends BaseController
 		return View::make('teacher.add_teamleader')->with(
 			array( 
 				'subjects' => $subjects,
-			 	'stats' => MessageController::getStats(),
 			 )
 		);	
 	}
@@ -318,7 +308,6 @@ class TeacherController extends BaseController
 		return View::make('teacher.show_all_teamleader')->with(
 			array( 
 				'subjects' => $subjects,
-				'stats' => MessageController::getStats(),
 			)
 		);	
 	}

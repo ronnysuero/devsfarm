@@ -15,7 +15,6 @@ class UniversityController extends BaseController
 			array( 
 				'subjects' => SubjectController::getSubjects(),
 			  	'teachers' => TeacherController::getTeachers(),
-			  	'stats' => MessageController::getStats(),
 			)
 		);
 	}
@@ -101,7 +100,6 @@ class UniversityController extends BaseController
 		return View::make('university.profile')->with(
 			array(
 				'university' => University::find(Auth::id()),
-				'stats' => MessageController::getStats(),
 			)
 		);
 	}

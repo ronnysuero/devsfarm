@@ -75,5 +75,6 @@ return array(
     'add_teamleader' => 'agregar_lider',
 	'show_teamleader' => 'mostrar_lideres',
 	'drop_teamleader' => 'eliminar_lider',
-	
+	'chat' => 'conversar',
+	'update_teachers' => 'actualizar_profesores',
 	);

@@ -114,7 +114,9 @@
 						{
 							for(var item in data.students)
 							{
-								var name = data.students[item].id_number + " - " + data.students[item].name + ' ' + data.students[item].last_name;
+								var name = data.students[item].id_number + " - " + 
+										   data.students[item].name + ' ' + 
+										   data.students[item].last_name;
 								 
 								$('#teamleader').append(new Option(name, data.students[item]._id));
 							}
@@ -124,9 +126,9 @@
 				else
 				{
 					$('#teamleader')
-							.find('option')
-							.remove()
-							.end();
+						.find('option')
+						.remove()
+						.end();
 				}
 			});
 		});

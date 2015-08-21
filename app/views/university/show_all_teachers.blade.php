@@ -70,7 +70,7 @@
 					<h4 class="modal-title" id="Eliminar profesor"><i class="fa fa-edit"></i>{{Lang::get('list_teacher.modify_teacher')}}</h4>
 				</div>
 				<div class="modal-body">
-					{{ Form::open(array('url' => Lang::get('routes.update_teacher'), 'id' => 'register_form', 'role' => 'form', 'enctype' => 'multipart/form-data')) }}
+					{{ Form::open(array('url' => Lang::get('routes.update_teachers'), 'id' => 'register_form', 'role' => 'form', 'enctype' => 'multipart/form-data')) }}
 						<div class="form-group col-lg-6">
 							<label>{{Lang::get('list_teacher.name')}}</label>
 							<input data-validate="required,size(3, 20),characterspace" type="text" class="form-control" id="name" name="name" placeholder="{{Lang::get('register_teacher.name_placeholder')}}" >
@@ -149,7 +149,7 @@
 			{
 				if(data === '00')
 				{
-					$('#' + $('#tr').val()).hide();
+					$('#' + $('#tr').val()).remove();
 					$('#deleteModal').modal('hide');
 				}
 			});

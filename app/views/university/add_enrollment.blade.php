@@ -74,7 +74,11 @@
 						if(data !== "")
 						{
 							for(var item in data.sections)
-								$('#section').append( new Option(data.sections[item].code, data.sections[item]._id) );
+							{
+								$('#section').append( 
+									new Option(data.sections[item].code, data.sections[item]._id) 
+								);
+							}
 						}
 					});
 				}

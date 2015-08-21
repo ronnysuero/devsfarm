@@ -79,14 +79,12 @@
 	<script>
 		$('document').ready(function()
 		{
-			$("#crop").on("click", function()
-			{
+			$("#crop").on("click", function() {
 				$('#photo_display').html($('#preview').html());
 				$('#avatar-modal').modal('hide');
 			});
 
-			$("#show_password_fields").click(function()
-			{
+			$("#show_password_fields").click(function() {
 				$("#password_fields").toggle("slow");
 			});
 		});

@@ -78,4 +78,6 @@ return array(
 	'add_teamleader' => 'add_teamleader',
 	'show_teamleader' => 'show_teamleader',
 	'drop_teamleader' => 'drop_teamleader',
+	'chat' => 'chat',
+	'update_teachers' => 'update_teachers',
 	);

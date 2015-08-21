@@ -3,7 +3,7 @@
 class AssignmentController extends BaseController{
 
 
-public function addAssignment()
+    public function addAssignment()
     {
 
         $user = Student::find(Auth::id());
@@ -18,7 +18,6 @@ public function addAssignment()
         $assignment->assigned_by=null;
         $assignment->assigned_to=null;
         $assignment->deadline=null;
-
 
         $assignment->save();
         

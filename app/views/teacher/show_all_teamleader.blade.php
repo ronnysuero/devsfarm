@@ -99,7 +99,7 @@
 			{
 				if(data === '00')
 				{
-					$('#' + $('#position').val()).hide();
+					$('#' + $('#position').val()).remove();
 					$('#position').val("");
 					$('#deleteModal').modal('hide');
 				}

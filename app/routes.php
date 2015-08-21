@@ -49,7 +49,6 @@ Route::group(array('before' => 'auth|university'), function()
 	Route::post(Lang::get('routes.add_teacher'), 'TeacherController@addTeacher');
 	Route::post(Lang::get('routes.add_section'), 'SectionController@addSection');
 	Route::post(Lang::get('routes.update_university'), 'UniversityController@update');
-	Route::post(Lang::get('routes.update_teacher'), 'TeacherController@update');
 	Route::post(Lang::get('routes.update_section'), 'SectionController@update');
 	Route::post(Lang::get('routes.update_subject'), 'SubjectController@update');
 	Route::post(Lang::get('routes.find_teacher'), 'TeacherController@find');
@@ -62,6 +61,7 @@ Route::group(array('before' => 'auth|university'), function()
 	Route::post(Lang::get('routes.drop_subject'), 'SubjectController@drop');
 	Route::post(Lang::get('routes.drop_teacher'), 'TeacherController@drop');
 	Route::post(Lang::get('routes.unlink_enrollment'), 'EnrollmentController@unlink');
+	Route::post(Lang::get('routes.update_teachers'), 'TeacherController@update');
 });
 
 Route::group(array('before' => 'auth|teacher'), function()
@@ -83,6 +83,7 @@ Route::group(array('before' => 'auth|teacher'), function()
 	Route::post(Lang::get('routes.approve_enroll'), 'PendingEnrollmentController@approve');
 	Route::post(Lang::get('routes.add_teamleader'), 'TeacherController@addTeamleader');
 	Route::post(Lang::get('routes.drop_teamleader'), 'SectionCodeController@dropTeamleaderSectionCode');
+	Route::post(Lang::get('routes.update_teacher'), 'TeacherController@updateTeacher');
 	
 });
 
@@ -110,15 +111,14 @@ Route::group(array('before' => 'auth|student'), function()
 	Route::post(Lang::get('routes.drop_tasks'), 'AssignmentController@drop');
 	Route::post(Lang::get('routes.drop_group'), 'GroupController@drop');
 	Route::post(Lang::get('routes.enroll_section'), 'PendingEnrollmentController@enrollSection');
-
 });
 
 Route::group(array('before' => 'auth'), function()
 {
 	// HTTP GET
-	Route::get('chat', 'ChatController@showView');
+	Route::get(Lang::get('routes.chat'), 'ChatController@showView');
 	Route::get(Lang::get('routes.inbox'), 'MessageController@showInboxView');
-	Route::get(Lang::get('routes.sent'), 'MessageController@showMessageSentView');    
+	Route::get(Lang::get('routes.mail_sent'), 'MessageController@showMessageSentView');    
 	Route::get(Lang::get('routes.archived'), 'MessageController@showMessageArchivedView');
 	Route::get(Lang::get('routes.unread'), 'MessageController@showMessageUnreadView');
 	Route::get(Lang::get('routes.logout'), 'UserController@logout');

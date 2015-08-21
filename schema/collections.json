@@ -10,7 +10,7 @@
 		{
 			"_id": Object_Id,
 			"to": [Object_Id],
-			"from": String,
+			"from": Object_Id,
 			"subject": String,
 			"body": String,
 			"read": Boolean,
@@ -38,7 +38,7 @@
 		{
 			"_id": Object_Id,
 			"to": [Object_Id],
-			"from": String,
+			"from": Object_Id,
 			"subject": String,
 			"body": String,
 			"read": Boolean,
@@ -58,6 +58,7 @@
 		{
 			"_id": Object_Id,
 			"code": String,
+			"current_code": String,
 			"is_free": Boolean,
 		}
 	]
@@ -69,8 +70,6 @@
 	"name": String,
 	"last_name": String,
 	"university_id": String,
-	"phone": String,
-	"cellphone": String,
 	"email": String,
 	"profile_image": String,
 	"has_a_job": Boolean,
@@ -80,7 +79,7 @@
 		{
 			"_id": Object_Id,
 			"to": [Object_Id],
-			"from": String,
+			"from": Object_Id,
 			"subject": String,
 			"body": String,
 			"read": Boolean,
@@ -118,25 +117,15 @@
 	"_id": Object_Id,
 	"name": String,
 	"teamleader_id": Object_Id,
-	"section_id": Object_Id,
+	"section_code_id": Object_Id,
 	"profile_image": String,
-	"student_id": [Object_Id],
+	"students_id": [Object_Id],
 	"project_name": String,
-}
-
-"group_by_sections":
-{
-	"_id": Object_Id,
-	"section_id": Object_Id,
-	"group_id": Object_Id,
-	"period": Object_Id,
 }
 
 "chats":
 {
 	"_id": Object_Id,
-	"subject_id": Object_Id,
-	"section_id": Object_Id,
 	"participants": [Object_Id],
 	"conversations": 
 	[
@@ -158,8 +147,9 @@
 	"section_id": Object_Id,
 	"current_period": String,
 	"code": String,
-	"teamleaders_id: [Object_Id],
+	"teamleaders_id": [Object_Id],
 	"students_id": [Object_Id],
+	"status": Boolean
 }
 
 "pending_enrollments":

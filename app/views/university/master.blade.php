@@ -15,7 +15,7 @@
 	<link rel="stylesheet" href="css/alertify.core.css" />
 	<link rel="stylesheet" href="css/alertify.default.css" id="toggleCSS" />
 	<link rel="shortcut icon" href="favicon.png"> 
-	<script type="text/javascript" src="js/jquery-2.1.3.js"></script>
+	<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
 </head>
 <body>
 	<div id="wrapper">
@@ -29,7 +29,10 @@
 				</button>
 				<a class="navbar-brand" href="{{Lang::get('routes.university')}}">DevsFarm</a>
 			</div>
-			<?php $unreadMessages = MessageController::unReadMessages(); ?>
+			<?php 
+				$unreadMessages = MessageController::unReadMessages(); 
+				$stats = MessageController::getStats();
+			?>
 			<ul class="nav navbar-top-links navbar-right user-menu" id="user-menu">
 				<li class="dropdown">
 					<a href="#" class="settings dropdown-toggle" data-toggle="dropdown">
@@ -262,7 +265,14 @@
 				@endif
 
 				alertify.set({ delay: 10000 });
-				alertify.log("{{Lang::get('messages.welcome')}} {{UserController::getUser(Auth::user())->name}}, {{Lang::get('messages.alert_message')}} {{$stats['unread']}} {{Lang::get('messages.message')}}" + plural);
+				alertify.log
+				(
+					"{{Lang::get('messages.welcome')}}" + 
+					" {{UserController::getUser(Auth::user())->name}}," +
+					" {{Lang::get('messages.alert_message')}}" +
+					" {{$stats['unread']}} {{Lang::get('messages.message')}}" + 
+					plural
+				);
 			@endif
 		});
 	</script>

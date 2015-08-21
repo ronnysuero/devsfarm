@@ -71,7 +71,7 @@
 					if(data.stats.approve > 0)
 						$('#approve').html(data.stats.approve);
 					else
-						$('#approve_li').hide();
+						$('#approve_li').remove();
 				}
 			});
 		}
@@ -85,7 +85,7 @@
 			.done(function( data ) 
 			{
 				if(data === '00')
-					$('#'+pos).hide();
+					$('#'+pos).remove();
 			});
 		}
 	</script>

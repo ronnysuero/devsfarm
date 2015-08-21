@@ -34,7 +34,6 @@ class PendingEnrollmentController extends BaseController
 			array( 
 				'sections' => $sections,
 			   	'pending' => $pending,
-			   	'stats' => MessageController::getStats(),
 			)
 		);
 	}
@@ -46,11 +45,13 @@ class PendingEnrollmentController extends BaseController
 		if(isset($sectionCode->_id))
 		{
 			$section = Subject::find($sectionCode->subject_id)->sections()->find($sectionCode->section_id);
-			
+			$message = "";
+
 			if(strcasecmp($section->current_code, $sectionCode->code) === 0)
 			{
 				$codes = SectionCode::where('code', Input::get('code'))
-									->whereIn('students_id', array(Auth::id()))->first();
+									->whereIn('students_id', array(Auth::id()))
+									->first();
 
 				if(!isset($codes->_id))
 				{
@@ -75,30 +76,18 @@ class PendingEnrollmentController extends BaseController
 					return Redirect::to(Lang::get('routes.enroll_section'))->with('message', Lang::get('register_group.enroll_sucess'));
 				}
 				else
-				{
-					return Redirect::back()->withErrors(
-						array( 
-							'error' => Lang::get('register_group.user_register')
-						)
-					);
-				}
+					$message = Lang::get('register_group.user_register');
 			}
 			else
-			{
-				return Redirect::back()->withErrors(
-					array( 
-						'error' => Lang::get('register_group.code_expired')
-					)
-				);
-			}
+				$message = Lang::get('register_group.code_expired');
 		}
 		else
-		{
-			return Redirect::back()->withErrors(
-				array( 
-					'error' => Lang::get('register_group.code_fail')
-				)
-			);
-		}
+			$message = Lang::get('register_group.code_fail');
+
+		return Redirect::back()->withErrors(
+			array( 
+				'error' => $message
+			)
+		);
 	}
 }

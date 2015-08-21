@@ -28,10 +28,10 @@ function getUser(userId, callback)
 		}
 		else if(user.rank === 'teacher')
 		{
-			models.student.findOne({_id: user._id}, function(err, teacher)
+			models.teacher.findOne({_id: user._id}, function(err, teacher)
 			{
 				if(err) return callback(err);
-				return callback(student.name + ' ' + student.last_name);	
+				return callback(teacher.name + ' ' + teacher.last_name);	
 			});
 		}
 	});
@@ -70,8 +70,8 @@ module.exports = {
 	},
 	findChat: function(data, callback)
 	{
-
-		var conversation = {
+		var conversation = 
+		{
 			_id: mongoose.Types.ObjectId(),
 			sender_id: data.sender_id,
 			receiver_id: data.receiver_id,
@@ -79,7 +79,12 @@ module.exports = {
 			message: data.message
 		};
 
-		models.chat.findByIdAndUpdate(data._id, { $push: {conversations: conversation} }, function (err, doc) {
+		models.chat.findByIdAndUpdate(data._id, 
+		{ 
+			$push: {conversations: conversation} 
+		}, 
+		function (err, doc) 
+		{
 			if (err) return handleError(err);
 
 			getUser(data.sender_id, function(name)
@@ -92,6 +97,7 @@ module.exports = {
 					message: data.message,
 					date: new Date()
 				};
+				
 				return callback(result);
 			});
 		});

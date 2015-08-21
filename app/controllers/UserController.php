@@ -79,6 +79,7 @@ class UserController extends BaseController
 	 */
 	public static function getUser($user)
 	{
+
 		if(strcmp($user->rank, 'university') === 0)
 			return University::find($user->_id);
 		else if (strcmp($user->rank, 'teacher') === 0) 

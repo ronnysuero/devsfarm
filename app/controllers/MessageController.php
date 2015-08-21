@@ -17,8 +17,6 @@ class MessageController extends BaseController
 		return View::make('message.inbox')->with(
 			array(	
 				'messages' => $messages, 
-				'stats' => $this->getStats(),
-				'unreadMessages' => $this->unReadMessages()
 			)
 		);
 	}
@@ -38,8 +36,6 @@ class MessageController extends BaseController
 		return View::make('message.sent')->with(
 			array(	
 				'messages' => $messages, 
-				'stats' => $this->getStats(),
-				'unreadMessages' => $this->unReadMessages()
 			)
 		);
 	}
@@ -58,8 +54,6 @@ class MessageController extends BaseController
 		return View::make('message.archived')->with(
 			array(	
 				'messages' => $messages, 
-				'stats' => $this->getStats(),
-				'unreadMessages' => $this->unReadMessages()
 			)
 		);
 	}
@@ -74,8 +68,6 @@ class MessageController extends BaseController
 		return View::make('message.unread')->with(
 			array(
 				'messages' => $this->unReadMessages("all"), 
-				'stats' => $this->getStats(),
-				'unreadMessages' => $this->unReadMessages()
 			)
 		);
 	}
@@ -148,26 +140,24 @@ class MessageController extends BaseController
 		foreach ($id as $user_id) 
 		{
 			$user = User::find($user_id);
+			$user = UserController::getUser($user);
 			$user_search = null;
 
-			if (strcmp($user->rank, 'university') === 0)
+			if ($user instanceof University)
 			{
-				$user_search = University::find($user->_id);
-				$format = $user_search->name.' ('.$user_search->email.')';
+				$format = $user->name.' ('.$user->email.')';
 				array_push($emails, $format);
 			}
-			else if (strcmp($user->rank, 'teacher') === 0)
+			else if ($user instanceof Teacher)
 			{
-				$user_search = Teacher::find($user->_id);
-				$names = explode(' ', $user_search->name);
-				$last_names = explode(' ', $user_search->last_name);
-				$format = $names[0].' '.$last_names[0].' ('.$user_search->email.')';
+				$names = explode(' ', $user->name);
+				$last_names = explode(' ', $user->last_name);
+				$format = $names[0].' '.$last_names[0].' ('.$user->email.')';
 				array_push($emails, $format);
 			}
-			else if (strcmp($user->rank, 'student') === 0)
+			else if ($user instanceof Student)
 			{
-				$user_search = Student::find($user->_id);
-				$format = $user_search->first_name.' '.$user_search->last_name.' ('.$user_search->email.')';
+				$format = $user->name.' '.$user->last_name.' ('.$user->email.')';
 				array_push($emails, $format);   
 			} 
 		}

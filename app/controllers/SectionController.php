@@ -12,7 +12,6 @@ class SectionController extends BaseController
 		return View::make('university.add_section')->with(
 			array(
 				'subjects' => Subject::where('university_id', Auth::id())->get(),
-				'stats' => MessageController::getStats(),
 			)
 		);
 	}
@@ -29,7 +28,6 @@ class SectionController extends BaseController
 		return View::make('university.show_all_sections')->with(
 			array(  
 				'subjects' => $subjects,
-				'stats' => MessageController::getStats(),
 			)
 		);
 	}
@@ -190,11 +188,7 @@ class SectionController extends BaseController
 	 */
 	public function showAllSectionsCodesView()
 	{
-		return View::make('teacher.section_codes')->with(
-			array(
-				'stats' => MessageController::getStats(),
-			)
-		);
+		return View::make('teacher.section_codes');
 	}
 
 	/**

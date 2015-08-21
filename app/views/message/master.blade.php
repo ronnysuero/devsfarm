@@ -8,6 +8,7 @@
 		</div>
 		<div class="row inbox">
 			<div class="col-md-2 mail-left-box">
+				<?php $stats = MessageController::getStats(); ?>
 				<a data-toggle="modal" data-target="#sendMessage" class="btn btn-block btn-compose btn-lg"><i class="fa fa-"></i>{{Lang::get('messages.compose')}}</a> 
 				<div class="list-group inbox-options">
 					<a href="{{Lang::get('routes.inbox')}}" class="list-group-item">
@@ -22,7 +23,7 @@
 							<span id="span_unread" class="badge bg-primary">{{$stats['unread']}}</span> 
 						@endif
 					</a> 
-					<a href="{{Lang::get('routes.sent')}}" id="sent" class="list-group-item">
+					<a href="{{Lang::get('routes.mail_sent')}}" id="sent" class="list-group-item">
 						<i class="fa fa-check-square-o"></i> {{Lang::get('messages.sent')}} 
 						@if($stats['sent'] > 0)
 							<span id="span_sent" class="badge  bg-primary">{{$stats['sent']}}</span> 

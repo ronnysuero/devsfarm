@@ -9,28 +9,59 @@ class ChatController extends BaseController
 	 */
 	public function showView()
 	{
-		$users = null;
-		$user = null;
+		$users = array();
+		$user = UserController::getUser(Auth::user());
 
-		if(strcmp(Auth::user()->rank, 'university') === 0)
-		{
-			$users = University::where('_id', '!=', Auth::id())->get();
-			$user = University::find(Auth::id());
+		if ($user instanceof Teacher)
+		{ 
+			$sectionCodes = SectionCode::where('teacher_id', new MongoId($user->_id))
+									   ->where('status', true)	
+									   ->get();
+			
+			foreach ($sectionCodes as $sectionCode) 
+			{
+				foreach ($sectionCode->teamleaders_id as $id) 
+					array_push($users, Student::find($id));
+			
+				$users = array_unique($users);
+			}
 		}
-		else if (strcmp(Auth::user()->rank, 'teacher') === 0) 
+		else if ($user instanceof Student)
 		{
-			$users = Teacher::where('_id', '!=', Auth::id())->get();
-			$user = Teacher::find(Auth::id());
+			$sectionCodes = SectionCode::whereIn('students_id', array(new MongoId($user->_id)))
+									   ->where('status', true)	
+									   ->get();
+			
+			foreach ($sectionCodes as $sectionCode) 
+			{
+				foreach ($sectionCode->students_id as $id)
+				{
+					if($id != Auth::id()) 
+						array_push($users, Student::find($id));
+				}
+
+				$count = SectionCode::whereIn('teamleaders_id', array(Auth::id()))
+									->where('_id', new MongoId($sectionCode->_id))
+									->count();
+
+				if($count > 0)
+					array_push($users, Teacher::find($sectionCode->teacher_id));	
+
+				$users = array_unique($users);
+			}
 		}
-		else if (strcmp(Auth::user()->rank, 'student') === 0)
-		{
-			$users = Student::where('_id', '!=', Auth::id())->get();
-			$user = Student::find(Auth::id());
-		} 
-		
+		else if($user instanceof University)
+			return View::make('error.403');
+
 		$ip = App::isLocal() ? '127.0.0.1' : '104.131.3.39';
-
-		return View::make('chat.home')->with(array('contacts' => $users, 'user' => $user, 'ip'=> $ip));
+		
+		return View::make('chat.home')->with(
+			array(
+				'contacts' => $users, 
+				'user' => $user, 
+				'ip'=> $ip
+			)
+		);
 	}
 
 	/**
@@ -47,26 +78,14 @@ class ChatController extends BaseController
 				new MongoId(Input::get('receiver_id'))
 			);
 
-			$chat = Chat::where('participants', 'all', $array)->first();
+			$chat = Chat::whereIn('participants', $array)->first();
 
-			if(!isset($chat->_id))
+			if(isset($chat->_id))
 			{
-				$user_sender = User::first(Auth::id());
-				$user_receiver = User::first(Input::get('receiver_id'));
-				$sender = UserController::getUser($user_sender);		
-				$receiver = UserController::getUser($user_receiver);
-				$sender_name = "";
-				$receiver_name = "";	
-
-				if(strcmp($user_sender->rank, 'university') === 0)
-					$sender_name = $sender->acronym;
-				else
-					$sender_name = $sender->name.' '.$sender->last_name;
-
-				if(strcmp($user_receiver->rank, 'university') === 0)
-					$receiver_name = $receiver->acronym;
-				else
-					$receiver_name = $receiver->name.' '.$receiver->last_name;
+				$sender = UserController::getUser(Auth::user());		
+				$receiver = UserController::getUser(User::first(Input::get('receiver_id')));
+				$sender_name = $sender->name.' '.$sender->last_name;
+				$receiver_name = $receiver->name.' '.$receiver->last_name;
 
 				return Response::json(
 					array(
@@ -77,7 +96,32 @@ class ChatController extends BaseController
 				);
 			}
 			else 
-				return Response::json(array('chat' => ""));			
+				return Response::json(array('chat' => ""));		
 		}
+	}
+
+	public static function getUsersChat($code)
+	{
+		$user = UserController::getUser(Auth::user());
+		$sectionCodes = "";
+
+		if($user instanceof Teacher)
+		{
+			$sectionCodes = SectionCode::where('teacher_id', new MongoId($user->_id))
+									   ->where('status', true)
+									   ->where('code', $code)	
+									   ->first();
+		}
+		else if ($user instanceof Student)
+		{
+			$sectionCodes = SectionCode::whereIn('students_id', array(new MongoId($user->_id)))
+									   ->where('status', true)
+									   ->where('code', $code)
+									   ->first();
+		}
+		else
+			$sectionCodes = null;
+
+		return $sectionCodes;
 	}
 }

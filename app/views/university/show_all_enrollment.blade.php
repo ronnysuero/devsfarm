@@ -106,7 +106,7 @@
 			{
 				if(data === '00')
 				{
-					$('#' + $('#tr').val()).hide();
+					$('#' + $('#tr').val()).remove();
 					$('#deleteModal').modal('hide');
 				}
 			});

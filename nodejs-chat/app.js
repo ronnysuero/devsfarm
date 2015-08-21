@@ -58,7 +58,7 @@ wsServer.on('request', function(request)
 				}
 
 				connections.push({id: obj.sender_id, socket: connection});
-
+				
 				db.findUser(obj.sender_id, function(data)
 				{
 					userName = data;

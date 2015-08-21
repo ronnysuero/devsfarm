@@ -12,10 +12,12 @@
 	<link rel="stylesheet" type="text/css" href="css/font-awesome.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 	<link rel="stylesheet" type="text/css" href="css/cropper.min.css">
-	<link rel="stylesheet" href="css/alertify.core.css" />
-	<link rel="stylesheet" href="css/alertify.default.css" id="toggleCSS" />
+	<link rel="stylesheet" type="text/css" href="css/alertify.core.css">
+	<link rel="stylesheet" type="text/css" href="css/alertify.default.css">
+	<link rel="stylesheet" type="text/css" href="redmond/jquery-ui.min.css">
+	<link rel="stylesheet" type="text/css" href="css/jquery.ui.chatbox.css">
 	<link rel="shortcut icon" href="favicon.png"> 
-	<script type="text/javascript" src="js/jquery-2.1.3.js"></script>
+	<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
 </head>
 <body>
 	<div id="wrapper">
@@ -29,7 +31,10 @@
 				</button>
 				<a class="navbar-brand" href="{{Lang::get('routes.teacher')}}">DevsFarm</a>
 			</div>
-			<?php $unreadMessages = MessageController::unReadMessages(); ?>
+			<?php 
+				$unreadMessages = MessageController::unReadMessages(); 
+				$stats = MessageController::getStats();
+			?>
 			<ul class="nav navbar-top-links navbar-right user-menu" id="user-menu">
 				<li class="dropdown">
 					<a href="#" class="settings dropdown-toggle" data-toggle="dropdown">
@@ -44,7 +49,7 @@
 								<a>
 									<?php $user = UserController::getUser(User::first($message->from)); ?>
 
-									@if($user->profile_image == null)
+									@if(is_null($user->profile_image))
 										<img src="images/140x140.png" class="avatar" alt="avatar"></td>
 									@else
 										<img src="{{Lang::get('show_image').'?src='.storage_path().$user->profile_image}}" class="avatar"/>
@@ -107,7 +112,7 @@
 				</li>
 			</ul>
 			<div class="navbar-default sidebar" role="navigation">
-				<div id="cssmenu" class="sidebar-nav navbar-collapse">
+				<div class="sidebar-nav navbar-collapse">
 					<ul class="nav" id="side-menu">
 						<li>
 							<a href="{{Lang::get('routes.teacher')}}" class="nav_home_categoria" style="background-color: #0097A7; color: white;">
@@ -120,9 +125,10 @@
 								{{Lang::get('teacher_master.subject')}}
 							</a>
 							<ul class="nav nav-second-level">
-								<?php $teacher = Teacher::where('_id', Auth::id())->first(); ?>
-								<?php $subjects = Subject::whereIn('_id', $teacher->subjects_id)->get(); ?>
-		
+								<?php 
+									$teacher = Teacher::find(Auth::id());
+									$subjects = Subject::whereIn('_id', $teacher->subjects_id)->get(); 
+								?>
 								@foreach($subjects as $subject)
 									<li>
 										<a href="#">
@@ -130,11 +136,15 @@
 											{{ $subject->name }}
 										</a>
 										<ul class="nav nav-third-level">
-											<?php $sections = $subject->sections()->whereIn('_id', $teacher->sections_id)->get(); ?>
+											<?php 
+												$sections = $subject->sections()
+																	->whereIn('_id', $teacher->sections_id)
+																	->get(); 
+											?>
 											@foreach($sections as $section)
 												<li>
-													<a href="#" id="{{$section->current_code}}" class="menu_section" value="{{ $section->code }}">
-														<i class="fa fa-arrow-right" style="color: #0097A7;"></i> {{ $section->code  }}
+													<a href="#" id="{{$section->current_code}}" class="menu_section">
+														<i class="fa fa-arrow-right" style="color: #0097A7;"></i> {{ $section->code }}
 													</a>
 												</li>
 											@endforeach
@@ -178,15 +188,16 @@
 								</a>
 							</li>
 						@endif
-						<li>
-							<a href="#" class="nav_categoria">
+						<li id="cssmenu">
+							<a href="{{Lang::get('routes.chat')}}" class="nav_categoria">
 								<i class="fa fa-weixin"></i> 
 								Chat
 							</a>
 							<ul class="nav nav-second-level">
-								<?php $teacher = Teacher::where('_id', Auth::id())->first(); ?>
-								<?php $subjects = Subject::whereIn('_id', $teacher->subjects_id)->get(); ?>
-		
+								<?php 
+									$teacher = Teacher::find(Auth::id());
+									$subjects = Subject::whereIn('_id', $teacher->subjects_id)->get(); 
+								?>
 								@foreach($subjects as $subject)
 									<li style="background-color: #FAFAFA;">
 										<a href="#">
@@ -194,16 +205,31 @@
 											{{ $subject->name }}
 										</a>
 										<ul class="nav nav-third-level">
-											<?php $sections = $subject->sections()->whereIn('_id', $teacher->sections_id)->get(); ?>
+											<?php 
+												$sections = $subject->sections()
+																	->whereIn('_id', $teacher->sections_id)
+																	->get(); 
+											?>
 											@foreach($sections as $section)
 												<li>
-													<a href="#" id="{{$section->current_code}}" value="{{ $section->code }}">
+													<a href="#" id="{{$section->current_code}}">
 														<i class="fa fa-arrow-circle-right"></i> 
 														{{ $section->code }}
 													</a>
-													<ul class="nav nav-fourth-level">
-														
-													</ul>
+													<?php
+														$sectionCode = ChatController::getUsersChat($section->current_code);
+													?>
+													@foreach($sectionCode->teamleaders_id as $student_id)
+														<?php $user = Student::find($student_id); ?>
+														<ul class="nav nav-fourth-level">
+															<li>
+																<a href="#" id="link_add" onclick="fillData('{{$user->_id}}', '{{$sectionCode->code}}', '{{$user->name}}', '{{$user->last_name}}')">
+																	<i class="fa fa-comment"></i>
+																	{{ $user->name.' '.$user->last_name }}
+																</a>
+															</li>
+														</ul>
+													@endforeach
 												</li>
 											@endforeach
 										</ul>
@@ -220,6 +246,10 @@
 				<input type="text" class="form-control" id="section_code" name="section_code" value="">
 			</div>
 		{{Form::close()}}
+		<input type="hidden" value="" id="student_id">
+		<input type="hidden" value="" id="section_code">
+		<input type="hidden" value="" id="name">
+		<input type="hidden" value="" id="last_name">
 		<div id="page-wrapper">
 			@yield('content')
 		</div>
@@ -233,6 +263,9 @@
 	<script type="text/javascript" src="js/cropper.min.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
 	<script type="text/javascript" src="js/alertify.min.js"></script>
+	<script type="text/javascript" src="js/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="js/jquery.ui.chatbox.js"></script>
+	<script type="text/javascript" src="js/chatboxManager.js"></script>
 	<script type="text/javascript">
 		$('document').ready(function()
 		{	
@@ -280,22 +313,31 @@
 			@if($stats['unread'] > 0 && Request::is(Lang::get('routes.'.Auth::user()->rank)))
 				var plural = "";
 				
-				welcome = "{{Lang::get('messages.welcome')}} {{UserController::getUser(Auth::user())->name}}: ";
+				welcome = "{{Lang::get('messages.welcome')}} " + 
+						  "{{UserController::getUser(Auth::user())->name}}: ";
 				
 				@if($stats['unread'] > 1)
 					plural = "s";
 				@endif
 
 				alertify.set({ delay: 10000 });
-				alertify.log(welcome + " {{Lang::get('messages.alert_message')}} {{$stats['unread']}} "+
-							 "{{Lang::get('messages.message')}}" + plural);
+				alertify.log
+				(
+					welcome + 
+					" {{Lang::get('messages.alert_message')}} {{$stats['unread']}}" +
+					" {{Lang::get('messages.message')}}" + 
+					plural
+				);
 			@endif
 
 			@if($stats['approve'] > 0 && Request::is(Lang::get('routes.'.Auth::user()->rank)))
 				var plural = "";
 				
 				if(welcome === "")
-					welcome = "{{Lang::get('messages.welcome')}} {{UserController::getUser(Auth::user())->name}}: ";
+				{
+					welcome = "{{Lang::get('messages.welcome')}} " +
+							  "{{UserController::getUser(Auth::user())->name}}: ";
+				}
 				else
 					welcome = "";
 
@@ -304,8 +346,15 @@
 				@endif
 
 				alertify.set({ delay: 10000 });
-				alertify.log(welcome + "{{Lang::get('messages.have')}} {{$stats['approve']}} "+
-							 "{{Lang::get('messages.student')}}" + plural + "{{Lang::get('messages.alert_approve')}}");
+				alertify.log
+				(
+					welcome + 
+					" {{Lang::get('messages.have')}}" +
+					" {{$stats['approve']}}" +
+					" {{Lang::get('messages.student')}}" + 
+					plural + 
+					" {{Lang::get('messages.alert_approve')}}"
+				);
 			@endif
 		});
 
@@ -314,6 +363,46 @@
 			var section = $(this).attr("id");
 			$("#section_code").val(section);
 			$("#form_section_groups").submit();
+		});
+
+		function fillData(student_id, code, name, last_name)
+		{
+			$('#student_id').val(student_id);
+			$('#section_code').val(code);
+			$('#name').val(name);
+			$('#last_name').val(last_name);
+		}
+
+		var counter = 0;
+		var idList = new Array();
+
+		var broadcastMessageCallback = function(from, msg)
+		{
+			for(var i = 0; i < idList.length; i ++) 
+			{
+				chatboxManager.addBox(idList[i]);
+				$("#" + idList[i]).chatbox("option", "boxManager").addMsg(from, msg);
+		  	}
+	  	}
+
+		// chatboxManager is excerpt from the original project
+		// the code is not very clean, I just want to reuse it to manage multiple chatboxes
+		chatboxManager.init({messageSent : broadcastMessageCallback});
+
+		$("#link_add").click(function(event) 
+		{
+			var id = $('#student_id').val() + '_' + $('#section_code').val();
+			counter ++;
+			idList.push(id);
+			
+			chatboxManager.addBox(id, 
+			{
+				title: "box" + counter,
+				first_name: $('#name').val(),
+				last_name: $('#last_name').val()
+			});
+			
+			event.preventDefault();
 		});
 	</script>
 </body>

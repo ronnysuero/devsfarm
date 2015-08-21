@@ -132,7 +132,7 @@
 				$('#deleteModal').modal('hide');
 
 				if(data === '00')
-					$('#' + $('#tr').val()).hide();
+					$('#' + $('#tr').val()).remove();
 				else
 					alertify.alert(data);
 			});

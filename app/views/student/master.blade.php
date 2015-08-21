@@ -4,7 +4,7 @@
 	<meta charset="UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>DevsFarm</title>
+	<title>@yield('title')</title>
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="css/sb-admin.css">
 	<link rel="stylesheet" type="text/css" href="css/font-awesome.css">
@@ -14,7 +14,7 @@
 	<link rel="stylesheet" type="text/css" href="css/cropper.min.css">
 	<link rel="stylesheet" href="css/alertify.core.css" />
 	<link rel="stylesheet" href="css/alertify.default.css" id="toggleCSS" />
-	<script type="text/javascript" src="js/jquery-2.1.3.js"></script>
+	<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
 	<script type="text/javascript" src="js/dhtmlxgantt.js"></script>
 </head>
 <body>
@@ -29,7 +29,10 @@
 				</button>
 				<a class="navbar-brand" href="{{Lang::get('routes.student')}}">DevsFarm</a>
 			</div>
-			<?php $unreadMessages = MessageController::unReadMessages(); ?>
+			<?php 
+				$unreadMessages = MessageController::unReadMessages(); 
+				$stats = MessageController::getStats();
+			?>
 			<ul class="nav navbar-top-links navbar-right user-menu" id="user-menu">
 				<li class="dropdown">
 					<a href="#" class="settings dropdown-toggle" data-toggle="dropdown">
@@ -148,6 +151,18 @@
 								<i class="fa fa-plus"></i> {{Lang::get('student_master.join_subject')}}
 							</a>
 						</li>
+						<li id="cssmenu">
+							<a href="{{Lang::get('routes.chat')}}" class="nav_categoria">
+								<i class="fa fa-weixin"></i> 
+								Chat
+							</a>
+							<ul class="nav nav-second-level">
+								<?php 
+									$student = Student::find(Auth::id());
+									$sectionCodes = SectionCode::whereIn('students_id', array(Auth::id()))->get(); 
+								?>
+							</ul>                            
+						</li>	
 					</ul>
 				</div>
 			</nav>
