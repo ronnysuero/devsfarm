@@ -10,6 +10,7 @@ return array(
 'deadline'=>'Fecha Limite',
 'description'=>'Descripcion',
 'success'=>'Exitosamente',
+'score'=>'Puntuacion',
 
 
 );

@@ -52,8 +52,8 @@
                             <tr>
                                 <td>{{$index + 1}}</td>
                                 <td>
-                                    <a href="#">
-                                        <i class="fa fa-edit" data-toggle="modal" data-target="#editModal" style="color:#337ab7;"></i>
+                                    <a onclick="updateGroup('{{$group->_id}}')">
+                                        <i class="fa fa-edit" data-toggle="modal" data-target="#editar" style="color:#337ab7;"></i>
                                     </a>
                                 </td>
                                 <td>{{$group->name}}</td>
@@ -90,22 +90,74 @@
             @endif
         </div>
     </div>
+
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="Eliminar Grupo" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="Eliminar grupo"><i class="fa fa-trash-o"></i> {{Lang::get('list_teacher.confirm')}}</h4>
+                <h4 class="modal-title" id="Eliminar grupo"><i class="fa fa-trash-o"></i> {{Lang::get('show_groups.deleteGroup')}}</h4>
             </div>
             <div class="modal-body">
-                {{Lang::get('list_teacher.agree')}}
+                {{Lang::get('show_groups.detete_message')}}
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">{{Lang::get('list_teacher.cancel')}}</button>
-                <button onclick="dropGroup();" type="button" class="btn btn-primary">{{Lang::get('list_teacher.disable')}}</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">{{Lang::get('show_groups.cancel')}}</button>
+                <button onclick="dropGroup();" type="button" class="btn btn-primary">{{Lang::get('show_groups.disable')}}</button>
             </div>
         </div>
     </div>
+    </div>
+
+    <div class="modal fade" id="editar" tabindex="-1" role="dialog" aria-labelledby="Eliminar Grupo" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="Eliminar grupo"><i class="fa fa-trash-o"></i> </h4>
+            </div>
+            <div class="modal-body">
+
+
+
+            	{{ Form::open(array('url' => Lang::get('routes.update_task'), 'id' => 'update_form', 'role' => 'form','enctype' => 'multipart/form-data')) }}
+                                    
+                                    
+                         <div class="form-group">
+                                <label>{{Lang::get('register_group.name')}}</label>
+                                <input data-validate="required,size(3, 50),characterspace" type="text" class="form-control" id="name" name="name" >
+                          </div>
+
+                                 
+
+                            <div class="form-group">
+                                <label>{{Lang::get('register_group.project_name')}}</label>
+                                <input data-validate="required,size(3, 50),characterspace" type="text" class="form-control" id="project_name" name="project_name" >
+
+                            </div>
+
+                            <div class="form-group">
+                                <label>{{Lang::get('register_group.logo')}}</label>
+                                <input data-validate="image" type="file" id="photo" name="photo" accept="image/x-png, image/gif, image/jpeg" onchange="PreviewImage()">
+                            </div>
+                            <div class="form-group">
+                                <img src="images/140x140.png" alt="" style="width: 140px; height: 140px;" id="photo_display" name="photo_display">
+                            </div>
+                
+               
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">{{Lang::get('show_groups.cancel')}}</button>
+                <button onclick="dropGroup();" type="button" class="btn btn-primary">{{Lang::get('show_groups.disable')}}</button>
+            </div>
+             {{ Form::close() }}
+        </div>
+    </div>
+    </div>
+
+    
+    
+
 <script type="text/javascript">
 		var demo_tasks = {
 			data:[
@@ -221,6 +273,27 @@
 	            if(data === '00')
 	                location.reload();
 	        });
+	    }
+
+	    function updateGroup(x)
+
+	      
+	    {
+	      
+	      $('#_id').val(x);
+
+	        $.post("{{Lang::get('routes.update_group')}}",
+	        { 
+	            group_id:  $('#_id').val()
+	           
+	        })
+	        .done(function( data ) 
+	        {
+	            $('#name').val(data.name);
+	            console.log(data);
+	        });
+
+
 	    }
 	</script>
 @stop

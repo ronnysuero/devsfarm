@@ -13,5 +13,10 @@ return array (
     'disable'=>'Eliminar',
     'delete_msg'=>'Delete Groups',
     'student_placehold'=>'Choose one Student',
+    'btnrated'=>'rated',
+    'rated'=>'rated',
+    'btnedit'=>'Edit',
+    'titleEdit'=>'Edit Group',
+    'deleteGroup'=>'Delete Group',
 
 );

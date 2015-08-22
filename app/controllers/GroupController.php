@@ -1,184 +1,213 @@
 <?php
 
-class GroupController extends BaseController{
+class GroupController extends BaseController
+{
+	/**
+	 * Show the view on the navigator
+	 *
+	 * @return void
+	 */
 
-    /**
-     * Show the view on the navigator
-     *
-     * @return void
-     */
+	public function  registerGroup()
+	{
+		$group = Group::whereIn('student_id', array(Auth::id()))->get();
 
-    public function  registerGroup(){
+		return View::make('group.register_group')->with(
+			array( 
+				'groups' => $group,
+			)
+		);
 
-           $group = Group::whereIn('student_id', array(Auth::id()))
-            ->get();
+	}
+	
+	public function  joinToGroup()
+	{
+		$group = Group::whereIn('student_id', array(Auth::id()))->get();
 
-        return View::make('group.register_group')->with(array( 'groups' => $group,'stats' => MessageController::getStats(),
-            'unreadMessages' => MessageController::unReadMessages()));
+		return View::make('group.join_to_group')->with(
+			array( 
+				'groups' => $group,
+			)
+		);
+	}
 
-    }
-    public function  joinToGroup(){
+	// quitar
+	public function showView ()
+	{
+		$subjects=Subject::all();
+		return View::make('group.register_group')->with(array( 'subjects' => $subjects));
+	}
 
-         $group = Group::whereIn('student_id', array(Auth::id()))
-            ->get();
+	public function addGroup()
+	{
+		$user = Student::find(Auth::id());
+		$sectionCode = SectionCode::where('code', Input::get('sectionCode'))->first();
 
-        return View::make('group.join_to_group')->with(array( 'groups' => $group,'stats' => MessageController::getStats(),
-            'unreadMessages' => MessageController::unReadMessages()));
+		if(isset($sectionCode->_id))
+		{
+			$section = Subject::find($sectionCode->subject_id)->sections()->find($sectionCode->section_id);
 
-    }
-    // quitar
-    public function showView ()
-    {
-        $subjects=Subject::all();
-        return View::make('group.register_group')->with(array( 'subjects' => $subjects));
-    }
+			if(strcasecmp($section->current_code, $sectionCode->code) === 0)
+			{
+				$group = new Group;
+				$group->name=trim(strtolower(Input::get('name')));
+				$group->teamleader_id= new MongoId($user->_id);
+				$group->section_code = $sectionCode->code;
+				$group->student_id=array(new MongoId($user->_id));
+				$group->project_name=trim(strtolower(Input::get('project_name')));
+				$message = "";
 
+				if(Input::hasFile('avatar_file'))
+				{
+					$data = Input::get('avatar_data');
+					$image = new CropImage(null, $data, $_FILES['avatar_file']);
+					$group->logo = $image->getURL();
+				}
+				else
+					$group->logo = null;
 
-    public function addGroup()
-    {
-        $user = Student::find(Auth::id());
-        $sectionCode = SectionCode::where('code', Input::get('sectionCode'))->first();
+				$group->save();
 
-        if(isset($sectionCode->_id))
-        {
-            $section = Subject::find($sectionCode->subject_id)->sections()->find($sectionCode->section_id);
+				return Redirect::to(Lang::get('routes.register_group'))->with('message', Lang::get('register_group.success'));
+			}
+			else
+				$message = Lang::get('register_group.code_expired');
+		}
+		else
+			$message = Lang::get('register_group.code_fail');
 
-            if(strcasecmp($section->current_code, $sectionCode->code) === 0)
-            {
-                $group=new Group;
-                $group->name=trim(strtolower(Input::get('name')));
-                $group->teamleader_id= new MongoId($user->_id);
-                $group->section_code = $sectionCode->code;
-                $group->student_id=array(new MongoId($user->_id));
-                $group->project_name=trim(strtolower(Input::get('project_name')));
+		return Redirect::back()->withErrors(
+			array( 
+				'error' => $message
+			)
+		);
+	}
 
-                if(Input::hasFile('avatar_file'))
-                {
-                    $data = Input::get('avatar_data');
-                    $image = new CropImage(null, $data, $_FILES['avatar_file']);
-                    $group->logo = $image->getURL();
-                }
-                else
-                    $group->logo = null;
+	public function showAllGroupView()
+	{  
+		$group = Group::whereIn('student_id', array(Auth::id()))->get();
 
-                $group->save();
+		return View::make('group.show_group')->with(
+			array( 
+				'groups' => $group
+			)
+		);
+	}
 
-                return Redirect::to(Lang::get('routes.register_group'))->with('message', Lang::get('register_group.success'));
-            }
-            else
-                return Redirect::back()->withErrors(array( 'error' => Lang::get('register_group.code_expired')));
-        }
-        else
-            return Redirect::back()->withErrors(array( 'error' => Lang::get('register_group.code_fail')));
-    }
+	public function findMemberInformation()
+	{
+		if(Request::ajax())
+		{
+			$student = Student::where('email', Input::get('email'))->first();
 
+			return Response::json($student);
+		}
+	}
 
+	public function getFarmReport()
+	{
+		$group_id = Input::get('group_id');
 
-    public function showAllGroupView()
-    {  
-        $group = Group::whereIn('student_id', array(Auth::id()))
-            ->get();
+		return View::make('teacher.farm_report')->with(
+			array(
+				'group_id' => $group_id
+			)
+		);
+	}
 
-        return View::make('group.show_group')->with(array( 'groups' => $group,'stats' => MessageController::getStats(),
-            'unreadMessages' => MessageController::unReadMessages()));
+	public function findGroupBySection()
+	{
 
+		$groups = Group::where('section_id', trim(strtolower(Input::get('section_code'))))->get();
 
-    }
+		$colors = [ '#673AB7', '#009688', '#00BCD4', '#673AB7', '#9C27B0', '#E91E63', '#F44336', 
+					'#2196F3', '#4CAF50', '#8BC34A', '#FFC107', '#795548', '#9E9E9E', '#CDDC39', 
+					'#607D8B'];
 
-    public function findMemberInformation()
-    {
-        if(Request::ajax())
-        {
-            $student = Student::where('email', '=', Input::get('email'))->first();
-            return Response::json($student);
-        }
-    }
+		return View::make('teacher.subject_details')->with(
+			array(
+				'groups' => $groups,
+				'colors' => $colors
+			)
+		);
+	}
 
-    public function getFarmReport(){
-        $group_id = Input::get('group_id');
-        return View::make('teacher.farm_report')->with(array('group_id' => $group_id,
-                                                            'stats' => MessageController::getStats(),
-                                                             'unreadMessages' => MessageController::unReadMessages()));
-    }
+	public function addStudentToGroup()
+	{
+		$user = Student::find(Auth::id());
+		Group::find(Input::get('group'))->push('student_id', array(new MongoId($user->_id)));
 
-    public function findGroupBySection()
-    {
+		return Redirect::to(Lang::get('routes.join_to_group'))->with('message', Lang::get('register_group.success'));
+	}
 
-        $groups = Group::where('section_id', trim(strtolower(Input::get('section_code'))))->get();
-        $colors = ['#673AB7', '#009688', '#00BCD4', '#673AB7', '#9C27B0', '#E91E63', '#F44336', '#2196F3', '#4CAF50',
-            '#8BC34A', '#FFC107', '#795548', '#9E9E9E', '#CDDC39', '#607D8B'];
+	public static function findGroup()
+	{
 
+		if(Input::get('group_code') != null || Session::get('group_code'))
+		{
+			$id = (Input::get('group_code') != null) ? Input::get('group_code') : Session::get('group_code');
+			$group = Group::find(new MongoId($id));
+			$task=Assignment::where('group_id', new MongoId($id))->get();
 
-        return View::make('teacher.subject_details')->with(array('groups' => $groups,
-                                                                'colors' => $colors,
-                                                                'stats' => MessageController::getStats(),
-                                                                'unreadMessages' => MessageController::unReadMessages()));
-    }
+			return View::make('group.show_mygroup')->with(
+				array(
+					'groups' => $group,
+					'tasks' => $task
+				)
+			);	
+		}
+		else
+			return Redirect::to(Lang::get('routes.student'));
+	}
 
-    public function addStudentToGroup()
-    {
+	public function find_students()
+	{
+		$usuario = array();
+		$user = Student::find(Auth::id());
+		array_push($usuario, $user);
 
-        $user = Student::find(Auth::id());
-        Group::find(Input::get('group'))->push('student_id', array(new MongoId($user->_id)));
+		if(Request::ajax())
+		{
+			$group = Group::find(Input::get('group'));
+			$students = array();
 
-        return Redirect::to(Lang::get('routes.join_to_group'))->with('message', Lang::get('register_group.success'));
-    }
+			if(isset($group->_id))
+			{
+				foreach ($group->student_id as $student) 
+				{
+					$val = Student::find($student);
 
+					if(isset($val->_id))
+						array_push($students, $val);
+				}
+			}
 
-     public static function findGroup()
-    {
-    
-    
-         
-          $groups = Group::find(Input::get('group_code'));
-          $task=Assignment::Where('group_id', new MongoId(Input::get('group_code')))->get();
-     
-        return View::make('group.show_mygroup')->with(array('groups' => $groups,'tasks'=>$task,'stats' => MessageController::getStats(),
-            'unreadMessages' => MessageController::unReadMessages())
-            );
+			if(count($students) > 0 && $user->_id === $group->teamleader_id)
+				return Response::json(array('students' => $students));
+			else
+				return Response::json(array('students' => $usuario));
+		}
+	}
 
-       
-    }
+	public function drop()
+	{
+		if(Request::ajax())
+		{
+			$ids = Input::get('group_id');
+			Group::find($ids)->delete();
 
+			return Response::json("00");
+		}
+	}
 
-    public function find_students(){
+  public function findupdateGroup()
+	{
+		if(Request::ajax())
+		{
+			$ids = Input::get('group_id');
+			$group = Group::find(new MongoId($ids));
 
-
-        if(Request::ajax())
-        {
-           $group=Group::find(Input::get('group'));
-           $students = array();
-
-           if(isset($group->_id))
-           {
-                foreach ($group->student_id as $student) 
-                {
-                    $val = Student::find($student);
-                    array_push($students, $val);
-                }
-           }
-            //$students = Student::whereIn('_id',Input::get('group')->student_id)->get(); 
-            //$students = Group::whereIn('_id',$group->student_id)->get();
-            //$students = Student::all();
-
-            if(count($students) > 0)
-                //return View::make('student.home')->with();
-                return Response::json(array('students' => $students));
-
-        }
-    }
-
-
-    public function drop()
-    {
-        if(Request::ajax())
-        {
-            $ids = Input::get('group_id');
-            
-            Group::find($ids)->delete();
-            
-            return Response::json("00");
-        }
-    }
-
+		   return Response::json(array('group' =>  $group));
+		}
+	}
 }
