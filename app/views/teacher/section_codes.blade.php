@@ -83,7 +83,7 @@
 									<input data-validate="required" type="text" class="form-control" id="current_period" name="current_period"
 										   placeholder="{{Lang::get('section_codes.period_placeHolder')}}">
 								</div>
-								<label>Code: <p id="code"></p></label>
+								<label>{{Lang::get('section_codes.code')}}: <p id="code"></p></label>
 								<button type="submit" class="btn btn-default pull-right">{{Lang::get('section_codes.generate_code')}}</button>
 							{{Form::close()}}
 						</div>

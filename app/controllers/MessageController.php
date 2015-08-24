@@ -290,6 +290,7 @@ class MessageController extends BaseController
 			'sent' => $sent,
 			'archived' => $archived,
 			'approve' => PendingEnrollment::where('teacher_id', Auth::id())->count(),
+			'join' => PendingGroup::where('teamleader_id', Auth::id())->count(),
 		);	
 	}
 

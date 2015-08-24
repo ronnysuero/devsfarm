@@ -7,41 +7,34 @@ class GroupController extends BaseController
 	 *
 	 * @return void
 	 */
-
-	public function  registerGroup()
+	public function showAddGroupView()
 	{
-		$group = Group::whereIn('student_id', array(Auth::id()))->get();
+		$sectionCodes = SectionCode::where('status', true)
+								   ->whereIn('teamleaders_id', array(Auth::id()))
+								   ->get();
+		$sections = array();
 
-		return View::make('group.register_group')->with(
+		foreach ($sectionCodes as $sectionCode) 
+		{
+			$subject = Subject::find($sectionCode->subject_id);
+
+			if(isset($subject->_id))
+			{
+				$section = $subject->sections()->find($sectionCode->section_id);
+				$sections[$sectionCode->_id] = $subject->name.' - '.$section->code;
+			}
+		}
+
+		return View::make('student.add_group')->with(
 			array( 
-				'groups' => $group,
+				'sections' => $sections,
 			)
 		);
-
 	}
 	
-	public function  joinToGroup()
-	{
-		$group = Group::whereIn('student_id', array(Auth::id()))->get();
-
-		return View::make('group.join_to_group')->with(
-			array( 
-				'groups' => $group,
-			)
-		);
-	}
-
-	// quitar
-	public function showView ()
-	{
-		$subjects=Subject::all();
-		return View::make('group.register_group')->with(array( 'subjects' => $subjects));
-	}
-
 	public function addGroup()
 	{
-		$user = Student::find(Auth::id());
-		$sectionCode = SectionCode::where('code', Input::get('sectionCode'))->first();
+		$sectionCode = SectionCode::find(new MongoId(Input::get('section')));
 
 		if(isset($sectionCode->_id))
 		{
@@ -50,11 +43,12 @@ class GroupController extends BaseController
 			if(strcasecmp($section->current_code, $sectionCode->code) === 0)
 			{
 				$group = new Group;
-				$group->name=trim(strtolower(Input::get('name')));
-				$group->teamleader_id= new MongoId($user->_id);
-				$group->section_code = $sectionCode->code;
-				$group->student_id=array(new MongoId($user->_id));
-				$group->project_name=trim(strtolower(Input::get('project_name')));
+				$group->name = trim(ucfirst(Input::get('name')));
+				$group->teamleader_id = Auth::id();
+				$group->section_code_id = new MongoId($sectionCode->_id);
+				$group->students_id = array(Auth::id());
+				$group->project_name = trim(strtolower(Input::get('project_name')));
+				
 				$message = "";
 
 				if(Input::hasFile('avatar_file'))
@@ -66,9 +60,20 @@ class GroupController extends BaseController
 				else
 					$group->logo = null;
 
-				$group->save();
+				try
+				{
+					$group->save();
+				}
+				catch (MongoDuplicateKeyException $e) 
+				{
+					return Redirect::back()->withErrors(
+						array( 
+							'error' => Lang::get('register_group.duplicated')
+						)
+					);
+				}
 
-				return Redirect::to(Lang::get('routes.register_group'))->with('message', Lang::get('register_group.success'));
+				return Redirect::to(Lang::get('routes.add_group'))->with('message', Lang::get('register_group.success'));
 			}
 			else
 				$message = Lang::get('register_group.code_expired');
@@ -84,16 +89,61 @@ class GroupController extends BaseController
 	}
 
 	public function showAllGroupView()
-	{  
-		$group = Group::whereIn('student_id', array(Auth::id()))->get();
+	{
+		$groups = Group::whereIn('students_id', array(Auth::id()))->get();
 
-		return View::make('group.show_group')->with(
+		return View::make('student.show_all_group')->with(
 			array( 
-				'groups' => $group
+				'groups' => $groups
 			)
 		);
 	}
 
+	public function find()
+	{
+		if(Request::ajax())
+		{
+			$pending = PendingGroup::where('student_id', Auth::id())->get();
+			$array = array();
+
+			foreach ($pending as $value) 
+				array_push($array, $value->group_id);
+
+			$groups = Group::where('section_code_id', new MongoId(Input::get('section_code')))
+						   ->whereNotIn('students_id', array(Auth::id()))
+						   ->whereNotIn('_id', $array)
+						   ->get();
+
+			if(count($groups) > 0)
+			{
+				return Response::json(
+					array(
+						'groups' => $groups,
+					)
+				);
+			}
+			else
+				return Response::json("");
+		}
+	}
+
+	public function findGroupBySection()
+	{
+
+		$groups = Group::where('section_id', trim(strtolower(Input::get('section_code'))))->get();
+
+		$colors = [ '#673AB7', '#009688', '#00BCD4', '#673AB7', '#9C27B0', '#E91E63', '#F44336', 
+					'#2196F3', '#4CAF50', '#8BC34A', '#FFC107', '#795548', '#9E9E9E', '#CDDC39', 
+					'#607D8B'];
+
+		return View::make('teacher.subject_details')->with(
+			array(
+				'groups' => $groups,
+				'colors' => $colors
+			)
+		);
+	}
+	
 	public function findMemberInformation()
 	{
 		if(Request::ajax())
@@ -115,31 +165,6 @@ class GroupController extends BaseController
 		);
 	}
 
-	public function findGroupBySection()
-	{
-
-		$groups = Group::where('section_id', trim(strtolower(Input::get('section_code'))))->get();
-
-		$colors = [ '#673AB7', '#009688', '#00BCD4', '#673AB7', '#9C27B0', '#E91E63', '#F44336', 
-					'#2196F3', '#4CAF50', '#8BC34A', '#FFC107', '#795548', '#9E9E9E', '#CDDC39', 
-					'#607D8B'];
-
-		return View::make('teacher.subject_details')->with(
-			array(
-				'groups' => $groups,
-				'colors' => $colors
-			)
-		);
-	}
-
-	public function addStudentToGroup()
-	{
-		$user = Student::find(Auth::id());
-		Group::find(Input::get('group'))->push('student_id', array(new MongoId($user->_id)));
-
-		return Redirect::to(Lang::get('routes.join_to_group'))->with('message', Lang::get('register_group.success'));
-	}
-
 	public static function findGroup()
 	{
 
@@ -149,7 +174,7 @@ class GroupController extends BaseController
 			$group = Group::find(new MongoId($id));
 			$task=Assignment::where('group_id', new MongoId($id))->get();
 
-			return View::make('group.show_mygroup')->with(
+			return View::make('student.show_mygroup')->with(
 				array(
 					'groups' => $group,
 					'tasks' => $task
@@ -200,14 +225,14 @@ class GroupController extends BaseController
 		}
 	}
 
-  public function findupdateGroup()
+	public function findupdateGroup()
 	{
 		if(Request::ajax())
 		{
 			$ids = Input::get('group_id');
 			$group = Group::find(new MongoId($ids));
 
-		   return Response::json(array('group' =>  $group));
+		return Response::json(array('group' =>  $group));
 		}
 	}
 }

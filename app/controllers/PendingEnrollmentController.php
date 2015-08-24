@@ -27,10 +27,13 @@ class PendingEnrollmentController extends BaseController
 
 	public function showEnrollSection()
 	{
-		$sections  = SectionCode::whereIn('students_id', array(Auth::id()))->get();
+		$sections  = SectionCode::whereIn('students_id', array(Auth::id()))
+								->where('status', true)
+								->get();
+		
 		$pending = PendingEnrollment::where('student_id', Auth::id())->get();
 
-		return View::make('student.show_enrollment')->with(
+		return View::make('student.show_all_enrollment')->with(
 			array( 
 				'sections' => $sections,
 			   	'pending' => $pending,

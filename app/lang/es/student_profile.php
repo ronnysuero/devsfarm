@@ -2,7 +2,7 @@
 
 return array (
 
-    'mi_profile'=>'My Perfil',
+    'mi_profile'=>'Mi perfil',
     'information'=>'Información',
     'name'=>'Nombre',
     'last_name'=>'Apellido',
@@ -11,23 +11,17 @@ return array (
     'male'=>'Masculino',
     'female'=>'Femenino',
     'other'=>'Otros',
-    'job'=>'Tiene Trabajo?',
-    'yes'=>'SI',
+    'job'=>'¿Tiene Trabajo?',
+    'yes'=>'Si',
     'no'=>'No',
     'phone'=>'Teléfono',
     'cellphone'=>'Celular',
-    'email'=>'Correo Electrónico',
-    'current_password'=>'Contraseña Actual',
-    'new_password'=>'Nueva Contraseña',
-    'confirm_new_password'=>'Confirmar Nueva Contraseña',
-    'change_password'=>'Cambiar Contraseña',
+    'email'=>'Correo electrónico',
+    'current_password'=>'Contraseña actual',
+    'new_password'=>'Nueva contraseña',
+    'confirm_new_password'=>'Confirmar nueva contraseña',
+    'change_password'=>'Cambiar contraseña',
     'update'=>'Actualizar',
-    'update_true' => 'Student Updating successfully',
-    'relogin' => 'User successfully changed. Sign in again with your new user',
-
-
-
-
-
-
+    'update_true' => 'Estudiante actualizado exitosamente',
+    'relogin' => 'Usuario satisfactoriamente actualizado. Inicie sesion de nuevo con su nuevo usuario',
 );

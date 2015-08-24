@@ -103,7 +103,7 @@ class ChatController extends BaseController
 	public static function getUsersChat($code)
 	{
 		$user = UserController::getUser(Auth::user());
-		$sectionCodes = "";
+		$sectionCodes = null;
 
 		if($user instanceof Teacher)
 		{
@@ -119,9 +119,7 @@ class ChatController extends BaseController
 									   ->where('code', $code)
 									   ->first();
 		}
-		else
-			$sectionCodes = null;
-
+		
 		return $sectionCodes;
 	}
 }

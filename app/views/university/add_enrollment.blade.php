@@ -18,7 +18,7 @@
 									<select data-validate="required" class="form-control" id="teacher" name="teacher">
 										<option value="">{{Lang::get('add_enroll.teacher_placeholder')}}</option>
 										@foreach($teachers as $teacher)
-										<option value="{{ $teacher->_id }}">{{ $teacher->name.' '.$teacher->last_name }}</option>
+											<option value="{{ $teacher->_id }}">{{ $teacher->name.' '.$teacher->last_name }}</option>
 										@endforeach
 									</select>
 								</div>
@@ -27,7 +27,7 @@
 									<select data-validate="required" class="form-control" id="subject" name="subject">
 										<option value="">{{Lang::get('add_enroll.subject_placeholder')}}</option>
 										@foreach($subjects as $subject)
-										<option value="{{ $subject->_id }}">{{ $subject->name }}</option>
+											<option value="{{ $subject->_id }}">{{ $subject->name }}</option>
 										@endforeach
 									</select>
 								</div>

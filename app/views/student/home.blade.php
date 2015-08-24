@@ -1,6 +1,5 @@
 @extends('student.master')
 @section('title', 'Dashboard - Student')
-@stop
 <style type="text/css">
 	@media only screen and (max-width: 604px) 
 	{

@@ -9,5 +9,5 @@ return array(
 	'joinHeading'=>'Unirse a un Grupo',
 	'no_record' => 'No Grupos Conformados',
 	'section_placeholder' => 'Ingrese el codigo de la seccion',
-
-	);
+	'no_record' => 'No existen grupos disponibles',
+);

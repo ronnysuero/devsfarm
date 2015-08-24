@@ -2,10 +2,10 @@
 
 return array (
 
-    'mi_profile'=>'My Profile',
+    'mi_profile'=>'My profile',
     'information'=>'Information',
     'name'=>'Name',
-    'last_name'=>'Last Name',
+    'last_name'=>'Last name',
     'nip'=>'Matricula',
     'genre'=>'Genre',
     'male'=>'Male',
@@ -14,19 +14,15 @@ return array (
     'job'=>'Do you have job?',
     'yes'=>'Yes',
     'no'=>'No',
-    'phone'=>'Pnone',
+    'phone'=>'Phone',
     'cellphone'=>'CellPhone',
     'email'=>'Email',
-    'current_password'=>'Current Password',
-    'new_password'=>'New Password',
-    'confirm_new_password'=>'Confirm New Password',
-    'change_password'=>'Change Password',
+    'current_password'=>'Current password',
+    'new_password'=>'New password',
+    'confirm_new_password'=>'Confirm new password',
+    'change_password'=>'Change password',
     'update'=>'Update',
-    'update_true' => 'Student Updating successfully',
+    'update_true' => 'Student updating successfully',
     'relogin' => 'User successfully changed. Sign in again with your new user'
-
-
-
-
 
 );

@@ -1,5 +1,7 @@
 <?php
 
+use Helpers\CropImage\CropImage;
+
 class StudentController extends BaseController
 {
 	/**
@@ -85,6 +87,7 @@ class StudentController extends BaseController
 		$student->email = trim(strtolower(Input::get('guest_email')));
 		$student->genre = strtolower(trim(Input::get('guest_genre')));
 		$student->has_a_job = strtolower(trim(Input::get('guest_job')));
+		$student->profile_image = null;
 		$student->save();
 
 		return Redirect::to('/')->with('message', Lang::get('register_student.register_true'));
@@ -179,8 +182,8 @@ class StudentController extends BaseController
 				else 
 					return Response::json("");
 			}
-			else if(!is_null(Input::get('email')))
-				return Response::json(Student::where('email', Input::get('email'))->first());
+			else if(!is_null(Input::get('id')))
+				return Response::json(Student::find(Input::get('id')));
 		}
 	}
 }

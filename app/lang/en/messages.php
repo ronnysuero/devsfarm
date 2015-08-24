@@ -18,6 +18,6 @@ return array(
 	'mark' => 'Mark All',
 	'unmark' => 'Unmark All',
 	'have' => 'You have ',
-	'student' => ' student ',
+	'student' => ' student',
 	'alert_approve' => ' pending approval of its sections',
 );

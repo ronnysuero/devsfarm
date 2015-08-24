@@ -2,18 +2,18 @@
 
 return array (
 	'group'=>'Group',
-	'new_group'=>'New Group',
-	'join_to_group'=>'Join to Group',
-	'name'=>'name',
-	'name_placeholder'=>'Enter the name',
-	'register_group'=>'Register Group',
-	'register'=>'Register Group',
+	'new_group'=>'New group',
+	'join_to_group'=>'Join to group',
+	'name'=>'Group name',
+	'name_placeholder'=>'Enter the group name',
+	'register_group'=>'Register group',
+	'register'=>'Register group',
 	'section'=>'Section',
 	'logo'=>'Logo',
-	'project_name'=>'Project Name ',
+	'project_name'=>'Project name ',
 	'success'=>'Group successfully registered',
-	'Code_secction'=>'Code Section',
-	'sectionCode_placeholer' => 'Enter the section code',
+	'Code_secction'=>'Section',
+	'sectionCode_placeholer' => 'Select a seccion',
 	'code_fail' => 'The code section doesn\'t exist, please check and try again',
 	'code_expired' => 'The code section already expired or prior period',
 	'enroll_pending' => 'A pending application of this section already exists, please wait for the teacher to accept you.',
@@ -31,6 +31,11 @@ return array (
 	'deny' => 'Deny',
 	'student' => 'Student',
 	'user_register' => 'You are already registered in this section',
-	
-	
+	'add_group' => 'Add a new group',
+	'duplicated' => 'The group name is already registered in the system',
+	'join_pending' => 'A pending application of this group already exists, please wait for the teamleader to accept you.',
+	'join_sucess' => 'The request has been sent to the teamleader responsible for the group',
+	'teamleader' => 'Teamleader',
+	'drop_join' => 'If you delete this request the teamleader can\'t accept you in his group',
+
 );

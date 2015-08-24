@@ -120,27 +120,27 @@
 						<li>
 							<a href="#" class="nav_categoria">
 								<i class="fa fa-list"></i> 
-								Group
+								{{Lang::get('student_master.groups')}}
 							</a>
 							<ul class="nav nav-second-level">
 								<li>
-									<a href={{Lang::get('routes.register_group')}}>
+									<a href={{Lang::get('routes.add_group')}}>
 										<i class="fa fa-plus" style="color: #0097A7;"></i>
-										New Group
+										{{Lang::get('student_master.new_group')}}
 									</a>
 								</li>
 
 								<li>
 									<a href={{Lang::get('routes.join_to_group')}}>
 										<i class="fa fa-plus" style="color: #0097A7;"></i> 
-										Join To group
+										{{Lang::get('student_master.join_group')}}
 									</a>
 								</li>
 
 								<li>
 									<a href={{Lang::get('routes.show_groups')}}>
 										<i class="fa fa-plus" style="color: #0097A7;"></i> 
-										Show Groups
+										{{Lang::get('student_master.show_group')}}
 									</a>
 								</li>
 
@@ -151,6 +151,15 @@
 								<i class="fa fa-plus"></i> {{Lang::get('student_master.join_subject')}}
 							</a>
 						</li>
+						@if($stats['join'] > 0)
+							<li id="approve_li">
+								<a href="{{Lang::get('routes.approval')}}" style="background-color: #0097A7; color: white;">
+									<i class="fa fa-sign-in"></i>
+									{{Lang::get('teacher_master.approval')}}
+									<span id="approve" class="badge bg-pink">{{$stats['join']}}</span>
+								</a>
+							</li>
+						@endif
 						<li id="cssmenu">
 							<a href="{{Lang::get('routes.chat')}}" class="nav_categoria">
 								<i class="fa fa-weixin"></i> 

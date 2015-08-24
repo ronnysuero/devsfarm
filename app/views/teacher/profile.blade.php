@@ -14,7 +14,7 @@
 						<div class="col-lg-3" style="overflow: hidden;">
 							<div id="photo_display" name="photo_display" title="{{Lang::get('teacher_profile.teacher_photo')}}"
 								 class="avatar-view avatar-preview preview-lg" style="width:140px; height:140px">
-								@if($teacher->profile_image == null)
+								@if(is_null($teacher->profile_image))
 									<img src="images/140x140.png" alt="Avatar">
 								@else
 									<img src="{{Lang::get('show_image').'?src='.storage_path().$teacher->profile_image}}" alt="Avatar" />
@@ -79,7 +79,8 @@
 	<script>
 		$('document').ready(function()
 		{
-			$("#crop").on("click", function() {
+			$("#crop").on("click", function() 
+			{
 				$('#photo_display').html($('#preview').html());
 				$('#avatar-modal').modal('hide');
 			});

@@ -1,8 +1,9 @@
-db.users.createIndex({"user": 1}, {unique:true}),
-db.students.createIndex({"email": 1}, {unique:true}),
-db.universities.createIndex({"email": 1}, {unique:true}),
-db.teachers.createIndex({"email": 1}, {unique:true}),
-db.subjects.createIndex({"name": 1}, {unique: true}),
+db.users.createIndex({"user": 1}, {unique:true})
+db.students.createIndex({"email": 1}, {unique:true})
+db.universities.createIndex({"email": 1}, {unique:true})
+db.teachers.createIndex({"email": 1}, {unique:true})
+db.subjects.createIndex({"name": 1}, {unique: true})
 db.subjects.createIndex({"sections.code": 1, "sections.current_code": 1}, {unique: true})
 db.section_codes.createIndex({'code': 1}, {unique: true})
 db.pending_enrollments.createIndex({'section_code_id': 1, 'student_id': 1}, {unique: true})
+db.groups.createIndex({"name": 1}, {unique:true})

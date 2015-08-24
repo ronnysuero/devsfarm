@@ -37,5 +37,6 @@ return array(
 	'success_forget_password' => 'Ahora vaya a su bandeja de entrada y haga click en el link enviado en el mensaje',
 	'link_expired' => 'Este enlace ya no se encuentra disponible',
 	'password_changed' => 'Contraseña cambiada exitosamente',
+	'duplicated' => 'El nombre del grupo ya esta registrado en el sistema',
 
 	);

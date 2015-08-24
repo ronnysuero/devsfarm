@@ -219,17 +219,19 @@
 													<?php
 														$sectionCode = ChatController::getUsersChat($section->current_code);
 													?>
-													@foreach($sectionCode->teamleaders_id as $student_id)
-														<?php $user = Student::find($student_id); ?>
-														<ul class="nav nav-fourth-level">
-															<li>
-																<a href="#" id="link_add" onclick="fillData('{{$user->_id}}', '{{$sectionCode->code}}', '{{$user->name}}', '{{$user->last_name}}')">
-																	<i class="fa fa-comment"></i>
-																	{{ $user->name.' '.$user->last_name }}
-																</a>
-															</li>
-														</ul>
-													@endforeach
+													@if(isset($sectionCode->teamleaders_id))
+														@foreach($sectionCode->teamleaders_id as $student_id)
+															<?php $user = Student::find($student_id); ?>
+															<ul class="nav nav-fourth-level">
+																<li>
+																	<a href="#" id="link_add" onclick="fillData('{{$user->_id}}', '{{$sectionCode->code}}', '{{$user->name}}', '{{$user->last_name}}')">
+																		<i class="fa fa-comment"></i>
+																		{{ $user->name.' '.$user->last_name }}
+																	</a>
+																</li>
+															</ul>
+														@endforeach
+													@endif
 												</li>
 											@endforeach
 										</ul>

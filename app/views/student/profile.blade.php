@@ -12,15 +12,16 @@
 			<div class="panel-body" id="crop-avatar">
 				<div class="row">
 					@include('alert')
-					{{ Form::open(array('url' => Lang::get('routes.update_student'), 'enctype' => 'multipart/form-data')) }}
-						<div class="col-lg-2" style="overflow: hidden;">
-							<div id="photo_display" name="photo_display" title="{{Lang::get('crop.change_avatar')}}" class="avatar-view avatar-preview preview-lg" style="width:140px; height:140px">
-								@if($student->profile_image == null)
+					{{ Form::open(array('url' => Lang::get('routes.update_student'), 'enctype' => 'multipart/form-data', 'id' => 'form')) }}
+						<div class="col-lg-3" style="overflow: hidden;">
+							<div id="photo_display" name="photo_display" title="{{Lang::get('teacher_profile.teacher_photo')}}"
+								 class="avatar-view avatar-preview preview-lg" style="width:140px; height:140px">
+								@if(is_null($student->profile_image))
 									<img src="images/140x140.png" alt="Avatar">
 								@else
 									<img src="{{Lang::get('show_image').'?src='.storage_path().$student->profile_image}}" alt="Avatar" />
-								@endif	
-							</div>					
+								@endif
+							</div>
 						</div>
 						<div class="col-lg-6" style="overflow: hidden;">
 							<div class="form-group">
@@ -89,8 +90,7 @@
 			$('#avatar-modal').modal('hide');
 		});
 
-		$("#show_password_fields").click(function()
-		{
+		$("#show_password_fields").click(function() {
 			$("#password_fields").toggle("slow");
 		});
 
