@@ -1,5 +1,5 @@
-@extends('teacher.master')
-@section('title', Lang::get('teacher_title.approval'))
+@extends('student.master')
+@section('title', Lang::get('student_title.approval'))
 @section('content')
 	<div class="row">
 		<div class="col-lg-12">
@@ -17,7 +17,7 @@
 									<th>#</th>
 									<th>{{Lang::get('register_group.subject')}}</th>
 									<th>{{Lang::get('register_group.section_code')}}</th>
-									<th>{{Lang::get('register_group.section')}}</th>
+									<th>{{Lang::get('register_group.group_name')}}</th>
 									<th>{{Lang::get('register_group.student')}}</th>
 									<th>{{Lang::get('register_group.approve')}}</th>
 									<th>{{Lang::get('register_group.deny')}}</th>
@@ -30,12 +30,13 @@
 										$subject = Subject::find($section_code->subject_id);
 										$section = $subject->sections()->find($section_code->section_id);
 										$student = Student::find($item->student_id);
+										$group = Group::find($item->group_id);
 									?>
 									<tr id="{{$index+1}}">
 										<td>{{$index+1}}</td>
 										<td>{{$subject->name}}</td>
 										<td>{{$section->code}}</td>
-										<td>{{$section_code->code}}</td>
+										<td>{{$group->name}}</td>
 										<td>{{$student->name.' '.$student->last_name.' - ('.$student->id_number.')'}}</td>
 										<td style="width:6%">
 											<a onclick="approve('{{$item->_id}}', {{$index+1}})" href="#" class="pull-right">
@@ -57,10 +58,9 @@
 		</div>
 	</div>
 	<script type="text/javascript">
-
 		function approve(id, pos)
 		{
-			$.post("{{Lang::get('routes.approve_enroll')}}",
+			$.post("{{Lang::get('routes.approve_group')}}",
 			{ 
 				id: id,
 			})
@@ -70,17 +70,17 @@
 				{
 					$('#'+pos).remove();
 
-					if(data.stats.approve > 0)
-						$('#approve').html(data.stats.approve);
+					if(data.stats.join > 0)
+						$('#join').html(data.stats.join);
 					else
-						$('#approve_li').remove();
+						$('#join_li').remove();
 				}
 			});
 		}
 
 		function deny(id, pos)
 		{
-			$.post("{{Lang::get('routes.drop_enroll')}}",
+			$.post("{{Lang::get('routes.drop_join')}}",
 			{ 
 				id: id,
 			})

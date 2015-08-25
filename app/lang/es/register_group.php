@@ -35,5 +35,7 @@ return array (
 	'join_sucess' => 'La petición ha sido enviada al lider del equipo encargado del grupo',
 	'teamleader' => 'Lider de equipo',
 	'drop_join' => 'Si elimina esta petición el lider del equipo no podrá aceptarlo a usted en su grupo',
+	'group_name' => 'Nombre del grupo',
+	'update'=>'Grupo actualizado satisfactoriamente',
 
 );

@@ -187,7 +187,7 @@ class TeacherController extends BaseController
         {
             $data = Input::get('avatar_data');
 
-            if($teacher->profile_image === null)
+            if(is_null($teacher->profile_image))
             {
                 $image = new CropImage(null, $data, $_FILES['avatar_file']);
                 $teacher->profile_image = $image->getURL();

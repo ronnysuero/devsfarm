@@ -121,6 +121,7 @@
 	"profile_image": String,
 	"students_id": [Object_Id],
 	"project_name": String,
+	"logo": String,
 }
 
 "chats":
@@ -158,4 +159,13 @@
 	"section_code_id": Object_Id,
 	"student_id": Object_Id,
 	"teacher_id": Object_Id,
+}
+
+"pending_groups":
+{
+	"_id": Object_Id,
+	"section_code_id": Object_Id,
+	"group_id" : Object_Id,
+	"student_id": Object_Id,
+	"teamleader_id": Object_Id,
 }

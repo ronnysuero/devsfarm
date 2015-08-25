@@ -11,7 +11,7 @@ class StudentController extends BaseController
 	*/
 	public function showHome()
 	{
-		$group = Group::whereIn('student_id', array(Auth::id()))->get();
+		$group = Group::whereIn('students_id', array(Auth::id()))->get();
 
 		return View::make('student.home')->with(
 			array(
@@ -185,5 +185,22 @@ class StudentController extends BaseController
 			else if(!is_null(Input::get('id')))
 				return Response::json(Student::find(Input::get('id')));
 		}
+	}
+
+	public function showApprovalGroupView()
+	{
+		$pending = PendingGroup::where('teamleader_id', Auth::id())->get();
+		
+		if(count($pending) > 0)
+		{
+			return View::make('student.approval_group')->with(
+				array(
+					'pending' => $pending,
+					'stats' => MessageController::getStats(),
+		 	 	)
+		 	);
+		}
+		else
+			return Redirect::to(Lang::get('routes.'.Auth::user()->rank));
 	}
 }

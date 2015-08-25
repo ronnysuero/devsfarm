@@ -13,7 +13,8 @@
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 	<link rel="stylesheet" type="text/css" href="css/cropper.min.css">
 	<link rel="stylesheet" href="css/alertify.core.css" />
-	<link rel="stylesheet" href="css/alertify.default.css" id="toggleCSS" />
+	<link rel="stylesheet" href="css/alertify.default.css" />
+	<link rel="shortcut icon" href="favicon.png"> 
 	<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
 	<script type="text/javascript" src="js/dhtmlxgantt.js"></script>
 </head>
@@ -152,11 +153,11 @@
 							</a>
 						</li>
 						@if($stats['join'] > 0)
-							<li id="approve_li">
-								<a href="{{Lang::get('routes.approval')}}" style="background-color: #0097A7; color: white;">
+							<li id="join_li">
+								<a href="{{Lang::get('routes.approval_group')}}" style="background-color: #0097A7; color: white;">
 									<i class="fa fa-sign-in"></i>
 									{{Lang::get('teacher_master.approval')}}
-									<span id="approve" class="badge bg-pink">{{$stats['join']}}</span>
+									<span id="join" class="badge bg-pink">{{$stats['join']}}</span>
 								</a>
 							</li>
 						@endif

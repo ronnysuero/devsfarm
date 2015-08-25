@@ -37,5 +37,7 @@ return array (
 	'join_sucess' => 'The request has been sent to the teamleader responsible for the group',
 	'teamleader' => 'Teamleader',
 	'drop_join' => 'If you delete this request the teamleader can\'t accept you in his group',
+	'group_name' => 'Group name',
+	'update'=>'Group successfully updated',
 
 );

@@ -31,11 +31,6 @@ class PendingGroupController extends BaseController
 
 	public function joinToGroup()
 	{
-		// $user = Student::find(Auth::id());
-		// Group::find(new MongoId(Input::get('group')))->push('students_id', array(new MongoId($user->_id)));
-
-		// return Redirect::to(Lang::get('routes.join_to_group'))->with('message', Lang::get('register_group.success'));
-
 		$group  = Group::find(new MongoId(Input::get('group')));
 		$pending = new PendingGroup;
 		$pending->section_code_id = new MongoId(Input::get('section'));
@@ -67,6 +62,18 @@ class PendingGroupController extends BaseController
 			$pending->delete();	
 
 			return Response::json("00");
+		}
+	}
+
+	public function approve()
+	{
+		if(Request::ajax())
+		{
+			$pending = PendingGroup::find(Input::get('id'));
+			Group::find($pending->group_id)->push('students_id', $pending->student_id, true);
+			$pending->delete();	
+
+			return Response::json(array('code' => "00", 'stats' => MessageController::getStats()));
 		}
 	}
 }

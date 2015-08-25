@@ -27,6 +27,7 @@ Route::group(array(), function()
 	Route::post(Lang::get('routes.register_university'), 'UniversityController@registerUniversity');
 	Route::post(Lang::get('routes.forget_password'), 'UserController@forgetPassword');
 	Route::post(Lang::get('routes.reset_password'), 'UserController@resetPassword');
+
 });
 
 
@@ -62,6 +63,7 @@ Route::group(array('before' => 'auth|university'), function()
 	Route::post(Lang::get('routes.drop_teacher'), 'TeacherController@drop');
 	Route::post(Lang::get('routes.unlink_enrollment'), 'EnrollmentController@unlink');
 	Route::post(Lang::get('routes.update_teachers'), 'TeacherController@update');
+
 });
 
 Route::group(array('before' => 'auth|teacher'), function()
@@ -91,12 +93,13 @@ Route::group(array('before' => 'auth|student'), function()
 {
     // HTTP GET
     Route::get(Lang::get('routes.student'), 'StudentController@showHome');
-    Route::get(Lang::get('routes.find_Group'), 'GroupController@findGroup');
     Route::get(Lang::get('routes.add_group'), 'GroupController@showAddGroupView');
     Route::get(Lang::get('routes.student_profile'), 'StudentController@showProfile');
     Route::get(Lang::get('routes.show_groups'), 'GroupController@showAllGroupView');
     Route::get(Lang::get('routes.join_to_group'), 'PendingGroupController@showJoinToGroupView');
     Route::get(Lang::get('routes.enroll_section'), 'PendingEnrollmentController@showEnrollSection');
+    Route::get(Lang::get('routes.approval_group'), 'StudentController@showApprovalGroupView');
+    Route::get(Lang::get('routes.show_all_assignment'), 'GroupController@findGroup');
 
     // HTTP POST
     Route::post(Lang::get('routes.findSection'), 'SectionController@findSection');
@@ -105,18 +108,19 @@ Route::group(array('before' => 'auth|student'), function()
     Route::post(Lang::get('routes.update_student'), 'StudentController@updateStudent');
     Route::post(Lang::get('routes.register_assignment'), 'AssignmentController@addAssignment');
     Route::post(Lang::get('routes.find_Group_By_Section'), 'GroupController@find');
-    Route::post(Lang::get('routes.find_Group'), 'GroupController@findGroup');
+    Route::post(Lang::get('routes.show_all_assignment'), 'AssignmentController@showAllAssignmentView');
     Route::post(Lang::get('routes.join_to_group'), 'PendingGroupController@joinToGroup');
     Route::post(Lang::get('routes.find_student'), 'StudentController@find');
-    Route::post(Lang::get('routes.find_students'), 'GroupController@find_students');
     Route::post(Lang::get('routes.drop_tasks'), 'AssignmentController@drop');
     Route::post(Lang::get('routes.update_task'), 'AssignmentController@updateTask');
     Route::post(Lang::get('routes.drop_group'), 'GroupController@drop');
-    Route::post(Lang::get('routes.update_group'), 'GroupController@findupdateGroup');
     Route::post(Lang::get('routes.find_task'), 'AssignmentController@findTask');
     Route::post(Lang::get('routes.enroll_section'), 'PendingEnrollmentController@enrollSection');
 	Route::post(Lang::get('routes.assign'), 'AssignmentController@assign');
 	Route::post(Lang::get('routes.drop_join'), 'PendingGroupController@drop');
+	Route::post(Lang::get('routes.approve_group'), 'PendingGroupController@approve');
+	Route::post(Lang::get('routes.update_group'), 'GroupController@update');
+	
 });
 
 Route::group(array('before' => 'auth'), function()
@@ -149,4 +153,5 @@ Route::group(array('before' => 'auth'), function()
 	Route::post(Lang::get('routes.find_chat'), 'ChatController@find');
 	Route::post(Lang::get('routes.drop_enroll'), 'PendingEnrollmentController@drop');
 	Route::post(Lang::get('routes.find_student'), 'StudentController@find');
+
 });

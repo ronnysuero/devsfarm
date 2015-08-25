@@ -1,8 +1,11 @@
 @extends('student.master')
+@section('title', Lang::get('student_title.join_section'))
 @section('content')
 	<div class="row">
 		<div class="col-lg-12">
-			<h1 class="page-header"><i class="fa fa-compress"></i> {{Lang::get('student_master.join_subject')}}</h1>
+			<h1 class="page-header">
+				<i class="fa fa-compress"></i> {{Lang::get('student_master.join_subject')}}
+			</h1>
 			<div class="panel-body">
 				@include('alert')
 				<p>

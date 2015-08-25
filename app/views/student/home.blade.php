@@ -1,163 +1,213 @@
 @extends('student.master')
-@section('title', 'Dashboard - Student')
-<style type="text/css">
-	@media only screen and (max-width: 604px) 
-	{
-    	.container-fluid { display: none; }
-	}
-</style>
+@section('title', Lang::get('student_title.home'))
 @section('content')
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-md-12">
-				 <h1 class="page-header">Diagrama de Gantt</h1>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-2 col-md-push-10">
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<h3 class="panel-title">{{Lang::get('student_home.gantt_info')}}</h3>
-					</div>
-					<div class="panel-body">
-						<ul class="nav nav-pills nav-stacked" id="gantt_info"></ul>
-					</div>
+	<div class="row">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-12">
+					 <h1 class="page-header">Diagrama de Gantt</h1>
 				</div>
 			</div>
-			<div class="col-md-10 col-md-pull-2">
-				<div class="gantt_wrapper panel" id="gantt_here"></div>
+			<div class="row">
+				<div class="col-md-2 col-md-push-10">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title">{{Lang::get('student_home.gantt_info')}}</h3>
+						</div>
+						<div class="panel-body">
+							<ul class="nav nav-pills nav-stacked" id="gantt_info"></ul>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-10 col-md-pull-2">
+					<div class="gantt_wrapper panel" id="gantt_here"></div>
+				</div>
 			</div>
 		</div>
-	</div>    
-<div class="col-lg-12">
-        <h1 class="page-header"><i class="fa fa-list"></i> {{Lang::get('show_groups.my_groups')}}</h1>
-        <div class="panel-body">
-            @if (count($groups) >= 1)
-                <div class="table-responsive">
-                    @include('alert')
-                    <table id="tableOrder" class="table table-striped table-bordered table-hover tablesorter">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>{{Lang::get('show_groups.edit')}}</th>
-                                <th>{{Lang::get('register_group.name')}}</th>
-                                <th>{{Lang::get('register_group.project_name')}}</th>
-                                <th>{{Lang::get('show_groups.delete')}}</th>
-                                <th>{{Lang::get('show_groups.see')}}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($groups as $index =>$group)    
-                            <tr>
-                                <td>{{$index + 1}}</td>
-                                <td>
-                                    <a onclick="updateGroup('{{$group->_id}}')">
-                                        <i class="fa fa-edit" data-toggle="modal" data-target="#editar" style="color:#337ab7;"></i>
-                                    </a>
-                                </td>
-                                <td>{{$group->name}}</td>
-                                <td>{{$group->project_name}}</td>
-                   
-                                <td>
-                                   <a onclick="$('#_id').val('{{$group->_id}}')" class="pull-right">
-                                            <i class="fa fa-trash-o" data-toggle="modal" data-target="#deleteModal" style="color:#d9534f;"></i>
-                                    </a>
-                                </td>
+	</div>
+	<div class="row">    
+		<div class="col-lg-12">
+			<h1 class="page-header">
+				<i class="fa fa-list"></i> {{Lang::get('show_groups.my_groups')}}
+			</h1>
+			<div class="panel-body">
+				@if (count($groups) > 0)
+					<div class="table-responsive">
+						@include('alert')
+						<table id="tableOrder" class="table table-striped table-bordered table-hover tablesorter">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>{{Lang::get('register_group.name')}}</th>
+									<th>{{Lang::get('register_group.project_name')}}</th>
+									<th>{{Lang::get('show_groups.edit')}}</th>
+									<th>{{Lang::get('show_groups.delete')}}</th>
+									<th>{{Lang::get('show_groups.see')}}</th>
+								</tr>
+							</thead>
+							<tbody>
+								@foreach ($groups as $index =>$group)    
+									<tr id="{{$index}}">
+										<td>{{$index + 1}}</td>
+										<td>{{$group->name}}</td>
+										<td>{{$group->project_name}}</td>
+						   				<td style="width: 6%">
+											<a href="#" onclick="fillModal('{{$group->_id}}')" class="pull-right">
+												<i class="fa fa-edit" data-toggle="modal" data-target="#editModal" style="color:#337ab7;"></i>
+											</a>
+										</td>
+										<td style="width: 6%">
+										   <a href="#" onclick="$('#group_id').val('{{$group->_id}}'); $('#pos').val('{{$index}}');" class="pull-right">
+												<i class="fa fa-trash-o" data-toggle="modal" data-target="#deleteModal" style="color:#d9534f;"></i>
+											</a>
+										</td>
+										<td style="width: 6%">
+											<a href="#" onclick="findGroup('{{$group->_id}}')" class="pull-right">
+											   <i class="fa fa-eye" style="color: #0097A7;"></i>
+											</a>
+										</td>								
+									</tr>
+								@endforeach
+								 {{ Form::open(array('url' => Lang::get('routes.show_all_assignment'), 'id' => 'form_group')) }}
+									<div class="form-group">
+										<input type="hidden" id="group_code", name="group_code" value="">
+									</div>
+								{{Form::close()}}
+							</tbody>
+						</table>
+					</div>
+				@endif
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="Eliminar grupo" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						&times;
+					</button>
+					<h4 class="modal-title" id="Eliminar grupo">
+						<i class="fa fa-trash-o"></i> {{Lang::get('show_groups.deleteGroup')}}
+					</h4>
+				</div>
+				<div class="modal-body">
+					{{Lang::get('show_groups.detete_message')}}
+				</div>
+				<input type="hidden" value="{{storage_path()}}" id="url">
+				<input type="hidden" value="" id="pos">
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">
+						{{Lang::get('show_groups.cancel')}}
+					</button>
+					<button onclick="dropGroup()" type="button" class="btn btn-primary">
+						{{Lang::get('show_groups.disable')}}
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="Editar grupo" aria-hidden="true">
+		<div class="modal-dialog custom-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						&times;
+					</button>
+					<h4 class="modal-title" id="Eliminar profesor">
+						<i class="fa fa-edit"></i>{{Lang::get('show_groups.modify_group')}}
+					</h4>
+				</div>
+				<div class="panel-body" id="crop-avatar">
+					<div class="modal-body">
+						{{ Form::open(array('url' => Lang::get('routes.update_group'), 'id' => 'form', 'role' => 'form','enctype' => 'multipart/form-data')) }}				
+							<div class="form-group">
+								<label>{{Lang::get('register_group.name')}}</label>
+								<input data-validate="required,size(3, 50),characterspace" type="text" class="form-control" id="name" name="name" >
+							</div>
+							<div class="form-group">
+								<label>{{Lang::get('register_group.project_name')}}</label>
+								<input data-validate="required,size(3, 50),characterspace" type="text" class="form-control" id="project_name" name="project_name" >
+							</div>
+							<div class="form-group tooltip-bottom" data-tooltip="{{Lang::get('crop.change_avatar')}}" style="width:140px">
+								<div id="photo_display" name="photo_display" class="avatar-view avatar-preview preview-lg" style="width:140px; height:140px">
+									<img src="images/140x140.png" alt="Avatar">
+								</div>
+							</div>
+							<input type="hidden" value="" id="group_id" name="group_id">
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">
+									{{Lang::get('show_groups.cancel')}}
+								</button>
+								<button type="submit" class="btn btn-primary">
+									{{Lang::get('list_teacher.save')}}
+								</button>
+							</div>
+				 		{{ Form::close() }}
+					</div>
+					@include('crop')
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
 
-                                <td>
+		$('document').ready(function() 
+		{
+			$("#crop").on("click", function()
+			{
+				$('#photo_display').html($('#preview').html());
+				$('#avatar-modal').modal('hide');
+			});
+		});
 
-                                <div class="see">
-                                    <a href="#" onclick="findGroup('{{$group->_id}}')">
-                                       <i class="fa fa-eye" style="color: #0097A7;"></i>
-                                    </a>
-                                </div>
-                                </td>
+		function fillModal(groupId)
+		{
+			$.post("{{Lang::get('routes.find_Group_By_Section')}}",
+			{ 
+				group_id: groupId  
+			})
+			.done(function( data ) 
+			{
+				$('#name').val(data.name);
+				$('#project_name').val(data.project_name);
+				$('#group_id').val(data._id);
 
-                                
-                            </tr>
-                            @endforeach
-                             {{ Form::open(array('url' => Lang::get('routes.find_Group'), 'id' => 'form_groups', 'class' => 'hide')) }}
-                                <div class="form-group">
-                                <input type="hidden" id="group_code" name="group_code" value="" >
-                                <input type="hidden" id="_id", name="_id" value="">
-                                
-                            </div>
-                            {{Form::close()}}
-                        </tbody>
-                    </table>
-                </div>
-            @endif
-        </div>
-    </div>
+				if(data.logo != null)
+				{
+					$('#photo_display').html
+					(
+						'<img src="{{Lang::get("show_image")."?src="}}' + 
+						$('#url').val() + data.logo + '" alt="Avatar" >'
+					);
+				}
+				else
+					$('#photo_display').html('<img src="images/140x140.png" alt="Avatar" >');
+			});
+		}
 
-    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="Eliminar Grupo" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="Eliminar grupo"><i class="fa fa-trash-o"></i> {{Lang::get('show_groups.deleteGroup')}}</h4>
-            </div>
-            <div class="modal-body">
-                {{Lang::get('show_groups.detete_message')}}
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">{{Lang::get('show_groups.cancel')}}</button>
-                <button onclick="dropGroup();" type="button" class="btn btn-primary">{{Lang::get('show_groups.disable')}}</button>
-            </div>
-        </div>
-    </div>
-    </div>
+		function dropGroup()
+		{
+			$.post("{{Lang::get('routes.drop_group')}}",
+			{ 
+				group_id: $('#group_id').val()
+			})
+			.done(function( data ) 
+			{
+				if(data === '00')
+				{
+					$('#deleteModal').modal('hide');
+					$('#' + $('#pos').val()).remove();				
+				}
+			});
+		}
 
-    <div class="modal fade" id="editar" tabindex="-1" role="dialog" aria-labelledby="Eliminar Grupo" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="Eliminar grupo"><i class="fa fa-trash-o"></i> </h4>
-            </div>
-            <div class="modal-body">
+		function findGroup(group_id)
+		{
+			$("#group_code").val(group_id);
+			$("#form_group").submit();
+		}
 
-
-
-            	{{ Form::open(array('url' => Lang::get('routes.update_task'), 'id' => 'update_form', 'role' => 'form','enctype' => 'multipart/form-data')) }}
-                                    
-                                    
-                         <div class="form-group">
-                                <label>{{Lang::get('register_group.name')}}</label>
-                                <input data-validate="required,size(3, 50),characterspace" type="text" class="form-control" id="name" name="name" >
-                          </div>
-
-                                 
-
-                            <div class="form-group">
-                                <label>{{Lang::get('register_group.project_name')}}</label>
-                                <input data-validate="required,size(3, 50),characterspace" type="text" class="form-control" id="project_name" name="project_name" >
-
-                            </div>
-
-                            <div class="form-group">
-                                <label>{{Lang::get('register_group.logo')}}</label>
-                                <input data-validate="image" type="file" id="photo" name="photo" accept="image/x-png, image/gif, image/jpeg" onchange="PreviewImage()">
-                            </div>
-                            <div class="form-group">
-                                <img src="images/140x140.png" alt="" style="width: 140px; height: 140px;" id="photo_display" name="photo_display">
-                            </div>
-                
-               
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">{{Lang::get('show_groups.cancel')}}</button>
-                <button onclick="dropGroup();" type="button" class="btn btn-primary">{{Lang::get('show_groups.disable')}}</button>
-            </div>
-             {{ Form::close() }}
-        </div>
-    </div>
-    </div>
-
-    
-    
-
-<script type="text/javascript">
 		var demo_tasks = {
 			data:[
 				@foreach($data as $json)
@@ -169,19 +219,20 @@
 			]
 		};
 
-		var getListItemHTML = function (type, count, active) 
-		{
-			return '<li'+(active?' class="active"':'')+'><a href="#">'+type+'s <span class="badge">'+count+'</span></a></li>';
+		var getListItemHTML = function (type, count, active) {
+			return '<li'+(active?' class="active"':'') + 
+				   '><a href="#">' + type + 's <span class="badge">' +
+				   count + '</span></a></li>';
 		};
 
 		var updateInfo = function () 
 		{
 			var state = gantt.getState(),
-					tasks = gantt.getTaskByTime(state.min_date, state.max_date),
-					types = gantt.config.types,
-					result = {},
-					html = "",
-					active = false;
+				tasks = gantt.getTaskByTime(state.min_date, state.max_date),
+				types = gantt.config.types,
+				result = {},
+				html = "",
+				active = false;
 
 			// get available types
 			for (var t in types)
@@ -203,20 +254,22 @@
 					active = true;
 				else
 					active = false;
+				
 				html += getListItemHTML(j, result[j], active);
 			}
+
 			document.getElementById("gantt_info").innerHTML = html;
 		};
 
 		gantt.templates.scale_cell_class = function(date)
 		{
-			if(date.getDay()==0||date.getDay()==6){
+			if(date.getDay() == 0 || date.getDay() == 6)
 				return "weekend";
-			}
 		};
+		
 		gantt.templates.task_cell_class = function(item,date)
 		{
-			if(date.getDay()==0||date.getDay()==6)
+			if(date.getDay() == 0 || date.getDay() == 6)
 				return "weekend" ;
 		};
 
@@ -237,9 +290,9 @@
 			{name:"add", label:"", width:44 }
 		];
 
-		gantt.config.grid_width = 390;
+		gantt.config.grid_width = 350;
 		gantt.config.date_grid = "%F %d";
-		gantt.config.scale_height  = 60;
+		gantt.config.scale_height  = 90;
 		gantt.config.subscales = [
 			{ unit:"week", step:1, date:"{{Lang::get('student_home.week')}} #%W"}
 		];
@@ -254,45 +307,5 @@
 		gantt.init("gantt_here");
 		gantt.parse(demo_tasks);
 		updateInfo();
-
-		 function findGroup(x){
-
-		    var group =  x;
-		    $("#group_code").val(group);
-		    $("#form_groups").submit();
-		}
-		function dropGroup()
-	    {
-	        $.post("{{Lang::get('routes.drop_group')}}",
-	        { 
-	            group_id: $('#_id').val()
-	        })
-	        .done(function( data ) 
-	        {
-	            if(data === '00')
-	                location.reload();
-	        });
-	    }
-
-	    function updateGroup(x)
-
-	      
-	    {
-	      
-	      $('#_id').val(x);
-
-	        $.post("{{Lang::get('routes.update_group')}}",
-	        { 
-	            group_id:  $('#_id').val()
-	           
-	        })
-	        .done(function( data ) 
-	        {
-	            $('#name').val(data.name);
-	            console.log(data);
-	        });
-
-
-	    }
 	</script>
 @stop

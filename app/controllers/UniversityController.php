@@ -70,7 +70,7 @@ class UniversityController extends BaseController
 		{
 			$data = Input::get('avatar_data');
 
-			if($university->profile_image === null)
+			if(is_null($university->profile_image))
 			{
 				$image = new CropImage(null, $data, $_FILES['avatar_file']);
 				$university->profile_image = $image->getURL();

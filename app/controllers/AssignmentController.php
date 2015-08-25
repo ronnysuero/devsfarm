@@ -2,25 +2,45 @@
 
 class AssignmentController extends BaseController
 {
+	public function showAllAssignmentView()
+	{	
+		if(!is_null(Input::get('group_code')))
+			Session::put('group_code', Input::get('group_code'));
+
+		if(Session::has('group_code'))
+		{
+			$group = Group::find(new MongoId(Session::get('group_code')));
+			$tasks = Assignment::where('group_id', new MongoId($group->_id))->get();
+			$students = Student::whereIn('_id', $group->students_id)->get();
+
+			return View::make('student.show_all_assignment')->with(
+				array(
+					'group' => $group,
+					'tasks' => $tasks,
+					'students' => $students,
+				)
+			);
+		}
+		else
+			return Redirect::to(Lang::get('routes.student'));
+	}
+	
 	public function addAssignment()
     {
-		$user = Student::find(Auth::id());
-
-		$assignment=new Assignment;
-		$assignment->description=trim(Input::get('description'));
-		$assignment->group_id= new MongoId(Input::get('id'));
-		$assignment->state=trim("Asignada");
-		$assignment->date_assigned=new MongoDate;
-		$assignment->rated=null;
-		$assignment->score=trim(Input::get('score'));
-		$assignment->assigned_by= new MongoId($user->_id);	
-		$assignment->assigned_to=new MongoId(Input::get('students'));
-		$assignment->state=trim("Asignado");
-		$assignment->deadline=new MongoDate(strtotime(Input::get('deadline')));
+		$assignment = new Assignment;
+		$assignment->description = trim(Input::get('description'));
+		$assignment->group_id = new MongoId(Input::get('id'));
+		$assignment->state = 'a';
+		$assignment->date_assigned = new MongoDate;
+		$assignment->rated = null;
+		$assignment->score = trim(Input::get('score'));
+		$assignment->assigned_by = Auth::id();	
+		$assignment->assigned_to = new MongoId(Input::get('students'));
+		$assignment->deadline = new MongoDate(strtotime(Input::get('deadline')));
 
         $assignment->save();
         
-        return Redirect::to(Lang::get('routes.find_group'))->with('message', Lang::get('register_assignment.success'));
+        return Redirect::to(Lang::get('routes.show_all_assignment'))->with('message', Lang::get('register_assignment.success'));
     }
 
 	public function rated()

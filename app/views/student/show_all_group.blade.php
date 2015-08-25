@@ -1,5 +1,5 @@
 @extends('student.master')
-@section('title', 'Mis Grupos')
+@section('title', Lang::get('student_title.show_all_group'))
 @section('content')
 	<div class="row">
 		<h1 class="page-header">{{Lang::get('show_groups.my_groups')}}</h1>

@@ -1,4 +1,5 @@
 @extends('student.master')
+@section('title', Lang::get('student_title.join'))
 @section('content')
 	<div class="row">
 		@if (count($pending) > 0)

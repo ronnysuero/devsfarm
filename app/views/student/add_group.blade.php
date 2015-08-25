@@ -1,4 +1,5 @@
 @extends('student.master')
+@section('title', Lang::get('student_title.add_group'))
 @section('content')
 	<div class="row">
 		<div class="col-lg-12">
@@ -13,7 +14,7 @@
 						<div class="panel-body" id="crop-avatar">
 							<div class="row">
 								<div class="col-lg-12">
-									{{ Form::open(array('url' => Lang::get('routes.add_group'), 'id' => 'register_form', 'role' => 'form','enctype' => 'multipart/form-data')) }}
+									{{ Form::open(array('url' => Lang::get('routes.add_group'), 'id' => 'form', 'role' => 'form','enctype' => 'multipart/form-data')) }}
 									<div class="form-group">
 										<label>{{Lang::get('register_group.name')}}</label>
 										<input data-validate="required,size(3, 20),characterspace" type="text" class="form-control" id="name" name="name" placeholder="{{Lang::get('register_group.name_placeholder')}}" >

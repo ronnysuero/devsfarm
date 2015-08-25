@@ -938,24 +938,72 @@ var Utils = {
 	},
 
 	parseDate: function(dateStr) {
-		//format check
-		var m = dateStr.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
-		if(!m) return null;
+		var dateformat = /^\d{4}[\/\-]\d{1,2}[\/\-]\d{1,2}$/,
+			val_date = dateStr;
+		
+		if(val_date.match(dateformat))
+		{
+			var seperator1 = val_date.split('/'),
+				seperator2 = val_date.split('-');
 
-		var date;
-		//parse with jquery ui's date picker
-		if($.datepicker !== undefined) {
-			try {
-				var epoch = $.datepicker.parseDate("dd/mm/yy", dateStr);
-				date = new Date(epoch);
-			} catch(e) { return null; }
-		//simple regex parse
-	} else {
-		date = new Date(parseInt(m[3], 10),parseInt(m[2], 10)-1,parseInt(m[1], 10));
-	}
+			if (seperator1.length > 1)
+				var splitdate = val_date.split('/');
+			else if (seperator2.length > 1)
+				var splitdate = val_date.split('-');
+			
+			var yy = parseInt(splitdate[0]),
+				mm = parseInt(splitdate[1]),
+				dd = parseInt(splitdate[2]),
+				ListofDays = [31,28,31,30,31,30,31,31,30,31,30,31];
+			
+			if (mm == 1 || mm > 2)
+			{
+				if (dd > ListofDays[mm-1])
+				{
+					alert('vaina 1');
+					return false;
+				}
+			}
 
-	return date;
-},
+			if (mm == 2)
+			{
+				var lyear = false;
+
+				if ( (!(yy % 4) && yy % 100) || !(yy % 400))
+					lyear = true;
+				if ((lyear==false) && (dd>=29))
+					return null;
+				if ((lyear==true) && (dd>29))
+					return null;
+			}
+
+			return true;
+		}
+		else
+			return null;
+
+		// //format check
+		// console.log(dateStr);
+
+		// var m = dateStr.match(/^(\d{4})\/(\d{1,2})\/(\d{1,2})$/);
+		// if(!m) 
+		// 	return null;
+		// else
+		// 	console.log("mola");
+		// var date;
+		// //parse with jquery ui's date picker
+		// if($.datepicker !== undefined) {
+		// 	try {
+		// 		var epoch = $.datepicker.parseDate("dd/mm/yyyy", dateStr);
+		// 		date = new Date(epoch);
+		// 	} catch(e) { return null; }
+		// //simple regex parse
+		// } else {
+		// 	date = new Date(parseInt(m[3], 10),parseInt(m[2], 10)-1,parseInt(m[1], 10));
+		// }
+
+		// return date;
+	},
 
 	/**
 	 * returns true if we are in a RTLed document
@@ -2521,7 +2569,23 @@ $.extend($.verify, {
 		date: {
 			fn: function(r) {
 				if($.verify.utils.parseDate(r.val()))
-					return true;
+				{
+					if($('#date').length > 0)
+					{
+						try
+						{
+							var x = new Date($('#date').val()),
+								y = new Date(r.val());
+							
+							if(+y >= +x)
+								return true;		
+						}
+						catch(e)
+						{
+							return ;
+						}
+					}
+				}
 				return r.message;
 			},
 			message: dict["date"][language]

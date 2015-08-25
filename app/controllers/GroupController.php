@@ -1,5 +1,7 @@
 <?php
 
+use Helpers\CropImage\CropImage;
+
 class GroupController extends BaseController
 {
 	/**
@@ -103,29 +105,91 @@ class GroupController extends BaseController
 	{
 		if(Request::ajax())
 		{
-			$pending = PendingGroup::where('student_id', Auth::id())->get();
-			$array = array();
-
-			foreach ($pending as $value) 
-				array_push($array, $value->group_id);
-
-			$groups = Group::where('section_code_id', new MongoId(Input::get('section_code')))
-						   ->whereNotIn('students_id', array(Auth::id()))
-						   ->whereNotIn('_id', $array)
-						   ->get();
-
-			if(count($groups) > 0)
+			if(!is_null(Input::get('group_id')))
 			{
-				return Response::json(
-					array(
-						'groups' => $groups,
-					)
-				);
+				$group = Group::find(Input::get('group_id'));
+
+				if(isset($group->_id))
+					return Response::json($group);
+				else
+					return Response::json("");
 			}
 			else
-				return Response::json("");
+			{
+				$pending = PendingGroup::where('student_id', Auth::id())->get();
+				$array = array();
+
+				foreach ($pending as $value) 
+					array_push($array, $value->group_id);
+
+				$groups = Group::where('section_code_id', new MongoId(Input::get('section_code')))
+							   ->whereNotIn('students_id', array(Auth::id()))
+							   ->whereNotIn('_id', $array)
+							   ->get();
+
+				if(count($groups) > 0)
+				{
+					return Response::json(
+						array(
+							'groups' => $groups,
+						)
+					);
+				}
+				else
+					return Response::json("");
+			}
 		}
 	}
+
+	public function update()
+	{
+		$group = Group::find(Input::get('group_id'));
+
+		if(isset($group->_id))
+		{
+			$group->name = trim(ucfirst(Input::get('name')));
+			$group->project_name = trim(strtolower(Input::get('project_name')));
+
+			if(Input::hasFile('avatar_file'))
+			{
+				$data = Input::get('avatar_data');
+
+				if(is_null($group->logo))
+				{
+					$image = new CropImage(null, $data, $_FILES['avatar_file']);
+					$group->logo = $image->getURL();
+				}
+				else
+					new CropImage($group->logo, $data, $_FILES['avatar_file']);
+			}
+
+			try
+			{
+				$group->save();
+			}
+			catch (MongoDuplicateKeyException $e) 
+			{
+				return Redirect::back()->withErrors(
+					array( 
+						'error' => Lang::get('register_group.duplicated')
+					)
+				); 
+			}
+
+			return Redirect::to(Lang::get('routes.student'))->with('message', Lang::get('register_group.update'));
+		}
+	}
+
+	public function drop()
+	{
+		if(Request::ajax())
+		{
+			$group = Group::find(Input::get('group_id'));
+			$group->delete();
+			return Response::json("00");
+		}
+	}
+
 
 	public function findGroupBySection()
 	{
@@ -163,76 +227,5 @@ class GroupController extends BaseController
 				'group_id' => $group_id
 			)
 		);
-	}
-
-	public static function findGroup()
-	{
-
-		if(Input::get('group_code') != null || Session::get('group_code'))
-		{
-			$id = (Input::get('group_code') != null) ? Input::get('group_code') : Session::get('group_code');
-			$group = Group::find(new MongoId($id));
-			$task=Assignment::where('group_id', new MongoId($id))->get();
-
-			return View::make('student.show_mygroup')->with(
-				array(
-					'groups' => $group,
-					'tasks' => $task
-				)
-			);	
-		}
-		else
-			return Redirect::to(Lang::get('routes.student'));
-	}
-
-	public function find_students()
-	{
-		$usuario = array();
-		$user = Student::find(Auth::id());
-		array_push($usuario, $user);
-
-		if(Request::ajax())
-		{
-			$group = Group::find(Input::get('group'));
-			$students = array();
-
-			if(isset($group->_id))
-			{
-				foreach ($group->student_id as $student) 
-				{
-					$val = Student::find($student);
-
-					if(isset($val->_id))
-						array_push($students, $val);
-				}
-			}
-
-			if(count($students) > 0 && $user->_id === $group->teamleader_id)
-				return Response::json(array('students' => $students));
-			else
-				return Response::json(array('students' => $usuario));
-		}
-	}
-
-	public function drop()
-	{
-		if(Request::ajax())
-		{
-			$ids = Input::get('group_id');
-			Group::find($ids)->delete();
-
-			return Response::json("00");
-		}
-	}
-
-	public function findupdateGroup()
-	{
-		if(Request::ajax())
-		{
-			$ids = Input::get('group_id');
-			$group = Group::find(new MongoId($ids));
-
-		return Response::json(array('group' =>  $group));
-		}
 	}
 }

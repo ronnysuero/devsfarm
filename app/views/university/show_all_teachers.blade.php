@@ -66,8 +66,12 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h4 class="modal-title" id="Eliminar profesor"><i class="fa fa-edit"></i>{{Lang::get('list_teacher.modify_teacher')}}</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						&times;
+					</button>
+					<h4 class="modal-title" id="Eliminar profesor">
+						<i class="fa fa-edit"></i>{{Lang::get('list_teacher.modify_teacher')}}
+					</h4>
 				</div>
 				<div class="modal-body">
 					{{ Form::open(array('url' => Lang::get('routes.update_teachers'), 'id' => 'register_form', 'role' => 'form', 'enctype' => 'multipart/form-data')) }}
