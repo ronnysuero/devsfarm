@@ -67,12 +67,9 @@ return array(
 	'inbox'=>'inbox',
 	'show_all_assignment'=>'show_all_assignment',
 	'register_assignment'=>'register_assignment',
-	'drop_tasks'=>'drop_tasks',
 	'drop_group'=>'drop_group',
 	'assign'=>'assign',
 	'rated'=>'rated',
-	'find_task'=>'find_task',
-	'update_task'=>'update_task',
 	'approval' => 'approval_student',
 	'enroll_section' => 'enroll_section',
 	'drop_enroll' => 'drop_enroll',
@@ -86,4 +83,8 @@ return array(
 	'approval_group' => 'approval_group',
 	'approve_group' => 'approve_group',
 	'update_group' => 'update_group',
+	'find_assignment' => 'find_assignment',
+	'update_assignment' => 'update_assignment',
+	'drop_assignment' => 'drop_assignment',
+
 	);

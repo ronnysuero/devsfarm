@@ -1,9 +1,9 @@
 <?php
 
 return array (
-    'assigned_by' => 'Assigned By',
-    'assigned_to' => 'Assigned To',
-    'date_assigned' => 'Date Assigned',
+    'assigned_by' => 'Assigned by',
+    'assigned_to' => 'Assigned to',
+    'date_assigned' => 'Date assigned',
     'deadline' => 'Deadline',
     'description' => 'Description',
     'state' => 'State',

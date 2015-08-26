@@ -37,14 +37,14 @@
 										<td>{{ $teacher->cellphone }}</td>
 										<td id="email{{$index}}">{{ $teacher->email }}</td>
 										<td style="width: 6%">
-											<a onclick="fillModal('{{$index}}')" href="#" class="pull-right">
-												<i class="fa fa-edit" data-toggle="modal" data-target="#editModal" style="color:#337ab7;"></i>
-											</a>
+											<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editModal" onclick="fillModal('{{$index}}')"> 
+												{{Lang::get('list_subject.edit')}}
+											</button>
 										</td>
 										<td style="width: 6%">
-											<a href="#" onclick="$('#_id').val('{{$teacher->_id}}'); $('#tr').val('{{$index}}')" class="pull-right">
-												<i class="fa fa-trash-o" data-toggle="modal" data-target="#deleteModal" style="color:#d9534f;"></i>
-											</a>
+											<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal" onclick="$('#_id').val('{{$teacher->_id}}'); $('#tr').val('{{$index}}')"> 
+												{{Lang::get('list_subject.delete')}}
+											</button>
 										</td>
 									</tr>
 								@endforeach
@@ -118,7 +118,7 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">{{Lang::get('list_teacher.cancel')}}</button>
-					<button onclick="dropTeacher();" type="button" class="btn btn-primary">{{Lang::get('list_teacher.disable')}}</button>
+					<button onclick="dropTeacher();" type="button" class="btn btn-danger">{{Lang::get('list_teacher.disable')}}</button>
 				</div>
 			</div>
 		</div>

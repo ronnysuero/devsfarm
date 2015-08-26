@@ -36,14 +36,14 @@
 										@endforeach
 									</td>
 									<td style="width: 6%">
-										<a onclick="fillModal('{{$index+1}}')" href="#" class="pull-right">
-											<i class="fa fa-edit" data-toggle="modal" data-target="#editModal" style="color:#337ab7;"></i>
-										</a>
+										<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editModal" onclick="fillModal('{{$index+1}}')"> 
+											{{Lang::get('list_subject.edit')}}
+										</button>
 									</td>
 									<td style="width: 6%">
-										<a onclick="$('#_id').val('{{$subject->_id}}'); $('#tr').val('{{$index}}')" data-toggle="modal" data-target="#deleteModal" class="pull-right">
-											<i class="fa fa-trash-o" style="color:#d9534f;"></i>
-										</a>
+										<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal" onclick="$('#_id').val('{{$subject->_id}}'); $('#tr').val('{{$index}}')"> 
+											{{Lang::get('list_subject.delete')}}
+										</button>
 									</td>
 								</tr>
 								@endforeach
@@ -100,7 +100,7 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">{{Lang::get('list_subject.cancel')}}</button>
-						<button onclick="dropSubject()" type="button" class="btn btn-primary">{{Lang::get('list_subject.delete')}}</button>
+						<button onclick="dropSubject()" type="button" class="btn btn-danger">{{Lang::get('list_subject.delete')}}</button>
 					</div>
 				</div>
 			</div>

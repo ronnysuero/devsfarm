@@ -40,9 +40,9 @@
 													<td>{{$section->code}}</td>
 													<td>{{$subject->school}}</td>
 													<td style="width: 7%">
-														<a onclick="fillModal('{{$teacher->_id}}', '{{$section->_id}}', '{{$subject->_id}}'); $('#tr').val('{{$a.'_'.$b.'_'.$index}}')" class="pull-right">
-															<i class="fa fa-chain-broken" data-toggle="modal" data-target="#deleteModal" style="color:#d9534f;"></i>
-														</a>
+														<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal" onclick="fillModal('{{$teacher->_id}}', '{{$section->_id}}', '{{$subject->_id}}'); $('#tr').val('{{$a.'_'.$b.'_'.$index}}')"> 
+															{{Lang::get('list_enroll.unlink')}}
+														</button>
 													</td>
 												</tr>
 											@endforeach
@@ -70,7 +70,7 @@
 								</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-default" data-dismiss="modal">{{Lang::get('list_teacher.cancel')}}</button>
-									<button onclick="unlink();" type="button" class="btn btn-primary">{{Lang::get('list_teacher.disable')}}</button>
+									<button onclick="unlink();" type="button" class="btn btn-danger">{{Lang::get('list_teacher.disable')}}</button>
 								</div>
 							</div>
 						</div>

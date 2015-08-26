@@ -1,13 +1,31 @@
 <?php
 
 return array(
-	'registerAssignment'=>'Registrar Asignacion',
+	'registerAssignment'=>'Registrar asignacion',
 	'closeButton'=>'Cerrar',
-	'saveButton'=>'Guardar',
-	'assignmentTo'=>'Asignado A :',
-	'deadline'=>'Fecha Limite',
+	'saveButton'=>'Registrar',
+	'assignmentTo'=>'Asignado a:',
+	'deadline'=>'Fecha limite',
 	'description'=>'Descripcion',
-	'success'=>'Exitosamente',
+	'success'=>'Asignación satisfactoriamente registrada',
+	'update' => 'Asignación satisfactoriamente actualizada',
 	'score'=>'Puntuacion',
-	
+	'a' => 'Asignada',
+	'c' => 'Completada',
+	'n' => 'No Completada',
+	'r' => 'Re Asignada',
+	'add' => 'Agregar una asignacion',
+	'assignment' => 'Asignaciones',
+	'date_assigned' => 'Fecha de asignacion',
+	'rate' => 'Calificar',
+	'edit' => 'Editar',
+	'delete' => 'Eliminar',
+	're_assigned' => 'Re asignar',
+	'no_assigned' => 'Usted no tiene asignaciones pendientes',
+	'description_placeholder' => 'Ingrese la descripcion',
+	'score_placeholder' => 'Ingrese la nota',
+	'update_btn' => 'Actualizar',
+	'delete_title' => 'Eliminar asignacion',
+	'delete_msg' => '¿Desea eliminar esta asignacion?',
+
 	);

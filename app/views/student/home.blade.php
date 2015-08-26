@@ -48,23 +48,23 @@
 							<tbody>
 								@foreach ($groups as $index =>$group)    
 									<tr id="{{$index}}">
-										<td>{{$index + 1}}</td>
+										<td style="width: 1%">{{$index + 1}}</td>
 										<td>{{$group->name}}</td>
 										<td>{{$group->project_name}}</td>
 						   				<td style="width: 6%">
-											<a href="#" onclick="fillModal('{{$group->_id}}')" class="pull-right">
-												<i class="fa fa-edit" data-toggle="modal" data-target="#editModal" style="color:#337ab7;"></i>
-											</a>
+						   					<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editModal" onclick="fillModal('{{$group->_id}}')"> 
+												{{Lang::get('show_groups.edit')}}
+											</button>
 										</td>
 										<td style="width: 6%">
-										   <a href="#" onclick="$('#group_id').val('{{$group->_id}}'); $('#pos').val('{{$index}}');" class="pull-right">
-												<i class="fa fa-trash-o" data-toggle="modal" data-target="#deleteModal" style="color:#d9534f;"></i>
-											</a>
+										   <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal" onclick="$('#group_id').val('{{$group->_id}}'); $('#pos').val('{{$index}}');"> 
+												{{Lang::get('show_groups.delete')}}
+											</button>
 										</td>
-										<td style="width: 6%">
-											<a href="#" onclick="findGroup('{{$group->_id}}')" class="pull-right">
-											   <i class="fa fa-eye" style="color: #0097A7;"></i>
-											</a>
+										<td style="width: 3%">
+											<button type="button" class="btn btn-default btn-sm" onclick="findGroup('{{$group->_id}}')"> 
+												{{Lang::get('show_groups.see')}}
+											</button>
 										</td>								
 									</tr>
 								@endforeach
@@ -100,7 +100,7 @@
 					<button type="button" class="btn btn-default" data-dismiss="modal">
 						{{Lang::get('show_groups.cancel')}}
 					</button>
-					<button onclick="dropGroup()" type="button" class="btn btn-primary">
+					<button onclick="dropGroup()" type="button" class="btn btn-danger">
 						{{Lang::get('show_groups.disable')}}
 					</button>
 				</div>

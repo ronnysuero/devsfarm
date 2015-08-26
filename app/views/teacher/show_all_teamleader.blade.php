@@ -38,9 +38,9 @@
 												<td>{{$sectionCode->code}}</td>
 												<td>{{'('.$student->id_number.') - '.$student->name.' '.$student->last_name}}</td>
 												<td style="width: 6%">
-													<a onclick="fillModal('{{$item.'_'.$index}}', '{{$sectionCode->_id}}', '{{$student->_id}}')" data-toggle="modal" data-target="#deleteModal" class="pull-right">
-														<i class="fa fa-trash-o" style="color:#d9534f;"></i>
-													</a>
+													<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal" onclick="fillModal('{{$item.'_'.$index}}', '{{$sectionCode->_id}}', '{{$student->_id}}')"> 
+														{{Lang::get('list_subject.delete')}}
+													</button>
 												</td>
 											</tr>
 										@endforeach
@@ -74,7 +74,7 @@
 					<input type="hidden" value="" id="position" />
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">{{Lang::get('list_subject.cancel')}}</button>
-						<button onclick="dropTeamleader()" type="button" class="btn btn-primary">{{Lang::get('list_subject.delete')}}</button>
+						<button onclick="dropTeamleader()" type="button" class="btn btn-danger">{{Lang::get('list_subject.delete')}}</button>
 					</div>
 				</div>
 			</div>

@@ -65,11 +65,8 @@ return array(
 	'inbox'=>'bandeja_de_entrada',
 	'show_all_assignment'=>'mostrar_todas_asignaciones',
 	'register_assignment'=>'registrar_asignacion',
-	'drop_tasks'=>'borrar_assignacion',
 	'drop_group'=>'borrar_grupo',
 	'rated'=>'calificar',
-	'find_task'=>'buscar_tarea',
-	'update_task'=>'actualizar_tarea',
 	'approval' => 'aprobar_estudiante',
 	'enroll_section' => 'inscribir_seccion',
 	'drop_enroll' => 'eliminar_inscripcion',
@@ -83,5 +80,8 @@ return array(
 	'approval_group' => 'aprobar_grupo',
 	'approve_group' => 'aprueba_grupo',
 	'update_group' => 'actualizar_grupo',
+	'find_assignment' => 'encontrar_asignacion',
+	'update_assignment' => 'actualizar_asignacion',
+	'drop_assignment' => 'eliminar_asignacion',
 
 	);

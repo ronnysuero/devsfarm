@@ -39,14 +39,14 @@
 										<td>{{$group->name}}</td>
 										<td>{{$student->name.' '.$student->last_name.' - ('.$student->id_number.')'}}</td>
 										<td style="width:6%">
-											<a onclick="approve('{{$item->_id}}', {{$index+1}})" href="#" class="pull-right">
-												<i class="fa fa-check-square-o" style="color:#337ab7;"></i>
-											</a>
+											<button type="button" class="btn btn-primary btn-sm pull-right" onclick="approve('{{$item->_id}}', {{$index+1}})"> 
+												{{Lang::get('register_group.approve')}}
+											</button>
 										</td>
 										<td style="width:6%">
-											<a onclick="deny('{{$item->_id}}', {{$index+1}})" class="pull-right">
-												<i class="fa fa-trash-o" style="color:#d9534f;"></i>
-											</a>
+											<button type="button" class="btn btn-danger btn-sm pull-right" onclick="deny('{{$item->_id}}', {{$index+1}})"> 
+												{{Lang::get('register_group.deny')}}
+											</button>
 										</td>
 									</tr>
 								@endforeach
