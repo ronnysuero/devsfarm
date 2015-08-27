@@ -191,6 +191,14 @@ class GroupController extends BaseController
 	}
 
 
+
+
+
+	/*
+		3 Funciones Desconocidas,
+		no encontre donde se usan, si alguien sabe que no se usa
+		favor eliminarlas
+	 */
 	public function findGroupBySection()
 	{
 

@@ -99,8 +99,7 @@ Route::group(array('before' => 'auth|student'), function()
     Route::get(Lang::get('routes.join_to_group'), 'PendingGroupController@showJoinToGroupView');
     Route::get(Lang::get('routes.enroll_section'), 'PendingEnrollmentController@showEnrollSection');
     Route::get(Lang::get('routes.approval_group'), 'StudentController@showApprovalGroupView');
-    Route::get(Lang::get('routes.show_all_assignment'), 'AssignmentController@showAllAssignmentView');
-
+    
     // HTTP POST
     Route::post(Lang::get('routes.findSection'), 'SectionController@findSection');
     Route::post(Lang::get('routes.add_group'), 'GroupController@addGroup');
@@ -108,7 +107,6 @@ Route::group(array('before' => 'auth|student'), function()
     Route::post(Lang::get('routes.update_student'), 'StudentController@updateStudent');
     Route::post(Lang::get('routes.register_assignment'), 'AssignmentController@addAssignment');
     Route::post(Lang::get('routes.find_Group_By_Section'), 'GroupController@find');
-    Route::post(Lang::get('routes.show_all_assignment'), 'AssignmentController@showAllAssignmentView');
     Route::post(Lang::get('routes.join_to_group'), 'PendingGroupController@joinToGroup');
     Route::post(Lang::get('routes.find_student'), 'StudentController@find');
     Route::post(Lang::get('routes.drop_assignment'), 'AssignmentController@drop');
@@ -120,7 +118,10 @@ Route::group(array('before' => 'auth|student'), function()
 	Route::post(Lang::get('routes.drop_join'), 'PendingGroupController@drop');
 	Route::post(Lang::get('routes.approve_group'), 'PendingGroupController@approve');
 	Route::post(Lang::get('routes.update_group'), 'GroupController@update');
+	Route::post(Lang::get('routes.reassigned'), 'AssignmentController@reassign');
 	
+	Route::match(array('GET', 'POST'), Lang::get('routes.show_all_assignment'), 'AssignmentController@showAllAssignmentView');
+
 });
 
 Route::group(array('before' => 'auth'), function()

@@ -4,7 +4,7 @@
 	<div class="row">
 		<div class="col-lg-12">
 			<h1 class="page-header">
-				<i class="fa fa-plus"></i>
+				<i class="fa fa-th-large"></i>
 				{{$group->name}}
 			</h1>
 			<p>
@@ -63,21 +63,21 @@
 									
 									@if(strcasecmp($group->teamleader_id, Auth::id()) === 0)
 										<td style="width: 6%">
-											@if(strcasecmp($task->state, 'r') !== 0 && strcasecmp($task->state, 'c') !== 0)
+											@if(strcasecmp($task->state, 'c') === 0)
 												<button type="button" class="btn btn-primary btn-sm pull-right" data-toggle="modal" data-target="#ratedModal" onclick="useTask('{{$task->_id}}');"> 
 													{{Lang::get('register_assignment.rate')}}
 												</button>
 											@endif
 										</td>
 										<td style="width: 6%"> 
-											@if(strcasecmp($task->state, 'c') !== 0 && strcasecmp($task->state, 'n') !== 0)
+											@if(strcasecmp($task->state, 'a') === 0 || strcasecmp($task->state, 'r') === 0)
 												<button type="button" class="btn btn-warning btn-sm pull-right" data-toggle="modal" data-target="#editModal" onclick="findAssignment('{{$task->_id}}');"> 
 													{{Lang::get('show_groups.btnedit')}}
 												</button>
 											@endif
 										</td>
 										<td style="width: 6%">
-											@if(strcasecmp($task->state, 'c') !== 0 && strcasecmp($task->state, 'n') !== 0)
+											@if(strcasecmp($task->state, 'a') === 0 || strcasecmp($task->state, 'r') === 0)
 												<button type="button" class="btn btn-danger btn-sm  pull-right" data-toggle="modal" data-target="#deleteModal" onclick="$('#_id').val('{{$task->_id}}'); $('#tr').val('{{$index}}');">
 													{{Lang::get('register_assignment.delete')}}
 												</button>
@@ -85,7 +85,7 @@
 										</td>
 										<td style="width: 6%">
 											@if(strcasecmp($task->state, 'n') === 0) 
-												<button type="button" class="btn btn-warning btn-sm pull-right" onclick="$('#editModal').modal('show');findAssignment('{{$task->_id}}');"> 
+												<button type="button" data-toggle="modal" data-target="#reassignedModal" class="btn btn-info btn-sm pull-right" onclick="findReAssignment('{{$task->_id}}');"> 
 													{{Lang::get('register_assignment.re_assigned')}}
 												</button>
 											@endif
@@ -263,6 +263,49 @@
 				</div>
 			</div>
 		</div>
+		<div class="modal fade" id="reassignedModal">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h4 class="modal-title" id="myModalLabel">
+							<i class="fa fa-edit"></i> 
+							{{Lang::get('register_assignment.reassign_title')}}
+						</h4>
+					</div>
+					<div class="modal-body">
+						{{ Form::open(array('url' => Lang::get('routes.reassigned'), 'id' => 'register_form', 'role' => 'form')) }}
+							<input name="taskReassined" id="taskReassigned" type="hidden" />
+							<div class="form-group">
+								<label>{{Lang::get('register_assignment.assignmentTo')}}</label>	
+								<select data-validate="required" class="form-control" id="studentsReassigned" name="studentsReassigned">
+									<option value="">{{Lang::get('show_groups.student_placehold')}}</option>
+									@foreach ($students as $student) 
+										<option value="{{$student->_id}}">
+											{{$student->name.' '.$student->last_name.' ('.$student->id_number.')'}}
+										</option>
+									@endforeach
+								</select>
+							</div>
+							<div class="form-group">
+								<label>{{Lang::get('register_assignment.deadline')}}</label>
+								<input data-validate="required,date" type="date" class="form-control" id="deadlineReassigned" name="deadlineReassigned" value="{{date('Y-m-d')}}" >
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">
+									{{Lang::get("register_assignment.closeButton")}}
+								</button>
+								<button type="submit" id="ratedBtn" class="btn btn-primary">
+									{{Lang::get('register_assignment.re_assigned')}}
+								</button>
+							</div>
+				 		{{ Form::close() }}
+					</div>
+				</div>
+			</div>
+		</div>
 	@endif
 	<script type="text/javascript">
 
@@ -307,6 +350,28 @@
 					$('#' + $('#tr').val()).remove();
 					$('#deleteModal').modal('hide');
 				}
+			});
+		}
+
+		function findReAssignment(task_id)
+		{
+			$('#taskReassigned').val(task_id);
+
+	 		$.post("{{Lang::get('routes.find_assignment')}}",
+			{ 
+				code: task_id,	
+			})
+			.done(function(data) 
+			{
+				var date = new Date(data.deadline.sec*1000);
+
+		   		$('#deadlineReassigned').val(formatDate(date));
+
+		  		$("#studentsReassigned").find('option').each(function( i, opt ) 
+		  		{
+					if( opt.value == data.assigned_to ) 
+						$(opt).attr('selected', 'selected');
+		   		});
 			});
 		}
 

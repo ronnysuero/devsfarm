@@ -83,5 +83,6 @@ return array(
 	'find_assignment' => 'encontrar_asignacion',
 	'update_assignment' => 'actualizar_asignacion',
 	'drop_assignment' => 'eliminar_asignacion',
+	'reassigned' => 'reasignar',
 
 	);

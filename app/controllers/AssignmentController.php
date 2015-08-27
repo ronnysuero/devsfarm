@@ -10,13 +10,12 @@ class AssignmentController extends BaseController
 		if(Session::has('group_code'))
 		{
 			$group = Group::find(new MongoId(Session::get('group_code')));
-			$tasks = Assignment::where('group_id', new MongoId($group->_id))->get();
 			$students = Student::whereIn('_id', $group->students_id)->get();
 
 			return View::make('student.show_all_assignment')->with(
 				array(
 					'group' => $group,
-					'tasks' => $tasks,
+					'tasks' => $this->evaluateAssignments($group->_id),
 					'students' => $students,
 				)
 			);
@@ -77,6 +76,51 @@ class AssignmentController extends BaseController
 
 			return Response::json("00");
 		}
+	}
+
+	public function evaluateAssignments($group_id)
+	{
+		$assignments = Assignment::where('group_id', new MongoId($group_id))->get();
+		$array = array();
+
+		foreach ($assignments as $assignment) 
+		{
+			$deadline = new DateTime(date('Y-m-d', $assignment->deadline->sec));
+			$date = new DateTime(date('Y-m-d'));
+
+			if($deadline < $date && is_null($assignment->rated))
+			{
+				$assignment->rated = 0;
+				$assignment->state = 'n';
+				$assignment->save();			
+			}
+
+			array_push($array, $assignment);
+		}
+
+		return $array;
+	}
+
+	public function reassign()
+	{
+		$assignment = Assignment::find(new MongoId(Input::get('taskReassined')));
+		$assignment->state = "nc";
+		$assignment->save();
+		
+		$new = new Assignment;
+		$new->description = $assignment->description;
+		$new->group_id = new MongoId($assignment->group_id);
+		$new->state = 'r';
+		$new->rated = null;
+		$new->date_assigned = new MongoDate;
+		$new->score = $assignment->score;
+		$new->assigned_by = new MongoId($assignment->assigned_by);
+		$new->assigned_to = new MongoId(Input::get('studentsReassigned'));
+		$new->deadline = new MongoDate(strtotime(Input::get('deadlineReassigned')));
+		$new->reference = new MongoId($assignment->_id);
+		$new->save();
+		
+		return Redirect::to(Lang::get('routes.show_all_assignment'))->with('message', Lang::get('register_assignment.reassigned'));
 	}
 
 	public function rated()
