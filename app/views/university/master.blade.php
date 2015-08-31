@@ -244,17 +244,17 @@
 					
 					if(data.stats['unread'] === 0)
 					{
-						$('#span_unread').hide();
-						$('#unread').hide();
+						$('#span_unread').remove();
+						$('#unread').remove();
 					}
 					else
 					{
 						$('#span_unread').html(data.stats['unread']);
 						$('#unread').html(data.stats['unread']);
 					}
-					$('#editModal').modal('show');
+					$('#showMessageModal').modal('show');
 				});
-				$('#'+$(this).attr("id")).hide();
+				$('#'+$(this).attr("id")).remove();
 			});
 
 			@if($stats['unread'] > 0 && Request::is(Lang::get('routes.'.Auth::user()->rank)))

@@ -110,6 +110,8 @@
 	"state": String,
 	"rated": Decimal,
 	"score": Decimal,
+	"attachments": [String],
+	"body" : String,
 }
 
 "groups":

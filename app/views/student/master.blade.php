@@ -12,8 +12,9 @@
 	<link rel="stylesheet" type="text/css" href="css/font-awesome.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 	<link rel="stylesheet" type="text/css" href="css/cropper.min.css">
-	<link rel="stylesheet" href="css/alertify.core.css" />
-	<link rel="stylesheet" href="css/alertify.default.css" />
+	<link rel="stylesheet" type="text/css" href="css/alertify.core.css" />
+	<link rel="stylesheet" type="text/css" href="css/alertify.default.css" />
+	<link rel="stylesheet" type="text/css" href="css/bootstrap-wysihtml5.css" />
 	<link rel="shortcut icon" href="favicon.png"> 
 	<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
 	<script type="text/javascript" src="js/dhtmlxgantt.js"></script>
@@ -189,9 +190,12 @@
 	<script type="text/javascript" src="js/cropper.min.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
 	<script type="text/javascript" src="js/alertify.min.js"></script>
+	<script type="text/javascript" src="js/wysihtml5-0.3.js"></script>
+	<script type="text/javascript" src="js/bootstrap-wysihtml5.js"></script>
 	<script type="text/javascript">
+
 		$('document').ready(function() 
-		{
+		{	
 			$(".popups").on("click", function()
 			{
 				$('#to').html("");
@@ -216,17 +220,17 @@
 					
 					if(data.stats['unread'] === 0)
 					{
-						$('#span_unread').hide();
-						$('#unread').hide();
+						$('#span_unread').remove();
+						$('#unread').remove();
 					}
 					else
 					{
 						$('#span_unread').html(data.stats['unread']);
 						$('#unread').html(data.stats['unread']);
 					}
-					$('#editModal').modal('show');
+					$('#showMessageModal').modal('show');
 				});
-				$('#'+$(this).attr("id")).hide();
+				$('#'+$(this).attr("id")).remove();
 			});
 
 			@if($stats['unread'] > 0 && Request::is(Lang::get('routes.'.Auth::user()->rank)))

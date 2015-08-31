@@ -54,7 +54,7 @@
 					$('#title').html("{{Lang::get('send_message.subject')}} " + data.messages.subject);
 					$('#body').html(formatDate(new Date(data.messages.sent_date.sec*1000))+"<br/>");
 					$('#body').append(data.messages.body);
-					$('#editModal').modal('show');
+					$('#showMessageModal').modal('show');
 				});
 			});
 		});

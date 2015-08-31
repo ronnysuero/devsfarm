@@ -87,5 +87,6 @@ return array(
 	'update_assignment' => 'update_assignment',
 	'drop_assignment' => 'drop_assignment',
 	'reassigned' => 'reassigned',
+	'upload_assignment' => 'upload_assignment',
 
 	);

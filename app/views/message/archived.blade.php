@@ -64,7 +64,7 @@
 					$('#span_unread').html(data.stats['unread']);
 					$('#span_sent').html(data.stats['sent']);
 					$('#span_archived').html(data.stats['archived']);
-					$('#editModal').modal('show');
+					$('#showMessageModal').modal('show');
 				});
 			});
 		});

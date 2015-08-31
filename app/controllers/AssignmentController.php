@@ -25,7 +25,7 @@ class AssignmentController extends BaseController
 	}
 	
 	public function addAssignment()
-    {
+	{
 		$assignment = new Assignment;
 		$assignment->description = trim(Input::get('description'));
 		$assignment->group_id = new MongoId(Input::get('id'));
@@ -37,18 +37,18 @@ class AssignmentController extends BaseController
 		$assignment->assigned_to = new MongoId(Input::get('students'));
 		$assignment->deadline = new MongoDate(strtotime(Input::get('deadline')));
 
-        $assignment->save();
-        
-        return Redirect::to(Lang::get('routes.show_all_assignment'))->with('message', Lang::get('register_assignment.success'));
-    }
+		$assignment->save();
+		
+		return Redirect::to(Lang::get('routes.show_all_assignment'))->with('message', Lang::get('register_assignment.success'));
+	}
 
-    public function find()
+	public function find()
 	{
 		if(Request::ajax())
 		{
 			$task = Assignment::find(new MongoId(Input::get('code')));
-  	
-	  		if(isset($task->_id))
+	
+			if(isset($task->_id))
 				return Response::json($task);
 			else
 				return Response::json("");	
@@ -128,8 +128,8 @@ class AssignmentController extends BaseController
 		$task = Input::get('task');
 		$assignment = Assignment::find(new MongoId($task));
   
-        if(Input::get('rated')<=$assignment->score)
-        {	
+		if(Input::get('rated')<=$assignment->score)
+		{	
 			$assignment->rated=Input::get('rated');
 			$assignment->save();
 
@@ -139,6 +139,39 @@ class AssignmentController extends BaseController
 					'message', Lang::get('rated.success')
 				)
 			);
+		}
+	}
+
+	public function uploadAssignment()
+	{
+		$assignment = Assignment::find(Input::get('taskupdate'));
+
+		if(isset($assignment->_id))
+		{
+			 $assignmentsFiles = array();
+
+			if(Input::hasFile('files'))
+			{
+				$path = storage_path().'/assignments/'.$assignment->_id;
+				$array = Input::file('files');
+
+				if (!File::exists($path))
+					File::makeDirectory($path);
+
+				foreach ($array as $file) 
+				{
+					$filename = $file->getClientOriginalName();
+					$file->move($path, $filename);
+					array_push($assignmentsFiles, $filename);
+				}
+			}
+
+			$assignment->body = trim(Input::get('textarea'));
+			$assignment->attachments = $assignmentsFiles;
+			$assignment->state = 'p';
+			$assignment->save();
+
+			return Redirect::to(Lang::get('routes.show_all_assignment'))->with('message', Lang::get('register_assignment.update'));
 		}
 	}
 }

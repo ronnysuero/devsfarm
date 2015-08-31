@@ -15,6 +15,7 @@ return array(
 	'n' => 'No Completed',
 	'r' => 'Reassign',
 	'nc' => 'No Completed',
+	'p' => 'Pending Evaluation',
 	'add' => 'Add an assignment',
 	'assignment' => 'Assignments',
 	'date_assigned' => 'Date assigned',
@@ -30,5 +31,11 @@ return array(
 	'delete_msg' => 'Do you want delete this assignment?',
 	'reassigned' => 'Assignment successfully reassigned',
 	'reassign_title' => 'Reassign Assignment',
-	
+	'send' => 'Send',
+	'view_details' => 'View Details',
+	'completed' => 'Mark As Completed',
+	'attach' => 'Attach files',
+	'attach_placeholder' => 'Hold down the Ctrl (Windows) / Comand (Mac) to select multiple files',
+	'failed_update' => 'failed to submit the task, the body is empty and no files attached',
+
 	);

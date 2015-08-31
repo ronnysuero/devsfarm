@@ -58,7 +58,7 @@
 					<div class="btn-group mail-options">
 						<button id="archivebtn" class="btn btn-success disabled"><i class="fa fa-archive"></i> {{Lang::get('messages.archive')}}</button>
 						<button id="readbtn" class="btn btn-warning disabled"><i class="fa fa-ban"></i> {{Lang::get('messages.read')}}</button>
-						<button id="deletebtn" class="btn btn-danger disabled"><i class="fa fa-trash-o"></i> {{Lang::get('messages.delete')}}</button>
+						<button id="deletebtn" data-toggle="modal" data-target="#deleteMessageModal" class="btn btn-danger disabled"><i class="fa fa-trash-o"></i> {{Lang::get('messages.delete')}}</button>
 					</div>
 				</div>
 				@include('alert')
@@ -153,11 +153,6 @@
 					if(!flag)
 						disableBtn();
 				}		
-			});
-
-			$('#deletebtn').on('click', function() 
-			{
-				$('#deleteModal').modal('show');
 			});
 
 			$('#delete_btn').on('click', function()

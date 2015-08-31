@@ -14,7 +14,6 @@
 						{{Lang::get('register_assignment.add')}}
 					</a>
 				@endif
-
 			</p>
 			<br />
 			@include('alert')	
@@ -28,7 +27,6 @@
 								<th>{{Lang::get('list_assignment.description')}}</th>
 								<th>{{Lang::get('register_assignment.date_assigned')}}</th>
 								<th>{{Lang::get('list_assignment.deadline')}}</th>
-								<th>{{Lang::get('list_assignment.assigned_by')}}</th>
 								<th>{{Lang::get('list_assignment.assigned_to')}}</th>
 								<th>{{Lang::get('list_assignment.state')}}</th>
 								<th>{{Lang::get('list_assignment.score')}}</th>
@@ -40,20 +38,19 @@
 									<th>{{Lang::get('register_assignment.delete')}}</th>
 									<th>{{Lang::get('register_assignment.re_assigned')}}</th>
 								@endif
+
+								<th>{{Lang::get('register_assignment.send')}}</th>
 							</tr>
 						</thead>
-					 	<tbody>
+						<tbody>
 							@foreach ($tasks as $index => $task)
-								<?php 
-									$assigned_by = Student::find($task->assigned_by);
-									$assigned_to = Student::find($task->assigned_to); 
-								?>
+								<?php $assigned_to = Student::find($task->assigned_to); ?>
+
 								<tr id="{{$index}}">
 									<td>{{$index + 1}}</td>
 									<td>{{$task->description}}</td>
 									<td>{{date('d-m-Y',$task->date_assigned->sec)}}</td>
 									<td>{{date('d-m-Y',$task->deadline->sec)}}</td>
-									<td>{{$assigned_by->name.' '.$assigned_by->last_name}}</td>
 									<td>
 										{{$assigned_to->name.' '.$assigned_to->last_name.' ('.$assigned_to->id_number.')'}}
 									</td>
@@ -64,36 +61,53 @@
 									@if(strcasecmp($group->teamleader_id, Auth::id()) === 0)
 										<td style="width: 6%">
 											@if(strcasecmp($task->state, 'c') === 0)
-												<button type="button" class="btn btn-primary btn-sm pull-right" data-toggle="modal" data-target="#ratedModal" onclick="useTask('{{$task->_id}}');"> 
+												<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#ratedModal" onclick="useTask('{{$task->_id}}');"> 
 													{{Lang::get('register_assignment.rate')}}
 												</button>
 											@endif
 										</td>
 										<td style="width: 6%"> 
 											@if(strcasecmp($task->state, 'a') === 0 || strcasecmp($task->state, 'r') === 0)
-												<button type="button" class="btn btn-warning btn-sm pull-right" data-toggle="modal" data-target="#editModal" onclick="findAssignment('{{$task->_id}}');"> 
+												<button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editModal" onclick="findAssignment('{{$task->_id}}');"> 
 													{{Lang::get('show_groups.btnedit')}}
 												</button>
 											@endif
 										</td>
 										<td style="width: 6%">
 											@if(strcasecmp($task->state, 'a') === 0 || strcasecmp($task->state, 'r') === 0)
-												<button type="button" class="btn btn-danger btn-sm  pull-right" data-toggle="modal" data-target="#deleteModal" onclick="$('#_id').val('{{$task->_id}}'); $('#tr').val('{{$index}}');">
+												<button type="button" class="btn btn-danger btn-sm " data-toggle="modal" data-target="#deleteModal" onclick="$('#_id').val('{{$task->_id}}'); $('#tr').val('{{$index}}');">
 													{{Lang::get('register_assignment.delete')}}
 												</button>
 											@endif
 										</td>
 										<td style="width: 6%">
 											@if(strcasecmp($task->state, 'n') === 0) 
-												<button type="button" data-toggle="modal" data-target="#reassignedModal" class="btn btn-info btn-sm pull-right" onclick="findReAssignment('{{$task->_id}}');"> 
+												<button type="button" data-toggle="modal" data-target="#reassignedModal" class="btn btn-info btn-sm" onclick="findReAssignment('{{$task->_id}}');"> 
 													{{Lang::get('register_assignment.re_assigned')}}
 												</button>
 											@endif
 										</td>
 									@endif
+									<td style="width: 4%">
+										@if(strcasecmp($task->assigned_to, Auth::id()) === 0)
+											@if(strcasecmp($task->state, 'a') === 0 || strcasecmp($task->state, 'r') === 0)
+												<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#completeModal" onclick="$('#taskupdate').val('{{$task->_id}}')"> 
+													{{Lang::get('register_assignment.send')}}
+												</button>
+											@else
+												<button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#viewDetailModal" onclick="viewAssignment('{{$task->_id}}')"> 
+													{{Lang::get('register_assignment.view_details')}}
+												</button>
+											@endif
+										@elseif(strcasecmp($task->state, 'c') === 0)
+											<button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#viewDetailModal" onclick="viewAssignment('{{$task->_id}}')"> 
+												{{Lang::get('register_assignment.view_details')}}
+											</button>
+										@endif
+									</td>
 								</tr>
-					 		@endforeach
-					 	</tbody>  
+							@endforeach
+						</tbody>  
 					</table>
 				</div>
 			@else
@@ -201,7 +215,7 @@
 									{{Lang::get('register_assignment.update_btn')}}
 								</button>
 							</div>
-				 		{{ Form::close() }}
+						{{ Form::close() }}
 					</div>
 				</div>
 			</div>
@@ -258,7 +272,7 @@
 									{{Lang::get("register_assignment.saveButton")}}
 								</button>
 							</div>
-				 		{{ Form::close() }}
+						{{ Form::close() }}
 					</div>
 				</div>
 			</div>
@@ -301,19 +315,176 @@
 									{{Lang::get('register_assignment.re_assigned')}}
 								</button>
 							</div>
-				 		{{ Form::close() }}
+						{{ Form::close() }}
 					</div>
 				</div>
 			</div>
 		</div>
 	@endif
+	<div class="modal fade" id="completeModal">
+		<div class="modal-dialog custom-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">
+						<i class="fa fa-plus"></i>
+						{{Lang::get('register_assignment.completed')}}
+					</h4>
+				</div>
+				<div id="alert"></div>
+				<div class="modal-body">
+					{{ Form::open(array('url' => Lang::get('routes.upload_assignment'), 'id' => 'update_form', 'role' => 'form', 'enctype' => 'multipart/form-data')) }}
+						<input name="taskupdate" id="taskupdate" type="hidden" />
+						<div class="form-group">
+							 <div class="col-md-12">
+  								<div class="panel panel-cascade">
+									<div class="panel-body">
+ 					 					<div>
+											<textarea class="textarea" name="textarea" placeholder="Escriba aqui" style="width: 100%; height: 200px"></textarea>
+  										</div>				
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label>{{Lang::get('register_assignment.attach')}}</label>	
+							<input multiple="1" name="files[]" id="files" type="file">
+							<br/>
+							<p>{{Lang::get('register_assignment.attach_placeholder')}}</p>
+						</div>                  
+						<div class="modal-footer">
+							<button type="button" id="closeBtn" class="btn btn-default" data-dismiss="modal">
+								{{Lang::get("register_assignment.closeButton")}}
+							</button>
+							<button type="button" id="updateBtn" class="btn btn-primary">
+								{{Lang::get('register_assignment.send')}}
+							</button>
+						</div>
+					{{ Form::close() }}
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="viewDetailModal">
+		<div class="modal-dialog custom-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">
+						<i class="fa fa-plus"></i> 
+						{{Lang::get('register_assignment.view_details')}}
+					</h4>
+				</div>
+				<div id="alert"></div>
+				<div class="modal-body">
+					<div class="form-group">
+						 <div class="col-md-12">
+								<div class="panel panel-cascade">
+								<div class="panel-body">
+					 				<div>
+										<textarea readonly class="" id="details" name="textarea" placeholder="Escriba aqui" style="width: 100%; height: 200px"></textarea>
+									</div>				
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group" id="attach"></div>                  
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">
+							{{Lang::get("register_assignment.closeButton")}}
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	<script type="text/javascript">
+		$('document').ready(function() 
+		{	
+			$('.textarea').wysihtml5(
+			{
+				"font-styles": true,
+				"emphasis": true, 
+				"lists": true, 
+				"html": true, 
+				"link": false, 
+				"image": false, 
+				"color": true   
+			});
+
+			$('#details').wysihtml5(
+			{
+				"font-styles": true,
+				"emphasis": true, 
+				"lists": true, 
+				"html": true, 
+				"link": false, 
+				"image": false, 
+				"color": true   
+			});
+
+			$('#details').data("wysihtml5").editor.disable();
+		});
+
+		$('#closeBtn').on('click', function()
+		{
+			$('#files').val("");
+			$('.textarea').data("wysihtml5").editor.setValue(" ");
+		});
+
+		$('#updateBtn').on('click', function()
+		{
+			var string = $('.textarea').val();
+			string = string.replace(new RegExp('&nbsp;', 'g'), '').trim();
+
+			if(string == '' && $('#files').val() == '')
+			{
+				$('#alert').html
+				(
+					'<div class="alert alert-danger alert-dismissable">' +
+					'<button type="button" class="close" data-dismiss="alert" ' +
+					'aria-hidden="true" onclick="$(".alert.alert-danger.alert-dismissable").hide("slow")">' +
+					'&times;</button>{{Lang::get("register_assignment.failed_update")}}</div>'
+				);
+			}
+			else
+				$('#update_form').submit();
+		});		
+
+		function viewAssignment(task_id)
+		{
+			$('#attach').html("<label>Attachments</label>");
+			$('#details').data("wysihtml5").editor.setValue(' ');
+
+			$.post("{{Lang::get('routes.find_assignment')}}",
+			{ 
+				code: task_id,	
+			})
+			.done(function(data) 
+			{
+				$('#attach').html("<label>Attachments</label>");	
+				$('#details').data("wysihtml5").editor.setValue(data.body);
+
+				for (var i = 0; i < data.attachments.length; i++) 
+				{
+					$('#attach').append
+					(
+						"<p><a href='{{Lang::get('download').'?flag='}}" + data._id + "&filename=" + 
+						data.attachments[i] + "'>" + data.attachments[i] + "</a></p>"
+					);
+				}
+			});
+		}
 
 		function findAssignment(task_id)
 		{
 			$('#taskedit').val(task_id);
 
-	 		$.post("{{Lang::get('routes.find_assignment')}}",
+			$.post("{{Lang::get('routes.find_assignment')}}",
 			{ 
 				code: task_id,	
 			})
@@ -321,15 +492,15 @@
 			{
 				var date = new Date(data.deadline.sec*1000);
 
-		   		$('#descriptionEdit').val(data.description);
-		   		$('#scoreEdit').val(data.score);
-		  		$('#deadlineEdit').val(formatDate(date));
+				$('#descriptionEdit').val(data.description);
+				$('#scoreEdit').val(data.score);
+				$('#deadlineEdit').val(formatDate(date));
 
-		  		$("#studentsEdit").find('option').each(function( i, opt ) 
-		  		{
+				$("#studentsEdit").find('option').each(function( i, opt ) 
+				{
 					if( opt.value == data.assigned_to ) 
 						$(opt).attr('selected', 'selected');
-		   		});
+				});
 			});
 		}
 
@@ -357,7 +528,7 @@
 		{
 			$('#taskReassigned').val(task_id);
 
-	 		$.post("{{Lang::get('routes.find_assignment')}}",
+			$.post("{{Lang::get('routes.find_assignment')}}",
 			{ 
 				code: task_id,	
 			})
@@ -365,13 +536,13 @@
 			{
 				var date = new Date(data.deadline.sec*1000);
 
-		   		$('#deadlineReassigned').val(formatDate(date));
+				$('#deadlineReassigned').val(formatDate(date));
 
-		  		$("#studentsReassigned").find('option').each(function( i, opt ) 
-		  		{
+				$("#studentsReassigned").find('option').each(function( i, opt ) 
+				{
 					if( opt.value == data.assigned_to ) 
 						$(opt).attr('selected', 'selected');
-		   		});
+				});
 			});
 		}
 

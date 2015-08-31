@@ -84,5 +84,6 @@ return array(
 	'update_assignment' => 'actualizar_asignacion',
 	'drop_assignment' => 'eliminar_asignacion',
 	'reassigned' => 'reasignar',
+	'upload_assignment' => 'cargar_tarea',
 
 	);

@@ -15,6 +15,7 @@ return array(
 	'n' => 'No Completada',
 	'r' => 'Reasignada',
 	'nc' => 'No Completada',
+	'p' => 'Pendiente Evaluacion',
 	'add' => 'Agregar una asignacion',
 	'assignment' => 'Asignaciones',
 	'date_assigned' => 'Fecha de asignacion',
@@ -30,5 +31,11 @@ return array(
 	'delete_msg' => '¿Desea eliminar esta asignacion?',
 	'reassigned' => 'Asignacion satisfactoriamente reasignada',
 	'reassign_title' => 'Reasignar asignacion',
+	'send' => 'Enviar',
+	'view_details' => 'Ver Detalles',
+	'completed' => 'Marcar Como Completada',
+	'attach' => 'Adjuntar Archivos',
+	'attach_placeholder' => 'Mantenga presionada la tecla Ctrl (Windows) / Comand (Mac) para seleccionar múltiples archivos',
+	'failed_update' => 'No se pudo enviar la tarea, el cuerpo esta vacío y no hay archivos adjuntados',
 
 	);

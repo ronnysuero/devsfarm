@@ -91,34 +91,35 @@ Route::group(array('before' => 'auth|teacher'), function()
 
 Route::group(array('before' => 'auth|student'), function()
 {
-    // HTTP GET
-    Route::get(Lang::get('routes.student'), 'StudentController@showHome');
-    Route::get(Lang::get('routes.add_group'), 'GroupController@showAddGroupView');
-    Route::get(Lang::get('routes.student_profile'), 'StudentController@showProfile');
-    Route::get(Lang::get('routes.show_groups'), 'GroupController@showAllGroupView');
-    Route::get(Lang::get('routes.join_to_group'), 'PendingGroupController@showJoinToGroupView');
-    Route::get(Lang::get('routes.enroll_section'), 'PendingEnrollmentController@showEnrollSection');
-    Route::get(Lang::get('routes.approval_group'), 'StudentController@showApprovalGroupView');
-    
-    // HTTP POST
-    Route::post(Lang::get('routes.findSection'), 'SectionController@findSection');
-    Route::post(Lang::get('routes.add_group'), 'GroupController@addGroup');
-    Route::post(Lang::get('routes.rated'), 'AssignmentController@rated');
-    Route::post(Lang::get('routes.update_student'), 'StudentController@updateStudent');
-    Route::post(Lang::get('routes.register_assignment'), 'AssignmentController@addAssignment');
-    Route::post(Lang::get('routes.find_Group_By_Section'), 'GroupController@find');
-    Route::post(Lang::get('routes.join_to_group'), 'PendingGroupController@joinToGroup');
-    Route::post(Lang::get('routes.find_student'), 'StudentController@find');
-    Route::post(Lang::get('routes.drop_assignment'), 'AssignmentController@drop');
-    Route::post(Lang::get('routes.update_assignment'), 'AssignmentController@update');
-    Route::post(Lang::get('routes.drop_group'), 'GroupController@drop');
-    Route::post(Lang::get('routes.find_assignment'), 'AssignmentController@find');
-    Route::post(Lang::get('routes.enroll_section'), 'PendingEnrollmentController@enrollSection');
+	// HTTP GET
+	Route::get(Lang::get('routes.student'), 'StudentController@showHome');
+	Route::get(Lang::get('routes.add_group'), 'GroupController@showAddGroupView');
+	Route::get(Lang::get('routes.student_profile'), 'StudentController@showProfile');
+	Route::get(Lang::get('routes.show_groups'), 'GroupController@showAllGroupView');
+	Route::get(Lang::get('routes.join_to_group'), 'PendingGroupController@showJoinToGroupView');
+	Route::get(Lang::get('routes.enroll_section'), 'PendingEnrollmentController@showEnrollSection');
+	Route::get(Lang::get('routes.approval_group'), 'StudentController@showApprovalGroupView');
+	
+	// HTTP POST
+	Route::post(Lang::get('routes.findSection'), 'SectionController@findSection');
+	Route::post(Lang::get('routes.add_group'), 'GroupController@addGroup');
+	Route::post(Lang::get('routes.rated'), 'AssignmentController@rated');
+	Route::post(Lang::get('routes.update_student'), 'StudentController@updateStudent');
+	Route::post(Lang::get('routes.register_assignment'), 'AssignmentController@addAssignment');
+	Route::post(Lang::get('routes.find_Group_By_Section'), 'GroupController@find');
+	Route::post(Lang::get('routes.join_to_group'), 'PendingGroupController@joinToGroup');
+	Route::post(Lang::get('routes.find_student'), 'StudentController@find');
+	Route::post(Lang::get('routes.drop_assignment'), 'AssignmentController@drop');
+	Route::post(Lang::get('routes.update_assignment'), 'AssignmentController@update');
+	Route::post(Lang::get('routes.drop_group'), 'GroupController@drop');
+	Route::post(Lang::get('routes.find_assignment'), 'AssignmentController@find');
+	Route::post(Lang::get('routes.enroll_section'), 'PendingEnrollmentController@enrollSection');
 	Route::post(Lang::get('routes.assign'), 'AssignmentController@assign');
 	Route::post(Lang::get('routes.drop_join'), 'PendingGroupController@drop');
 	Route::post(Lang::get('routes.approve_group'), 'PendingGroupController@approve');
 	Route::post(Lang::get('routes.update_group'), 'GroupController@update');
 	Route::post(Lang::get('routes.reassigned'), 'AssignmentController@reassign');
+	Route::post(Lang::get('routes.upload_assignment'), 'AssignmentController@uploadAssignment');
 	
 	Route::match(array('GET', 'POST'), Lang::get('routes.show_all_assignment'), 'AssignmentController@showAllAssignmentView');
 
@@ -143,6 +144,22 @@ Route::group(array('before' => 'auth'), function()
 		}, 1, false); // one minute cache expiry
 
 		return Response::make($cacheimage, 200, array('Content-Type' => 'image/jpeg'));
+	});
+
+	Route::get(Lang::get('download'), function()
+	{
+		$flag = Input::get('flag');
+		$filename = Input::get('filename');
+		$file_path = storage_path().'/assignments/'.$flag.'/'.$filename;
+
+		if (File::exists($file_path))
+		{
+			return Response::download($file_path, $filename, [
+				'Content-Length: '. filesize($file_path)
+			]);
+		}
+		else
+			exit('Requested file does not exist on our server!');
 	});
 
 	// HTTP POST
