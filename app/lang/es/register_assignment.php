@@ -37,5 +37,11 @@ return array(
 	'attach' => 'Adjuntar Archivos',
 	'attach_placeholder' => 'Mantenga presionada la tecla Ctrl (Windows) / Comand (Mac) para seleccionar múltiples archivos',
 	'failed_update' => 'No se pudo enviar la tarea, el cuerpo esta vacío y no hay archivos adjuntados',
+	'write' => 'Escriba algo ....',
+	'attachs' => 'Archivos adjuntos',
+	'tag' => 'Etiquetas',
+	'tag_placeholder' => 'Ingrese etiquetas. Separe por coma',
+	'download_failed' => 'El archivo solicitado no existe en nuestro servidor!',
+	'rate_success' => 'Asignacion satisfactoriamente calificada',
 
 	);

@@ -154,6 +154,7 @@
 			</div>
 		</div>
 	@endif
+	<script type="text/javascript" src="js/dhtmlxgantt.js"></script>
 	<script type="text/javascript">
 
 		$('document').ready(function() 
@@ -223,13 +224,14 @@
 			]
 		};
 
-		var getListItemHTML = function (type, count, active) {
+		var getListItemHTML = function (type, count, active) 
+		{
 			return '<li'+(active?' class="active"':'') + 
 				   '><a href="#">' + type + 's <span class="badge">' +
 				   count + '</span></a></li>';
 		};
 
-		var updateInfo = function () 
+		var updateInfo = function() 
 		{
 			var state = gantt.getState(),
 				tasks = gantt.getTaskByTime(state.min_date, state.max_date),
@@ -238,11 +240,9 @@
 				html = "",
 				active = false;
 
-			// get available types
 			for (var t in types)
 				result[types[t]] = 0;
 			
-			// sort tasks by type
 			for (var i=0, l=tasks.length; i<l; i++) 
 			{
 				if (tasks[i].type && result[tasks[i].type] != "undefined")
@@ -251,7 +251,6 @@
 					result[types.task] += 1;
 			}
 			
-			// render list items for each type
 			for (var j in result) 
 			{
 				if (j == types.task)
@@ -311,5 +310,6 @@
 		gantt.init("gantt_here");
 		gantt.parse(demo_tasks);
 		updateInfo();
+
 	</script>
 @stop

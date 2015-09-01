@@ -17,7 +17,7 @@
 			</p>
 			<br />
 			@include('alert')	
-			@if(count($tasks) > 0)
+			@if(count($assignments) > 0)
 				<h4>{{Lang::get('register_assignment.assignment')}}</h4>
 				<div class="table-responsive">
 					<table id="tableOrder" class="table table-striped table-bordered table-hover tablesorter">
@@ -43,66 +43,69 @@
 							</tr>
 						</thead>
 						<tbody>
-							@foreach ($tasks as $index => $task)
-								<?php $assigned_to = Student::find($task->assigned_to); ?>
+							@foreach ($assignments as $index => $assignment)
+								<?php $assigned_to = Student::find($assignment->assigned_to); ?>
 
 								<tr id="{{$index}}">
 									<td>{{$index + 1}}</td>
-									<td>{{$task->description}}</td>
-									<td>{{date('d-m-Y',$task->date_assigned->sec)}}</td>
-									<td>{{date('d-m-Y',$task->deadline->sec)}}</td>
+									<td>{{$assignment->description}}</td>
+									<td>{{date('d-m-Y',$assignment->date_assigned->sec)}}</td>
+									<td>{{date('d-m-Y',$assignment->deadline->sec)}}</td>
 									<td>
-										{{$assigned_to->name.' '.$assigned_to->last_name.' ('.$assigned_to->id_number.')'}}
+										{{$assigned_to->name.' '.$assigned_to->last_name}}
+										{{'('.$assigned_to->id_number.')'}}
 									</td>
-									<td>{{Lang::get('register_assignment.'.$task->state)}}</td>
-									<td>{{$task->score}}</td>
-									<td>{{$task->rated}}</td>
+									<td>{{Lang::get('register_assignment.'.$assignment->state)}}</td>
+									<td>{{$assignment->score}}</td>
+									<td>{{$assignment->rated}}</td>
 									
 									@if(strcasecmp($group->teamleader_id, Auth::id()) === 0)
 										<td style="width: 6%">
-											@if(strcasecmp($task->state, 'c') === 0)
-												<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#ratedModal" onclick="useTask('{{$task->_id}}');"> 
+											@if(strcasecmp($assignment->state, 'p') === 0)
+												<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#ratedModal" onclick="$('#scoreRated').val('{{$assignment->score}}'); $('#assignment_id').val('{{$assignment->_id}}');"> 
 													{{Lang::get('register_assignment.rate')}}
 												</button>
 											@endif
 										</td>
 										<td style="width: 6%"> 
-											@if(strcasecmp($task->state, 'a') === 0 || strcasecmp($task->state, 'r') === 0)
-												<button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editModal" onclick="findAssignment('{{$task->_id}}');"> 
+											@if(strcasecmp($assignment->state, 'a') === 0 || strcasecmp($assignment->state, 'r') === 0)
+												<button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editModal" onclick="findAssignment('{{$assignment->_id}}');"> 
 													{{Lang::get('show_groups.btnedit')}}
 												</button>
 											@endif
 										</td>
 										<td style="width: 6%">
-											@if(strcasecmp($task->state, 'a') === 0 || strcasecmp($task->state, 'r') === 0)
-												<button type="button" class="btn btn-danger btn-sm " data-toggle="modal" data-target="#deleteModal" onclick="$('#_id').val('{{$task->_id}}'); $('#tr').val('{{$index}}');">
+											@if(strcasecmp($assignment->state, 'a') === 0 || strcasecmp($assignment->state, 'r') === 0)
+												<button type="button" class="btn btn-danger btn-sm " data-toggle="modal" data-target="#deleteModal" onclick="$('#_id').val('{{$assignment->_id}}'); $('#tr').val('{{$index}}');">
 													{{Lang::get('register_assignment.delete')}}
 												</button>
 											@endif
 										</td>
 										<td style="width: 6%">
-											@if(strcasecmp($task->state, 'n') === 0) 
-												<button type="button" data-toggle="modal" data-target="#reassignedModal" class="btn btn-info btn-sm" onclick="findReAssignment('{{$task->_id}}');"> 
+											@if(strcasecmp($assignment->state, 'n') === 0) 
+												<button type="button" data-toggle="modal" data-target="#reassignedModal" class="btn btn-info btn-sm" onclick="findReAssignment('{{$assignment->_id}}');"> 
 													{{Lang::get('register_assignment.re_assigned')}}
 												</button>
 											@endif
 										</td>
 									@endif
 									<td style="width: 4%">
-										@if(strcasecmp($task->assigned_to, Auth::id()) === 0)
-											@if(strcasecmp($task->state, 'a') === 0 || strcasecmp($task->state, 'r') === 0)
-												<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#completeModal" onclick="$('#taskupdate').val('{{$task->_id}}')"> 
+										@if(strcasecmp($assignment->assigned_to, Auth::id()) === 0)
+											@if(strcasecmp($assignment->state, 'a') === 0 || strcasecmp($assignment->state, 'r') === 0)
+												<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#completeModal" onclick="$('#taskupdate').val('{{$assignment->_id}}')"> 
 													{{Lang::get('register_assignment.send')}}
 												</button>
-											@else
-												<button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#viewDetailModal" onclick="viewAssignment('{{$task->_id}}')"> 
+											@elseif(AssignmentController::enableViewDetailBtn($assignment))
+												<button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#viewDetailModal" onclick="viewAssignment('{{$assignment->_id}}')"> 
 													{{Lang::get('register_assignment.view_details')}}
 												</button>
 											@endif
-										@elseif(strcasecmp($task->state, 'c') === 0)
-											<button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#viewDetailModal" onclick="viewAssignment('{{$task->_id}}')"> 
-												{{Lang::get('register_assignment.view_details')}}
-											</button>
+										@elseif(strcasecmp($assignment->state, 'c') === 0 || strcasecmp($assignment->state, 'n') === 0 || strcasecmp($assignment->state, 'nc') === 0)
+											@if(AssignmentController::enableViewDetailBtn($assignment))
+												<button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#viewDetailModal" onclick="viewAssignment('{{$assignment->_id}}')"> 
+													{{Lang::get('register_assignment.view_details')}}
+												</button>
+											@endif
 										@endif
 									</td>
 								</tr>
@@ -151,11 +154,15 @@
 							</div>
 							<div class="form-group">
 								<label>{{Lang::get('register_assignment.deadline')}}</label>
-								<input data-validate="required,date" type="date" class="form-control" id="deadline" name="deadline" placeholder="" value="{{date('Y-m-d')}}">
+								<input data-validate="required,date" type="text" class="form-control" id="deadline" name="deadline" placeholder="" value="{{date('Y-m-d')}}">
 							</div>
 							<div class="form-group">
 								<label>{{Lang::get('register_assignment.score')}}</label>
-								<input data-validate="required,decimal" type="decimal" class="form-control" id="score" name="score" placeholder="{{Lang::get('register_assignment.score_placeholder')}}" >
+								<input data-validate="required,decimal,max(3)" type="decimal" class="form-control" id="score" name="score" placeholder="{{Lang::get('register_assignment.score_placeholder')}}" >
+							</div>
+							<div class="form-group">
+								<label>{{Lang::get('register_assignment.tag')}}</label>
+								<input data-validate="characterspace,max(50)" type="text" class="form-control" id="tags" name="tags" placeholder="{{Lang::get('register_assignment.tag_placeholder')}}" >
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-default" data-dismiss="modal">
@@ -201,17 +208,21 @@
 							</div>
 							<div class="form-group">
 								<label>{{Lang::get('register_assignment.deadline')}}</label>
-								<input data-validate="required,date" type="date" class="form-control" id="deadlineEdit" name="deadlineEdit" value="{{date('Y-m-d')}}" >
+								<input data-validate="required,date" type="text" class="form-control" id="deadlineEdit" name="deadlineEdit" value="{{date('Y-m-d')}}" >
 							</div>
 							<div class="form-group">
 								<label>{{Lang::get('register_assignment.score')}}</label>
-								<input data-validate="required" type="decimal" class="form-control" id="scoreEdit" name="scoreEdit" placeholder="{{Lang::get('register_assignment.score_placeholder')}}" >
+								<input data-validate="required,decimal,max(3)" type="decimal" class="form-control" id="scoreEdit" name="scoreEdit" placeholder="{{Lang::get('register_assignment.score_placeholder')}}" >
+							</div>
+							<div class="form-group">
+								<label>{{Lang::get('register_assignment.tag')}}</label>
+								<input data-validate="characterspace,max(50)" type="text" class="form-control" id="tagsEdit" name="tagsEdit" placeholder="{{Lang::get('register_assignment.tag_placeholder')}}" >
 							</div>                   
 							<div class="modal-footer">
 								<button type="button" class="btn btn-default" data-dismiss="modal">
 									{{Lang::get("register_assignment.closeButton")}}
 								</button>
-								<button type="submit" id="ratedBtn" class="btn btn-primary">
+								<button type="submit" class="btn btn-primary">
 									{{Lang::get('register_assignment.update_btn')}}
 								</button>
 							</div>
@@ -254,22 +265,35 @@
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
-						<h4 class="modal-title">{{Lang::get("show_groups.btnrated")}}</h4>	
+						<h4 class="modal-title">{{Lang::get("show_groups.modal_rated")}}</h4>	
 					</div>
 					<div class="modal-body">
-						{{ Form::open(array('url' => Lang::get('routes.rated'), 'id' => 'register_form', 'role' => 'form','enctype' => 'multipart/form-data')) }}
-							<input name="task" id="task" type="hidden" />
-							<input name="group_id" id="group_id" type="hidden"  value="{{$group->_id}}"/>
+						{{ Form::open(array('url' => Lang::get('routes.rate_assignment'), 'id' => 'register_form', 'role' => 'form')) }}
+							<input name="assignment_id" id="assignment_id" type="hidden" />
+							<div class="form-group">
+								<label>{{Lang::get('register_assignment.score')}}</label>
+								<input data-validate="required,decimal,max(3)" type="decimal" class="form-control" readonly id="scoreRated" name="scoreRated" >
+							</div>
 							<div class="form-group">
 								<label>{{Lang::get('show_groups.rated')}}</label>
-								<input data-validate="required" type="decimal" class="form-control" id="rated" name="rated" placeholder="" >
+								<input data-validate="required,decimal,max(3)" type="decimal" class="form-control" id="rated" name="rated" placeholder="{{Lang::get('show_groups.rate_placeholder')}}" >
+							</div>
+							<div class="form-group">
+								<p>{{Lang::get('show_groups.evaluation_message')}}</p>		
+								<label>
+									{{Lang::get('show_groups.note')}} 
+									<span id="note"></span>
+								</label>
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-default" data-dismiss="modal">
+								<button type="button" id="closeRated" class="btn btn-default" data-dismiss="modal">
 									{{Lang::get("register_assignment.closeButton")}}
 								</button>
-								<button id="ratedBtn" class="btn btn-primary">
-									{{Lang::get("register_assignment.saveButton")}}
+								<button onclick="cancelRequest()" class="btn btn-danger">
+									{{Lang::get('show_groups.cancel_rate')}}
+								</button>
+								<button type="submit" class="btn btn-primary">
+									{{Lang::get('show_groups.rate')}}
 								</button>
 							</div>
 						{{ Form::close() }}
@@ -305,13 +329,13 @@
 							</div>
 							<div class="form-group">
 								<label>{{Lang::get('register_assignment.deadline')}}</label>
-								<input data-validate="required,date" type="date" class="form-control" id="deadlineReassigned" name="deadlineReassigned" value="{{date('Y-m-d')}}" >
+								<input data-validate="required,date" type="text" class="form-control" id="deadlineReassigned" name="deadlineReassigned" value="{{date('Y-m-d')}}" >
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-default" data-dismiss="modal">
 									{{Lang::get("register_assignment.closeButton")}}
 								</button>
-								<button type="submit" id="ratedBtn" class="btn btn-primary">
+								<button type="submit" class="btn btn-primary">
 									{{Lang::get('register_assignment.re_assigned')}}
 								</button>
 							</div>
@@ -339,11 +363,11 @@
 						<input name="taskupdate" id="taskupdate" type="hidden" />
 						<div class="form-group">
 							 <div class="col-md-12">
-  								<div class="panel panel-cascade">
+								<div class="panel panel-cascade">
 									<div class="panel-body">
- 					 					<div>
-											<textarea class="textarea" name="textarea" placeholder="Escriba aqui" style="width: 100%; height: 200px"></textarea>
-  										</div>				
+										<div>
+											<textarea class="textarea" name="textarea" placeholder="{{Lang::get('register_assignment.write')}}" style="width: 100%; height: 200px"></textarea>
+										</div>				
 									</div>
 								</div>
 							</div>
@@ -385,7 +409,7 @@
 						 <div class="col-md-12">
 								<div class="panel panel-cascade">
 								<div class="panel-body">
-					 				<div>
+									<div>
 										<textarea readonly class="" id="details" name="textarea" placeholder="Escriba aqui" style="width: 100%; height: 200px"></textarea>
 									</div>				
 								</div>
@@ -403,8 +427,30 @@
 		</div>
 	</div>
 	<script type="text/javascript">
+
 		$('document').ready(function() 
 		{	
+			$('#deadline').datetimepicker(
+			{
+				timepicker: false
+				,format: 'Y-m-d'
+				,lang: $('#langGlobal').val()
+			});
+
+			$('#deadlineEdit').datetimepicker(
+			{
+				timepicker: false
+				,format: 'Y-m-d'
+				,lang: $('#langGlobal').val()
+			});
+
+			$('#deadlineReassigned').datetimepicker(
+			{
+				timepicker: false
+				,format: 'Y-m-d'
+				,lang: $('#langGlobal').val()
+			});
+
 			$('.textarea').wysihtml5(
 			{
 				"font-styles": true,
@@ -428,6 +474,71 @@
 			});
 
 			$('#details').data("wysihtml5").editor.disable();
+
+			$('#rated').keypress(function(event) 
+			{
+				var controlKeys = [8, 9, 13, 35, 36, 37, 39],
+					isControlKey = controlKeys.join(",").match(new RegExp(event.which));
+				
+				if (!event.which || (48 <= event.which && event.which <= 57) || 
+				   (48 == event.which && $(this).attr("value")) || isControlKey) 
+					return;
+				else
+					event.preventDefault();
+			});
+
+			$('#rated').keyup(function(event) 
+			{
+				if(this.value > 100)
+					this.value = 100;
+
+				var note = ($('#scoreRated').val() * this.value)/100;
+				$('#note').html(note);				
+			});
+
+			$('#score').keypress(function(event) 
+			{
+				var controlKeys = [8, 9, 13, 35, 36, 37, 39],
+					isControlKey = controlKeys.join(",").match(new RegExp(event.which));
+				
+				if (!event.which || (48 <= event.which && event.which <= 57) || 
+				   (48 == event.which && $(this).attr("value")) || isControlKey)
+					return;
+				else
+					event.preventDefault();
+			});
+
+			$('#score').keyup(function(event) 
+			{
+				if(this.value > 100)
+					this.value = 100;
+			});
+
+			$('#scoreEdit').keypress(function(event) 
+			{
+				var controlKeys = [8, 9, 13, 35, 36, 37, 39],
+					isControlKey = controlKeys.join(",").match(new RegExp(event.which));
+				
+				if (!event.which || (48 <= event.which && event.which <= 57) || 
+				   (48 == event.which && $(this).attr("value")) || isControlKey)
+					return;
+				else
+					event.preventDefault();
+			});
+
+			$('#scoreEdit').keyup(function(event) 
+			{
+				if(this.value > 100)
+					this.value = 100;
+			});
+
+			$('#closeRated').on('click', function()
+			{
+				$('#scoreRated').val('');
+				$('#rated').val('');
+				$('#note').html('');
+				$('#assignment_id').val('');
+			});
 		});
 
 		$('#closeBtn').on('click', function()
@@ -455,57 +566,75 @@
 				$('#update_form').submit();
 		});		
 
-		function viewAssignment(task_id)
+		function viewAssignment(assignment_id)
 		{
-			$('#attach').html("<label>Attachments</label>");
+			$('#attach').html("<label>{{Lang::get('register_assignment.attachs')}}</label>");
 			$('#details').data("wysihtml5").editor.setValue(' ');
 
 			$.post("{{Lang::get('routes.find_assignment')}}",
 			{ 
-				code: task_id,	
+				code: assignment_id,	
 			})
 			.done(function(data) 
 			{
-				$('#attach').html("<label>Attachments</label>");	
-				$('#details').data("wysihtml5").editor.setValue(data.body);
-
-				for (var i = 0; i < data.attachments.length; i++) 
+				if(data != "")
 				{
-					$('#attach').append
-					(
-						"<p><a href='{{Lang::get('download').'?flag='}}" + data._id + "&filename=" + 
-						data.attachments[i] + "'>" + data.attachments[i] + "</a></p>"
-					);
+					$('#details').data("wysihtml5").editor.setValue(data.body);
+
+					for (var i = 0; i < data.attachments.length; i++) 
+					{
+						$('#attach').append
+						(
+							"<p><a href='{{Lang::get('download').'?flag='}}" + data._id + 
+							"&filename=" + data.attachments[i] + "'>" + data.attachments[i] + 
+							"</a></p>"
+						);
+					}
 				}
 			});
 		}
 
-		function findAssignment(task_id)
+		function findAssignment(assignment_id)
 		{
-			$('#taskedit').val(task_id);
+			$('#taskedit').val(assignment_id);
 
 			$.post("{{Lang::get('routes.find_assignment')}}",
 			{ 
-				code: task_id,	
+				code: assignment_id,	
 			})
 			.done(function(data) 
 			{
-				var date = new Date(data.deadline.sec*1000);
-
-				$('#descriptionEdit').val(data.description);
-				$('#scoreEdit').val(data.score);
-				$('#deadlineEdit').val(formatDate(date));
-
-				$("#studentsEdit").find('option').each(function( i, opt ) 
+				if(data != "")
 				{
-					if( opt.value == data.assigned_to ) 
-						$(opt).attr('selected', 'selected');
-				});
+					console.log(data);
+
+					var date = new Date(data.deadline.sec*1000),
+						tags = "";
+
+					$('#descriptionEdit').val(data.description);
+					$('#scoreEdit').val(data.score);
+					$('#deadlineEdit').val(formatDate(date));
+
+					$("#studentsEdit").find('option').each(function( i, opt ) 
+					{
+						if( opt.value == data.assigned_to ) 
+							$(opt).attr('selected', 'selected');
+					});
+
+					for (var i = 0; i < data.tags.length; i++) 
+						tags += (data.tags[i] + ', ');						
+
+					tags = tags.substring(0, (tags.length-2));
+					$('#tagsEdit').val(tags);
+				}
 			});
 		}
 
-		function formatDate(date) {
-			return date.getFullYear() + "-" + ('0' + (date.getMonth()+1)).slice(-2) + "-" + date.getDate();
+		function formatDate(date) 
+		{
+			return date.getFullYear() + "-" + ('0' + 
+				   (date.getMonth()+1)).slice(-2) + 
+				   "-" + date.getDate();
 		}
 
 		function dropAssignment()
@@ -524,25 +653,41 @@
 			});
 		}
 
-		function findReAssignment(task_id)
+		function findReAssignment(assignment_id)
 		{
-			$('#taskReassigned').val(task_id);
+			$('#taskReassigned').val(assignment_id);
 
 			$.post("{{Lang::get('routes.find_assignment')}}",
 			{ 
-				code: task_id,	
+				code: assignment_id,	
 			})
 			.done(function(data) 
 			{
-				var date = new Date(data.deadline.sec*1000);
-
-				$('#deadlineReassigned').val(formatDate(date));
-
-				$("#studentsReassigned").find('option').each(function( i, opt ) 
+				if(data != "")
 				{
-					if( opt.value == data.assigned_to ) 
-						$(opt).attr('selected', 'selected');
-				});
+					var date = new Date(data.deadline.sec*1000);
+
+					$('#deadlineReassigned').val(formatDate(date));
+
+					$("#studentsReassigned").find('option').each(function( i, opt ) 
+					{
+						if( opt.value == data.assigned_to ) 
+							$(opt).attr('selected', 'selected');
+					});
+				}
+			});
+		}
+
+		function cancelRequest()
+		{
+			$.post("{{Lang::get('routes.cancel_request')}}",
+			{ 
+				_id: $('#assignment_id').val(),	
+			})
+			.done(function(data) 
+			{
+				if(data == "00")
+					location.reload();
 			});
 		}
 

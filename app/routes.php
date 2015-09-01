@@ -120,6 +120,8 @@ Route::group(array('before' => 'auth|student'), function()
 	Route::post(Lang::get('routes.update_group'), 'GroupController@update');
 	Route::post(Lang::get('routes.reassigned'), 'AssignmentController@reassign');
 	Route::post(Lang::get('routes.upload_assignment'), 'AssignmentController@uploadAssignment');
+	Route::post(Lang::get('routes.rate_assignment'), 'AssignmentController@rateAssignment');
+	Route::post(Lang::get('routes.cancel_request'), 'AssignmentController@cancelRequestAssignment');
 	
 	Route::match(array('GET', 'POST'), Lang::get('routes.show_all_assignment'), 'AssignmentController@showAllAssignmentView');
 
@@ -155,11 +157,11 @@ Route::group(array('before' => 'auth'), function()
 		if (File::exists($file_path))
 		{
 			return Response::download($file_path, $filename, [
-				'Content-Length: '. filesize($file_path)
+				'Content-Length: '.filesize($file_path)
 			]);
 		}
 		else
-			exit('Requested file does not exist on our server!');
+			exit(Lang::get('register_assignment.download_failed'));
 	});
 
 	// HTTP POST

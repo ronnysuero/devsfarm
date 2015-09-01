@@ -69,7 +69,6 @@ return array(
 	'register_assignment'=>'register_assignment',
 	'drop_group'=>'drop_group',
 	'assign'=>'assign',
-	'rated'=>'rated',
 	'approval' => 'approval_student',
 	'enroll_section' => 'enroll_section',
 	'drop_enroll' => 'drop_enroll',
@@ -88,5 +87,7 @@ return array(
 	'drop_assignment' => 'drop_assignment',
 	'reassigned' => 'reassigned',
 	'upload_assignment' => 'upload_assignment',
-
+	'rate_assignment' => 'rate_assignment',
+	'cancel_request' => 'cancel_request',
+	
 	);

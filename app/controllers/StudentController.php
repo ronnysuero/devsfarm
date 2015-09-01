@@ -11,7 +11,11 @@ class StudentController extends BaseController
 	*/
 	public function showHome()
 	{
-		$group = Group::whereIn('students_id', array(Auth::id()))->get();
+		$groups = Group::whereIn('students_id', array(Auth::id()))->get();
+
+		//$x = GanttController::getDataGantt($groups);
+
+		//var_dump($x);
 
 		return View::make('student.home')->with(
 			array(
@@ -20,15 +24,15 @@ class StudentController extends BaseController
 						"id" => 1, 
 						"text" => 'Office itinerancy', 
 						"type" => 'gantt.config.types.project', 
-						"order" => 10, 
+						//"order" => 10, 
 						"progress" => 0.4, 
-						"open" => false
+						"open" => true
 					)),
 					json_encode(array(
 						"id" => 2, 
 						"text" => 'Office facing', 
 						"type" => 'gantt.config.types.project', 
-						"order" => 10, 
+						//"order" => 10, 
 						'progress' =>  0.6, 
 						"open" =>  true,
 						"parent" => 1, 
@@ -50,7 +54,7 @@ class StudentController extends BaseController
 						"type" => 0,
 					))
 				),
-				'groups' => $group,
+				'groups' => $groups,
 				'stats' => MessageController::getStats(),
 			)
 		);

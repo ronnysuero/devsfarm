@@ -37,5 +37,11 @@ return array(
 	'attach' => 'Attach files',
 	'attach_placeholder' => 'Hold down the Ctrl (Windows) / Comand (Mac) to select multiple files',
 	'failed_update' => 'failed to submit the task, the body is empty and no files attached',
-
+	'write' => 'Write something ....',
+	'attachs' => 'Files attachments',
+	'tag' => 'Tags',
+	'tag_placeholder' => 'Enter tags. Separated by commas',
+	'download_failed' => 'Requested file does not exist on our server!',
+	'rate_success' => 'Assignment successfully rated',
+	
 	);

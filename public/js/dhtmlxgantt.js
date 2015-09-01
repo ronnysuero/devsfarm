@@ -27,13 +27,7 @@ function dataProcessor(t) {
 	}, this.enableUTFencoding(!0), dhx4._eventable(this), this
 }
 
-var langsAvailables = ['es', 'en'],
-	language = window.navigator.userLanguage || window.navigator.language;
-
-language = language.substring(0, 2).toLowerCase();
-	
-if($.inArray(language, langsAvailables) === -1)
-	language = 'en';
+var language = $('#langGlobal').val();
 
 var dict = {
 	"jan": {

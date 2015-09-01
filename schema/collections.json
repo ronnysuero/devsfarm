@@ -1,173 +1,199 @@
 "universities": 
 {
-	"_id": Object_Id,
-	"name": String,
-	"email": String,
-	"acronym": String,
-	"profile_image": String,
-	"messages":
+	"_id": Object_Id
+	,"name": String
+	,"email": String
+	,"acronym": String
+	,"profile_image": String
+	,"messages":
 	[
 		{
-			"_id": Object_Id,
-			"to": [Object_Id],
-			"from": Object_Id,
-			"subject": String,
-			"body": String,
-			"read": Boolean,
-			"archived": Boolean,
-			"sent_date": Date,
+			"_id": Object_Id
+			,"to": [Object_Id]
+			,"from": Object_Id
+			,"subject": String
+			,"body": String
+			,"read": Boolean
+			,"archived": Boolean
+			,"sent_date": Date
 		}
 	]
 }
 
 "teachers": 
 {
-	"_id": Object_Id,
-	"university_id": Object_Id,
-	"name": String,
-	"last_name": String,
-	"phone": String,
-	"cellphone": String,
-	"email": String,
-	"profile_image": String,
-	"genre": String,
-	"sections_id" : [Object_Id],
-	"subjects_id" : [Object_Id],
-	"messages":
+	"_id": Object_Id
+	,"university_id": Object_Id
+	,"name": String
+	,"last_name": String
+	,"phone": String
+	,"cellphone": String
+	,"email": String
+	,"profile_image": String
+	,"genre": String
+	,"sections_id" : [Object_Id]
+	,"subjects_id" : [Object_Id]
+	,"messages":
 	[
 		{
-			"_id": Object_Id,
-			"to": [Object_Id],
-			"from": Object_Id,
-			"subject": String,
-			"body": String,
-			"read": Boolean,
-			"archived": Boolean,
-			"sent_date": Date,
+			"_id": Object_Id
+			,"to": [Object_Id]
+			,"from": Object_Id
+			,"subject": String
+			,"body": String
+			,"read": Boolean
+			,"archived": Boolean
+			,"sent_date": Date
 		}
 	]
 }
 	
 "subjects": 
 {
-	"_id": Object_Id,
-	"name": String,
-	"university_id": Object_Id,
-	"sections":
+	"_id": Object_Id
+	,"name": String
+	,"university_id": Object_Id
+	,"sections":
 	[
 		{
-			"_id": Object_Id,
-			"code": String,
-			"current_code": String,
-			"is_free": Boolean,
+			"_id": Object_Id
+			,"code": String
+			,"current_code": String
+			,"is_free": Boolean
 		}
 	]
 }
 
 "students":
 {
-	"_id": Object_Id,
-	"name": String,
-	"last_name": String,
-	"university_id": String,
-	"email": String,
-	"profile_image": String,
-	"has_a_job": Boolean,
-	"genre": String,
-	"messages":
+	"_id": Object_Id
+	,"name": String
+	,"last_name": String
+	,"university_id": String
+	,"email": String
+	,"profile_image": String
+	,"has_a_job": Boolean
+	,"genre": String
+	,"messages":
 	[
 		{
-			"_id": Object_Id,
-			"to": [Object_Id],
-			"from": Object_Id,
-			"subject": String,
-			"body": String,
-			"read": Boolean,
-			"archived": Boolean,
-			"sent_date": Date,
+			"_id": Object_Id
+			,"to": [Object_Id]
+			,"from": Object_Id
+			,"subject": String
+			,"body": String
+			,"read": Boolean
+			,"archived": Boolean
+			,"sent_date": Date
 		}
 	]
 }
 
 "users":
 {
-	"_id": Object_Id, 
-	"user": String,
-	"password": String,
-	"rank": String,
-	"last_activity": Date,
+	"_id": Object_Id 
+	,"user": String
+	,"password": String
+	,"rank": String
+	,"last_activity": Date
 }
 
 "assignments":
 {
-	"_id": Object_Id,
-	"group_id": Object_Id,
-	"assigned_by": Object_Id,
-	"assigned_to": Object_Id,
-	"date_assigned": Date,
-	"deadline": Date,
-	"description": String,
-	"state": String,
-	"rated": Decimal,
-	"score": Decimal,
-	"attachments": [String],
-	"body" : String,
+	"_id": Object_Id
+	,"group_id": Object_Id
+	,"assigned_by": Object_Id
+	,"assigned_to": Object_Id
+	,"date_assigned": Date
+	,"deadline": Date
+	,"description": String
+	,"state": String
+	,"rated": Decimal
+	,"score": Decimal
+	,"attachments": [String]
+	,"body" : String
+	,"tags": [String]
 }
 
 "groups":
 {
-	"_id": Object_Id,
-	"name": String,
-	"teamleader_id": Object_Id,
-	"section_code_id": Object_Id,
-	"profile_image": String,
-	"students_id": [Object_Id],
-	"project_name": String,
-	"logo": String,
+	"_id": Object_Id
+	,"name": String
+	,"teamleader_id": Object_Id
+	,"section_code_id": Object_Id
+	,"profile_image": String
+	,"students_id": [Object_Id]
+	,"project_name": String
+	,"logo": String
 }
 
 "chats":
 {
-	"_id": Object_Id,
-	"participants": [Object_Id],
-	"conversations": 
+	"_id": Object_Id
+	,"participants": [Object_Id]
+	,"conversations": 
 	[
 		{
-			"_id": Object_Id,
-			"sender_id": Object_Id,
-			"receiver_id": Object_Id,
-			"sent_date": Date,
-			"message": String,
+			"_id": Object_Id
+			,"sender_id": Object_Id
+			,"receiver_id": Object_Id
+			,"sent_date": Date
+			,"message": String
 		}
 	]
 }
 
 "section_codes":
 {
-	"_id": Object_Id,
-	"teacher_id": Object_Id,
-	"subject_id": Object_Id,
-	"section_id": Object_Id,
-	"current_period": String,
-	"code": String,
-	"teamleaders_id": [Object_Id],
-	"students_id": [Object_Id],
-	"status": Boolean
+	"_id": Object_Id
+	,"teacher_id": Object_Id
+	,"subject_id": Object_Id
+	,"section_id": Object_Id
+	,"current_period": String
+	,"code": String
+	,"teamleaders_id": [Object_Id]
+	,"students_id": [Object_Id]
+	,"status": Boolean
 }
 
 "pending_enrollments":
 {
-	"_id": Object_Id,
-	"section_code_id": Object_Id,
-	"student_id": Object_Id,
-	"teacher_id": Object_Id,
+	"_id": Object_Id
+	,"section_code_id": Object_Id
+	,"student_id": Object_Id
+	,"teacher_id": Object_Id
 }
 
 "pending_groups":
 {
-	"_id": Object_Id,
-	"section_code_id": Object_Id,
-	"group_id" : Object_Id,
-	"student_id": Object_Id,
-	"teamleader_id": Object_Id,
+	"_id": Object_Id
+	,"section_code_id": Object_Id
+	,"group_id" : Object_Id
+	,"student_id": Object_Id
+	,"teamleader_id": Object_Id
+}
+
+"gantts":
+{
+	"_id": ObjectId
+	,"group_id": ObjectId
+	,"id": Integer
+	,"text": String 
+	,"type": String 
+	,"progress": Decimal 
+	,"open": Boolean
+	,"details_gantts": 
+	[
+		{
+			"_id": ObjectId
+			,"id": Integer
+			,"assignment_id": ObjectId
+			,"text": String
+			,"start_date": Date
+			,"duration": Integer
+			,"parent": Integer
+			,"progress": Decimal
+			,"open": Boolean
+		}
+	] 
 }

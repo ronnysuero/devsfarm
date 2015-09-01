@@ -2339,13 +2339,7 @@ $.extend($.verify, {
 		return;
 	}
 
-	var langsAvailables = ['es', 'en'],
-		language = window.navigator.userLanguage || window.navigator.language;
-
-	language = language.substring(0, 2).toLowerCase();
-	
-	if($.inArray(language, langsAvailables) === -1)
-		language = 'en';
+	var language = $('#langGlobal').val();
 
 	var dict = {
 		"all": {

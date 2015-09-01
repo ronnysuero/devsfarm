@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -252,6 +252,7 @@
 		<input type="hidden" value="" id="section_code">
 		<input type="hidden" value="" id="name">
 		<input type="hidden" value="" id="last_name">
+		<input type="hidden" id="langGlobal" value="{{App::getLocale()}}">
 		<div id="page-wrapper">
 			@yield('content')
 		</div>
@@ -269,6 +270,7 @@
 	<script type="text/javascript" src="js/jquery.ui.chatbox.js"></script>
 	<script type="text/javascript" src="js/chatboxManager.js"></script>
 	<script type="text/javascript">
+
 		$('document').ready(function()
 		{	
 			$("#tableOrder").tablesorter();

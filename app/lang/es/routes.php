@@ -85,5 +85,7 @@ return array(
 	'drop_assignment' => 'eliminar_asignacion',
 	'reassigned' => 'reasignar',
 	'upload_assignment' => 'cargar_tarea',
+	'rate_assignment' => 'calificar_asignacion',
+	'cancel_request' => 'cancelar_solicitud',
 
 	);

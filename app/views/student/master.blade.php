@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang='en'>
+<html>
 <head>
 	<meta charset="UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,9 +15,9 @@
 	<link rel="stylesheet" type="text/css" href="css/alertify.core.css" />
 	<link rel="stylesheet" type="text/css" href="css/alertify.default.css" />
 	<link rel="stylesheet" type="text/css" href="css/bootstrap-wysihtml5.css" />
+	<link rel="stylesheet" type="text/css" href="css/jquery.datetimepicker.css" />
 	<link rel="shortcut icon" href="favicon.png"> 
 	<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
-	<script type="text/javascript" src="js/dhtmlxgantt.js"></script>
 </head>
 <body>
 	<div id="wrapper">
@@ -178,6 +178,7 @@
 				</div>
 			</nav>
 		</div>
+		<input type="hidden" id="langGlobal" value="{{App::getLocale()}}">
 	<div class="row" id="page-wrapper">
 		@yield('content')
 	</div>
@@ -192,6 +193,7 @@
 	<script type="text/javascript" src="js/alertify.min.js"></script>
 	<script type="text/javascript" src="js/wysihtml5-0.3.js"></script>
 	<script type="text/javascript" src="js/bootstrap-wysihtml5.js"></script>
+	<script type="text/javascript" src="js/jquery.datetimepicker.js"></script>
 	<script type="text/javascript">
 
 		$('document').ready(function() 

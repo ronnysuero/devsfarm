@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -202,6 +202,7 @@
 				</div>
 			</div>
 		</nav>
+		<input type="hidden" id="langGlobal" value="{{App::getLocale()}}">
 		<div id="page-wrapper">
 			@yield('content')
 		</div>
@@ -216,6 +217,7 @@
 	<script type="text/javascript" src="js/main.js"></script>
 	<script type="text/javascript" src="js/alertify.min.js"></script>
 	<script type="text/javascript">
+
 		$('document').ready(function() 
 		{
 			$("#tableOrder").tablesorter(); 

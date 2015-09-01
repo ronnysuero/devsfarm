@@ -3,7 +3,7 @@
 return array (
 
 	'information'=>'Information',
-	'my_groups'=>'My Groups',
+	'my_groups'=>'My groups',
 	'delete'=>'Delete',
 	'edit'=>'Edit',
 	'see'=>'See',
@@ -12,11 +12,17 @@ return array (
 	'disable'=>'Delete',
 	'delete_msg'=>'Delete Groups',
 	'student_placehold'=>'Choose one student',
-	'btnrated'=>'rated',
-	'rated'=>'rated',
+	'btnrated'=>'Rated',
+	'rated'=>'Rated',
 	'btnedit'=>'Edit',
-	'titleEdit'=>'Edit Group',
-	'deleteGroup'=>'Delete Group',
-	'modify_group' => 'Modify Group',
-
+	'titleEdit'=>'Edit group',
+	'deleteGroup'=>'Delete group',
+	'modify_group' => 'Modify group',
+	'modal_rated' => 'Evaluate assignment',
+	'rate' => 'Rate',
+	'rate_placeholder' => 'Enter the rate',
+	'evaluation_message' => 'Place your evaluation based on 100 points',
+	'note' => 'Real rate: ',
+	'cancel_rate'=> 'Cancel Request',
+	
 	);

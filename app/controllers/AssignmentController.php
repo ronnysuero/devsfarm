@@ -15,7 +15,7 @@ class AssignmentController extends BaseController
 			return View::make('student.show_all_assignment')->with(
 				array(
 					'group' => $group,
-					'tasks' => $this->evaluateAssignments($group->_id),
+					'assignments' => $this->evaluateAssignments($group->_id),
 					'students' => $students,
 				)
 			);
@@ -32,11 +32,18 @@ class AssignmentController extends BaseController
 		$assignment->state = 'a';
 		$assignment->date_assigned = new MongoDate;
 		$assignment->rated = null;
-		$assignment->score = trim(Input::get('score'));
+		$assignment->score = (float)trim(Input::get('score'));
 		$assignment->assigned_by = Auth::id();	
 		$assignment->assigned_to = new MongoId(Input::get('students'));
 		$assignment->deadline = new MongoDate(strtotime(Input::get('deadline')));
+		
+		$array = explode(",", strtoupper(trim(Input::get('tags'))));
+		$newArray = array();
 
+		foreach ($array as $value)
+			array_push($newArray, trim($value));
+
+		$assignment->tags = $newArray;
 		$assignment->save();
 		
 		return Redirect::to(Lang::get('routes.show_all_assignment'))->with('message', Lang::get('register_assignment.success'));
@@ -59,9 +66,17 @@ class AssignmentController extends BaseController
 	{
 		$assignment = Assignment::find(new MongoId(Input::get('taskedit')));
 		$assignment->description = trim(Input::get('descriptionEdit'));
-		$assignment->score = trim(Input::get('scoreEdit'));
+		$assignment->score = (float)trim(Input::get('scoreEdit'));
 		$assignment->assigned_to = new MongoId(Input::get('studentsEdit'));
 		$assignment->deadline = new MongoDate(strtotime(Input::get('deadlineEdit')));
+
+		$array = explode(",", strtoupper(trim(Input::get('tagsEdit'))));
+		$newArray = array();
+
+		foreach ($array as $value)
+			array_push($newArray, trim($value));
+
+		$assignment->tags = $newArray;
 		$assignment->save();
 
 		return Redirect::to(Lang::get('routes.show_all_assignment'))->with('message', Lang::get('register_assignment.update'));
@@ -72,6 +87,12 @@ class AssignmentController extends BaseController
 		if(Request::ajax())
 		{
 			$assignment = Assignment::find(Input::get('id'));
+			
+			foreach ($assignment->attachments as $file) 
+				File::delete(storage_path().'/assignments/'.$assignment->_id.'/'.$file);
+
+			File::delete(storage_path().'/assignments/'.$assignment->_id);
+
 			$assignment->delete();
 
 			return Response::json("00");
@@ -123,25 +144,6 @@ class AssignmentController extends BaseController
 		return Redirect::to(Lang::get('routes.show_all_assignment'))->with('message', Lang::get('register_assignment.reassigned'));
 	}
 
-	public function rated()
-	{
-		$task = Input::get('task');
-		$assignment = Assignment::find(new MongoId($task));
-  
-		if(Input::get('rated')<=$assignment->score)
-		{	
-			$assignment->rated=Input::get('rated');
-			$assignment->save();
-
-			return Redirect::to(Lang::get('routes.find_Group'))->with(
-				array(
-					'group_code' => Input::get('group_id'),
-					'message', Lang::get('rated.success')
-				)
-			);
-		}
-	}
-
 	public function uploadAssignment()
 	{
 		$assignment = Assignment::find(Input::get('taskupdate'));
@@ -172,6 +174,55 @@ class AssignmentController extends BaseController
 			$assignment->save();
 
 			return Redirect::to(Lang::get('routes.show_all_assignment'))->with('message', Lang::get('register_assignment.update'));
+		}
+	}
+
+	public static function enableViewDetailBtn($assignment)
+	{
+		if(isset($assignment->body) && isset($assignment->attachments))
+		{
+			if($assignment->body != '' || count($assignment->attachments) > 0)
+				return true;
+			else
+				return false;
+		}
+	}
+
+	public function rateAssignment()
+	{
+		$assignment = Assignment::find(Input::get('assignment_id'));
+  		$rated = (float)Input::get('rated');
+  		$note = ($assignment->score * $rated)/100;
+
+  		if($note <= $assignment->score)
+		{	
+			$note = ($assignment->score * $rated)/100;
+			$assignment->rated = $note;
+			$assignment->state = 'c';
+			
+			$assignment->save();
+
+			return Redirect::to(Lang::get('routes.show_all_assignment'))->with('message', Lang::get('register_assignment.rate_success'));
+		}
+	}
+
+	public function cancelRequestAssignment()
+	{
+		if(Request::ajax())
+		{
+			$assignment = Assignment::find(new MongoId(Input::get('_id')));
+			$assignment->state = 'a';
+			$assignment->body = "";
+
+			foreach ($assignment->attachments as $file) 
+				File::delete(storage_path().'/assignments/'.$assignment->_id.'/'.$file);
+
+			File::delete(storage_path().'/assignments/'.$assignment->_id);
+
+			$assignment->attachments = array();
+			$assignment->save();
+
+			return Response::json('00');
 		}
 	}
 }
