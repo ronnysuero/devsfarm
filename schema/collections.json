@@ -172,28 +172,3 @@
 	,"student_id": Object_Id
 	,"teamleader_id": Object_Id
 }
-
-"gantts":
-{
-	"_id": ObjectId
-	,"group_id": ObjectId
-	,"id": Integer
-	,"text": String 
-	,"type": String 
-	,"progress": Decimal 
-	,"open": Boolean
-	,"details_gantts": 
-	[
-		{
-			"_id": ObjectId
-			,"id": Integer
-			,"assignment_id": ObjectId
-			,"text": String
-			,"start_date": Date
-			,"duration": Integer
-			,"parent": Integer
-			,"progress": Decimal
-			,"open": Boolean
-		}
-	] 
-}

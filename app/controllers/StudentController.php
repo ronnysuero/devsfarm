@@ -13,42 +13,39 @@ class StudentController extends BaseController
 	{
 		$groups = Group::whereIn('students_id', array(Auth::id()))->get();
 
-		//$x = GanttController::getDataGantt($groups);
-
-		//var_dump($x);
-
 		return View::make('student.home')->with(
 			array(
-				'data' => array(
-					json_encode(array(
-						"id" => 1, 
-						"text" => 'Office itinerancy', 
-						"type" => 'gantt.config.types.project', 
-						//"order" => 10, 
-						"progress" => 0.4, 
-						"open" => true
-					)),
-					json_encode(array(
-						"id" => 2, 
-						"text" => 'Office facing', 
-						"type" => 'gantt.config.types.project', 
-						//"order" => 10, 
-						'progress' =>  0.6, 
-						"open" =>  true,
-						"parent" => 1, 
-						"start_date" => '02-04-2013', 
-						"duration" => 8, 
-					))
-				),
+				'data' => GanttController::getDataGantt($groups),
+				//'data' => array(
+					// json_encode(array(
+					// 	"id" => 2, 
+					// 	"text" => 'Office facing', 
+					// 	"type" => 'gantt.config.types.project', 
+					// 	//"order" => 10, 
+					// 	'progress' =>  0, 
+					// 	"open" =>  true,
+					// 	"parent" => 1, 
+					// 	"start_date" => '02-04-2013', 
+					// 	"duration" => 0, 
+					// )),
+					// json_encode(array(
+					// 	"id" => 1, 
+					// 	"text" => 'Office itinerancy', 
+					// 	"type" => 'gantt.config.types.project', 
+					// 	//"order" => 10, 
+					// 	"progress" => 0, 
+					// 	"open" => true
+					// ))
+				//),
 				'links' => array(
 					json_encode(array(
-						"id" => 1, 
+						"id" => 1231, 
 						"source" => 1, 
 						"target" => 2, 
 						"type" => 1,
 					)),
 					json_encode(array(
-						"id" => 2, 
+						"id" => 2123, 
 						"source" => 2, 
 						"target" => 3, 
 						"type" => 0,

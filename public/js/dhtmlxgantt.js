@@ -31,52 +31,52 @@ var language = $('#langGlobal').val();
 
 var dict = {
 	"jan": {
-		en: "January",
-		es: "Enero"
+		en: "Jan",
+		es: "Ene"
 	},
 	"feb": {
-		en: "February",
-		es: "Febrero"
+		en: "Feb",
+		es: "Feb"
 	},
 	"mar": {
-		en: "March",
-		es: "Marzo"
+		en: "Mar",
+		es: "Mar"
 	},
 	"apr": {
-		en: "April",
-		es: "Abril"
+		en: "Apr",
+		es: "Abr"
 	},
 	"may": {
 		en: "May",
-		es: "Mayo"
+		es: "May"
 	},
 	"jun": {
-		en: "June",
-		es: "Junio"
+		en: "Jun",
+		es: "Jun"
 	},
 	"jul": {
-		en: "July",
-		es: "Julio"
+		en: "Jul",
+		es: "Jul"
 	},
 	"aug": {
-		en: "August",
-		es: "Agosto"
+		en: "Aug",
+		es: "Ago"
 	},
 	"sep": {
-		en: "September",
-		es: "Septiembre"
+		en: "Sep",
+		es: "Sep"
 	},
 	"oct": {
-		en: "October",
-		es: "Octubre"
+		en: "Oct",
+		es: "Oct"
 	},
 	"nov": {
-		en: "November",
-		es: "Noviembre"
+		en: "Nov",
+		es: "Nov"
 	},
 	"dec": {
-		en: "December",
-		es: "Diciembre"
+		en: "Dec",
+		es: "Dic"
 	},
 	"jan_short": {
 		en: "Jan",
@@ -183,8 +183,8 @@ var dict = {
 		es: "Sabado"
 	},
 	"new_task": {
-		en: "New task",
-		es: "Nueva tarea"
+		en: "Description",
+		es: "Descripcion"
 	},
 	"icon_save": {
 		en: "Save",
