@@ -12,45 +12,12 @@ class StudentController extends BaseController
 	public function showHome()
 	{
 		$groups = Group::whereIn('students_id', array(Auth::id()))->get();
+		$gantt = GanttController::getDataGantt($groups);
 
 		return View::make('student.home')->with(
 			array(
-				'data' => GanttController::getDataGantt($groups),
-				//'data' => array(
-					// json_encode(array(
-					// 	"id" => 2, 
-					// 	"text" => 'Office facing', 
-					// 	"type" => 'gantt.config.types.project', 
-					// 	//"order" => 10, 
-					// 	'progress' =>  0, 
-					// 	"open" =>  true,
-					// 	"parent" => 1, 
-					// 	"start_date" => '02-04-2013', 
-					// 	"duration" => 0, 
-					// )),
-					// json_encode(array(
-					// 	"id" => 1, 
-					// 	"text" => 'Office itinerancy', 
-					// 	"type" => 'gantt.config.types.project', 
-					// 	//"order" => 10, 
-					// 	"progress" => 0, 
-					// 	"open" => true
-					// ))
-				//),
-				'links' => array(
-					// json_encode(array(
-					// 	"id" => 1231, 
-					// 	"source" => 1, 
-					// 	"target" => 2, 
-					// 	"type" => 1,
-					// )),
-					// json_encode(array(
-					// 	"id" => 2123, 
-					// 	"source" => 2, 
-					// 	"target" => 3, 
-					// 	"type" => 0,
-					// ))
-				),
+				'data' => $gantt['data'],
+				'links' => $gantt['link'], 
 				'groups' => $groups,
 				'stats' => MessageController::getStats(),
 			)

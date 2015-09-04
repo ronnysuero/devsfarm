@@ -33,7 +33,7 @@ class GanttController extends BaseController
 	 	$arrayLink = array();
 
 	 	$count = count($groups) + 1;
-	 	//{id:"1",source:"1",target:"2",type:"1"},
+		
 		foreach ($groups as $item => $group) 
 		{
 			$dataGroup = array();
@@ -41,23 +41,37 @@ class GanttController extends BaseController
 			$dataGroup['text'] = $group->name;
 			$dataGroup['type'] = 'gantt.config.types.project';
 			$dataGroup['open'] = true;
-			
+
 			$dataLink = array();
 			$dataLink['id'] = ($item + 1);
-			$dataLink['text'] = ($item + 1);
-			$dataLink['type'] = 1;
+			$dataLink['source'] = ($item + 1);
+			$dataLink['target'] = $count;
 
 			$assignments = Assignment::where('group_id', new MongoId($group->_id))->orderBy('date_assigned', 'asc')->get();
 			$progress = array();
 
-			foreach ($assignments as $assignment) 
+			foreach ($assignments as $index => $assignment) 
 			{
+				if($index == 0)
+				{
+					$dataLink['type'] = 1;
+					array_push($arrayLink, json_encode($dataLink));
+				}
+
 				$dataAssignment = array();
 				$dataAssignment['id'] = $count;
 				$dataAssignment['text'] = $assignment->description;
 				$dataAssignment['start_date'] = date('d-m-Y', $assignment->date_assigned->sec);
 				$dataAssignment['parent'] = ($item + 1);
 				$dataAssignment['open'] = true;
+
+				$dataLink = array();
+				$dataLink['id'] = $count;
+				$dataLink['source'] = $count;
+				$dataLink['target'] = ($count + 1);
+				$dataLink['type'] = 0;
+
+				array_push($arrayLink, json_encode($dataLink));
 
 				$pg = (strcasecmp($assignment->state, 'c') === 0) ? 1 : 0;
 				$dataAssignment['progress'] = $pg;
@@ -80,6 +94,6 @@ class GanttController extends BaseController
 			array_push($arrayData, json_encode($dataGroup));
 		}
 
-		return $arrayData;
+		return array('data' => $arrayData, 'link' => $arrayLink);
 	}
 }
