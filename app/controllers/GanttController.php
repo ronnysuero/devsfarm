@@ -38,10 +38,15 @@ class GanttController extends BaseController
 		{
 			$dataGroup = array();
 			$dataGroup['id'] = ($item + 1);
-			$dataGroup['text'] = $group->project_name;
+			$dataGroup['text'] = $group->name;
 			$dataGroup['type'] = 'gantt.config.types.project';
 			$dataGroup['open'] = true;
-				
+			
+			$dataLink = array();
+			$dataLink['id'] = ($item + 1);
+			$dataLink['text'] = ($item + 1);
+			$dataLink['type'] = 1;
+
 			$assignments = Assignment::where('group_id', new MongoId($group->_id))->orderBy('date_assigned', 'asc')->get();
 			$progress = array();
 

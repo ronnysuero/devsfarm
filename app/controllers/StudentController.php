@@ -38,18 +38,18 @@ class StudentController extends BaseController
 					// ))
 				//),
 				'links' => array(
-					json_encode(array(
-						"id" => 1231, 
-						"source" => 1, 
-						"target" => 2, 
-						"type" => 1,
-					)),
-					json_encode(array(
-						"id" => 2123, 
-						"source" => 2, 
-						"target" => 3, 
-						"type" => 0,
-					))
+					// json_encode(array(
+					// 	"id" => 1231, 
+					// 	"source" => 1, 
+					// 	"target" => 2, 
+					// 	"type" => 1,
+					// )),
+					// json_encode(array(
+					// 	"id" => 2123, 
+					// 	"source" => 2, 
+					// 	"target" => 3, 
+					// 	"type" => 0,
+					// ))
 				),
 				'groups' => $groups,
 				'stats' => MessageController::getStats(),

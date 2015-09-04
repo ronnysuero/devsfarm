@@ -223,8 +223,8 @@ var dict = {
 		es: "Tipo"
 	},
 	"column_text": {
-		en: "Task name",
-		es: "Nombre de la tarea"
+		en: "Description",
+		es: "Descripcion"
 	},
 	"column_start_date": {
 		en: "Start time",
@@ -259,7 +259,7 @@ var dict = {
 		es: "Proyecto"
 	},
 	"type_milestone": {
-		en: "Milestone",
+		en: "Achievement",
 		es: "Logro"
 	},
 	"minutes": {
@@ -295,7 +295,7 @@ var dict = {
 		es: "Proyecto"
 	},
 	"milestone": {
-		en: "Milestone",
+		en: "Achievement",
 		es: "Logro"
 	}
 }

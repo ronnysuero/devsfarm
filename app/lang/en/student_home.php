@@ -1,7 +1,7 @@
 <?php
 
 return array(
-	'task_name' => 'Task Name',
+	'task_name' => 'Description',
 	'start' => 'Start Time',
 	'duration' => 'Duration',
 	'week' => 'Week ',

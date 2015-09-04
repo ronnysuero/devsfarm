@@ -288,7 +288,7 @@
 			{name:"text", label:"{{Lang::get('student_home.task_name')}}", width:"*", tree:true},
 			{name:"start_time", label:"{{Lang::get('student_home.start')}}", template:function(obj){
 				return gantt.templates.date_grid(obj.start_date);
-			}, align: "center", width:50 },
+			}, align: "center", width:65 },
 			{name:"duration", label:"{{Lang::get('student_home.duration')}}", align:"center", width:50},
 			{name:"add", label:"", width:25 }
 		];
