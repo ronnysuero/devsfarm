@@ -19,7 +19,7 @@
 											<div class="huge">
 												<span style="text-transform: capitalize;">{{$group->name}}</span></div>
 												<?php
-													$sectionCode = sectionCode::find($group->section_code_id);
+													$sectionCode = SectionCode::find($group->section_code_id);
 													$subject = Subject::find($sectionCode->subject_id);
 													$section = $subject->sections()->find($sectionCode->section_id);
 													$name = $subject->name.' - '.$section->code;
