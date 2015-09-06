@@ -6,9 +6,9 @@
 		<div class="col-lg-12">
 			<div class="row">
 				@if(count($groups) > 0)
-					@foreach ($groups as $group)
+					@foreach ($groups as $index => $group)
 						<div class="col-lg-6 col-md-6">
-							<div class="panel panel-primary">
+							<div class="panel" style="background-color: {{ $colors[$index] }}; color: white;">
 								<div class="panel-heading">
 									<div class="row">
 										<div class="col-xs-3">
