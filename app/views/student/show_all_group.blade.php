@@ -16,41 +16,41 @@
 											<input type="hidden" value="{{storage_path()}}" id="url">
 										</div>
 										<div class="col-xs-9 text-right">
-											<div class="huge">
-												<span style="text-transform: capitalize;">{{$group->name}}</span></div>
-												<?php
-													$sectionCode = SectionCode::find($group->section_code_id);
-													$subject = Subject::find($sectionCode->subject_id);
-													$section = $subject->sections()->find($sectionCode->section_id);
-													$name = $subject->name.' - '.$section->code;
-												?>
-												<div>
-													<span style="text-transform: uppercase;">{{$name}}</span>
-												</div>
-										</div>
-									</div>
-								</div>
-								<br>
-								<div style="margin-left: 5px;">
-									<?php $students = Student::whereIn('_id', $group->students_id)->get(); ?>
-									@foreach ($students as $user)
-										@if(strcmp($group->teamleader_id, $user->_id) === 0)
-											{{$user->name.' '.$user->last_name.' ('.Lang::get('teamleader.tm').')'}}
-										@else
-											{{$user->name.' '.$user->last_name}}
-										@endif
-										<a onclick="fillModal('{{$user->_id}}')" href="#" data-toggle="modal" data-target="#studentDetailsModal">
-											<i class="fa fa-external-link"></i></a>
-										<br>
-									@endforeach
-								</div>
-								<br>
-								<div class="panel-footer">
-									<a href="{{Lang::get('routes.farm_report')}}">
-										<span class="pull-left">View Details</span>
-										<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-										<div class="clearfix"></div>
-									</a>
+                                            <div class="huge">{{ $group->project_name }}</div>
+                                            <div>{{ strtoupper($group->section_id) }}</div>
+											{{--<div class="huge">--}}
+												{{--<span style="text-transform: capitalize;">{{$group->name}}</span></div>--}}
+												{{--<?php--}}
+													{{--$sectionCode = SectionCode::find($group->section_code_id);--}}
+													{{--$subject = Subject::find($sectionCode->subject_id);--}}
+													{{--$section = $subject->sections()->find($sectionCode->section_id);--}}
+													{{--$name = $subject->name.' - '.$section->code;--}}
+												{{--?>--}}
+												{{--<div>--}}
+													{{--<span style="text-transform: uppercase;">{{$name}}</span>--}}
+												{{--</div>--}}
+										{{--</div>--}}
+									    </div>
+								    </div>
+                                </div>
+								<div class="panel-footer" style="color: #000000;">
+
+                                    <?php $students = Student::whereIn('_id', $group->students_id)->get(); ?>
+                                    @foreach ($students as $user)
+                                        @if(strcmp($group->teamleader_id, $user->_id) === 0)
+                                            {{$user->name.' '.$user->last_name.' ('.Lang::get('teamleader.tm').')'}}
+                                        @else
+                                            {{$user->name.' '.$user->last_name}}
+                                        @endif
+                                        <a onclick="fillModal('{{$user->_id}}')" href="#" data-toggle="modal" data-target="#studentDetailsModal">
+                                        <i class="fa fa-external-link"></i></a>
+                                        <br>
+                                    @endforeach
+									{{--<a href="{{Lang::get('routes.farm_report')}}">--}}
+										{{--<span class="pull-left">View Details</span>--}}
+										{{--<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>--}}
+										{{--<div class="clearfix"></div>--}}
+									{{--</a>--}}
 								</div>
 							</div>
 						</div>
