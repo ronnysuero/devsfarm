@@ -7,53 +7,42 @@
 			<div class="row">
 				@if(count($groups) > 0)
 					@foreach ($groups as $index => $group)
-						<div class="col-lg-6 col-md-6">
-							<div class="panel" style="background-color: {{ $colors[$index] }}; color: white;">
-								<div class="panel-heading">
-									<div class="row">
-										<div class="col-xs-3">
-											<i class="fa fa-group fa-5x"></i>
-											<input type="hidden" value="{{storage_path()}}" id="url">
-										</div>
-										<div class="col-xs-9 text-right">
+                        <div class="col-lg-6">
+                            <div class="panel" style="background-color: {{ $colors[$index] }}; color: white;">
+                                <div class="panel-heading">
+                                    <div class="row">
+                                        <div class="col-xs-3">
+                                            <i class="fa fa-group fa-5x"></i>
+                                        </div>
+                                        <div class="col-xs-9 text-right">
                                             <div class="huge">{{ $group->project_name }}</div>
                                             <div>{{ strtoupper($group->section_id) }}</div>
-											{{--<div class="huge">--}}
-												{{--<span style="text-transform: capitalize;">{{$group->name}}</span></div>--}}
-												{{--<?php--}}
-													{{--$sectionCode = SectionCode::find($group->section_code_id);--}}
-													{{--$subject = Subject::find($sectionCode->subject_id);--}}
-													{{--$section = $subject->sections()->find($sectionCode->section_id);--}}
-													{{--$name = $subject->name.' - '.$section->code;--}}
-												{{--?>--}}
-												{{--<div>--}}
-													{{--<span style="text-transform: uppercase;">{{$name}}</span>--}}
-												{{--</div>--}}
-										{{--</div>--}}
-									    </div>
-								    </div>
+                                        </div>
+                                    </div>
                                 </div>
-								<div class="panel-footer" style="color: #000000;">
-
-                                    <?php $students = Student::whereIn('_id', $group->students_id)->get(); ?>
-                                    @foreach ($students as $user)
-                                        @if(strcmp($group->teamleader_id, $user->_id) === 0)
-                                            {{$user->name.' '.$user->last_name.' ('.Lang::get('teamleader.tm').')'}}
-                                        @else
-                                            {{$user->name.' '.$user->last_name}}
+                                <div class="panel-footer" style="color: #000000;">
+                                    @foreach($group->student_id as $student)
+                                        <?php $member = Student::find($student ); ?>
+                                        {{ $member->name.' '.$member->last_name }}
+                                        @if($student == $group->teamleader_id)
+                                            - TeamLeader
                                         @endif
-                                        <a onclick="fillModal('{{$user->_id}}')" href="#" data-toggle="modal" data-target="#studentDetailsModal">
-                                        <i class="fa fa-external-link"></i></a>
-                                        <br>
+                                        <a href="#" onclick="fillModal('{{$member->email}}')" data-toggle="modal" data-target="#studentDetailsModal">
+                                            <i class="fa fa-external-link"></i></a><br>
                                     @endforeach
-									{{--<a href="{{Lang::get('routes.farm_report')}}">--}}
-										{{--<span class="pull-left">View Details</span>--}}
-										{{--<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>--}}
-										{{--<div class="clearfix"></div>--}}
-									{{--</a>--}}
-								</div>
-							</div>
-						</div>
+                                    <br><br>
+                                    <a href="#" class="show_group_detail" id="{{ $group->_id  }}">
+										<span class="pull-left">
+											{{ Lang::get('teacher_section_groups.show_details') }}
+										</span>
+										<span class="pull-right">
+											<i class="fa fa-arrow-circle-right"></i>
+										</span>
+                                        <div class="clearfix"></div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
 					@endforeach
 				@else
 					<p>
