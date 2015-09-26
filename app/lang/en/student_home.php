@@ -9,5 +9,6 @@ return array(
 	'task' => 'Tasks',
 	'project' => 'Projects',
 	'milestones' => 'Milestone',
-	'gantt_info' => 'Gantt Info'
+	'gantt_info' => 'Gantt Info',
+	'gantt' => 'Gantt Chart',
 );

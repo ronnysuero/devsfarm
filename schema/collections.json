@@ -124,7 +124,6 @@
 	,"profile_image": String
 	,"students_id": [Object_Id]
 	,"project_name": String
-	,"logo": String
 }
 
 "chats":

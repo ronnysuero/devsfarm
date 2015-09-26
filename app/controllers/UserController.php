@@ -15,11 +15,103 @@ class UserController extends BaseController
 			'password' => Input::get('user_password')
 		);
 
+		$user = BlockedUser::where('user', $userdata['user'])->first();
+
+		if(isset($user->_id))
+		{	
+			$datebegin = new DateTime(date('Y-m-d H:i', $user->date->sec));
+			$datebegin = $datebegin->diff(new DateTime());
+
+			$minutes = $datebegin->days * 24 * 60;
+			$minutes += $datebegin->h * 60;
+			$minutes += $datebegin->i;
+
+			if($minutes > 30)
+				$user->delete();
+			else
+				return Redirect::back()->withErrors(
+							array( 
+								'error' =>  Lang::get('login.attemp').' ['.$user->user.'] '.
+											Lang::get('login.blocked').(30-$minutes).
+											Lang::get('login.minute')
+								)
+						);
+		}
+
 		//checks if the user wants to be remembered
 		$isAuth = (Input::get('check_user') === 'yes') ? Auth::attempt($userdata, true) : Auth::attempt($userdata);
 
 		// Try to authenticate the credentials
-		return $isAuth ? Redirect::to(Lang::get('routes.'.Auth::user()->rank)) : Redirect::back()->withErrors(array( 'error' => Lang::get('login.invalid_user')));
+		if($isAuth)
+		{
+			if(Session::has($userdata['user']))
+				Session::forget($userdata['user']);
+		
+			return Redirect::to(Lang::get('routes.'.Auth::user()->rank));
+		}
+		else
+			return $this->validateUser($userdata['user']);
+	}
+
+	/**
+	 * Validates that no more than 3 failed attempts login to the user sent as a parameter
+	 * 
+	 * @param  String $email
+	 * @return View 
+	 */
+	public static function validateUser($email)
+	{
+		$count = User::where(['user' => $email])->count();
+		
+		if($count > 0)
+		{
+			if(Session::has($email))
+			{
+				$value = Session::get($email);
+
+				if($value >= 2)
+				{
+					$user = new BlockedUser;
+					$user->user = $email;
+					$user->date = new MongoDate;
+					
+					try
+					{
+						$user->save();
+					}
+					catch(MongoDuplicateKeyException $e) { }
+					
+					$user = User::first(['user' => $email]);
+					$info = UserController::getUser($user);
+
+					$data = array(
+						'name' => strtoupper($info->name)	
+					);
+
+					Mail::send('emails.block-user', $data, function($message) use($email)
+					{	
+						$message->to($email)->subject(Lang::get('login.blocked_title'));
+					});
+
+					return Redirect::back()->withErrors(
+						array( 
+							'error' =>  Lang::get('login.attemp').' ['.$email.'] '.
+										Lang::get('login.blocked').(30).
+										Lang::get('login.minute')
+						)
+					);
+				}
+				else
+				{
+					$value += 1;
+					Session::put($email, $value);
+				}
+			}
+			else
+				Session::put($email, 1);
+		}
+		
+		return Redirect::back()->withErrors(array( 'error' => Lang::get('login.invalid_user')));
 	}
 
 	/**
@@ -204,6 +296,16 @@ class UserController extends BaseController
 			$message->to(strtolower(trim(Input::get('email'))))->subject(Lang::get('forget-password.reset_succes'));
 		});		
 
+		$user = BlockedUser::where('user', $user->user)->first();
+
+		if(isset($user->_id))
+		{
+			$user->delete();
+			
+			if(Session::has($user->user))
+				Session::forget($user->user);
+		}
+
 		return Redirect::to('/')->with('message', Lang::get('register_student.password_changed'));
 	}
 
@@ -239,6 +341,7 @@ class UserController extends BaseController
 						$seed++;
 				}
 			}
+
 			return Response::json($email.$domain);
 		}
 	}

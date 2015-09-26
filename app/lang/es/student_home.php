@@ -9,5 +9,6 @@ return array(
 	'task' => 'Tareas',
 	'project' => 'Proyectos',
 	'milestones' => 'Logros',
-	'gantt_info' => 'Informacion de Gantt'
+	'gantt_info' => 'Informacion de Gantt',
+	'gantt' => 'Diagrama de Gantt',
 );
