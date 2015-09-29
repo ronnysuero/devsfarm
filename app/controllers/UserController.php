@@ -140,6 +140,15 @@ class UserController extends BaseController
 			return View::make('login.login');
 	}
 
+    public function showWelcomeView()
+    {
+        // Check if the user is reminded in the system
+        if (Auth::check())
+            return Auth::viaRemember() ? Redirect::to(Lang::get('routes.'.Auth::user()->rank))->with('rememberMe', 1) : Redirect::to(Lang::get('routes.'.Auth::user()->rank));
+        else
+            return View::make('login.welcome');
+    }
+
 	/**
 	 * Show view for register Users
 	 * @return View

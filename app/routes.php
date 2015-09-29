@@ -14,7 +14,8 @@
 Route::group(array(), function()
 {
 	// HTTP GET
-	Route::get('/', 'UserController@showView');
+	Route::get('/', 'UserController@showWelcomeView');
+    Route::get('/welcome', 'UserController@showWelcomeView');
 	Route::get(Lang::get('routes.forget_password'), 'UserController@showForgetPasswordView');
 	Route::get(Lang::get('routes.forget_password').'/{token}', 'UserController@confirmToken');
 	Route::get(Lang::get('routes.reset_password'), 'UserController@showResetPasswordView');
