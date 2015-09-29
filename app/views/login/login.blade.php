@@ -13,7 +13,7 @@
 					<div class="login-form">
 						@include('alert')
 						{{ Form::open(array('url' => Lang::get('routes.login'))) }}
-							<input data-validate="required,email" type="email" name="user_email" placeholder="{{Lang::get('login.email_placeholder')}}">
+							<input data-validate="required,email" type="text" name="user_email" placeholder="{{Lang::get('login.email_placeholder')}}">
 							<input data-validate="required" type="password" name="user_password" placeholder="{{Lang::get('login.password_placeholder')}}"> 
 							<button type="submit" class="btn btn-red">{{Lang::get('login.login')}}</button> 
 						{{ Form::close() }}

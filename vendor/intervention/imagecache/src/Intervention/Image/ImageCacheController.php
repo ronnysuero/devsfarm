@@ -6,6 +6,7 @@ use Closure;
 use Intervention\Image\ImageManager;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Response as IlluminateResponse;
+use Config;
 
 class ImageCacheController extends BaseController
 {
@@ -22,6 +23,9 @@ class ImageCacheController extends BaseController
         switch (strtolower($template)) {
             case 'original':
                 return $this->getOriginal($filename);
+
+            case 'download':
+                return $this->getDownload($filename);
             
             default:
                 return $this->getImage($template, $filename);
@@ -41,7 +45,7 @@ class ImageCacheController extends BaseController
         $path = $this->getImagePath($filename);
 
         // image manipulation based on callback
-        $manager = new ImageManager;
+        $manager = new ImageManager(Config::get('image'));
         $content = $manager->cache(function ($image) use ($template, $path) {
 
             if ($template instanceof Closure) {
@@ -68,6 +72,22 @@ class ImageCacheController extends BaseController
         $path = $this->getImagePath($filename);
 
         return $this->buildResponse(file_get_contents($path));
+    }
+
+    /**
+     * Get HTTP response of original image as download
+     *
+     * @param  string $filename
+     * @return Illuminate\Http\Response
+     */
+    public function getDownload($filename)
+    {
+        $response = $this->getOriginal($filename);
+
+        return $response->header(
+            'Content-Disposition',
+            'attachment; filename=' . $filename
+        );
     }
 
     /**

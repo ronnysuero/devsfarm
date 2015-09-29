@@ -13,10 +13,12 @@
 <body>
 	<script type="text/javascript" src="js/jquery.min.js"></script> 
 	@yield('content')
+	<input type="hidden" id="langGlobal" value="{{App::getLocale()}}">
 	<script type="text/javascript" src="js/bootstrap.js"></script>
 	<script type="text/javascript" src="js/custom.modernizr.js"></script> 
 	<script type="text/javascript" src="js/placeholder-shim.js"></script>        
 	<script type="text/javascript" src="js/custom.js"></script>
 	<script type="text/javascript" src="js/verify.notify.js"></script>
+	<script src='https://www.google.com/recaptcha/api.js'></script>
 </body>
 </html>

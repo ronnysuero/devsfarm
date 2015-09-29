@@ -37,4 +37,6 @@ return array(
 	'success_forget_password' => 'Go to your email inbox and click the link in the mail',
 	'link_expired' => 'This link is no longer available',
 	'password_changed' => 'Password changed successfully',
+	'error_captcha' => 'You can\'t leave Captcha Code empty',
+	'message_captcha' => 'Error processing the request, error code: ',
 	);

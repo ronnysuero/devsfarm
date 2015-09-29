@@ -38,5 +38,6 @@ return array(
 	'link_expired' => 'Este enlace ya no se encuentra disponible',
 	'password_changed' => 'Contraseña cambiada exitosamente',
 	'duplicated' => 'El nombre del grupo ya esta registrado en el sistema',
-
+	'error_captcha' => 'No se puede dejar el captcha vacío',
+	'message_captcha' => 'Error procesando la solicitud, código de error: ',
 	);
