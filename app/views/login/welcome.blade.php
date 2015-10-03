@@ -92,7 +92,14 @@
                 </ul>
                 <div id="tab-1" class="login-form tab-content current">
                     @include('alert')
-                    {{ Form::open(array('url' => Lang::get('routes.register_student'), 'style' => 'overflow: hidden; color: #26A69A;', 'class' => 'register_form', 'id' => 'register_form')) }}
+                    {{ Form::open(array(
+								'url' => Lang::get('routes.register_student'),
+								'style' => 'overflow: hidden; color: #26A69A;',
+								'class' => 'register_form',
+								'id' => 'register_form',
+								'onsubmit' => 'return validate_captcha()'
+							))
+						}}
                     <div class="form-group col-sm-12">
                         <label for="guest_name">{{Lang::get('register_student.first_name')}}</label>
                         <input data-validate="required,size(3, 10),character" type="text" class="form-control" id="guest_name" name="guest_name" placeholder="{{Lang::get('register_student.first_name_placeholder')}}"/>
@@ -133,12 +140,22 @@
                         <label for="user_confirm_password">{{Lang::get('register_student.confirm_password')}}</label>
                         <input data-validate="required,min(6),verifyPassword(guest_password, guest_confirm_password)" type="password" class="form-control" id="guest_confirm_password" name="guest_confirm_password" placeholder="{{Lang::get('register_student.confirm_password_placeholder')}}"  />
                     </div>
+                    <div class="form-group col-xs-12 col-sm-6">
+                        <div id="recaptcha1"></div>
+                        <span id="captcha" style="color:red" />
+                    </div>
                     <button type="submit" class="btn btn-red">{{Lang::get('register_student.register')}}</button>
                     {{ Form::close() }}
                 </div>
                 <div id="tab-2" class="login-form tab-content">
                     @include('alert')
-                    {{ Form::open(array('url' => Lang::get('routes.register_university'), 'style' => 'overflow: hidden; color: #26A69A;', 'id' => 'register_form')) }}
+                    {{ Form::open(array(
+								'url' => Lang::get('routes.register_university'),
+								'style' => 'overflow: hidden; color: #26A69A;',
+								'id' => 'register_form',
+								'onsubmit' => 'return validate_captcha2()'
+							))
+						}}
                     <div class="form-group col-lg-12">
                         <label for="university_name">{{Lang::get('register_university.name')}}</label>
                         <input data-validate="required,size(5, 40),characterspace" type="text" class="form-control" id="university_name" name="university_name" placeholder="{{Lang::get('register_university.name_placeholder')}}"  />
@@ -159,6 +176,11 @@
                         <label for="university_confirm_password">{{Lang::get('register_university.confirm_password')}}</label>
                         <input data-validate="required,min(6),verifyPassword(university_password, university_confirm_password)" type="password" class="form-control" id="university_confirm_password" name="university_confirm_password" placeholder="{{Lang::get('register_university.confirm_password_placeholder')}}"  />
                     </div>
+                    <div class="form-group col-lg-12">
+                        <div id="recaptcha2"></div>
+                        <span id="captcha2" style="color:red" />
+                    </div>
+
                     <button type="submit" class="btn btn-red">{{Lang::get('register_university.register')}}</button>
                     {{ Form::close() }}
                 </div>
@@ -173,8 +195,7 @@
         <p>© Devsfarm 2015-2016</p>
     </footer>
 </div> <!-- /container -->
-
-
+<script src="https://www.google.com/recaptcha/api.js?hl={{App::getLocale()}}&onload=myCallBack&render=explicit"></script>
 <script type="text/javascript">
     $(document).ready(function()
     {
@@ -187,6 +208,59 @@
             $("#"+tab_id).addClass('current');
         });
     })
+
+    function validate_captcha()
+    {
+        var v = grecaptcha.getResponse();
+
+        if(v.length == 0)
+        {
+            $('#captcha').html("{{Lang::get('register_student.error_captcha')}}");
+            return false;
+        }
+        else if(v.length != 0)
+        {
+            $('#captcha').html("");
+            return true;
+        }
+    }
+
+    function validate_captcha2()
+    {
+        var v = grecaptcha.getResponse();
+
+        if(v.length == 0)
+        {
+            $('#captcha2').html("{{Lang::get('register_student.error_captcha')}}");
+            return false;
+        }
+        else if(v.length != 0)
+        {
+            $('#captcha2').html("");
+            return true;
+        }
+    }
+
+</script>
+
+<script>
+    var recaptcha1
+            ,recaptcha2;
+
+    var myCallBack = function()
+    {
+        //Render the recaptcha1 on the element with ID "recaptcha1"
+        recaptcha1 = grecaptcha.render('recaptcha1', {
+            'sitekey' : "{{Config::get('recaptcha.public_key')}}",
+            'theme' : 'light'
+        });
+
+        //Render the recaptcha2 on the element with ID "recaptcha2"
+        recaptcha2 = grecaptcha.render('recaptcha2', {
+            'sitekey' : "{{Config::get('recaptcha.public_key')}}",
+            'theme' : 'light'
+        });
+    };
 </script>
 
 <script src="./Jumbotron Template for Bootstrap_files/jquery.min.js"></script>

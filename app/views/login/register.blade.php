@@ -131,13 +131,14 @@
 								</label>
 								<input data-validate="required,min(6),verifyPassword(university_password, university_confirm_password)" type="password" class="form-control" id="university_confirm_password" name="university_confirm_password" placeholder="{{Lang::get('register_university.confirm_password_placeholder')}}"  />
 							</div>
-							<div class="form-group col-lg-12">
-								<div id="recaptcha2"></div>
-								<span id="captcha2" style="color:red" />
-							</div>
+
 							<button type="submit" class="btn btn-red">
 								{{Lang::get('register_university.register')}}
 							</button>
+                            <div class="form-group col-lg-12">
+                                <div id="recaptcha2"></div>
+                                <span id="captcha2" style="color:red" />
+                            </div>
 						{{ Form::close() }}
 					</div>
 					<div class="login-links"> 
