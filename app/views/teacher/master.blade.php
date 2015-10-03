@@ -192,52 +192,7 @@
 							<a href="{{Lang::get('routes.chat')}}" class="nav_categoria">
 								<i class="fa fa-weixin"></i> 
 								Chat
-							</a>
-							<ul class="nav nav-second-level">
-								<?php 
-									$teacher = Teacher::find(Auth::id());
-									$subjects = Subject::whereIn('_id', $teacher->subjects_id)->get(); 
-								?>
-								@foreach($subjects as $subject)
-									<li style="background-color: #FAFAFA;">
-										<a href="#">
-											<i class="fa fa-circle-o-notch"></i> 
-											{{ $subject->name }}
-										</a>
-										<ul class="nav nav-third-level">
-											<?php 
-												$sections = $subject->sections()
-																	->whereIn('_id', $teacher->sections_id)
-																	->get(); 
-											?>
-											@foreach($sections as $section)
-												<li>
-													<a href="#" id="{{$section->current_code}}">
-														<i class="fa fa-arrow-circle-right"></i> 
-														{{ $section->code }}
-													</a>
-													<?php
-														$sectionCode = ChatController::getUsersChat($section->current_code);
-													?>
-													@if(isset($sectionCode->teamleaders_id))
-														@foreach($sectionCode->teamleaders_id as $student_id)
-															<?php $user = Student::find($student_id); ?>
-															<ul class="nav nav-fourth-level">
-																<li>
-																	<a href="#" id="link_add" onclick="fillData('{{$user->_id}}', '{{$sectionCode->code}}', '{{$user->name}}', '{{$user->last_name}}')">
-																		<i class="fa fa-comment"></i>
-																		{{ $user->name.' '.$user->last_name }}
-																	</a>
-																</li>
-															</ul>
-														@endforeach
-													@endif
-												</li>
-											@endforeach
-										</ul>
-									</li>
-								@endforeach
-							</ul>                            
+							</a>                          
 						</li>
 					</ul>
 				</div>

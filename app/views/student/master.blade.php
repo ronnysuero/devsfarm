@@ -166,13 +166,7 @@
 							<a href="{{Lang::get('routes.chat')}}" class="nav_categoria">
 								<i class="fa fa-weixin"></i> 
 								Chat
-							</a>
-							<ul class="nav nav-second-level">
-								<?php 
-									$student = Student::find(Auth::id());
-									$sectionCodes = SectionCode::whereIn('students_id', array(Auth::id()))->get(); 
-								?>
-							</ul>                            
+							</a>                           
 						</li>	
 					</ul>
 				</div>
