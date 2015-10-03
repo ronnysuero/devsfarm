@@ -2529,7 +2529,7 @@ $.extend($.verify, {
 			message: dict["character"][language]
 		},
 		characterspace: {
-			regex: /^[0-9a-zA-Z,\s,ñ]*$/,
+			regex: /^[0-9a-zA-Z,\s,ñ,á,ó,í,é,ú,Ú,É,Í,Á,Ó]*$/,
 			message: dict["characterspace"][language]
 		},
 		charactercomma: {
