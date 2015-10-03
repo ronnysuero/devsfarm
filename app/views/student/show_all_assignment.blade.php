@@ -162,12 +162,15 @@
 							</div>
 							<div class="form-group">
 								<label>{{Lang::get('register_assignment.tag')}}</label>
-								<input data-validate="characterspace,max(50)" type="text" class="form-control" id="tags" name="tags" placeholder="{{Lang::get('register_assignment.tag_placeholder')}}" >
-								{{-- <select data-validate="required" class="form-control" id="tags" name="tags[]" multiple>
-									<option value="programming"></option>
-									<option value="design"></option>
-									<option value="analysis"></option>
-								</select> --}}
+								{{-- <input data-validate="characterspace,max(50)" type="text" class="form-control" id="tags" name="tags" placeholder="{{Lang::get('register_assignment.tag_placeholder')}}" > --}}
+								<select data-validate="required" class="form-control" id="tags" name="tags[]" multiple>
+									<option value="analysis">{{Lang::get('register_assignment.analysis')}}</option>
+									<option value="database">{{Lang::get('register_assignment.database')}}</option>
+									<option value="design">{{Lang::get('register_assignment.design')}}</option>
+									<option value="programming">{{Lang::get('register_assignment.programming')}}</option>
+									<option value="testing">{{Lang::get('register_assignment.testing')}}</option>
+								</select>
+								<p>{{Lang::get('teamleader.message')}}</p>
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-default" data-dismiss="modal">
@@ -221,7 +224,14 @@
 							</div>
 							<div class="form-group">
 								<label>{{Lang::get('register_assignment.tag')}}</label>
-								<input data-validate="characterspace,max(50)" type="text" class="form-control" id="tagsEdit" name="tagsEdit" placeholder="{{Lang::get('register_assignment.tag_placeholder')}}" >
+								{{-- <input data-validate="characterspace,max(50)" type="text" class="form-control" id="tagsEdit" name="tagsEdit" placeholder="{{Lang::get('register_assignment.tag_placeholder')}}" > --}}
+								<select data-validate="required" class="form-control" id="tagsEdit" name="tagsEdit[]" multiple>
+									<option value="analysis">{{Lang::get('register_assignment.analysis')}}</option>
+									<option value="database">{{Lang::get('register_assignment.database')}}</option>
+									<option value="design">{{Lang::get('register_assignment.design')}}</option>
+									<option value="programming">{{Lang::get('register_assignment.programming')}}</option>
+									<option value="testing">{{Lang::get('register_assignment.testing')}}</option>
+								</select>
 							</div>                   
 							<div class="modal-footer">
 								<button type="button" class="btn btn-default" data-dismiss="modal">
@@ -626,11 +636,14 @@
 							$(opt).attr('selected', 'selected');
 					});
 
-					for (var i = 0; i < data.tags.length; i++) 
-						tags += (data.tags[i] + ', ');						
-
-					tags = tags.substring(0, (tags.length-2));
-					$('#tagsEdit').val(tags);
+					$("#tagsEdit").find('option').each(function( i, opt ) 
+					{
+						for (var i = 0; i < data.tags.length; i++)
+						{ 
+							if( opt.value == data.tags[i] ) 
+								$(opt).attr('selected', 'selected');
+						}
+					});
 				}
 			});
 		}

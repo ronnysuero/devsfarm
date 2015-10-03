@@ -43,5 +43,9 @@ return array(
 	'tag_placeholder' => 'Enter tags. Separated by commas',
 	'download_failed' => 'Requested file does not exist on our server!',
 	'rate_success' => 'Assignment successfully rated',
-	
+	'programming' => 'Programming',
+	'design' => 'Design',
+	'analysis' => 'Analysis',
+	'database' => 'Database',
+	'testing' => 'Testing',
 	);

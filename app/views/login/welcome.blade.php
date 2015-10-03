@@ -47,6 +47,7 @@
 		</div>
 	</nav>
 	<img src="images/header.jpg" alt="" width="100%" style="margin-top: 50px;">
+	@include('alert')
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-6">
@@ -111,14 +112,14 @@
 
 		function validate_captcha()
 		{
-			var v = grecaptcha.getResponse();
+			var validate = grecaptcha.getResponse();
 
-			if(v.length == 0)
+			if(validate.length == 0)
 			{
 				$('#captcha').html("{{Lang::get('register_student.error_captcha')}}");
 				return false;
 			}
-			else if(v.length != 0)
+			else if(validate.length != 0)
 			{
 				$('#captcha').html("");
 				return true;
@@ -127,20 +128,19 @@
 
 		function validate_captcha2()
 		{
-			var v = grecaptcha.getResponse();
+			var validate = grecaptcha.getResponse();
 
-			if(v.length == 0)
+			if(validate.length == 0)
 			{
 				$('#captcha2').html("{{Lang::get('register_student.error_captcha')}}");
 				return false;
 			}
-			else if(v.length != 0)
+			else if(validate.length != 0)
 			{
 				$('#captcha2').html("");
 				return true;
 			}
 		}
-
 	</script>
 
 	<script>

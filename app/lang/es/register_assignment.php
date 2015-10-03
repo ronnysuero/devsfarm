@@ -43,5 +43,10 @@ return array(
 	'tag_placeholder' => 'Ingrese etiquetas. Separe por coma',
 	'download_failed' => 'El archivo solicitado no existe en nuestro servidor!',
 	'rate_success' => 'Asignacion satisfactoriamente calificada',
+	'programming' => 'Programacion',
+	'design' => 'Diseño',
+	'analysis' => 'Analisis',
+	'database' => 'Base de datos',
+	'testing' => 'Pruebas',
 
 	);

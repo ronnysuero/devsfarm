@@ -5,7 +5,6 @@
 			<li class="tab-link" data-tab="tab-2">{{Lang::get('register_student.register_university')}}</li>
 		</ul>
 		<div id="tab-1" class="login-form tab-content current">
-			@include('alert')
 			{{ Form::open(array(
 						'url' => Lang::get('routes.register_student'),
 						'style' => 'overflow: hidden; color: #26A69A;',

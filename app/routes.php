@@ -28,7 +28,6 @@ Route::group(array(), function()
 
 });
 
-
 Route::group(array('before' => 'auth|university'), function()
 {
 	// HTTP GET

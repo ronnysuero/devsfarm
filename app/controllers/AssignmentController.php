@@ -36,14 +36,7 @@ class AssignmentController extends BaseController
 		$assignment->assigned_by = Auth::id();	
 		$assignment->assigned_to = new MongoId(Input::get('students'));
 		$assignment->deadline = new MongoDate(strtotime(Input::get('deadline')));
-		
-		$array = explode(",", strtoupper(trim(Input::get('tags'))));
-		$newArray = array();
-
-		foreach ($array as $value)
-			array_push($newArray, trim($value));
-
-		$assignment->tags = $newArray;
+		$assignment->tags = Input::get('tags');
 		$assignment->save();
 		
 		return Redirect::to(Lang::get('routes.show_all_assignment'))->with('message', Lang::get('register_assignment.success'));

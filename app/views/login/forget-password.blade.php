@@ -6,7 +6,6 @@
 	<div class="login-box  clearfix animated flipInY">
 		<hr>
 		<div class="login-form">
-			@include('alert')
 			{{ Form::open(array('url' => Lang::get('routes.forget_password'), 'class' => 'register_form', 'id' => 'register_form')) }}
 				<p>{{lang::get('register_student.message_reset')}}</p>
 				<input data-validate="required,email" type="email" name="email" placeholder="{{Lang::get('login.email_placeholder')}}">
