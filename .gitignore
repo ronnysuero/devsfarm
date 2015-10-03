@@ -9,3 +9,4 @@ app/storage/photos/imagesprofile/*.jpeg
 .phpintel/
 phpunit.xml
 nodejs-chat/node_modules/
+public/video/*.mp4

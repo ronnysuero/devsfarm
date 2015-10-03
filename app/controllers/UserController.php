@@ -140,6 +140,11 @@ class UserController extends BaseController
             return View::make('login.welcome');
     }
 
+    public function showTutorialView()
+    {
+        return View::make('login.videotutorials');
+    }
+
 	/**
 	 * Update the User data for stored the last activity
 	 * 

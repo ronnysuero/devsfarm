@@ -89,5 +89,5 @@ return array(
 	'upload_assignment' => 'upload_assignment',
 	'rate_assignment' => 'rate_assignment',
 	'cancel_request' => 'cancel_request',
-	
+    'video_tutorials' => 'video_tutorials',
 	);

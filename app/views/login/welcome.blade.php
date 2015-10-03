@@ -83,7 +83,17 @@
 						<hr>
 					</div>
 				</div>
-			</div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>{{Lang::get('welcome.videotutorial_label')}}</h2>
+                        <p>{{Lang::get('welcome.videotutorial_definition')}}<br>
+                        <br>
+                            <a href="{{Lang::get('routes.video_tutorials')}}">{{Lang::get('welcome.videotutorial_label')}}</a>
+                        </p>
+                        <hr>
+                    </div>
+                </div>
+            </div>
 			@if(Request::is('/'))
 				@include('login.register')
 				<script src="https://www.google.com/recaptcha/api.js?hl={{App::getLocale()}}&onload=myCallBack&render=explicit"></script>
