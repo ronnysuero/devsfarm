@@ -19,6 +19,5 @@
 	<script type="text/javascript" src="js/placeholder-shim.js"></script>        
 	<script type="text/javascript" src="js/custom.js"></script>
 	<script type="text/javascript" src="js/verify.notify.js"></script>
-	<script src='https://www.google.com/recaptcha/api.js'></script>
 </body>
 </html>

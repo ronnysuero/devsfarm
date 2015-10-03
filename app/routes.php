@@ -15,12 +15,9 @@ Route::group(array(), function()
 {
 	// HTTP GET
 	Route::get('/', 'UserController@showWelcomeView');
-    Route::get('/welcome', 'UserController@showWelcomeView');
-	Route::get(Lang::get('routes.forget_password'), 'UserController@showForgetPasswordView');
+    Route::get(Lang::get('routes.forget_password'), 'UserController@showForgetPasswordView');
 	Route::get(Lang::get('routes.forget_password').'/{token}', 'UserController@confirmToken');
 	Route::get(Lang::get('routes.reset_password'), 'UserController@showResetPasswordView');
-	Route::get(Lang::get('routes.register'), 'UserController@showRegisterView');
-	Route::get(Lang::get('routes.register_university'), 'UniversityController@showRegisterUniversityView');
 
 	// HTTP POST
 	Route::post(Lang::get('routes.login'), 'UserController@login');

@@ -14,7 +14,7 @@
 		margin: 20px auto;
 		width: 70%;
 	}
-	@media only screen and (max-width: 575px) {
+/*	@media only screen and (max-width: 575px) {
    		#recaptcha1, #recaptcha2 {
    			transform:scale(0.77);
    			-webkit-transform:scale(0.77);
@@ -29,6 +29,31 @@
    		}
    		#recaptcha2 {
    			margin-left: 200px;	
+   		}
+	}*/
+	@media (min-width: 768px) {
+		#recaptcha1 {
+			transform:scale(0.58);
+			-webkit-transform:scale(0.58);
+			transform-origin:0 0;
+			-webkit-transform-origin:0 0;
+			margin-left: 25px;
+		} 
+		#recaptcha2 {
+			transform:scale(0.75);
+			-webkit-transform:scale(0.75);
+			transform-origin:0 0;
+			-webkit-transform-origin:0 0;
+			margin-left: 125px;
+		} 
+	}
+	@media only screen and (max-width: 575px) {
+   		#recaptcha1, #recaptcha2 {
+   			transform:scale(0.77);
+   			-webkit-transform:scale(0.77);
+   			transform-origin:0 0;
+   			-webkit-transform-origin:0 0;
+   			margin-left: 35px;
    		}
 	}
 	#login-block{	 
