@@ -72,7 +72,7 @@
 						{{ Form::open(array('url' => Lang::get('routes.update_section'), 'id' => 'register_form', 'role' => 'form')) }}
 							<div class="form-group">
 								<label>{{Lang::get('list_section.section_code')}}</label>
-								<input data-validate="required,min(4),charactercomma,validateSection,compareCodes(section_code, codes)" class="form-control" id="section_code" name="section_code">
+								<input data-validate="required,min(2),charactercomma,validateSection,compareCodes(section_code, codes)" class="form-control" id="section_code" name="section_code">
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-default" data-dismiss="modal">{{Lang::get('list_subject.discard')}}</button>
