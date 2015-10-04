@@ -1,6 +1,7 @@
 @extends('student.master')
 @section('title', Lang::get('student_title.home'))
 @section('content')
+    <div class="col-lg-12">
 	<div class="row">
 		<div class="container-fluid">
 			<div class="row">
@@ -82,7 +83,7 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div></div>
 		<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="Eliminar grupo" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">

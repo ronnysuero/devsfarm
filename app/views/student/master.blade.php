@@ -169,10 +169,11 @@
 							</a>                           
 						</li>	
 					</ul>
-				</div>
+				</div></div>
 			</nav>
 		</div>
 		<input type="hidden" id="langGlobal" value="{{App::getLocale()}}">
+
 	<div class="row" id="page-wrapper">
 		@yield('content')
 	</div>

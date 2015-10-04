@@ -1,9 +1,10 @@
 @extends('student.master')
 @section('title', Lang::get('student_title.show_all_group'))
 @section('content')
+<div class="col-lg-12">
 	<div class="row">
-		<h1 class="page-header">{{Lang::get('show_groups.my_groups')}}</h1>
 		<div class="col-lg-12">
+            <h1 class="page-header"><i class="fa fa-group"></i> {{Lang::get('show_groups.my_groups')}}</h1>
 			<div class="row">
 				@if(count($groups) > 0)
 					@foreach ($groups as $index => $group)
@@ -17,7 +18,7 @@
 										</div>
 										<div class="col-xs-9 text-right">
 											<div class="huge">
-												<span style="text-transform: capitalize;">{{$group->name}}</span></div>
+												<a href="#" id="{{$group->_id}}" class="group_name" style="text-transform: none; color: white;">{{$group->name}}</a></div>
 												<?php
 													$sectionCode = SectionCode::find($group->section_code_id);
 													$subject = Subject::find($sectionCode->subject_id);
@@ -42,21 +43,28 @@
                                             <i class="fa fa-external-link"></i></a>
                                         <br>
                                     @endforeach
+                                        {{ Form::open(array('url' => Lang::get('routes.show_all_assignment'), 'id' => 'form_group')) }}
+                                        <div class="form-group">
+                                            <input type="hidden" id="group_code", name="group_code" value="">
+                                        </div>
+                                        {{Form::close()}}
 								</div>
 							</div>
 						</div>
 					@endforeach
 				@else
+                    <div class="col-lg-12">
 					<p>
 						<a href="{{Lang::get('routes.add_group')}}">
 							<i class="fa fa-plus" style="color: #0097A7;"></i>
 							{{Lang::get('register_group.add_group')}}
 						</a>
 					</p>
+                    </div>
 				@endif
 			</div>
 		</div>
-	</div>
+	</div></div>
 	<div class="modal fade" id="studentDetailsModal" tabindex="-1" role="dialog" aria-labelledby="Register University" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -120,5 +128,11 @@
 					$('#photo_display').html('<img src="images/140x140.png" alt="Avatar" >');
 			});
 		}
+
+
+        $('.group_name').on('click', function(){
+            $("#group_code").val( $(this).attr('id') );
+            $("#form_group").submit();
+        });
 	</script>
 @stop

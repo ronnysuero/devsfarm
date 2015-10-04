@@ -1,6 +1,7 @@
 @extends('student.master')
 @section('title', Lang::get('student_title.join'))
 @section('content')
+    <div class="col-lg-12">
 	<div class="row">
 		@if (count($pending) > 0)
 			<h1 class="page-header"><i class="fa fa-plus"></i> {{Lang::get('register_group.approve_title')}}</h1>
@@ -97,7 +98,7 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div></div>
 	<script type="text/javascript">
 		$('document').ready(function()
 		{

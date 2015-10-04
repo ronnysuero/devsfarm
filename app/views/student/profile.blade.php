@@ -2,6 +2,7 @@
 @section('title', Lang::get('student_title.profile'))
 @stop
 @section('content')
+<div class="col-lg-12">
 <div class="row">
 	<div class="col-lg-12">
 		<h1 class="page-header"><i class="fa fa-user"></i>{{Lang::get("student_profile.mi_profile")}}</h1>
@@ -80,7 +81,7 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div></div>
 <script type="text/javascript">
 	$('document').ready(function() 
 	{

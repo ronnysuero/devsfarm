@@ -1,6 +1,7 @@
 @extends('student.master')
 @section('title', Lang::get('student_title.approval'))
 @section('content')
+    <div class="col-lg-12">
 	<div class="row">
 		<div class="col-lg-12">
 			<h1 class="page-header">
@@ -56,7 +57,7 @@
 				@endif
 			</div>
 		</div>
-	</div>
+	</div></div>
 	<script type="text/javascript">
 		function approve(id, pos)
 		{

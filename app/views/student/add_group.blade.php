@@ -1,6 +1,7 @@
 @extends('student.master')
 @section('title', Lang::get('student_title.add_group'))
 @section('content')
+    <div class="col-lg-12">
 	<div class="row">
 		<div class="col-lg-12">
 			<h1 class="page-header"><i class="fa fa-plus"></i> {{Lang::get('register_group.register')}}</h1>
@@ -47,7 +48,7 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div></div>
 	<script type="text/javascript">
 		$('document').ready(function() 
 		{
