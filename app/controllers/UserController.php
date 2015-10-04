@@ -192,7 +192,7 @@ class UserController extends BaseController
 	{
 		$user = Session::get('user');
 		
-		return is_null($user) ? Redirect::to('/') : View::make('reset-password')->with('user', $user);
+		return is_null($user) ? Redirect::to('/') : View::make('login.reset-password')->with('user', $user);
 	}
 
 	/**
@@ -282,7 +282,7 @@ class UserController extends BaseController
 			'name' => strtoupper($info->name)	
 		);
 
-		Mail::send('emails.confirm-reset-password.blade', $data, function($message)
+		Mail::send('emails.confirm-reset-password', $data, function($message)
 		{
 			$message->to(strtolower(trim(Input::get('email'))))->subject(Lang::get('forget-password.reset_succes'));
 		});		

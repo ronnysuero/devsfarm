@@ -194,6 +194,12 @@
 								Chat
 							</a>                          
 						</li>
+						<li>
+							<a href="{{Lang::get('routes.section_codes')}}" style="background-color: #0097A7; color: white;">
+								<i class="fa fa-ticket"></i>
+								{{Lang::get('teacher_master.section_codes')}}
+							</a>
+						</li>
 					</ul>
 				</div>
 			</div>
