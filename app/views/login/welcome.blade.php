@@ -46,67 +46,71 @@
 			</div>
 		</div>
 	</nav>
-	<img src="images/header.jpg" alt="" width="100%" style="margin-top: 50px;">
-	@include('alert')
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-6">
-				<div class="row">
-					<div class="col-md-12">
-						<h2>{{Lang::get('welcome.devsfarm_label')}}</h2>
-						<p>{{Lang::get('welcome.devsfarm_definition')}}</p>
-						<hr>
+	@if(Request::is('/') || Request::is(Lang::get('routes.forget_password')))
+		<img src="images/header.jpg" alt="" width="100%" style="margin-top: 50px;">
+		@include('alert')
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="row">
+						<div class="col-md-12">
+							<h2>{{Lang::get('welcome.devsfarm_label')}}</h2>
+							<p>{{Lang::get('welcome.devsfarm_definition')}}</p>
+							<hr>
+						</div>
 					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-6">
-						<h2>{{Lang::get('welcome.chat_label')}}</h2>
-						<p>{{Lang::get('welcome.chat_definition')}}</p>
-						<hr>
+					<div class="row">
+						<div class="col-md-6">
+							<h2>{{Lang::get('welcome.chat_label')}}</h2>
+							<p>{{Lang::get('welcome.chat_definition')}}</p>
+							<hr>
+						</div>
+						<div class="col-md-6">
+							<h2>{{Lang::get('welcome.reports_label')}}</h2>
+							<p>{{Lang::get('welcome.reports_definition')}}<br><br></p>
+							<hr>
+						</div>
 					</div>
-					<div class="col-md-6">
-						<h2>{{Lang::get('welcome.reports_label')}}</h2>
-						<p>{{Lang::get('welcome.reports_definition')}}<br><br></p>
-						<hr>
-					</div>
-				</div>
 
-				<div class="row">
-					<div class="col-md-6">
-						<h2>{{Lang::get('welcome.attach_files_label')}}</h2>
-						<p>{{Lang::get('welcome.attach_files_definition')}}<br><br></p>
-						<hr>
+					<div class="row">
+						<div class="col-md-6">
+							<h2>{{Lang::get('welcome.attach_files_label')}}</h2>
+							<p>{{Lang::get('welcome.attach_files_definition')}}<br><br></p>
+							<hr>
+						</div>
+						<div class="col-md-6">
+							<h2>{{Lang::get('welcome.client_mobile_label')}}</h2>
+							<p>{{Lang::get('welcome.client_mobile_definition')}}</p>
+							<hr>
+						</div>
 					</div>
-					<div class="col-md-6">
-						<h2>{{Lang::get('welcome.client_mobile_label')}}</h2>
-						<p>{{Lang::get('welcome.client_mobile_definition')}}</p>
-						<hr>
-					</div>
-				</div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <h2>{{Lang::get('welcome.videotutorial_label')}}</h2>
-                        <p>{{Lang::get('welcome.videotutorial_definition')}}<br>
-                        <br>
-                            <a href="{{Lang::get('routes.video_tutorials')}}">{{Lang::get('welcome.videotutorial_label')}}</a>
-                        </p>
-                        <hr>
-                    </div>
-                </div>
-            </div>
-			@if(Request::is('/'))
-				@include('login.register')
-				<script src="https://www.google.com/recaptcha/api.js?hl={{App::getLocale()}}&onload=myCallBack&render=explicit"></script>
-			@else
-				@yield('content')
-			@endif
+	                <div class="row">
+	                    <div class="col-md-12">
+	                        <h2>{{Lang::get('welcome.videotutorial_label')}}</h2>
+	                        <p>{{Lang::get('welcome.videotutorial_definition')}}<br>
+	                        <br>
+	                            <a href="{{Lang::get('routes.video_tutorials')}}">{{Lang::get('welcome.videotutorial_label')}}</a>
+	                        </p>
+	                        <hr>
+	                    </div>
+	                </div>
+	            </div>
+				@if(Request::is('/'))
+					@include('login.register')
+					<script src="https://www.google.com/recaptcha/api.js?hl={{App::getLocale()}}&onload=myCallBack&render=explicit"></script>
+				@else
+					@yield('content')
+				@endif
+			</div>
+			<input type="hidden" id="langGlobal" value="{{App::getLocale()}}">
+			<hr>
+			<footer>
+				<p>© Devsfarm 2015-2016</p>
+			</footer>
 		</div>
-		<input type="hidden" id="langGlobal" value="{{App::getLocale()}}">
-		<hr>
-		<footer>
-			<p>© Devsfarm 2015-2016</p>
-		</footer>
-	</div>
+	@else
+		@yield('content')
+	@endif
 	<script type="text/javascript">
 		$(document).ready(function()
 		{
