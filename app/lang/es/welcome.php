@@ -9,10 +9,15 @@ return array(
     "attach_files_definition" => "Puedes agregar uno o múltiples archivos a las asignaciones completadas para que todo el grupo pueda ver su trabajo.",
     "chat_definition" => "Cuenta con un chat que permite la interacción entre estudiantes o entre estudiantes y profesores permitiendo de esta manera compartir ideas y planificar los pasos a seguir en el proyecto.",
 
+    "videotutorial_definition" => 'Nosotros tenemos muchos video tutoriales donde puedes ver como user la plataforma usando los perfiles de Universidad, Profesor y Estudiante. Además, algunos videos acerca de la recuperación de contraseñas y bloqueo de usuarios.',
+
+
     "devsfarm_label" => "Devsfarm",
     "client_mobile_label" => "Cliente Móvil",
     "reports_label" => "Reportes",
     "attach_files_label" => "Añadir archivos",
     "chat_label" => "Chat",
+
+    "videotutorial_label" => 'Video Tutoriales',
 
 );

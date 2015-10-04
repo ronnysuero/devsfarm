@@ -21,17 +21,17 @@
 							</thead>
 							<tbody>
 								@foreach ($subjects as $subject)
-									<?php 
+									<?php
 										$sections = $subject->sections()
 															->whereIn('_id', $teacher_section_id)
 															->whereNull('delete_at')
-															->get(); 
+															->get();
 									?>
 									@foreach($sections as $section)
-										<?php 
+										<?php
 											$section_code = SectionCode::where('code', $section
 																	   ->current_code)
-																	   ->first(); 
+																	   ->first();
 										?>
 										<tr>
 											<td>{{ $subject->name }}</td>
