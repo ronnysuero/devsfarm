@@ -4,6 +4,10 @@ use Helpers\CropImage\CropImage;
 
 class GroupController extends BaseController
 {
+	private $colors = [ '#673AB7', '#009688', '#00BCD4', '#673AB7', '#9C27B0', '#E91E63', '#F44336', 
+						'#2196F3', '#4CAF50', '#8BC34A', '#FFC107', '#795548', '#9E9E9E', '#CDDC39', 
+						'#607D8B'];
+
 	/**
 	 * Show the view on the navigator
 	 *
@@ -94,14 +98,10 @@ class GroupController extends BaseController
 	{
 		$groups = Group::whereIn('students_id', array(Auth::id()))->get();
 
-        $colors = [ '#673AB7', '#009688', '#00BCD4', '#673AB7', '#9C27B0', '#E91E63', '#F44336',
-            '#2196F3', '#4CAF50', '#8BC34A', '#FFC107', '#795548', '#9E9E9E', '#CDDC39',
-            '#607D8B'];
-
 		return View::make('student.show_all_group')->with(
 			array( 
 				'groups' => $groups,
-                'colors' => $colors
+                'colors' => $this->colors
 			)
 		);
 	}
@@ -118,6 +118,13 @@ class GroupController extends BaseController
 					return Response::json($group);
 				else
 					return Response::json("");
+			}
+			else if(!is_null(Input::get('section_code')))
+			{
+				$section_code = SectionCode::where('code', Input::get('section_code'))->first();
+				$groups = Group::where('section_code_id', new MongoId($section_code->_id))->get();
+
+				return Response::json($groups);
 			}
 			else
 			{
@@ -195,38 +202,26 @@ class GroupController extends BaseController
 		}
 	}
 
-
-
-
-
-	/*
-		3 Funciones Desconocidas,
-		no encontre donde se usan, si alguien sabe que no se usa
-		favor eliminarlas
-	 */
 	public function findGroupBySection()
 	{
+		$section_code = SectionCode::where('code', Input::get('section_code'))->first();
+		$groups = Group::where('section_code_id', new MongoId($section_code->_id))->get();
 
-		$groups = Group::where('section_id', trim(strtolower(Input::get('section_code'))))->get();
-
-		$colors = [ '#673AB7', '#009688', '#00BCD4', '#673AB7', '#9C27B0', '#E91E63', '#F44336', 
-					'#2196F3', '#4CAF50', '#8BC34A', '#FFC107', '#795548', '#9E9E9E', '#CDDC39', 
-					'#607D8B'];
+		
 
 		return View::make('teacher.subject_details')->with(
 			array(
 				'groups' => $groups,
-				'colors' => $colors
+				'colors' => $this->colors
 			)
 		);
 	}
-	
+
 	public function findMemberInformation()
 	{
 		if(Request::ajax())
 		{
 			$student = Student::where('email', Input::get('email'))->first();
-
 			return Response::json($student);
 		}
 	}

@@ -181,6 +181,13 @@ class StudentController extends BaseController
 				else 
 					return Response::json("");
 			}
+			else if(!is_null(Input::get('group_id')))
+			{
+				$group = Group::find(Input::get('group_id'));
+				$students = Student::whereIn('_id', $group->students_id)->get();
+
+				return Response::json($students);
+			}
 			else if(!is_null(Input::get('id')))
 				return Response::json(Student::find(Input::get('id')));
 		}

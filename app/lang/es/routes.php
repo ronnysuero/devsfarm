@@ -88,4 +88,6 @@ return array(
 	'rate_assignment' => 'calificar_asignacion',
 	'cancel_request' => 'cancelar_solicitud',
     'video_tutorials' => 'video_tutoriales',
+    'report' => 'reportes',
+    'view_report' => 'ver_reporte',
 	);

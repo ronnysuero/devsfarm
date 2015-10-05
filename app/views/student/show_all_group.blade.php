@@ -64,7 +64,7 @@
 				@endif
 			</div>
 		</div>
-	</div></div>
+	</div>
 	<div class="modal fade" id="studentDetailsModal" tabindex="-1" role="dialog" aria-labelledby="Register University" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -130,9 +130,9 @@
 		}
 
 
-        $('.group_name').on('click', function(){
-            $("#group_code").val( $(this).attr('id') );
-            $("#form_group").submit();
-        });
+	    $('.group_name').on('click', function(){
+	        $("#group_code").val( $(this).attr('id') );
+	        $("#form_group").submit();
+	    });
 	</script>
 @stop

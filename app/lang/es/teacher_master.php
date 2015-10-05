@@ -10,4 +10,5 @@ return array (
     'section_codes' => 'Código de secciones',
     'teamleader' => 'Lideres de equipos',
     'approval' => 'Pendiente por aprobacion',
+    'report' => 'Reportes',
 );

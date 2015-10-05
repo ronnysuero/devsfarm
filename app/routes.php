@@ -73,7 +73,8 @@ Route::group(array('before' => 'auth|teacher'), function()
 	Route::get(Lang::get('routes.approval'), 'TeacherController@showApprovalStudentView');
 	Route::get(Lang::get('routes.add_teamleader'), 'TeacherController@showAddTeamleaderView');
 	Route::get(Lang::get('routes.show_teamleader'), 'TeacherController@showAllTeamleaderView');
-
+	Route::get(Lang::get('routes.report'), 'TeacherController@showReportView');
+	
 	// HTTP POST
 	Route::post(Lang::get('routes.find_subject_section'), 'SectionController@getSubjectSections');
 	Route::post(Lang::get('routes.create_section_code'), 'SectionCodeController@addSectionCode');
@@ -84,6 +85,7 @@ Route::group(array('before' => 'auth|teacher'), function()
 	Route::post(Lang::get('routes.add_teamleader'), 'TeacherController@addTeamleader');
 	Route::post(Lang::get('routes.drop_teamleader'), 'SectionCodeController@dropTeamleaderSectionCode');
 	Route::post(Lang::get('routes.update_teacher'), 'TeacherController@updateTeacher');
+	Route::post(Lang::get('routes.view_report'), 'TeacherController@showGenerateReportView');
 	
 });
 
@@ -104,9 +106,7 @@ Route::group(array('before' => 'auth|student'), function()
 	Route::post(Lang::get('routes.rated'), 'AssignmentController@rated');
 	Route::post(Lang::get('routes.update_student'), 'StudentController@updateStudent');
 	Route::post(Lang::get('routes.register_assignment'), 'AssignmentController@addAssignment');
-	Route::post(Lang::get('routes.find_Group_By_Section'), 'GroupController@find');
 	Route::post(Lang::get('routes.join_to_group'), 'PendingGroupController@joinToGroup');
-	Route::post(Lang::get('routes.find_student'), 'StudentController@find');
 	Route::post(Lang::get('routes.drop_assignment'), 'AssignmentController@drop');
 	Route::post(Lang::get('routes.update_assignment'), 'AssignmentController@update');
 	Route::post(Lang::get('routes.drop_group'), 'GroupController@drop');
@@ -162,6 +162,12 @@ Route::group(array('before' => 'auth'), function()
 			exit(Lang::get('register_assignment.download_failed'));
 	});
 
+	Route::get(Lang::get('download_report'), function()
+	{
+		$pdf = PDF::loadHTML(Input::get('data'))->setPaper('a4')->setOrientation('landscape')->setWarnings(false);
+		return $pdf->download(Lang::get('routes.report').'.pdf');
+	});
+
 	// HTTP POST
 	Route::post(Lang::get('routes.send_message'), 'MessageController@sendMessage');
 	Route::post(Lang::get('routes.find_message'), 'MessageController@find');
@@ -171,5 +177,6 @@ Route::group(array('before' => 'auth'), function()
 	Route::post(Lang::get('routes.find_chat'), 'ChatController@find');
 	Route::post(Lang::get('routes.drop_enroll'), 'PendingEnrollmentController@drop');
 	Route::post(Lang::get('routes.find_student'), 'StudentController@find');
-
+	Route::post(Lang::get('routes.find_Group_By_Section'), 'GroupController@find');
+	Route::post(Lang::get('routes.find_student'), 'StudentController@find');
 });

@@ -125,6 +125,7 @@ return array(
 		'Jenssegers\Mongodb\Session\SessionServiceProvider',
 		'Zizaco\MongolidLaravel\MongolidServiceProvider',
 		'Intervention\Image\ImageServiceProvider',
+		'Barryvdh\DomPDF\ServiceProvider',
 		),
 
 	/*
@@ -193,6 +194,7 @@ return array(
 		'View'              => 'Illuminate\Support\Facades\View',
 		'Moloquent'       	=> 'Jenssegers\Mongodb\Model',
 		'MongoLid' 			=> 'Zizaco\MongolidLaravel\MongoLid',
-		'Image' 			=> 'Intervention\Image\Facades\Image'
+		'Image' 			=> 'Intervention\Image\Facades\Image',
+		'PDF' 				=> 'Barryvdh\DomPDF\Facade',
 		),
 );

@@ -195,9 +195,9 @@
 							</a>                          
 						</li>
 						<li>
-							<a href="{{Lang::get('routes.section_codes')}}" style="background-color: #0097A7; color: white;">
-								<i class="fa fa-ticket"></i>
-								{{Lang::get('teacher_master.section_codes')}}
+							<a href="{{Lang::get('routes.report')}}" style="background-color: #0097A7; color: white;">
+								<i class="fa fa-align-justify"></i>
+								{{Lang::get('teacher_master.report')}}
 							</a>
 						</li>
 					</ul>
@@ -326,6 +326,7 @@
 		$(".menu_section").on("click", function()
 		{
 			var section = $(this).attr("id");
+			console.log(section);
 			$("#section_code").val(section);
 			$("#form_section_groups").submit();
 		});
@@ -369,8 +370,7 @@
 			
 			event.preventDefault();
 		});
-	</script>
-	<script type="text/javascript">
+
 		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
