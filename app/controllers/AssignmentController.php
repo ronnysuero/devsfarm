@@ -221,11 +221,32 @@ class AssignmentController extends BaseController
 
     public static function getLatestAssignments()
     {
-        $teacher = User::first(Auth::id());
-        $last_activity = $teacher->last_activity;
+        $sectionCodes = SectionCode::where('teacher_id', new MongoId(Auth::id()))
+        						   ->where('status', true)
+        						   ->get();
 
-        $assignments = Assignment::where('date_assigned', '>=', $last_activity)->get();
+        $arraySectionCodes = array();
+        $arrayGroups = array();
 
-        return $assignments;
+        foreach ($sectionCodes as $sectionCode) 
+        	array_push($arraySectionCodes, new MongoId($sectionCode->_id));
+
+        $groups = Group::whereIn('section_code_id', $arraySectionCodes)->get();
+
+        foreach ($groups as $group) 
+        	array_push($arrayGroups, new MongoId($group->_id));
+
+        $assignments = Assignment::whereIn('group_id', $arrayGroups)
+        						 ->get();
+
+        $arrayAsssigments = array();
+
+        foreach ($assignments as $assignment) 
+        {
+        	if($assignment->date_assigned->sec >= Auth::user()->last_activity->sec)
+        		array_push($arrayAsssigments, $assignment);
+        }
+        
+        return $arrayAsssigments;
     }
 }
