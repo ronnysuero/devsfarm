@@ -223,10 +223,9 @@ class AssignmentController extends BaseController
     {
         $teacher = User::first(Auth::id());
         $last_activity = $teacher->last_activity;
-        $teacher = Teacher::first(Auth::id());
-        $sections = $teacher->sections_id;
+
         $assignments = Assignment::where('date_assigned', '>=', $last_activity)->get();
 
-        return $sections[0];
+        return $assignments;
     }
 }
