@@ -96,6 +96,7 @@
 	,"password": String
 	,"rank": String
 	,"last_activity": Date
+	,"password_token": String
 }
 
 "assignments":
@@ -170,4 +171,11 @@
 	,"group_id" : Object_Id
 	,"student_id": Object_Id
 	,"teamleader_id": Object_Id
+}
+
+"blocked_users":
+{
+	"_id": Object_Id
+	,"user": String
+	,"date": Date
 }
