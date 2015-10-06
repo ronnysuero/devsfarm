@@ -218,4 +218,14 @@ class AssignmentController extends BaseController
 			return Response::json('00');
 		}
 	}
+
+    public static function getLatestAssignments()
+    {
+        $teacher = User::first(Auth::id());
+        $last_activity = $teacher->last_activity;
+
+        $assignments = Assignment::where('date_assigned', '>=', $last_activity)->get();
+
+        return $assignments;
+    }
 }

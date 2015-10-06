@@ -31,7 +31,11 @@ class TeacherController extends BaseController
      */
 	public function showHome()
 	{
-		return View::make('teacher.home');
+		return View::make('teacher.home')->with(
+            array(
+                'assignments' => AssignmentController::getLatestAssignments()
+            )
+        );
 	}
 
     /**
