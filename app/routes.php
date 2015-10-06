@@ -164,7 +164,7 @@ Route::group(array('before' => 'auth'), function()
 
 	Route::get(Lang::get('download_report'), function()
 	{
-		$pdf = PDF::loadHTML(Input::get('data'))->setPaper('a4')->setOrientation('landscape')->setWarnings(false);
+		$pdf = PDF::loadHTML(Input::get('data'))->setPaper('legal')->setOrientation('landscape')->setWarnings(false);
 		return $pdf->download(Lang::get('routes.report').'.pdf');
 	});
 

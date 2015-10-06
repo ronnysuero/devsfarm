@@ -11,7 +11,7 @@
 		<div class="col-lg-12">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					Generar un nuevo reporte
+					{{Lang::get('report.generate')}}
 				</div>
 				@include('alert')
 				<div class="panel-body">
@@ -34,21 +34,21 @@
 									</select>
 								</div>
 								<div class="form-group">
-									<label>Grupos</label>
+									<label>{{Lang::get('report.group')}}</label>
 									<select data-validate="required" class="form-control" id="group" name="group">
-										<option value="">Seleccionar grupo</option>
+										<option value="">{{Lang::get('report.select_group')}}</option>
 									</select>
 								</div>
 								<div class="form-group">
-									<label>Estudiante</label>
+									<label>{{Lang::get('report.student')}}</label>
 									<select data-validate="required" class="form-control" id="students" name="students[]" multiple>
-										<option value="">Seleccionar estudiante</option>
+										<option value="">{{Lang::get('report.select_student')}}</option>
 									</select>
 								</div>
 								<div class="form-group">
-									<label>Etiquetas</label>
+									<label>{{Lang::get('report.tags')}}</label>
 									<select data-validate="required" class="form-control" id="tags" name="tags[]" multiple>
-										<option value="all">Todos</option>
+										<option value="all">{{Lang::get('report.all')}}</option>
 										<option value="analysis">{{Lang::get('register_assignment.analysis')}}</option>
 										<option value="database">{{Lang::get('register_assignment.database')}}</option>
 										<option value="design">{{Lang::get('register_assignment.design')}}</option>
@@ -57,15 +57,15 @@
 									</select>
 								</div>
 								<div class="form-group">
-									<label>Archivos Adjuntos</label>
+									<label>{{Lang::get('report.attach_files')}}</label>
 									<select data-validate="required" class="form-control" id="attach" name="attach">
-										<option value="all">Todos</option>
-										<option value="yes">Si</option>
+										<option value="all">{{Lang::get('report.all')}}</option>
+										<option value="yes">{{Lang::get('report.yes')}}</option>
 										<option value="no">No</option>
 									</select>
 								</div>
 								<button type="submit" class="btn btn-default pull-right">
-									Generar reporte
+									{{Lang::get('report.generate_report')}}
 								</button>
 							{{Form::close()}}
 						</div>
@@ -123,7 +123,7 @@
 					})
 					.done(function( data )
 					{
-						var message = '<option value="">Seleccionar grupo</option>';
+						var message = '<option value="">{{Lang::get("report.select_group")}}</option>';
 
 						$('#group')
 							.find('option')
@@ -134,7 +134,7 @@
 						if(data.length > 0)
 						{
 							$('#group').append( 
-								new Option("Todos", "all") 
+								new Option("{{Lang::get('report.all')}}", "all") 
 							);
 
 							for(var item in data)
@@ -147,7 +147,7 @@
 					});
 				}
 				else
-					$('#group').html('<option value="">No existen grupos para esta seccion</option>');
+					$('#group').html('<option value="">{{Lang::get("report.error_group")}}</option>');
 			});
 
 			$("#group").on("change", function()
@@ -174,7 +174,7 @@
 							if(data.length > 0)
 							{
 								$('#students').append( 
-									new Option("Todos", "all") 
+									new Option("{{Lang::get('report.all')}}", "all") 
 								);
 
 								for(var item in data)

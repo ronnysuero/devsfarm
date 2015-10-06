@@ -19,6 +19,14 @@ return array(
 	'total_score' => 'Total score',
 	'total_rated' => 'Total rated',
 	'all' => 'All',
-	
+	'generate' => 'Generate a new report',
+	'group' => 'Groups',
+	'select_group' => 'Select group',
+	'student' => 'Student',
+	'select_student' => 'Select student',
+	'attach_files' => 'Attached files',
+	'yes' => 'Yes',
+	'generate_report' => 'Generate report',
+	'error_group' => 'No groups for this section',
 
 );

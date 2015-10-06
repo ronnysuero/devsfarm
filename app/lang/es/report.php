@@ -19,6 +19,14 @@ return array(
 	'total_score' => 'Total puntuacion',
 	'total_rated' => 'Total acumulado',
 	'all' => 'Todos',
-	
+	'generate' => 'Generar nuevo reporte',
+	'group' => 'Grupos',
+	'select_group' => 'Seleccionar grupo',
+	'student' => 'Estudiante',
+	'select_student' => 'Seleccionar estudiantes',
+	'attach_files' => 'Archivos adjuntos',
+	'yes' => 'Si',
+	'generate_report' => 'Generar reporte',
+	'error_group' => 'No existen grupos para esta seccion',
 
 );
