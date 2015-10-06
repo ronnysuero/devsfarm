@@ -10,4 +10,6 @@ return array (
     'section_codes' => 'Section Codes',
     'teamleader' => 'TeamLeaders',
     'approval' => 'Pending for approval',
+    'report' => 'Reports',
+
 );

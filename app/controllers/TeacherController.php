@@ -315,4 +315,420 @@ class TeacherController extends BaseController
 			)
 		);	
 	}
+
+	public function showReportView()
+	{
+		$teacher = Teacher::find(Auth::id());		
+		$subjects = Subject::whereIn('_id', $teacher->subjects_id)->get();
+		$section_codes = SectionCode::where('teacher_id', new MongoId($teacher->_id))
+									->where('status', true)->get();
+
+		return View::make('teacher.report')->with(
+			array( 
+				'subjects' => $subjects,
+				'teacher_section_id' => $teacher->sections_id,
+				'section_codes' => $section_codes,
+			)
+		);
+	}
+
+	public function showGenerateReportView()
+	{
+		$subject = Subject::find(Input::get('subject'));
+
+		if(isset($subject->_id))
+		{
+			$tags = Input::get('tags');
+			$array = array();
+
+			if(in_array('all', $tags))
+					$tags = null;
+
+			if(strcasecmp(Input::get('group'), 'all') === 0) 
+			{
+				$sectionCode = SectionCode::where('code', Input::get('section'))->first();
+				$groups = Group::where('section_code_id', new MongoId($sectionCode->_id))->get();
+
+				if(is_null($tags))
+				{
+					$array['groups'] = $this->getStatGroups(
+											$groups,  
+											$subject->name, 
+											Input::get('section'), 
+											Input::get('attach')
+										);
+				}
+				else
+				{
+					$array['groups'] = $this->getStatGroupByTags(
+											$groups, 
+											$tags,
+											$subject->name, 
+											Input::get('section'), 
+											Input::get('attach')
+										);
+				}
+			}
+			else
+			{
+				$group = Group::find(Input::get('group'));
+				$students = Input::get('students');
+				
+				if(in_array('all', $students))
+					$students = $group->students_id;
+				
+				if(is_null($tags))
+				{
+					$array['students'] = $this->getStatStudents(
+											$students, 
+											$group->_id, 
+											$subject->name, 
+											Input::get('section'), 
+											Input::get('attach')
+										 );
+				}
+				else
+				{
+					$array['students'] = $this->getStatStudentsByTags(
+											$students, 
+											$group->_id, 
+											$tags,
+											$subject->name, 
+											Input::get('section'), 
+											Input::get('attach')
+										 );
+				}
+			}
+
+			return View::make('teacher.view_report')->with(
+				array( 
+					'report' => $array,
+				 )
+			);
+		}
+		else
+			return Redirect::back();	
+	}
+
+	private function getStatStudents($arrayStudents, $group_id, $subject = null, $sectionCode = null, $attach = null)
+	{
+		$array = array();
+
+		foreach ($arrayStudents as $student_id) 
+		{
+			$student = Student::find(new MongoId($student_id));
+			$arrayAux = array();
+			$arrayAux['id_number'] = $student->id_number;
+			$arrayAux['name'] = $student->name.' '.$student->last_name;
+			$arrayAux['tag'] = 'all';
+
+			if(!is_null($subject))
+				$arrayAux['subject'] = $subject;
+
+			if(!is_null($sectionCode))
+				$arrayAux['sectionCode'] = $sectionCode;
+
+			$total_task = Assignment::where('group_id', new MongoId($group_id))
+									->where('assigned_to', new MongoId($student->_id));
+
+			$total_task_pending = Assignment::where('group_id', new MongoId($group_id))
+											->where('assigned_to', new MongoId($student->_id))
+											->where('state', 'p');
+			
+			$total_task_current = Assignment::where('group_id', new MongoId($group_id))
+											->where('assigned_to', new MongoId($student->_id))
+											->whereIn('state', array('a', 'r'));
+			
+			$total_task_not_completed = Assignment::where('group_id', new MongoId($group_id))
+												  ->where('assigned_to', new MongoId($student->_id))
+												  ->whereIn('state', array('n', 'nc'));											
+			
+			$total_task_completed = Assignment::where('group_id', new MongoId($group_id))
+											  ->where('assigned_to', new MongoId($student->_id))
+											  ->where('state', 'c');
+									
+			$total_score = Assignment::where('group_id', new MongoId($group_id))
+								  ->where('assigned_to', new MongoId($student->_id));
+			
+			$total_rated = Assignment::where('group_id', new MongoId($group_id))
+									 ->where('assigned_to', new MongoId($student->_id));
+			
+			$arrayValidate = $this->validateAttach(
+								$attach, 
+								$total_task, 
+								$total_task_pending,
+								$total_task_current,
+								$total_task_not_completed,
+								$total_task_completed,
+								$total_score,
+								$total_rated
+							 );
+
+			$arrayAux['total_task'] = $arrayValidate['total_task'];
+			$arrayAux['total_task_pending'] = $arrayValidate['total_task_pending'];
+			$arrayAux['total_task_current'] = 	$arrayValidate['total_task_current'];
+			$arrayAux['total_task_not_completed'] = $arrayValidate['total_task_not_completed'];											
+			$arrayAux['total_task_completed'] = $arrayValidate['total_task_completed'];
+			$arrayAux['total_score'] = $arrayValidate['total_score'];
+			$arrayAux['total_rated'] = $arrayValidate['total_rated'];
+
+			array_push($array, $arrayAux);
+		}
+
+		return $array;
+	}
+
+	private function getStatStudentsByTags($arrayStudents, $group_id, $arrayTags, $subject = null, $sectionCode = null, $attach = null)
+	{
+		$array = array();
+
+		foreach ($arrayStudents as $student_id) 
+		{
+			$student = Student::find(new MongoId($student_id));
+			
+			foreach ($arrayTags as $tag) 
+			{
+				$arrayAux = array();
+				$arrayAux['id_number'] = $student->id_number;
+				$arrayAux['name'] = $student->name.' '.$student->last_name;
+				$arrayAux['tag'] = $tag;
+
+				if(!is_null($subject))
+					$arrayAux['subject'] = $subject;
+
+				if(!is_null($sectionCode))
+					$arrayAux['sectionCode'] = $sectionCode;
+
+				$total_task = Assignment::where('group_id', new MongoId($group_id))
+										->where('assigned_to', new MongoId($student->_id))
+										->whereIn('tags', array($tag));
+
+				$total_task_pending = Assignment::where('group_id', new MongoId($group_id))
+												->where('assigned_to', new MongoId($student->_id))
+												->where('state', 'p')
+												->whereIn('tags', array($tag));
+				
+				$total_task_current = Assignment::where('group_id', new MongoId($group_id))
+												->where('assigned_to', new MongoId($student->_id))
+												->whereIn('state', array('a', 'r'))
+												->whereIn('tags', array($tag));
+				
+				$total_task_not_completed = Assignment::where('group_id', new MongoId($group_id))
+													  ->where('assigned_to', new MongoId($student->_id))
+													  ->whereIn('state', array('n', 'nc'))
+													  ->whereIn('tags', array($tag));
+				
+				$total_task_completed = Assignment::where('group_id', new MongoId($group_id))
+												  ->where('assigned_to', new MongoId($student->_id))
+												  ->where('state', 'c')
+												  ->whereIn('tags', array($tag));
+				
+				$total_score = Assignment::where('group_id', new MongoId($group_id))
+										 ->where('assigned_to', new MongoId($student->_id))
+										 ->whereIn('tags', array($tag));
+				
+				$total_rated = Assignment::where('group_id', new MongoId($group_id))
+										 ->where('assigned_to', new MongoId($student->_id))
+										 ->whereIn('tags', array($tag));
+										
+				$arrayValidate = $this->validateAttach(
+									$attach, 
+									$total_task, 
+									$total_task_pending,
+									$total_task_current,
+									$total_task_not_completed,
+									$total_task_completed,
+									$total_score,
+									$total_rated
+								 );
+
+				$arrayAux['total_task'] = $arrayValidate['total_task'];
+				$arrayAux['total_task_pending'] = $arrayValidate['total_task_pending'];
+				$arrayAux['total_task_current'] = 	$arrayValidate['total_task_current'];
+				$arrayAux['total_task_not_completed'] = $arrayValidate['total_task_not_completed'];											
+				$arrayAux['total_task_completed'] = $arrayValidate['total_task_completed'];
+				$arrayAux['total_score'] = $arrayValidate['total_score'];
+				$arrayAux['total_rated'] = $arrayValidate['total_rated'];
+
+				array_push($array, $arrayAux);
+			}
+		}
+
+		return $array;
+	}
+
+	private function getStatGroups($arrayGroups, $subject = null, $sectionCode = null, $attach = null)
+	{
+		$array = array();
+
+		foreach ($arrayGroups as $group) 
+		{
+			$arrayAux = array();
+			$arrayAux['group_name'] = $group->name;
+			$arrayAux['project_name'] = $group->project_name;
+			$arrayAux['tag'] = 'all';
+
+			if(!is_null($subject))
+				$arrayAux['subject'] = $subject;
+
+			if(!is_null($sectionCode))
+				$arrayAux['sectionCode'] = $sectionCode;
+
+			$total_task = Assignment::where('group_id', new MongoId($group->_id));
+
+			$total_task_pending = Assignment::where('group_id', new MongoId($group->_id))
+											->where('state', 'p');
+			
+			$total_task_current = Assignment::where('group_id', new MongoId($group->_id))
+											->whereIn('state', array('a', 'r'));
+			
+			$total_task_not_completed = Assignment::where('group_id', new MongoId($group->_id))
+												  ->whereIn('state', array('n', 'nc'));											
+			
+			$total_task_completed = Assignment::where('group_id', new MongoId($group->_id))
+											  ->where('state', 'c');
+									
+			$total_score = Assignment::where('group_id', new MongoId($group->_id));
+			
+			$total_rated = Assignment::where('group_id', new MongoId($group->_id));
+									
+			$arrayValidate = $this->validateAttach(
+								$attach, 
+								$total_task, 
+								$total_task_pending,
+								$total_task_current,
+								$total_task_not_completed,
+								$total_task_completed,
+								$total_score,
+								$total_rated
+							 );
+
+			$arrayAux['total_task'] = $arrayValidate['total_task'];
+			$arrayAux['total_task_pending'] = $arrayValidate['total_task_pending'];
+			$arrayAux['total_task_current'] = 	$arrayValidate['total_task_current'];
+			$arrayAux['total_task_not_completed'] = $arrayValidate['total_task_not_completed'];											
+			$arrayAux['total_task_completed'] = $arrayValidate['total_task_completed'];
+			$arrayAux['total_score'] = $arrayValidate['total_score'];
+			$arrayAux['total_rated'] = $arrayValidate['total_rated'];
+
+			array_push($array, $arrayAux);
+		}
+
+		return $array;
+	}
+
+	private function getStatGroupByTags($arrayGroups, $arrayTags, $subject = null, $sectionCode = null, $attach = null)
+	{
+		$array = array();
+
+		foreach ($arrayGroups as $group) 
+		{
+			foreach ($arrayTags as $tag) 
+			{
+				$arrayAux = array();
+				$arrayAux['group_name'] = $group->name;
+				$arrayAux['project_name'] = $group->project_name;
+				$arrayAux['tag'] = $tag;
+
+				if(!is_null($subject))
+					$arrayAux['subject'] = $subject;
+
+				if(!is_null($sectionCode))
+					$arrayAux['sectionCode'] = $sectionCode;
+
+				$total_task = Assignment::where('group_id', new MongoId($group->_id))
+										->where('assigned_to', new MongoId($student->_id))
+										->whereIn('tags', array($tag));
+
+				$total_task_pending = Assignment::where('group_id', new MongoId($group->_id))
+												->where('assigned_to', new MongoId($student->_id))
+												->where('state', 'p')
+												->whereIn('tags', array($tag));
+				
+				$total_task_current = Assignment::where('group_id', new MongoId($group->_id))
+												->where('assigned_to', new MongoId($student->_id))
+												->whereIn('state', array('a', 'r'))
+												->whereIn('tags', array($tag));
+				
+				$total_task_not_completed = Assignment::where('group_id', new MongoId($group->_id))
+													  ->where('assigned_to', new MongoId($student->_id))
+													  ->whereIn('state', array('n', 'nc'))
+													  ->whereIn('tags', array($tag));
+				
+				$total_task_completed = Assignment::where('group_id', new MongoId($group->_id))
+												  ->where('assigned_to', new MongoId($student->_id))
+												  ->where('state', 'c')
+												  ->whereIn('tags', array($tag));
+				
+				$total_score = Assignment::where('group_id', new MongoId($group->_id))
+										 ->where('assigned_to', new MongoId($student->_id))
+										 ->whereIn('tags', array($tag));
+				
+				$total_rated = Assignment::where('group_id', new MongoId($group->_id))
+										 ->where('assigned_to', new MongoId($student->_id))
+										 ->whereIn('tags', array($tag));
+										
+				$arrayValidate = $this->validateAttach(
+									$attach, 
+									$total_task, 
+									$total_task_pending,
+									$total_task_current,
+									$total_task_not_completed,
+									$total_task_completed,
+									$total_score,
+									$total_rated
+								 );
+
+				$arrayAux['total_task'] = $arrayValidate['total_task'];
+				$arrayAux['total_task_pending'] = $arrayValidate['total_task_pending'];
+				$arrayAux['total_task_current'] = 	$arrayValidate['total_task_current'];
+				$arrayAux['total_task_not_completed'] = $arrayValidate['total_task_not_completed'];											
+				$arrayAux['total_task_completed'] = $arrayValidate['total_task_completed'];
+				$arrayAux['total_score'] = $arrayValidate['total_score'];
+				$arrayAux['total_rated'] = $arrayValidate['total_rated'];
+
+				array_push($array, $arrayAux);
+			}
+		}
+
+		return $array;
+	}
+
+	private function validateAttach($attach, $task, $pending, $current, $not_completed, $completed, $score, $rated)
+	{
+		$arrayAux = array();
+
+		if(is_null($attach) || strcasecmp($attach, 'all') === 0)
+		{
+			$arrayAux['total_task'] = $task->count();
+			$arrayAux['total_task_pending'] = $pending->count();
+			$arrayAux['total_task_current'] = $current->count();
+			$arrayAux['total_task_not_completed'] = $not_completed->count();											
+			$arrayAux['total_task_completed'] = $completed->count();
+			$arrayAux['total_score'] = $score->sum('score');
+			$arrayAux['total_rated'] = $rated->sum('rated');
+		}
+		else if(strcasecmp($attach, 'yes') === 0)
+		{
+			$arrayAux['total_task'] = $task->whereNotNull('attachments')->count();
+			$arrayAux['total_task_pending'] = $pending->whereNotNull('attachments')->count();
+			$arrayAux['total_task_current'] = $current->whereNotNull('attachments')->count();
+			$arrayAux['total_task_not_completed'] = $not_completed->whereNotNull('attachments')->count();											
+			$arrayAux['total_task_completed'] = $completed->whereNotNull('attachments')->count();
+			$arrayAux['total_score'] = $score->whereNotNull('attachments')->sum('score');
+			$arrayAux['total_rated'] = $rated->whereNotNull('attachments')->sum('rated');
+		}
+		else if(strcasecmp($attach, 'no') === 0)
+		{
+			$arrayAux['total_task'] = $task->whereNull('attachments')->count();
+			$arrayAux['total_task_pending'] = $pending->whereNull('attachments')->count();
+			$arrayAux['total_task_current'] = $current->whereNull('attachments')->count();
+			$arrayAux['total_task_not_completed'] = $not_completed->whereNull('attachments')->count();											
+			$arrayAux['total_task_completed'] = $completed->whereNull('attachments')->count();
+			$arrayAux['total_score'] = $score->whereNull('attachments')->sum('score');
+			$arrayAux['total_rated'] = $rated->whereNull('attachments')->sum('rated');
+		}
+
+		return $arrayAux;
+	}
 }

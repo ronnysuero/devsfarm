@@ -90,4 +90,6 @@ return array(
 	'rate_assignment' => 'rate_assignment',
 	'cancel_request' => 'cancel_request',
     'video_tutorials' => 'video_tutorials',
+    'report' => 'reports',
+    'view_report' => 'view_report',
 	);

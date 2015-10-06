@@ -40,7 +40,9 @@
 					<button type="submit" class="btn btn-primary">{{Lang::get('login.login')}}</button>
 					<br>
                     <div class="form-group">
-                        <input type="checkbox" class="form-control" name="rememberMe" style="margin: 0px; height: 15px;"> {{Lang::get('login.remember_me')}}
+                    	<label>
+                    		{{ Form::checkbox('check_user', 'remember_me') }} {{Lang::get('login.remember_me')}}
+                    	</label>
                     </div>
 
 					<a href="{{Lang::get('routes.forget_password')}}" style="margin-left: 12px;">

@@ -12,7 +12,8 @@
 		"zizaco/mongolid-laravel": "dev-master",
 		"intervention/image": "dev-master",
 		"intervention/imagecache": "^2.3",
-		"google/recaptcha": "~1.1"
+		"google/recaptcha": "~1.1",
+		"barryvdh/laravel-dompdf": "0.4.*"
 	},
 	"autoload": {
 		"classmap": [

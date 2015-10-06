@@ -163,7 +163,6 @@
 							</div>
 							<div class="form-group">
 								<label>{{Lang::get('register_assignment.tag')}}</label>
-								{{-- <input data-validate="characterspace,max(50)" type="text" class="form-control" id="tags" name="tags" placeholder="{{Lang::get('register_assignment.tag_placeholder')}}" > --}}
 								<select data-validate="required" class="form-control" id="tags" name="tags[]" multiple>
 									<option value="analysis">{{Lang::get('register_assignment.analysis')}}</option>
 									<option value="database">{{Lang::get('register_assignment.database')}}</option>
