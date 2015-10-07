@@ -229,10 +229,35 @@ class GroupController extends BaseController
 	public function getFarmReport()
 	{
 		$group_id = Input::get('group_id');
+        $group = Group::where('_id', new MongoId($group_id))->first();
+
+        $students = Student::whereIn('_id', $group->students_id)->get();
+
+        $total_assignments = Assignment::where('group_id', new MongoId($group_id))->count();
+        $total_completed = Assignment::where('group_id', new MongoId($group_id))->where('state', 'c')->count();
+        $total_incompleted = Assignment::where('group_id', new MongoId($group_id))->whereIn('state', array('n', 'nc'))->count();
+        $total_pending = Assignment::where('group_id', new MongoId($group_id))->whereIn('state', array('a', 'r', 'p'))->count();
+
+
+        $student_task = TeacherController::getStatStudents($group->students_id, $group_id);
+
+        $colors = ['', '#673AB7', '#009688', '#00BCD4', '#673AB7', '#9C27B0', '#E91E63', '#F44336',
+        '#2196F3', '#4CAF50', '#8BC34A', '#FFC107', '#795548', '#9E9E9E', '#CDDC39',
+        '#607D8B'];
+
+        $assignments = Assignment::where('group_id', new MongoId($group_id))->get();
 
 		return View::make('teacher.farm_report')->with(
 			array(
-				'group_id' => $group_id
+				'students' => $students,
+                'total_assignments' => $total_assignments,
+                'total_completed' => $total_completed,
+                'total_incompleted' => $total_incompleted,
+                'total_pending' => $total_pending,
+                'student_task' => $student_task,
+                'colors' => $colors,
+                'assignments' => $assignments,
+                'group' => $group
 			)
 		);
 	}

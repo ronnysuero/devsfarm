@@ -18,6 +18,7 @@
 	<link rel="stylesheet" type="text/css" href="css/jquery.datetimepicker.css" />
 	<link rel="shortcut icon" href="favicon.png"> 
 	<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+
 </head>
 <body>
 	<div id="wrapper">
@@ -178,6 +179,7 @@
 		@yield('content')
 	</div>
 	@include('message.modals')
+
 	<script type="text/javascript" src="js/verify.notify.js"></script>
 	<script type="text/javascript" src="js/sb-admin.js"></script>
 	<script type="text/javascript" src="js/bootstrap.js"></script>

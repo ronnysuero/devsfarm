@@ -239,14 +239,14 @@ class AssignmentController extends BaseController
         $assignments = Assignment::whereIn('group_id', $arrayGroups)
         						 ->get();
 
-        $arrayAsssigments = array();
+        $arrayAssignments = array();
 
         foreach ($assignments as $assignment) 
         {
         	if($assignment->date_assigned->sec >= Auth::user()->last_activity->sec)
-        		array_push($arrayAsssigments, $assignment);
+        		array_push($arrayAssignments, $assignment);
         }
         
-        return $arrayAsssigments;
+        return $arrayAssignments;
     }
 }

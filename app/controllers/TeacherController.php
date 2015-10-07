@@ -410,7 +410,7 @@ class TeacherController extends BaseController
 			return Redirect::back();	
 	}
 
-	private function getStatStudents($arrayStudents, $group_id, $subject = null, $sectionCode = null, $attach = null)
+	public static function getStatStudents($arrayStudents, $group_id, $subject = null, $sectionCode = null, $attach = null)
 	{
 		$array = array();
 
@@ -452,8 +452,8 @@ class TeacherController extends BaseController
 			
 			$total_rated = Assignment::where('group_id', new MongoId($group_id))
 									 ->where('assigned_to', new MongoId($student->_id));
-			
-			$arrayValidate = $this->validateAttach(
+
+			$arrayValidate = TeacherController::validateAttach(
 								$attach, 
 								$total_task, 
 								$total_task_pending,
@@ -478,7 +478,7 @@ class TeacherController extends BaseController
 		return $array;
 	}
 
-	private function getStatStudentsByTags($arrayStudents, $group_id, $arrayTags, $subject = null, $sectionCode = null, $attach = null)
+	public static function getStatStudentsByTags($arrayStudents, $group_id, $arrayTags, $subject = null, $sectionCode = null, $attach = null)
 	{
 		$array = array();
 
@@ -531,7 +531,7 @@ class TeacherController extends BaseController
 										 ->where('assigned_to', new MongoId($student->_id))
 										 ->whereIn('tags', array($tag));
 										
-				$arrayValidate = $this->validateAttach(
+				$arrayValidate = TeacherController::validateAttach(
 									$attach, 
 									$total_task, 
 									$total_task_pending,
@@ -557,7 +557,7 @@ class TeacherController extends BaseController
 		return $array;
 	}
 
-	private function getStatGroups($arrayGroups, $subject = null, $sectionCode = null, $attach = null)
+	public static function getStatGroups($arrayGroups, $subject = null, $sectionCode = null, $attach = null)
 	{
 		$array = array();
 
@@ -592,7 +592,7 @@ class TeacherController extends BaseController
 			
 			$total_rated = Assignment::where('group_id', new MongoId($group->_id));
 									
-			$arrayValidate = $this->validateAttach(
+			$arrayValidate = TeacherController::validateAttach(
 								$attach, 
 								$total_task, 
 								$total_task_pending,
@@ -617,7 +617,7 @@ class TeacherController extends BaseController
 		return $array;
 	}
 
-	private function getStatGroupByTags($arrayGroups, $arrayTags, $subject = null, $sectionCode = null, $attach = null)
+	public static function getStatGroupByTags($arrayGroups, $arrayTags, $subject = null, $sectionCode = null, $attach = null)
 	{
 		$array = array();
 
@@ -668,7 +668,7 @@ class TeacherController extends BaseController
 										 ->where('assigned_to', new MongoId($student->_id))
 										 ->whereIn('tags', array($tag));
 										
-				$arrayValidate = $this->validateAttach(
+				$arrayValidate = TeacherController::validateAttach(
 									$attach, 
 									$total_task, 
 									$total_task_pending,
@@ -694,7 +694,7 @@ class TeacherController extends BaseController
 		return $array;
 	}
 
-	private function validateAttach($attach, $task, $pending, $current, $not_completed, $completed, $score, $rated)
+	public static function validateAttach($attach, $task, $pending, $current, $not_completed, $completed, $score, $rated)
 	{
 		$arrayAux = array();
 
