@@ -130,55 +130,69 @@
 			});
 		})
 
-		function validate_captcha()
+		function validate_student()
 		{
-			var validate = grecaptcha.getResponse();
-
-			if(validate.length == 0)
+			if($('#student_check').val() == '')
 			{
-				$('#captcha').html("{{Lang::get('register_student.error_captcha')}}");
+				$('#error_student').html("{{Lang::get('register_student.error_captcha')}}");
 				return false;
 			}
-			else if(validate.length != 0)
+			else
 			{
-				$('#captcha').html("");
+				$('#error_student').html("");
 				return true;
 			}
 		}
 
-		function validate_captcha2()
+		function validate_university()
 		{
-			var validate = grecaptcha.getResponse();
-
-			if(validate.length == 0)
+			if($('#university_check').val() == '')
 			{
-				$('#captcha2').html("{{Lang::get('register_student.error_captcha')}}");
+				$('#error_university').html("{{Lang::get('register_student.error_captcha')}}");
 				return false;
 			}
-			else if(validate.length != 0)
+			else
 			{
-				$('#captcha2').html("");
+				$('#error_university').html("");
 				return true;
 			}
 		}
 	</script>
 
 	<script>
-		var recaptcha1
-			,recaptcha2;
+		var recaptcha_student
+			,recaptcha_university;
 
 		var myCallBack = function()
 		{
-			//Render the recaptcha1 on the element with ID "recaptcha1"
-			recaptcha1 = grecaptcha.render('recaptcha1', {
+			recaptcha_student = grecaptcha.render('recaptcha_student', 
+			{
 				'sitekey' : "{{Config::get('recaptcha.public_key')}}",
-				'theme' : 'light'
+				'theme' : 'light',
+				'callback': function(response)
+				{
+					$('#student_check').val(response);
+					$('#error_student').html("");
+				},
+				'expired-callback': function()
+				{
+					$('#student_check').val("");
+				}
 			});
 
-			//Render the recaptcha2 on the element with ID "recaptcha2"
-			recaptcha2 = grecaptcha.render('recaptcha2', {
+			recaptcha_university = grecaptcha.render('recaptcha_university', 
+			{
 				'sitekey' : "{{Config::get('recaptcha.public_key')}}",
-				'theme' : 'light'
+				'theme' : 'light',
+				'callback': function(response)
+				{
+					$('#university_check').val(response);
+					$('#error_university').html("");
+				},
+				'expired-callback': function()
+				{
+					$('#university_check').val("");
+				}
 			});
 		};
 	</script>

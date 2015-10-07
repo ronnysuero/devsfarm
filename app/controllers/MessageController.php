@@ -317,21 +317,30 @@ class MessageController extends BaseController
 	 * @param  $date Date
 	 * @return Date
 	 */
-	public static function getDate($date)
+	public static function getDate($date, $hour = true)
 	{
-		$compare = new DateTime(date('Y-m-d H:i:s', $date->sec));
-		$compare = $compare->diff(new DateTime());
-				
-		if($compare->days > 0)
-			return date('d-m-Y h:i A', $date->sec);
-		else if($compare->h < 24 && $compare->h > 0)
-		  	return (App::getLocale() === 'es') ? "Hace ".$compare->h.' horas' : $compare->h." hours ago";
-		else if($compare->i < 60 && $compare->i > 0)
-		  	return (App::getLocale() === 'es') ? "Hace ".$compare->i.' minutos' : $compare->i." mins ago";
-		else if($compare->s < 60 && $compare->s > 0)
-		  	return (App::getLocale() === 'es') ? "Hace ".$compare->s.' segundos' : $compare->s." segs ago";
-		else 
-			return (App::getLocale() === 'es') ? "Hace 1 segundo" : "1 segs ago";
+		if($hour == true)
+		{
+			$compare = new DateTime(date('Y-m-d H:i:s', $date->sec));
+			$compare = $compare->diff(new DateTime());
+					
+			if($compare->days > 0)
+				return date('d-m-Y h:i A', $date->sec);
+			else if($compare->h < 24 && $compare->h > 0)
+			  	return (App::getLocale() === 'es') ? "Hace ".$compare->h.' horas' : $compare->h." hours ago";
+			else if($compare->i < 60 && $compare->i > 0)
+			  	return (App::getLocale() === 'es') ? "Hace ".$compare->i.' minutos' : $compare->i." mins ago";
+			else if($compare->s < 60 && $compare->s > 0)
+			  	return (App::getLocale() === 'es') ? "Hace ".$compare->s.' segundos' : $compare->s." segs ago";
+			else 
+				return (App::getLocale() === 'es') ? "Hace 1 segundo" : "1 segs ago";
+		}
+		else
+		{
+			$compare = new DateTime(date('Y-m-d', $date->sec));
+			$compare = $compare->diff(new DateTime());
+			return date('d-m-Y', $date->sec);
+		}
 	}
 
 	/**

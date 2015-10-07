@@ -9,6 +9,5 @@ return array (
     'state' => 'State',
     'rated' => 'Rated',
     'score' => 'Score',
-
 );
 

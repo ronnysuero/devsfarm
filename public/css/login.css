@@ -32,14 +32,14 @@
    		}
 	}*/
 	@media (min-width: 768px) {
-		#recaptcha1 {
+		#recaptcha_student {
 			transform:scale(0.58);
 			-webkit-transform:scale(0.58);
 			transform-origin:0 0;
 			-webkit-transform-origin:0 0;
 			margin-left: 25px;
 		} 
-		#recaptcha2 {
+		#recaptcha_university {
 			transform:scale(0.75);
 			-webkit-transform:scale(0.75);
 			transform-origin:0 0;
@@ -48,7 +48,7 @@
 		} 
 	}
 	@media only screen and (max-width: 575px) {
-   		#recaptcha1, #recaptcha2 {
+   		#recaptcha_student, #recaptcha_university {
    			transform:scale(0.77);
    			-webkit-transform:scale(0.77);
    			transform-origin:0 0;

@@ -3,14 +3,17 @@
 @section('content')
 	<div class="row">
 		<div class="col-lg-12">
-			<h1 class="page-header" id="home_content_title"><i class="fa fa-home"></i> Home</h1>
+			<h1 class="page-header" id="home_content_title">
+				<i class="fa fa-home"></i> 
+				{{Lang::get('teacher_master.home')}}
+			</h1>
 		</div>
 	</div>
-	@if(count($assignments) > 0)
-		<div class="row">
-			<div class="col-lg-12">
-				<h3>Last Assignments</h3>
-				<div class="table-responsive">
+	<div class="row">
+		<div class="col-lg-12">
+			<h3>{{Lang::get('teacher_master.last')}}</h3>
+			<div class="table-responsive">
+				@if(count($assignments) > 0)
 					<table class="table table-bodered">
 						<thead>
 							<th>#</th>
@@ -18,31 +21,43 @@
 							<th>{{Lang::get('register_assignment.date_assigned')}}</th>
 							<th>{{Lang::get('list_assignment.deadline')}}</th>
 							<th>{{Lang::get('list_assignment.assigned_to')}}</th>
-							<th>{{Lang::get('list_assignment.state')}}</th>
+							<th>{{Lang::get('list_assignment.assigned_by')}}</th>
 							<th>{{Lang::get('list_assignment.score')}}</th>
-							<th>{{Lang::get('list_assignment.rated')}}</th>
 						</thead>
 						<tbody>
 							@foreach ($assignments as $key => $assignment)
 								<tr>
-									<td>{{$key}}</td>
+									<td>{{$key + 1}}</td>
 									<td>{{$assignment->description}}</td>
 									<td>{{MessageController::getDate($assignment->date_assigned)}}</td>
-									<td>{{MessageController::getDate($assignment->date_assigned)}}</td>
-									<td>{{Lang::get('register_assignment'.$assignment->state)}}</td>
+									<td>{{MessageController::getDate($assignment->deadline, false)}}</td>
+									<td>
+										<?php 
+											$user = User::first($assignment->assigned_to);
+											$user = UserController::getUser($user);
+										?>
+										{{$user->name.' '.$user->last_name}}
+									</td>
+									<td>
+										<?php 
+											$user = User::first($assignment->assigned_by);
+											$user = UserController::getUser($user);
+										?>
+										{{$user->name.' '.$user->last_name}}
+									</td>
 									<td>{{$assignment->score}}</td>
 									<td>{{$assignment->rated}}</td>
 								</tr>
 							@endforeach
 						</tbody>
 					</table>
-				</div>
+				@else
+					<p>{{Lang::get('teacher_master.activity')}}</p>
+				@endif
 			</div>
 		</div>
-	@else
-		<h3>No hay actividades recientes</h3>
-		<br />
-	@endif
+	</div>
+	<br />
 	<div class="row">
 		<div class="col-lg-6">
 			<div class="panel panel-default">
