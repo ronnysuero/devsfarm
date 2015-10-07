@@ -9,8 +9,8 @@
 						'url' => Lang::get('routes.register_student'),
 						'style' => 'overflow: hidden; color: #26A69A;',
 						'class' => 'register_form',
-						'id' => 'register_form',
-						'onsubmit' => 'return validate_captcha()'
+						'id' => 'register_student',
+						'onsubmit' => 'return validate_student()'
 					))
 				}}
 			<div class="form-group col-sm-12">
@@ -54,9 +54,10 @@
 				<input data-validate="required,min(6),verifyPassword(guest_password, guest_confirm_password)" type="password" class="form-control" id="guest_confirm_password" name="guest_confirm_password" placeholder="{{Lang::get('register_student.confirm_password_placeholder')}}"  />
 			</div>
 			<div class="form-group col-xs-12 col-sm-6">
-				<div id="recaptcha1"></div>
-				<span id="captcha" style="color:red" />
+				<div id="recaptcha_student"></div>
+				<span id="error_student" style="color:red" />
 			</div>
+			<input type="hidden" id="student_check" value="">
 			<button type="submit" class="btn btn-red">{{Lang::get('register_student.register')}}</button>
 			{{ Form::close() }}
 		</div>
@@ -65,8 +66,8 @@
 			{{ Form::open(array(
 						'url' => Lang::get('routes.register_university'),
 						'style' => 'overflow: hidden; color: #26A69A;',
-						'id' => 'register_form',
-						'onsubmit' => 'return validate_captcha2()'
+						'id' => 'register_university',
+						'onsubmit' => 'return validate_university()'
 					))
 				}}
 			<div class="form-group col-lg-12">
@@ -90,9 +91,10 @@
 				<input data-validate="required,min(6),verifyPassword(university_password, university_confirm_password)" type="password" class="form-control" id="university_confirm_password" name="university_confirm_password" placeholder="{{Lang::get('register_university.confirm_password_placeholder')}}"  />
 			</div>
 			<div class="form-group col-lg-12">
-				<div id="recaptcha2"></div>
-				<span id="captcha2" style="color:red" />
+				<div id="recaptcha_university"></div>
+				<span id="error_university" style="color:red" />
 			</div>
+			<input type="hidden" id="university_check" value="">
 			<button type="submit" class="btn btn-red">{{Lang::get('register_university.register')}}</button>
 			{{ Form::close() }}
 		</div>

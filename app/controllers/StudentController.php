@@ -77,7 +77,7 @@ class StudentController extends BaseController
 
 			    return Redirect::back()->withErrors(
 						array( 
-							'error' => Lang::get('register_student.message_captcha').' ['.$errors.']'
+							'error' => Lang::get('register_student.message_captcha').' ['.$errors[0].']'
 						)
 					);
 			}

@@ -11,7 +11,7 @@
 |
 */
 
-App::before(function($request) { 
+App::after(function($request) { 
 	UserController::updateLastActivity();
 });
 
@@ -88,7 +88,5 @@ Route::filter('guest', function()
 Route::filter('csrf', function()
 {
 	if (Session::token() !== Input::get('_token'))
-	{
 		throw new Illuminate\Session\TokenMismatchException;
-	}
 });

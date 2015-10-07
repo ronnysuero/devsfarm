@@ -464,15 +464,18 @@ class TeacherController extends BaseController
 								$total_rated
 							 );
 
-			$arrayAux['total_task'] = $arrayValidate['total_task'];
-			$arrayAux['total_task_pending'] = $arrayValidate['total_task_pending'];
-			$arrayAux['total_task_current'] = 	$arrayValidate['total_task_current'];
-			$arrayAux['total_task_not_completed'] = $arrayValidate['total_task_not_completed'];											
-			$arrayAux['total_task_completed'] = $arrayValidate['total_task_completed'];
-			$arrayAux['total_score'] = $arrayValidate['total_score'];
-			$arrayAux['total_rated'] = $arrayValidate['total_rated'];
+			if(!is_null($arrayValidate))
+			{
+				$arrayAux['total_task'] = $arrayValidate['total_task'];
+				$arrayAux['total_task_pending'] = $arrayValidate['total_task_pending'];
+				$arrayAux['total_task_current'] = 	$arrayValidate['total_task_current'];
+				$arrayAux['total_task_not_completed'] = $arrayValidate['total_task_not_completed'];											
+				$arrayAux['total_task_completed'] = $arrayValidate['total_task_completed'];
+				$arrayAux['total_score'] = $arrayValidate['total_score'];
+				$arrayAux['total_rated'] = $arrayValidate['total_rated'];
 
-			array_push($array, $arrayAux);
+				array_push($array, $arrayAux);
+			}
 		}
 
 		return $array;
@@ -542,15 +545,18 @@ class TeacherController extends BaseController
 									$total_rated
 								 );
 
-				$arrayAux['total_task'] = $arrayValidate['total_task'];
-				$arrayAux['total_task_pending'] = $arrayValidate['total_task_pending'];
-				$arrayAux['total_task_current'] = 	$arrayValidate['total_task_current'];
-				$arrayAux['total_task_not_completed'] = $arrayValidate['total_task_not_completed'];											
-				$arrayAux['total_task_completed'] = $arrayValidate['total_task_completed'];
-				$arrayAux['total_score'] = $arrayValidate['total_score'];
-				$arrayAux['total_rated'] = $arrayValidate['total_rated'];
+				if(!is_null($arrayValidate))
+				{
+					$arrayAux['total_task'] = $arrayValidate['total_task'];
+					$arrayAux['total_task_pending'] = $arrayValidate['total_task_pending'];
+					$arrayAux['total_task_current'] = 	$arrayValidate['total_task_current'];
+					$arrayAux['total_task_not_completed'] = $arrayValidate['total_task_not_completed'];											
+					$arrayAux['total_task_completed'] = $arrayValidate['total_task_completed'];
+					$arrayAux['total_score'] = $arrayValidate['total_score'];
+					$arrayAux['total_rated'] = $arrayValidate['total_rated'];
 
-				array_push($array, $arrayAux);
+					array_push($array, $arrayAux);
+				}
 			}
 		}
 
@@ -603,15 +609,18 @@ class TeacherController extends BaseController
 								$total_rated
 							 );
 
-			$arrayAux['total_task'] = $arrayValidate['total_task'];
-			$arrayAux['total_task_pending'] = $arrayValidate['total_task_pending'];
-			$arrayAux['total_task_current'] = 	$arrayValidate['total_task_current'];
-			$arrayAux['total_task_not_completed'] = $arrayValidate['total_task_not_completed'];											
-			$arrayAux['total_task_completed'] = $arrayValidate['total_task_completed'];
-			$arrayAux['total_score'] = $arrayValidate['total_score'];
-			$arrayAux['total_rated'] = $arrayValidate['total_rated'];
+			if(!is_null($arrayValidate))
+			{
+				$arrayAux['total_task'] = $arrayValidate['total_task'];
+				$arrayAux['total_task_pending'] = $arrayValidate['total_task_pending'];
+				$arrayAux['total_task_current'] = 	$arrayValidate['total_task_current'];
+				$arrayAux['total_task_not_completed'] = $arrayValidate['total_task_not_completed'];											
+				$arrayAux['total_task_completed'] = $arrayValidate['total_task_completed'];
+				$arrayAux['total_score'] = $arrayValidate['total_score'];
+				$arrayAux['total_rated'] = $arrayValidate['total_rated'];
 
-			array_push($array, $arrayAux);
+				array_push($array, $arrayAux);
+			}
 		}
 
 		return $array;
@@ -637,35 +646,28 @@ class TeacherController extends BaseController
 					$arrayAux['sectionCode'] = $sectionCode;
 
 				$total_task = Assignment::where('group_id', new MongoId($group->_id))
-										->where('assigned_to', new MongoId($student->_id))
 										->whereIn('tags', array($tag));
 
 				$total_task_pending = Assignment::where('group_id', new MongoId($group->_id))
-												->where('assigned_to', new MongoId($student->_id))
 												->where('state', 'p')
 												->whereIn('tags', array($tag));
 				
 				$total_task_current = Assignment::where('group_id', new MongoId($group->_id))
-												->where('assigned_to', new MongoId($student->_id))
 												->whereIn('state', array('a', 'r'))
 												->whereIn('tags', array($tag));
 				
 				$total_task_not_completed = Assignment::where('group_id', new MongoId($group->_id))
-													  ->where('assigned_to', new MongoId($student->_id))
 													  ->whereIn('state', array('n', 'nc'))
 													  ->whereIn('tags', array($tag));
 				
 				$total_task_completed = Assignment::where('group_id', new MongoId($group->_id))
-												  ->where('assigned_to', new MongoId($student->_id))
 												  ->where('state', 'c')
 												  ->whereIn('tags', array($tag));
 				
 				$total_score = Assignment::where('group_id', new MongoId($group->_id))
-										 ->where('assigned_to', new MongoId($student->_id))
 										 ->whereIn('tags', array($tag));
 				
 				$total_rated = Assignment::where('group_id', new MongoId($group->_id))
-										 ->where('assigned_to', new MongoId($student->_id))
 										 ->whereIn('tags', array($tag));
 										
 				$arrayValidate = TeacherController::validateAttach(
@@ -679,15 +681,18 @@ class TeacherController extends BaseController
 									$total_rated
 								 );
 
-				$arrayAux['total_task'] = $arrayValidate['total_task'];
-				$arrayAux['total_task_pending'] = $arrayValidate['total_task_pending'];
-				$arrayAux['total_task_current'] = 	$arrayValidate['total_task_current'];
-				$arrayAux['total_task_not_completed'] = $arrayValidate['total_task_not_completed'];											
-				$arrayAux['total_task_completed'] = $arrayValidate['total_task_completed'];
-				$arrayAux['total_score'] = $arrayValidate['total_score'];
-				$arrayAux['total_rated'] = $arrayValidate['total_rated'];
+				if(!is_null($arrayValidate))
+				{
+					$arrayAux['total_task'] = $arrayValidate['total_task'];
+					$arrayAux['total_task_pending'] = $arrayValidate['total_task_pending'];
+					$arrayAux['total_task_current'] = 	$arrayValidate['total_task_current'];
+					$arrayAux['total_task_not_completed'] = $arrayValidate['total_task_not_completed'];											
+					$arrayAux['total_task_completed'] = $arrayValidate['total_task_completed'];
+					$arrayAux['total_score'] = $arrayValidate['total_score'];
+					$arrayAux['total_rated'] = $arrayValidate['total_rated'];
 
-				array_push($array, $arrayAux);
+					array_push($array, $arrayAux);
+				}
 			}
 		}
 
@@ -729,6 +734,12 @@ class TeacherController extends BaseController
 			$arrayAux['total_rated'] = $rated->whereNull('attachments')->sum('rated');
 		}
 
-		return $arrayAux;
+		if($arrayAux['total_task'] < 1 && $arrayAux['total_task_pending'] < 1 && 
+			$arrayAux['total_task_current'] < 1 && $arrayAux['total_task_not_completed'] < 1 &&
+			$arrayAux['total_task_completed'] < 1 && $arrayAux['total_score'] < 1 && 
+			$arrayAux['total_rated'] < 1)
+			return null;
+		else
+			return $arrayAux;
 	}
 }
