@@ -29,4 +29,19 @@ return array(
 	'generate_report' => 'Generate report',
 	'error_group' => 'No groups for this section',
 
+
+    'report' => 'Report',
+    'members' => 'Members',
+    'no' => 'No',
+    'has_a_job' => 'Working',
+    'phone' => 'Phone',
+    'cellphone' => 'Cellphone',
+    'total_assignments' => 'Total Assignments',
+    'assignments' => 'Assignments',
+    'student_assignments' => 'Student Assignments',
+    'completed' => 'Completed Assignments',
+    'not_completed' => 'Incomplete Assignments',
+    'pending' => 'Pending Assignments',
+    'current' => 'Current Assignments',
+
 );

@@ -29,4 +29,19 @@ return array(
 	'generate_report' => 'Generar reporte',
 	'error_group' => 'No existen grupos para esta seccion',
 
+
+    'report' => 'Reporte',
+    'members' => 'Integrantes',
+    'no' => 'No',
+    'has_a_job' => 'Trabaja',
+    'phone' => 'Telefono',
+    'cellphone' => 'Celular',
+    'total_assignments' => 'Total asignaciones',
+    'assignments' => 'Asignaciones',
+    'student_assignments' => 'Asignaciones del equipo',
+    'completed' => 'Asignaciones completadas',
+    'not_completed' => 'Asignaciones incompletas',
+    'pending' => 'Asignaciones pendientes',
+    'current' => 'Asignaciones actuales',
+
 );

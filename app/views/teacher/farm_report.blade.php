@@ -3,13 +3,13 @@
 @section('content')
 	<div class="row">
 		<div class="col-lg-12">
-			<h1 class="page-header">Report</h1>
+			<h1 class="page-header">{{Lang::get('report.report')}}</h1>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-lg-12">
 			{{--<span class="pull-right">Descargar PDF</span>--}}
-			<h3><i class="fa fa-group"></i> Integrantes</h3>
+			<h3><i class="fa fa-group"></i> {{Lang::get('report.members')}}</h3>
 			<hr/>
 		</div>
 	</div>
@@ -17,7 +17,12 @@
         @foreach($students as $student)
 		<div class="col-lg-4" style="overflow: hidden; margin-bottom: 5px;">
 			<div class="pull-left" style="margin-right: 5px;">
-				<img src="{{ Lang::get('show_image').'?src='.storage_path().$student->profile_image  }}" alt=""/>
+                @if($student->profile_image)
+                    <img src="{{ Lang::get('show_image').'?src='.storage_path().$student->profile_image  }}" alt=""/>
+                @else
+                    <img src="{{ Lang::get('show_image').'?src='.storage_path().$student->profile_image  }}" alt=""/>
+                @endif
+
 			</div>
 			<div style="margin-left: 5px; ">
                 {{ $student->name }} {{ $student->last_name  }}
@@ -27,41 +32,37 @@
                 <br/>
 				{{ $student->id_number  }}<br/>
 				{{ $student->email }}<br/>
-				<strong>Trabaja:</strong>
+				<strong>{{Lang::get('report.has_a_job')}}:</strong>
                 @if($student->has_a_job == 1)
-                    Si
+                    {{Lang::get('report.yes')}}
                 @else
-                    No
+                    {{Lang::get('report.no')}}
                 @endif<br/>
-				<strong>Telefono:</strong> {{ $student->phone  }}<br/>
-				<strong>Celular:</strong> {{ $student->cellphone  }}
+				<strong>{{Lang::get('report.phone')}}:</strong> {{ $student->phone  }}<br/>
+				<strong>{{Lang::get('report.cellphone')}}:</strong> {{ $student->cellphone  }}
 			</div>
 		</div>
         @endforeach
 	</div>
 	<div class="row">
 		<div class="col-lg-12">
-			<h3><i class="fa fa-list-alt"></i> Total Asignaciones</h3>
+			<h3><i class="fa fa-list-alt"></i> {{Lang::get('report.total_assignments')}}</h3>
 			<hr/>
 		</div>
 	</div>
 	<div class="well well-sm" style="padding-left: 25px;">
 		<div class="row">
 			<div class="col-lg-12">
-				<div class="row">
-
-					<div class="co-lg-4"><strong>Total de asignaciones:</strong> {{ $total_assignments  }} </div>
-					<div class="co-lg-4"><strong>Total completadas:</strong> {{ $total_completed  }}</div>
-                    <div class="co-lg-4"><strong>Total no completadas:</strong> {{ $total_incompleted  }}</div>
-					<div class="co-lg-4"><strong>Total pendientes:</strong> {{ $total_pending  }}</div>
-				</div>
-
+					<strong>{{Lang::get('report.total_assignments')}}:</strong> {{ $total_assignments  }} <br />
+					<strong>{{Lang::get('report.completed')}}:</strong> {{ $total_completed  }}<br />
+                    <strong>{{Lang::get('report.not_completed')}}:</strong> {{ $total_incompleted  }}<br />
+					<strong>{{Lang::get('report.pending')}}:</strong> {{ $total_pending  }}
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-lg-12">
-            <h3><i class="fa fa-list-alt"></i> Asignaciones</h3>
+            <h3><i class="fa fa-list-alt"></i> {{Lang::get('report.assignments')}}</h3>
             <hr/>
         </div>
     </div>
@@ -174,7 +175,7 @@
 
     <div class="row">
         <div class="col-lg-12">
-            <h3><i class="fa fa-pie-chart"></i> Student Assignments</h3>
+            <h3><i class="fa fa-pie-chart"></i> {{Lang::get('report.student_assignments')}}</h3>
             <hr/>
         </div>
     </div>
@@ -183,12 +184,14 @@
 		<div class="col-lg-6 pie-chart" style="overflow: hidden">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<span class="student_name">Narciso Nunez</span>
+					<span class="student_name"></span>
 				</div>
 				<div class="panel-body">
 					<div style="margin-bottom: 15px;">
-                        <canvas class="myChart" width="400%" height="400"></canvas>
-						<span id="total_assignment"></span>
+                        <canvas class="myChart" width="300px" height="300px"></canvas>
+						<div class="total_assignment pull-right">
+
+                        </div>
 					</div>
 				</div>
 			</div>
@@ -215,7 +218,7 @@
                             <div class="panel panel-cascade">
                                 <div class="panel-body">
                                     <div>
-                                        <textarea readonly class="" id="details" name="textarea" placeholder="Escriba aqui" style="width: 100%; height: 200px"></textarea>
+                                        <textarea readonly class="" id="details" name="textarea" placeholder="" style="width: 100%; height: 200px"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -237,31 +240,50 @@
         var student_data = '';
         var data = [];
         var ctx = '';
-        var labels = ['Completed', 'ToDo', 'Pending', 'Rated'];
+        var labels = ['Completed', 'Not Completed', 'Pending', 'Current'];
+        var completed_assignments = '';
+        var notComplete_assignments = '';
+        var pending_assignments = '';
+        var current_assignments = '';
 
         @foreach($student_task as $index => $json)
 
             student_data = JSON.parse('{{ json_encode($json) }}');
 
             ctx = document.getElementsByClassName("myChart")['{{ $index  }}'];
-//            $(ctx).closest('span').html('<p>jajaja</p>');
+            var student_name = $('.student_name')['{{ $index  }}'];
+            var student_detail = $('.total_assignment')['{{ $index  }}'];
+            student_name.innerHTML = student_data.name + ' ( ' + student_data.id_number + ' )';
 
+            completed_assignments = 'Completed: \t' + student_data.total_task_completed;
+            notComplete_assignments = 'Not Completed: \t' + student_data.total_task_not_completed;
+            pending_assignments = 'Pending: \t' + student_data.total_task_pending;
+            current_assignments = 'Current: \t' + student_data.total_task_current;
+
+
+            var total_assignments = '<ul>\
+                                        <li>'+ completed_assignments +'</li>\
+                                        <li>'+ notComplete_assignments +'</li>\
+                                        <li>'+ pending_assignments +'</li>\
+                                        <li>'+ current_assignments +'</li>\
+                                    </ul>';
+            student_detail.innerHTML = total_assignments;
             @if(count($student_task)-1 != $index)
-            $('#graphs').append('<div class="col-lg-6 pie-chart">\
+                $('#graphs').append('<div class="col-lg-6 pie-chart">\
                                         <div class="panel panel-default">\
                                         <div class="panel-heading">\
                                             <span class="student_name">Narciso Nunez</span>\
                                         </div>\
                                         <div class="panel-body">\
                                             <div style="margin-bottom: 15px;">\
-                                            <canvas class="myChart" width="400" height="400"></canvas>\
-                                            <span id="total_assignment"></span>\
+                                            <canvas class="myChart" width="300px" height="300px"></canvas>\
+                                                <div class="total_assignment pull-right"></div>\
                                             </div>\
                                             </div>\
                                         </div>\
                                     </div>');
             @endif
-
+            console.log(student_data);
             var student = [{
                         value: student_data.total_task_completed,
                         color: '{{ $colors[rand(0,14) ]  }}',
@@ -281,15 +303,42 @@
                         label: labels[2]
                     },
                     {
-                        value: student_data.total_rated,
+                        value: student_data.total_task_current,
                         color: '{{ $colors[rand(0,14) ]  }}',
                         highlight: "#FF5A5E",
                         label: labels[3]
                     }]
+//            console.log(student_data);
+            var myPieChart = new Chart(ctx.getContext("2d")).Pie(student, {animateRotate : true,animateScale : true});
 
-            var myPieChart = new Chart(ctx.getContext("2d")).Pie(student, {animateRotate : true,animateScale : false});
         @endforeach
 
+
+        $(function(){
+            $('.textarea').wysihtml5(
+                    {
+                        "font-styles": true,
+                        "emphasis": true,
+                        "lists": true,
+                        "html": true,
+                        "link": false,
+                        "image": false,
+                        "color": true
+                    });
+
+            $('#details').wysihtml5(
+                    {
+                        "font-styles": true,
+                        "emphasis": true,
+                        "lists": true,
+                        "html": true,
+                        "link": false,
+                        "image": false,
+                        "color": true
+                    });
+
+            $('#details').data("wysihtml5").editor.disable();
+        });
 
         function viewAssignment(assignment_id)
         {
@@ -302,6 +351,7 @@
                     })
                     .done(function(data)
                     {
+                        console.log(data);
                         if(data != "")
                         {
                             $('#details').data("wysihtml5").editor.setValue(data.body);

@@ -19,6 +19,7 @@
 	<link rel="shortcut icon" href="favicon.png"> 
 	<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
     <script src="js/Chart.min.js"></script>
+
 </head>
 <body>
 	<div id="wrapper">
@@ -229,6 +230,7 @@
 	<script type="text/javascript" src="js/main.js"></script>
 	<script type="text/javascript" src="js/alertify.min.js"></script>
 	<script type="text/javascript" src="js/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="js/wysihtml5-0.3.js"></script>
 	<script type="text/javascript" src="js/jquery.ui.chatbox.js"></script>
 	<script type="text/javascript" src="js/chatboxManager.js"></script>
 	<script type="text/javascript">
