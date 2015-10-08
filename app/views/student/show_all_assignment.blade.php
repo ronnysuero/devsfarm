@@ -9,7 +9,8 @@
 				{{$group->name}}
 			</h1>
 			<p>
-				@if(strcasecmp($group->teamleader_id, Auth::id()) === 0)
+				<?php $flag = SectionCodeController::confirmTeamLeader($group->teamleader_id, $group->section_code_id) ?>
+				@if(strcasecmp($group->teamleader_id, Auth::id()) === 0 && $flag)
 					<a href="#" data-toggle="modal" data-target="#registerModal">
 						<i class="fa fa-plus" style="color: #0097A7;"></i> 
 						{{Lang::get('register_assignment.add')}}
@@ -33,7 +34,7 @@
 								<th>{{Lang::get('list_assignment.score')}}</th>
 								<th>{{Lang::get('list_assignment.rated')}}</th>
 
-								@if(strcasecmp($group->teamleader_id, Auth::id()) === 0)
+								@if(strcasecmp($group->teamleader_id, Auth::id()) === 0 && $flag)
 									<th>{{Lang::get('register_assignment.rate')}}</th>
 									<th>{{Lang::get('register_assignment.edit')}}</th>
 									<th>{{Lang::get('register_assignment.delete')}}</th>
@@ -60,7 +61,7 @@
 									<td>{{$assignment->score}}</td>
 									<td>{{$assignment->rated}}</td>
 									
-									@if(strcasecmp($group->teamleader_id, Auth::id()) === 0)
+									@if(strcasecmp($group->teamleader_id, Auth::id()) === 0 && $flag)
 										<td style="width: 6%">
 											@if(strcasecmp($assignment->state, 'p') === 0)
 												<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#ratedModal" onclick="$('#scoreRated').val('{{$assignment->score}}'); $('#assignment_id').val('{{$assignment->_id}}');"> 
@@ -115,13 +116,13 @@
 					</table>
 				</div>
 			@else
-				@if(strcasecmp($group->teamleader_id, Auth::id()) !== 0)
+				@if(strcasecmp($group->teamleader_id, Auth::id()) != 0)
 					<p>{{Lang::get('register_assignment.no_assigned')}}</p>
 				@endif
 			@endif
 		</div>
 	</div>
-	@if(strcasecmp($group->teamleader_id, Auth::id()) === 0)
+	@if(strcasecmp($group->teamleader_id, Auth::id()) === 0 && $flag)
 		<div class="modal fade" id="registerModal">
 			<div class="modal-dialog">
 				<div class="modal-content">

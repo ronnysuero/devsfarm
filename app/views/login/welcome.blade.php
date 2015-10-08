@@ -32,7 +32,7 @@
 			<div id="navbar" class="navbar-collapse collapse">
 				{{ Form::open(array('url' => Lang::get('routes.login'), 'class' => 'navbar-form navbar-right')) }}
 					<div class="form-group">
-						<input data-validate="required,email" class="form-control" type="email" name="user_email" placeholder="{{Lang::get('login.email_placeholder')}}">
+						<input data-validate="required,email" class="form-control" type="text" name="user_email" placeholder="{{Lang::get('login.email_placeholder')}}">
 					</div>
 					<div class="form-group">
 						<input data-validate="required" type="password" class="form-control" name="user_password" placeholder="{{Lang::get('login.password_placeholder')}}">

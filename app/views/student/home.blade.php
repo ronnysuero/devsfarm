@@ -48,6 +48,7 @@
 							</thead>
 							<tbody>
 								@foreach ($groups as $index =>$group)    
+									<?php $flag = SectionCodeController::confirmTeamLeader($group->teamleader_id, $group->section_code_id) ?>
 									<tr id="{{$index}}">
 										<td style="width: 1%">{{$index + 1}}</td>
 										<td>{{$group->name}}</td>
@@ -58,14 +59,14 @@
 											</button>
 										</td>	
 						   				<td style="width: 6%">
-						   					@if(strcasecmp($group->teamleader_id, Auth::id()) === 0)
+						   					@if(strcasecmp($group->teamleader_id, Auth::id()) === 0 && $flag)
 							   					<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editModal" onclick="fillModal('{{$group->_id}}')"> 
 													{{Lang::get('show_groups.edit')}}
 												</button>
 											@endif
 										</td>
 										<td style="width: 6%">
-											@if(strcasecmp($group->teamleader_id, Auth::id()) === 0)
+											@if(strcasecmp($group->teamleader_id, Auth::id()) === 0 && $flag)
 											   <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal" onclick="$('#group_id').val('{{$group->_id}}'); $('#pos').val('{{$index}}');"> 
 													{{Lang::get('show_groups.delete')}}
 												</button>
@@ -83,7 +84,7 @@
 					</div>
 				</div>
 			</div>
-		</div></div>
+		</div>
 		<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="Eliminar grupo" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">

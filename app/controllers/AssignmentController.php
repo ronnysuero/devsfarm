@@ -79,15 +79,17 @@ class AssignmentController extends BaseController
 	{
 		if(Request::ajax())
 		{
-			$assignment = Assignment::find(Input::get('id'));
+			$assignment = Assignment::find(new MongoId(Input::get('id')));
 			
-			foreach ($assignment->attachments as $file) 
-				File::delete(storage_path().'/assignments/'.$assignment->_id.'/'.$file);
+			if(isset($assignment->attachments))
+			{
+				foreach ($assignment->attachments as $file) 
+					File::delete(storage_path().'/assignments/'.$assignment->_id.'/'.$file);
 
-			File::delete(storage_path().'/assignments/'.$assignment->_id);
-
+				File::delete(storage_path().'/assignments/'.$assignment->_id);
+			}
+			
 			$assignment->delete();
-
 			return Response::json("00");
 		}
 	}

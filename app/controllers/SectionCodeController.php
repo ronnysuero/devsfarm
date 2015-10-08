@@ -92,4 +92,14 @@ class SectionCodeController extends BaseController
 			return Response::json("00");
 		}
 	}
+
+	public static function confirmTeamLeader($teamleader_id, $sectionCode_id)
+	{
+		$sectionCode = SectionCode::where('_id', new MongoId($sectionCode_id))
+								  ->whereIn('teamleaders_id', array(new MongoId($teamleader_id)))
+								  ->first();
+		
+		return isset($sectionCode->_id) ? true : false;
+		//return $sectionCode;
+	}
 }

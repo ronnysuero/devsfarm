@@ -11,11 +11,18 @@
 |
 */
 
-App::after(function($request) { 
-	UserController::updateLastActivity();
-});
+App::after(function($request, $response) 
+{
+	if(Request::is('/') || Request::is(Lang::get('routes.university')) || 
+		Request::is(Lang::get('routes.student')) || Request::is(Lang::get('routes.teacher')))
+	{
 
-App::after(function($request, $response) { });
+	}
+	else
+	{
+		UserController::updateLastActivity();
+	}
+});
 
 /*
 |--------------------------------------------------------------------------
