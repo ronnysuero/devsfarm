@@ -220,6 +220,8 @@
 		</div>
 		@include('message.modals')
 	</div>
+
+    <script type="text/javascript" src="js/wysihtml5-0.3.js"></script>
 	<script type="text/javascript" src="js/verify.notify.js"></script>
 	<script type="text/javascript" src="js/sb-admin.js"></script>
 	<script type="text/javascript" src="js/bootstrap.js"></script>
@@ -229,7 +231,6 @@
 	<script type="text/javascript" src="js/main.js"></script>
 	<script type="text/javascript" src="js/alertify.min.js"></script>
 	<script type="text/javascript" src="js/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="js/wysihtml5-0.3.js"></script>
 	<script type="text/javascript" src="js/jquery.ui.chatbox.js"></script>
 	<script type="text/javascript" src="js/chatboxManager.js"></script>
 	<script type="text/javascript">
