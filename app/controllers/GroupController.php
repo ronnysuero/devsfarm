@@ -241,10 +241,6 @@ class GroupController extends BaseController
 
         $student_task = TeacherController::getStatStudents($group->students_id, $group_id);
 
-        $colors = ['', '#673AB7', '#009688', '#00BCD4', '#673AB7', '#9C27B0', '#E91E63', '#F44336',
-        '#2196F3', '#4CAF50', '#8BC34A', '#FFC107', '#795548', '#9E9E9E', '#CDDC39',
-        '#607D8B'];
-
         $assignments = Assignment::where('group_id', new MongoId($group_id))->get();
 
 		return View::make('teacher.farm_report')->with(
@@ -255,10 +251,21 @@ class GroupController extends BaseController
                 'total_incompleted' => $total_incompleted,
                 'total_pending' => $total_pending,
                 'student_task' => $student_task,
-                'colors' => $colors,
+                'colors' => $this->colors,
                 'assignments' => $assignments,
                 'group' => $group
 			)
 		);
+	}
+
+	private static function COLOR($class)
+	{
+		return $class->colors;
+	}
+
+	public static function getColors($rand = null) 
+	{	
+		$color = GroupController::COLOR(new GroupController);
+		return is_null($rand) ? $color : $color[rand(0, 14)];
 	}
 }
