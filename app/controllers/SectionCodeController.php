@@ -56,8 +56,12 @@ class SectionCodeController extends BaseController
 		if(!is_null($section->current_code))
 		{
 			$sectionCode = SectionCode::where('code', $section->current_code)->first();
-			$sectionCode->status = false;
-			$sectionCode->save();
+			
+			if(isset($sectionCode->_id))
+			{
+				$sectionCode->status = false;
+				$sectionCode->save();
+			}
 		}
 
 		try
