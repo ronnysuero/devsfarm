@@ -84,10 +84,10 @@ $(function ()
 		{
 			console.log(json.data);
 			
-			if(sender !== "")
+			if(sender != "")
 				sender = json.data.receiver_id;
 
-			if(chat_id.val() === json.data.chat_id)
+			if(chat_id.val() == json.data.chat_id)
 				addMessage(json.data.author, json.data.message, new Date(json.data.date));
 			
 			//chat_id.val(json.data.chat_id);	
@@ -131,7 +131,7 @@ $(function ()
 		console.log(photo);
 		content.append
 		(	
-			'<a class="list-group-item"> ' + 
+			'<a class="list-group-item"> ' + photo +
 			'<span class="username">' + author + ' <span class="time"> ' + 
 			formatDate(datetime) + '</span> </span> <p>' + message + '</p></a>'
 		);

@@ -49,7 +49,7 @@ wsServer.on('request', function(request)
 				return;
 			}
 
-			if (userName === false) 
+			if (userName == false) 
 			{ 
 				if(!obj.sender_id)
 				{
@@ -70,7 +70,7 @@ wsServer.on('request', function(request)
 			{
 				console.log(util.formatDate(new Date()) + ' -> Received Message from ' + userName + ': ' + message.utf8Data);	
 
-				if(obj._id === "" || obj._id === undefined)
+				if(obj._id == "" || obj._id == undefined)
 				{
 					db.createChat(obj, function(data)
 					{
@@ -91,7 +91,7 @@ wsServer.on('request', function(request)
 
 						for (var i = 0; i < connections.length; i++)
 						{
-							if(connections[i].id === data.sender_id || connections[i].id === data.receiver_id)
+							if(connections[i].id == data.sender_id || connections[i].id == data.receiver_id)
 								connections[i].socket.sendUTF(json);
 						}
 					});
@@ -102,7 +102,7 @@ wsServer.on('request', function(request)
 
 	connection.on('close', function(reasonCode, description) 
 	{
-		if (userName !== false) 
+		if (userName != false) 
 		{		
 	        console.log(util.formatDate(new Date()) + ' -> The user ' + userName + ', address: ' + connection.remoteAddress + ' is disconnected');
 	        
