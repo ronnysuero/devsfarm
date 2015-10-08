@@ -15,11 +15,11 @@
 				}}
 			<div class="form-group col-sm-12">
 				<label for="guest_name">{{Lang::get('register_student.first_name')}}</label>
-				<input data-validate="required,size(3, 10),character" type="text" class="form-control" id="guest_name" name="guest_name" placeholder="{{Lang::get('register_student.first_name_placeholder')}}"/>
+				<input data-validate="required,size(3, 15),character" type="text" class="form-control" id="guest_name" name="guest_name" placeholder="{{Lang::get('register_student.first_name_placeholder')}}"/>
 			</div>
 			<div class="form-group col-sm-12">
 				<label for="guest_lastname">{{Lang::get('register_student.last_name')}}</label>
-				<input data-validate="required,size(3, 10),character" type="text" class="form-control" id="guest_lastname" name="guest_lastname" placeholder="{{Lang::get('register_student.last_name_placeholder')}}"  />
+				<input data-validate="required,size(3, 15),character" type="text" class="form-control" id="guest_lastname" name="guest_lastname" placeholder="{{Lang::get('register_student.last_name_placeholder')}}"  />
 			</div>
 
 			<div class="form-group col-sm-12">
