@@ -125,10 +125,10 @@
 							.end()
 							.append(message);
 
-						if(data !== "")
+						if(data != "")
 						{
-							for(var item in data.groups)
-								$('#group').append( new Option(data.groups[item].name, data.groups[item]._id) );
+							for(var item in data)
+								$('#group').append( new Option(data[item].name, data[item]._id) );
 
 							$('#_id').val(data.subject);
 						}

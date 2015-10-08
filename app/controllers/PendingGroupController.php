@@ -17,7 +17,7 @@ class PendingGroupController extends BaseController
 			if(isset($subject->_id))
 			{
 				$section = $subject->sections()->find($sectionCode->section_id);
-				$sections[$sectionCode->_id] = $subject->name.' - '.$section->code;
+				$sections[$sectionCode->code] = $subject->name.' - '.$section->code;
 			}
 		}
 
@@ -33,7 +33,8 @@ class PendingGroupController extends BaseController
 	{
 		$group  = Group::find(new MongoId(Input::get('group')));
 		$pending = new PendingGroup;
-		$pending->section_code_id = new MongoId(Input::get('section'));
+		$sectionCode = SectionCode::where('code', Input::get('section'))->first();
+		$pending->section_code_id = new MongoId($sectionCode->_id);
 		$pending->group_id = new MongoId($group->_id);
 		$pending->student_id = Auth::id();
 		$pending->teamleader_id = new MongoId($group->teamleader_id);
