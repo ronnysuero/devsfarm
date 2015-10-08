@@ -11,7 +11,7 @@ return array (
 	'cancel'=>'Cancelar',
 	'disable'=>'Eliminar',
 	'delete_msg'=>'Eliminar grupos',
-	'student_placehold'=>'Seleccione un estudiente',
+	'student_placehold'=>'Seleccione un estudiante',
 	'btnrated'=>'Calificar',
 	'btnedit'=>'Editar',
 	'rated'=>'Calificacion',

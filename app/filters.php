@@ -14,7 +14,8 @@
 App::after(function($request, $response) 
 {
 	if(Request::is('/') || Request::is(Lang::get('routes.university')) || 
-		Request::is(Lang::get('routes.student')) || Request::is(Lang::get('routes.teacher')))
+		Request::is(Lang::get('routes.student')) || Request::is(Lang::get('routes.teacher')) ||
+		Request::is(Lang::get('routes.login')))
 	{
 
 	}
