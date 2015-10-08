@@ -47,6 +47,13 @@
 						Your browser does not support mp4 videos.
 					</video>
 				</div>
+                <div class="col-lg-6">
+                    <h3 style="background: #F7F3F3;padding: 8px;">{{Lang::get('videotutorial.chat')}}</h3>
+                    <video width="100%" controls>
+                        <source src="video/chat.mp4" type="video/mp4">
+                        Your browser does not support mp4 videos.
+                    </video>
+                </div>
 			</div>
 		</div>
 	</div>

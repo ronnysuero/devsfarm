@@ -7,4 +7,6 @@ return array(
     "teacher_workflow" => "Flujo de trabajo de Profesor",
     "recover_password" => "Recuperar contraseña",
     "blocking_user" => "Bloqueo de usuario",
+
+    "chat" => "Sistema de chat",
 );
