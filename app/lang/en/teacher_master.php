@@ -14,6 +14,6 @@ return array (
 	'home' => 'Home',
 	'last' => 'Last assignments',
 	'activity' => 'There are no recent activities',
-	'legend_pie' => 'Total assignments / Teamleader',
-	'legend_bar' => 'Total assignments / Tags'
+	'legend_pie' => 'Total assignments / Tags',
+	'legend_bar' => 'Total assignments / Teamleader'
 );
