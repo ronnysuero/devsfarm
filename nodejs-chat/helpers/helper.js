@@ -23,7 +23,7 @@ module.exports = {
 	{
 		origin = origin.substring(origin.indexOf("//")+2);
 
-		if(origin === 'localhost' || origin === '127.0.0.1' || origin === 'soldev01.soldeva.com:90')
+		if(origin === 'localhost' || origin === '127.0.0.1' || origin === 'soldev01.soldeva.com:90' || origin === 'devsfarm.com:90')
 			return true; 
 
 		return false;	
