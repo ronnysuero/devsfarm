@@ -14,4 +14,6 @@ return array (
 	'home' => 'Inicio',
     'last' => 'Ultimas asignaciones',
     'activity' => 'No hay actividades recientes',
+    'legend_pie' => 'Total asignaciones / Lideres de equipo',
+	'legend_bar' => 'Total asignaciones / Etiquetas'
 );

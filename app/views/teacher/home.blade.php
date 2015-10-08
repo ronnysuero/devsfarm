@@ -59,25 +59,74 @@
 	</div>
 	<br />
 	<div class="row">
-		<div class="col-lg-12">
+		<div class="col-lg-8 col-lg-offset-2">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					Grafico de Barra
+					{{Lang::get('teacher_master.legend_bar')}}
 				</div>
-				<div class="panel-body" id="crop-avatar">
-					Aqui el grafico
+				<div>
+					<canvas id="barChart"></canvas>
 				</div>
 			</div>
 		</div>
-		<div class="col-lg-6">
+		<div class="col-lg-8 col-lg-offset-2" style="overflow: hidden">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					Grafico de Pastel
+					{{Lang::get('teacher_master.legend_pie')}}
 				</div>
-				<div class="panel-body" id="crop-avatar">
-					Aqui el grafico
+				<div class="panel-body">
+					<canvas id="pieChart"></canvas>
+					<div class="pull-right" id="legendPie">
+                    </div>
 				</div>
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript">
+		var ctxBar = document.getElementById("barChart").getContext("2d")
+			,ctxPie = document.getElementById("pieChart").getContext("2d")
+			,legendPie = $('#legendPie')
+			,dataBar = 
+			{
+				labels:
+				[
+					@foreach($bar_data['names'] as $data)
+						"{{$data}}",
+					@endforeach
+				],
+				datasets: 
+				[
+					{
+						label: "",
+						fillColor: "rgba(220,220,220,0.5)",
+						strokeColor: "rgba(220,220,220,0.8)",
+						highlightFill: "rgba(220,220,220,0.75)",
+						highlightStroke: "rgba(220,220,220,1)",
+						data: 
+						[
+							@foreach($bar_data['score'] as $data)
+								{{$data}},
+							@endforeach
+						]
+					}
+				]
+			}	
+			,dataPie = 
+			[
+				@foreach($pie_data as $data)
+					{{json_encode($data)}},
+				@endforeach
+			]
+			,options = {animateRotate : true, animateScale : true, responsive: true}
+			,myPieChart = new Chart(ctxBar).Bar(dataBar, options)
+			,myPieChart = new Chart(ctxPie).Pie(dataPie, options);
+		
+		legendPie.append("<ul>");
+
+		@foreach($pie_data as $data)
+			legendPie.append("<li>{{Lang::get('register_assignment.'.$data['label'])}} : {{$data['value']}}</li>");
+		@endforeach
+		
+		legendPie.append("</ul>");
+	</script>
 @stop

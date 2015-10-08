@@ -18,8 +18,7 @@
 	<link rel="stylesheet" type="text/css" href="css/jquery.ui.chatbox.css">
 	<link rel="shortcut icon" href="favicon.png"> 
 	<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
-    <script src="js/Chart.min.js"></script>
-
+	<script type="text/javascript" src="js/Chart.min.js"></script>
 </head>
 <body>
 	<div id="wrapper">
