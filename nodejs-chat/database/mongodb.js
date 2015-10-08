@@ -1,7 +1,7 @@
 "use strict";
 
 var mongoose = require('mongoose'),
-models = require('../model/models');
+	models = require('../model/models');
 
 mongoose.connect('mongodb://localhost/devsfarm');
 

@@ -8,6 +8,7 @@
 	<meta name="author" content="">
 	<title>@yield('title')</title>
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="css/dhtmlxgantt.css">
 	<link rel="stylesheet" type="text/css" href="css/sb-admin.css">
 	<link rel="stylesheet" type="text/css" href="css/font-awesome.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
@@ -222,6 +223,7 @@
 	</div>
 
     <script type="text/javascript" src="js/wysihtml5-0.3.js"></script>
+    <script type="text/javascript" src="js/bootstrap-wysihtml5.js"></script>
 	<script type="text/javascript" src="js/verify.notify.js"></script>
 	<script type="text/javascript" src="js/sb-admin.js"></script>
 	<script type="text/javascript" src="js/bootstrap.js"></script>

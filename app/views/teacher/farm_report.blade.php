@@ -8,7 +8,6 @@
 	</div>
 	<div class="row">
 		<div class="col-lg-12">
-			{{--<span class="pull-right">Descargar PDF</span>--}}
 			<h3><i class="fa fa-group"></i> {{Lang::get('report.members')}}</h3>
 			<hr/>
 		</div>
@@ -82,15 +81,6 @@
                             <th>{{Lang::get('list_assignment.state')}}</th>
                             <th>{{Lang::get('list_assignment.score')}}</th>
                             <th>{{Lang::get('list_assignment.rated')}}</th>
-
-                            @if(strcasecmp($group->teamleader_id, Auth::id()) === 0)
-                                <th>{{Lang::get('register_assignment.rate')}}</th>
-                                <th>{{Lang::get('register_assignment.edit')}}</th>
-                                <th>{{Lang::get('register_assignment.delete')}}</th>
-                                <th>{{Lang::get('register_assignment.re_assigned')}}</th>
-                            @endif
-
-                            <th>{{Lang::get('register_assignment.send')}}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -109,56 +99,6 @@
                                 <td>{{Lang::get('register_assignment.'.$assignment->state)}}</td>
                                 <td>{{$assignment->score}}</td>
                                 <td>{{$assignment->rated}}</td>
-
-                                @if(strcasecmp($group->teamleader_id, Auth::id()) === 0)
-                                    <td style="width: 6%">
-                                        @if(strcasecmp($assignment->state, 'p') === 0)
-                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#ratedModal" onclick="$('#scoreRated').val('{{$assignment->score}}'); $('#assignment_id').val('{{$assignment->_id}}');">
-                                                {{Lang::get('register_assignment.rate')}}
-                                            </button>
-                                        @endif
-                                    </td>
-                                    <td style="width: 6%">
-                                        @if(strcasecmp($assignment->state, 'a') === 0 || strcasecmp($assignment->state, 'r') === 0)
-                                            <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editModal" onclick="findAssignment('{{$assignment->_id}}');">
-                                                {{Lang::get('show_groups.btnedit')}}
-                                            </button>
-                                        @endif
-                                    </td>
-                                    <td style="width: 6%">
-                                        @if(strcasecmp($assignment->state, 'a') === 0 || strcasecmp($assignment->state, 'r') === 0)
-                                            <button type="button" class="btn btn-danger btn-sm " data-toggle="modal" data-target="#deleteModal" onclick="$('#_id').val('{{$assignment->_id}}'); $('#tr').val('{{$index}}');">
-                                                {{Lang::get('register_assignment.delete')}}
-                                            </button>
-                                        @endif
-                                    </td>
-                                    <td style="width: 6%">
-                                        @if(strcasecmp($assignment->state, 'n') === 0)
-                                            <button type="button" data-toggle="modal" data-target="#reassignedModal" class="btn btn-info btn-sm" onclick="findReAssignment('{{$assignment->_id}}');">
-                                                {{Lang::get('register_assignment.re_assigned')}}
-                                            </button>
-                                        @endif
-                                    </td>
-                                @endif
-                                <td style="width: 4%">
-                                    @if(strcasecmp($assignment->assigned_to, Auth::id()) === 0)
-                                        @if(strcasecmp($assignment->state, 'a') === 0 || strcasecmp($assignment->state, 'r') === 0)
-                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#completeModal" onclick="$('#taskupdate').val('{{$assignment->_id}}')">
-                                                {{Lang::get('register_assignment.send')}}
-                                            </button>
-                                        @elseif(AssignmentController::enableViewDetailBtn($assignment))
-                                            <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#viewDetailModal" onclick="viewAssignment('{{$assignment->_id}}')">
-                                                {{Lang::get('register_assignment.view_details')}}
-                                            </button>
-                                        @endif
-                                    @elseif(strcasecmp($assignment->state, 'c') === 0 || strcasecmp($assignment->state, 'n') === 0 || strcasecmp($assignment->state, 'nc') === 0)
-                                        @if(AssignmentController::enableViewDetailBtn($assignment))
-                                            <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#viewDetailModal" onclick="viewAssignment('{{$assignment->_id}}')">
-                                                {{Lang::get('register_assignment.view_details')}}
-                                            </button>
-                                        @endif
-                                    @endif
-                                </td>
                             </tr>
                         @endforeach
                         </tbody>
@@ -196,43 +136,6 @@
 				</div>
 			</div>
 		</div>
-    </div>
-
-
-    <div class="modal fade" id="viewDetailModal">
-        <div class="modal-dialog custom-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <h4 class="modal-title" id="myModalLabel">
-                        <i class="fa fa-plus"></i>
-                        {{Lang::get('register_assignment.view_details')}}
-                    </h4>
-                </div>
-                <div id="alert"></div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <div class="col-md-12">
-                            <div class="panel panel-cascade">
-                                <div class="panel-body">
-                                    <div>
-                                        <textarea readonly class="" id="details" name="textarea" placeholder="" style="width: 100%; height: 200px"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group" id="attach"></div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">
-                            {{Lang::get("register_assignment.closeButton")}}
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 
 	<script type="text/javascript">
@@ -308,37 +211,9 @@
                         highlight: "#FF5A5E",
                         label: labels[3]
                     }]
-//            console.log(student_data);
             var myPieChart = new Chart(ctx.getContext("2d")).Pie(student, {animateRotate : true,animateScale : true});
 
         @endforeach
-
-
-        $(function(){
-            $('.textarea').wysihtml5(
-                    {
-                        "font-styles": true,
-                        "emphasis": true,
-                        "lists": true,
-                        "html": true,
-                        "link": false,
-                        "image": false,
-                        "color": true
-                    });
-
-            $('#details').wysihtml5(
-                    {
-                        "font-styles": true,
-                        "emphasis": true,
-                        "lists": true,
-                        "html": true,
-                        "link": false,
-                        "image": false,
-                        "color": true
-                    });
-
-            $('#details').data("wysihtml5").editor.disable();
-        });
 
         function viewAssignment(assignment_id)
         {
