@@ -95,8 +95,8 @@
 					var conversation = data.chat.conversations[i],
 						photo = "",
 						author = "";
-
-					if(String(conversation.sender_id.$id) === data.sender._id)
+					
+					if(String(conversation.sender_id.$id) == data.sender._id)
 					{
 						author = data.sender.name;
 						photo = $('#' + data.sender._id).html();
@@ -104,7 +104,7 @@
 					else
 					{
 						author = data.receiver.name;
-						photo = $('#' + data.sender._id).html();
+						photo = $('#' + String(conversation.sender_id.$id)).html();
 					} 
 					
 					$('#content').append
