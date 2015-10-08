@@ -4,73 +4,89 @@ use Helpers\CropImage\CropImage;
 
 class TeacherController extends BaseController
 {
-    /**
-     * Function that return all the teachers
-     *
-     * @return Array
-     */
+	/**
+	 * Function that return all the teachers
+	 *
+	 * @return Array
+	 */
 	public static function getTeachers()
 	{
 		return Teacher::where('university_id', Auth::id())->get();
 	}
 
-    /**
-     * Function that return add_teacher view (Form)
-     *
-     * @return View
-     */
+	/**
+	 * Function that return add_teacher view (Form)
+	 *
+	 * @return View
+	 */
 	public function showView ()
 	{
 		return View::make('university.add_teacher');
 	}
 
-    /**
-     * Function that show the teacher home page
-     *
-     * @return view
-     */
+	/**
+	 * Function that show the teacher home page
+	 *
+	 * @return view
+	 */
 	public function showHome()
 	{
+		$arraySectionCodes = array();
+		$arrayGroups = array();
+
+		$sectionCodes = SectionCode::where('teacher_id', new MongoId(Auth::id()))
+								   ->where('status', true)->get();
+
+		foreach ($sectionCodes as $sectionCode) 
+			array_push($arraySectionCodes, new MongoId($sectionCode->_id));
+
+		$groups = Group::whereIn('section_code_id', $arraySectionCodes)->get();
+
+		foreach ($groups as $group)
+			array_push($arrayGroups, new MongoId($group->_id));
+
 		return View::make('teacher.home')->with(
-            array(
-                'assignments' => AssignmentController::getLatestAssignments()
-            )
-        );
+			array(
+				'assignments' => AssignmentController::getLatestAssignments(),
+				'pie_data' => $this->totalAssignmentsByTag($arrayGroups),
+				'bar_data' => $this->totalAssignmentsByTeamLeader($arrayGroups, $groups)
+			)
+		);
 	}
 
-    /**
-     * Function that return the teacher profile view
-     *
-     * @return view
-     */
+	/**
+	 * Function that return the teacher profile view
+	 *
+	 * @return view
+	 */
 	public function showProfile()
 	{
 		return View::make('teacher.profile')->with(
 			array(
 				'teacher' => Teacher::find(Auth::id()),
-            )
-        );
+			)
+		);
 	}
 
-    /**
-     * Function that return the university teachers view
-     *
-     * @return view
-     */
+	/**
+	 * Function that return the university teachers view
+	 *
+	 * @return view
+	 */
 	public function showAllTeachersView ()
 	{
 		return View::make('university.show_all_teachers')->with(
 			array(  
 				'teachers' => $this->getTeachers(),
 			)
-  		);
+		);
 	}
 
-    /**
-     * Function that add a new teacher to the collection and return to add_teacher view
-     *
-     * @return view
-     */
+	/**
+	 * Function that add a new teacher to the collection and return to add_teacher view
+	 *
+	 * @return view
+	 */
 	public function addTeacher()
 	{
 		$user = new User;
@@ -121,11 +137,11 @@ class TeacherController extends BaseController
 		return Redirect::to(Lang::get('routes.add_teacher'))->with('message', Lang::get('register_teacher.success'));
 	}
 
-    /**
-     * Function that update the teacher data.
-     *
-     * @return view
-     */
+	/**
+	 * Function that update the teacher data.
+	 *
+	 * @return view
+	 */
 	public function update()
 	{
 		$teacher = Teacher::find(new MongoId(Input::get('_id')));
@@ -162,54 +178,54 @@ class TeacherController extends BaseController
 		return Redirect::to(Lang::get('routes.show_all_teachers'))->with('message', Lang::get('university_profile.update_message'));
 	}
 
-    /**
-     * Function that update the teacher profile information include the password.
-     *
-     * @return view
-     */
-    public function updateTeacher()
-    {
-        $teacher = Teacher::find(Auth::id());
-        $teacher->name = ucfirst(trim(Input::get('teacher_name')));
-        $teacher->last_name = ucfirst(trim(Input::get('teacher_last_name')));
-        $teacher->phone = trim(Input::get('teacher_phone'));
-        $teacher->cellphone = trim(Input::get('teacher_cellphone'));
+	/**
+	 * Function that update the teacher profile information include the password.
+	 *
+	 * @return view
+	 */
+	public function updateTeacher()
+	{
+		$teacher = Teacher::find(Auth::id());
+		$teacher->name = ucfirst(trim(Input::get('teacher_name')));
+		$teacher->last_name = ucfirst(trim(Input::get('teacher_last_name')));
+		$teacher->phone = trim(Input::get('teacher_phone'));
+		$teacher->cellphone = trim(Input::get('teacher_cellphone'));
 
-        if(strlen(Input::get('current_password')) > 0)
-        {
-            if(!Hash::check(Input::get('current_password'), Auth::user()->password))
-                return Redirect::back()->withErrors(array( 'error' => Lang::get('teacher_profile.error_password')));
-            else
-            {
-                Auth::user()->password = Hash::make(Input::get('new_password'));
-                Auth::user()->save();
-        	}
-        }
+		if(strlen(Input::get('current_password')) > 0)
+		{
+			if(!Hash::check(Input::get('current_password'), Auth::user()->password))
+				return Redirect::back()->withErrors(array( 'error' => Lang::get('teacher_profile.error_password')));
+			else
+			{
+				Auth::user()->password = Hash::make(Input::get('new_password'));
+				Auth::user()->save();
+			}
+		}
 
 		// Check for teacher profile picture
-        if(Input::hasFile('avatar_file'))
-        {
-            $data = Input::get('avatar_data');
+		if(Input::hasFile('avatar_file'))
+		{
+			$data = Input::get('avatar_data');
 
-            if(is_null($teacher->profile_image))
-            {
-                $image = new CropImage(null, $data, $_FILES['avatar_file']);
-                $teacher->profile_image = $image->getURL();
-            }
-            else
-                new CropImage($teacher->profile_image, $data, $_FILES['avatar_file']);
-        }
+			if(is_null($teacher->profile_image))
+			{
+				$image = new CropImage(null, $data, $_FILES['avatar_file']);
+				$teacher->profile_image = $image->getURL();
+			}
+			else
+				new CropImage($teacher->profile_image, $data, $_FILES['avatar_file']);
+		}
 
-        $teacher->save();
+		$teacher->save();
 
-        return Redirect::to(Lang::get('routes.teacher_profile'))->with('message', Lang::get('teacher_profile.update_message'));
-    }
+		return Redirect::to(Lang::get('routes.teacher_profile'))->with('message', Lang::get('teacher_profile.update_message'));
+	}
 
-    /**
-     * Function that return a teacher information array
-     *
-     * @return Array
-     */
+	/**
+	 * Function that return a teacher information array
+	 *
+	 * @return Array
+	 */
 	public function find()
 	{
 		if(Request::ajax())
@@ -220,11 +236,11 @@ class TeacherController extends BaseController
 		}
 	}
 
-    /**
-     * Function that unlink a section from a teacher
-     *
-     * @return void
-     */
+	/**
+	 * Function that unlink a section from a teacher
+	 *
+	 * @return void
+	 */
 	public function drop()
 	{
 		if(Request::ajax())
@@ -261,8 +277,8 @@ class TeacherController extends BaseController
 				array(
 					'pending' => $pending,
 					'stats' => MessageController::getStats(),
-		 	 	)
-		 	);
+				)
+			);
 		}
 		else
 			return Redirect::to(Lang::get('routes.'.Auth::user()->rank));
@@ -741,5 +757,88 @@ class TeacherController extends BaseController
 			return null;
 		else
 			return $arrayAux;
+	}
+
+	public function totalAssignmentsByTag($arrayGroups)
+	{
+		$array = array();
+
+		$arrayAux = array();	
+		$arrayAux['label'] = 'analysis';
+		$arrayAux['value'] = Assignment::whereIn('group_id', $arrayGroups)
+									   ->whereIn('tags', array('analysis'))
+									   ->count();
+		$arrayAux['color'] = GroupController::getColors(true);
+		$arrayAux['highlight'] = "#FF5A5E";
+		array_push($array, $arrayAux);
+
+		$arrayAux = array();
+		$arrayAux['label'] = 'database';
+		$arrayAux['value'] = Assignment::whereIn('group_id', $arrayGroups)
+									   ->whereIn('tags', array('database'))
+									   ->count();
+		$arrayAux['color'] = GroupController::getColors(true);
+		$arrayAux['highlight'] = "#FF5A5E";
+		array_push($array, $arrayAux);
+
+		$arrayAux = array();
+		$arrayAux['label'] = 'design';
+		$arrayAux['value'] = Assignment::whereIn('group_id', $arrayGroups)
+									   ->whereIn('tags', array('design'))
+									   ->count();
+		$arrayAux['color'] = GroupController::getColors(true);
+		$arrayAux['highlight'] = "#FF5A5E";
+		array_push($array, $arrayAux);
+
+		$arrayAux = array();
+		$arrayAux['label'] = 'programming';
+		$arrayAux['value'] = Assignment::whereIn('group_id', $arrayGroups)
+									   ->whereIn('tags', array('programming'))
+									   ->count();
+		$arrayAux['color'] = GroupController::getColors(true);
+		$arrayAux['highlight'] = "#FF5A5E";
+		array_push($array, $arrayAux);
+
+		$arrayAux = array();
+		$arrayAux['label'] = 'testing';
+		$arrayAux['value'] = Assignment::whereIn('group_id', $arrayGroups)
+									   ->whereIn('tags', array('testing'))
+									   ->count();
+		$arrayAux['color'] = GroupController::getColors(true);
+		$arrayAux['highlight'] = "#FF5A5E";
+		array_push($array, $arrayAux);
+
+		return $array;
+	}
+
+	public function totalAssignmentsByTeamLeader($arrayGroups, $groups)
+	{
+		$arrayTeamLeader = array();
+		$arrayStudent = array();
+		$arrayAssignment = array();
+		$array = array();
+		
+		foreach ($groups as $group)
+			array_push($arrayStudent, new MongoId($group->teamleader_id));
+		
+		$arrayStudent = array_unique($arrayStudent);
+
+		foreach ($arrayStudent as $id) 
+		{
+			$user = Student::find($id);
+			array_push($arrayTeamLeader, $user->name.' '.$user->last_name);
+
+			array_push(
+				$arrayAssignment, 
+				Assignment::whereIn('group_id', $arrayGroups)
+						  ->whereIn('assigned_by', array(new MongoId($id)))
+						  ->count()
+			);
+		}
+
+		$array['names'] = $arrayTeamLeader;
+		$array['score'] = $arrayAssignment;
+
+		return $array;
 	}
 }
