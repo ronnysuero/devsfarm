@@ -131,7 +131,7 @@ $(function ()
 		console.log(photo);
 		content.append
 		(	
-			'<a class="list-group-item"> ' + photo +
+			'<a class="list-group-item"> ' +
 			'<span class="username">' + author + ' <span class="time"> ' + 
 			formatDate(datetime) + '</span> </span> <p>' + message + '</p></a>'
 		);
