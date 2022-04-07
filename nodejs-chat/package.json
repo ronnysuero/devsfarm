@@ -4,8 +4,8 @@
 	"author": "Ronny Suero",
 	"description": "server chat devsfarm",
 	"dependencies": {
-		"forever": "^0.14.2",
-		"mongoose": "^4.0.6",
+		"forever": "^4.0.3",
+		"mongoose": "^5.7.3",
 		"websocket": "^1.0.19"
 	}
 }
